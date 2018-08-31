@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vivadoHLSLog:LogRoot xmlns:vivadoHLSLog="www.xilinx.com/vivadoHLSLog">
+  <errorLogs>
+    <logs>
+      <synLog/>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
+    </logs>
+  </errorLogs>
+  <warningLogs>
+    <logs>
+      <synLog>
+        <logs message="WARNING: [RTGEN 206-101] Register 'glCnt' is power-on initialization." projectName="abmofParseEvents" solutionName="solution1" date="2018-09-01T00:00:02.264+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Global scalar 'sum' will not be exposed as RTL port." projectName="abmofParseEvents" solutionName="solution1" date="2018-09-01T00:00:02.248+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'sum' is power-on initialization." projectName="abmofParseEvents" solutionName="solution1" date="2018-09-01T00:00:02.243+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Global array 'targetBlocks_V' will not be exposed as RTL port." projectName="abmofParseEvents" solutionName="solution1" date="2018-09-01T00:00:02.237+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Global array 'refBlock_V' will not be exposed as RTL port." projectName="abmofParseEvents" solutionName="solution1" date="2018-09-01T00:00:02.232+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'glPLTminus2SliceIdx_s' is power-on initialization." projectName="abmofParseEvents" solutionName="solution1" date="2018-09-01T00:00:02.227+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'glPLTminus1SliceIdx_s' is power-on initialization." projectName="abmofParseEvents" solutionName="solution1" date="2018-09-01T00:00:02.223+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'glPLActiveSliceIdx_V' is power-on initialization." projectName="abmofParseEvents" solutionName="solution1" date="2018-09-01T00:00:02.219+0200" type="Warning"/>
+        <logs message="WARNING: [SYNCHK 200-23] abmofParseEvents/src/abmof_hw_accel.cpp:110: variable-indexed range selection may cause suboptimal QoR." projectName="abmofParseEvents" solutionName="solution1" date="2018-09-01T00:00:00.141+0200" type="Warning"/>
+      </synLog>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
+    </logs>
+  </warningLogs>
+</vivadoHLSLog:LogRoot>

@@ -1,0 +1,178 @@
+
+
+================================================================
+== Vivado HLS Report for 'calcOF'
+================================================================
+* Date:           Sat Sep  1 00:00:02 2018
+
+* Version:        2018.1 (Build 2188600 on Wed Apr 04 19:04:02 MDT 2018)
+* Project:        abmofParseEvents
+* Solution:       solution1
+* Product family: zynq
+* Target device:  xc7z007sclg225-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing (ns): 
+    * Summary: 
+    +--------+-------+----------+------------+
+    |  Clock | Target| Estimated| Uncertainty|
+    +--------+-------+----------+------------+
+    |ap_clk  |  10.00|      6.53|        0.10|
+    +--------+-------+----------+------------+
+
++ Latency (clock cycles): 
+    * Summary: 
+    +------+------+------+------+---------+
+    |   Latency   |   Interval  | Pipeline|
+    |  min |  max |  min |  max |   Type  |
+    +------+------+------+------+---------+
+    |  3244|  3244|  3244|  3244|   none  |
+    +------+------+------+------+---------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +-------------------------+------+------+----------+-----------+-----------+------+----------+
+        |                         |   Latency   | Iteration|  Initiation Interval  | Trip |          |
+        |        Loop Name        |  min |  max |  Latency |  achieved |   target  | Count| Pipelined|
+        +-------------------------+------+------+----------+-----------+-----------+------+----------+
+        |- readRefBlockLoop1      |  3243|  3243|       141|          -|          -|    23|    no    |
+        | + readBlockInnerLoop1   |   138|   138|         6|          -|          -|    23|    no    |
+        |  ++ parseEvents_label3  |     4|     4|         1|          -|          -|     4|    no    |
+        +-------------------------+------+------+----------+-----------+-----------+------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+-------+-------+-------+
+|       Name      | BRAM_18K| DSP48E|   FF  |  LUT  |
++-----------------+---------+-------+-------+-------+
+|DSP              |        -|      -|      -|      -|
+|Expression       |        -|      -|      0|    190|
+|FIFO             |        -|      -|      -|      -|
+|Instance         |        -|      -|      -|      -|
+|Memory           |        -|      -|      -|      -|
+|Multiplexer      |        -|      -|      -|     69|
+|Register         |        -|      -|   1525|      -|
++-----------------+---------+-------+-------+-------+
+|Total            |        0|      0|   1525|    259|
++-----------------+---------+-------+-------+-------+
+|Available        |      100|     66|  28800|  14400|
++-----------------+---------+-------+-------+-------+
+|Utilization (%)  |        0|      0|      5|      1|
++-----------------+---------+-------+-------+-------+
+
++ Detail: 
+    * Instance: 
+    N/A
+
+    * DSP48: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +-------------------------+----------+-------+---+----+------------+------------+
+    |      Variable Name      | Operation| DSP48E| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +-------------------------+----------+-------+---+----+------------+------------+
+    |bvh_d_index_1_fu_354_p2  |     +    |      0|  0|  24|          17|          17|
+    |k_1_fu_283_p2            |     +    |      0|  0|  15|           5|           1|
+    |l_1_fu_328_p2            |     +    |      0|  0|  15|           5|           1|
+    |next_mul_fu_271_p2       |     +    |      0|  0|  14|          10|           5|
+    |tmp_28_fu_296_p2         |     +    |      0|  0|  13|          11|          11|
+    |tmp_29_fu_302_p2         |     +    |      0|  0|  13|          11|          11|
+    |tmp_30_fu_312_p2         |     +    |      0|  0|  13|          11|          11|
+    |tmp_31_fu_419_p2         |     +    |      0|  0|  14|          10|          10|
+    |yIndex_1_fu_340_p2       |     +    |      0|  0|  12|           3|           1|
+    |tmp_21_fu_231_p2         |     -    |      0|  0|  13|          11|          11|
+    |tmp_25_fu_265_p2         |     -    |      0|  0|  13|          11|          11|
+    |exitcond1_fu_277_p2      |   icmp   |      0|  0|  11|           5|           5|
+    |exitcond2_fu_322_p2      |   icmp   |      0|  0|  11|           5|           5|
+    |exitcond_fu_334_p2       |   icmp   |      0|  0|   9|           3|           4|
+    +-------------------------+----------+-------+---+----+------------+------------+
+    |Total                    |          |      0|  0| 190|         118|         104|
+    +-------------------------+----------+-------+---+----+------------+------------+
+
+    * Multiplexer: 
+    +-----------------+----+-----------+-----+-----------+
+    |       Name      | LUT| Input Size| Bits| Total Bits|
+    +-----------------+----+-----------+-----+-----------+
+    |ap_NS_fsm        |  33|          6|    1|          6|
+    |k_reg_137        |   9|          2|    5|         10|
+    |l_reg_160        |   9|          2|    5|         10|
+    |phi_mul_reg_148  |   9|          2|   10|         20|
+    |yIndex_reg_172   |   9|          2|    3|          6|
+    +-----------------+----+-----------+-----+-----------+
+    |Total            |  69|         14|   24|         52|
+    +-----------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +------------------+-----+----+-----+-----------+
+    |       Name       |  FF | LUT| Bits| Const Bits|
+    +------------------+-----+----+-----+-----------+
+    |ap_CS_fsm         |    5|   0|    5|          0|
+    |k_1_reg_471       |    5|   0|    5|          0|
+    |k_reg_137         |    5|   0|    5|          0|
+    |l_1_reg_499       |    5|   0|    5|          0|
+    |l_reg_160         |    5|   0|    5|          0|
+    |next_mul_reg_463  |   10|   0|   10|          0|
+    |p_Val2_1_fu_74    |    4|   0|    4|          0|
+    |p_Val2_s_fu_70    |    4|   0|    4|          0|
+    |phi_mul_reg_148   |   10|   0|   10|          0|
+    |tmp1_V_reg_486    |  720|   0|  720|          0|
+    |tmp2_V_reg_491    |  720|   0|  720|          0|
+    |tmp_21_reg_453    |    7|   0|   11|          4|
+    |tmp_25_reg_458    |    7|   0|   11|          4|
+    |tmp_s_reg_448     |   15|   0|   17|          2|
+    |yIndex_reg_172    |    3|   0|    3|          0|
+    +------------------+-----+----+-----+-----------+
+    |Total             | 1525|   0| 1535|         10|
+    +------------------+-----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++-------------------------+-----+-----+------------+-----------------------+--------------+
+|        RTL Ports        | Dir | Bits|  Protocol  |     Source Object     |    C Type    |
++-------------------------+-----+-----+------------+-----------------------+--------------+
+|ap_clk                   |  in |    1| ap_ctrl_hs |         calcOF        | return value |
+|ap_rst                   |  in |    1| ap_ctrl_hs |         calcOF        | return value |
+|ap_start                 |  in |    1| ap_ctrl_hs |         calcOF        | return value |
+|ap_done                  | out |    1| ap_ctrl_hs |         calcOF        | return value |
+|ap_idle                  | out |    1| ap_ctrl_hs |         calcOF        | return value |
+|ap_ready                 | out |    1| ap_ctrl_hs |         calcOF        | return value |
+|x                        |  in |   16|   ap_none  |           x           |    scalar    |
+|y                        |  in |   16|   ap_none  |           y           |    scalar    |
+|glPLTminus1SliceIdx_s    |  in |    2|   ap_none  | glPLTminus1SliceIdx_s |    pointer   |
+|glPLTminus2SliceIdx_s    |  in |    2|   ap_none  | glPLTminus2SliceIdx_s |    pointer   |
+|glPLSlices_V_address0    | out |   10|  ap_memory |      glPLSlices_V     |     array    |
+|glPLSlices_V_ce0         | out |    1|  ap_memory |      glPLSlices_V     |     array    |
+|glPLSlices_V_q0          |  in |  720|  ap_memory |      glPLSlices_V     |     array    |
+|glPLSlices_V_address1    | out |   10|  ap_memory |      glPLSlices_V     |     array    |
+|glPLSlices_V_ce1         | out |    1|  ap_memory |      glPLSlices_V     |     array    |
+|glPLSlices_V_q1          |  in |  720|  ap_memory |      glPLSlices_V     |     array    |
+|refBlock_V_address0      | out |   10|  ap_memory |       refBlock_V      |     array    |
+|refBlock_V_ce0           | out |    1|  ap_memory |       refBlock_V      |     array    |
+|refBlock_V_we0           | out |    1|  ap_memory |       refBlock_V      |     array    |
+|refBlock_V_d0            | out |    4|  ap_memory |       refBlock_V      |     array    |
+|targetBlocks_V_address0  | out |   10|  ap_memory |     targetBlocks_V    |     array    |
+|targetBlocks_V_ce0       | out |    1|  ap_memory |     targetBlocks_V    |     array    |
+|targetBlocks_V_we0       | out |    1|  ap_memory |     targetBlocks_V    |     array    |
+|targetBlocks_V_d0        | out |    4|  ap_memory |     targetBlocks_V    |     array    |
++-------------------------+-----+-----+------------+-----------------------+--------------+
+

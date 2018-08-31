@@ -1,0 +1,296 @@
+
+
+================================================================
+== Vivado HLS Report for 'parseEvents'
+================================================================
+* Date:           Sat Sep  1 00:00:01 2018
+
+* Version:        2018.1 (Build 2188600 on Wed Apr 04 19:04:02 MDT 2018)
+* Project:        abmofParseEvents
+* Solution:       solution1
+* Product family: zynq
+* Target device:  xc7z007sclg225-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing (ns): 
+    * Summary: 
+    +--------+-------+----------+------------+
+    |  Clock | Target| Estimated| Uncertainty|
+    +--------+-------+----------+------------+
+    |ap_clk  |  10.00|      8.76|        0.10|
+    +--------+-------+----------+------------+
+
++ Latency (clock cycles): 
+    * Summary: 
+    +-----+----------+-----+----------+---------+
+    |     Latency    |    Interval    | Pipeline|
+    | min |    max   | min |    max   |   Type  |
+    +-----+----------+-----+----------+---------+
+    |    3|  32620003|    3|  32620003|   none  |
+    +-----+----------+-----+----------+---------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +----------+-----+----------+-------------+-----------+-----------+-----------+----------+
+        |          |     Latency    |  Iteration  |  Initiation Interval  |    Trip   |          |
+        | Loop Name| min |    max   |   Latency   |  achieved |   target  |   Count   | Pipelined|
+        +----------+-----+----------+-------------+-----------+-----------+-----------+----------+
+        |- loop_1  |    0|  32620000| 3252 ~ 3262 |          -|          -| 0 ~ 10000 |    no    |
+        +----------+-----+----------+-------------+-----------+-----------+-----------+----------+
+
+============================================================
++ Verbose Summary: Synthesis Manager
+============================================================
+InlineROM: 1
+ExposeGlobal: 0
+============================================================
++ Verbose Summary: CDFG Model
+============================================================
+IsTopModel: 1
+ResetActiveHigh: 1
+IsCombinational: 0
+IsDatapathOnly: 0
+HasWiredReturn: 1
+HasMFsm: 0
+HasVarLatency: 1
+IsPipeline: 0
+IsRtlPipelined: 0
+IsInstanceOverlapped: 0
+IsDontTouch: 0
+HasImplIP: 0
+IsGatedGlobalClock: 0
+
+
+============================================================
++ Verbose Summary: Schedule
+============================================================
+* Number of FSM states : 10
+* Pipeline : 0
+* Dataflow Pipeline: 0
+
+* FSM state transitions: 
+1 --> 
+	2  / true
+2 --> 
+	3  / true
+3 --> 
+	4  / true
+4 --> 
+	5  / (tmp_6)
+5 --> 
+	6  / true
+6 --> 
+	7  / true
+7 --> 
+	8  / true
+8 --> 
+	9  / true
+9 --> 
+	10  / true
+10 --> 
+	4  / true
+
+* FSM state operations: 
+
+ <State 1> : 2.73ns
+ST_1 : Operation 11 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecBitsMap(i32* %data) nounwind, !map !116"
+ST_1 : Operation 12 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecBitsMap(i32 %eventsArraySize) nounwind, !map !120"
+ST_1 : Operation 13 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecBitsMap(i32* %eventSlice) nounwind, !map !126"
+ST_1 : Operation 14 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecTopModule([12 x i8]* @parseEvents_str) nounwind"
+ST_1 : Operation 15 [1/1] (0.00ns)   --->   "%eventsArraySize_read = call i32 @_ssdm_op_Read.ap_auto.i32(i32 %eventsArraySize) nounwind"
+ST_1 : Operation 16 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecInterface(i32* %data, [8 x i8]* @p_str13, i32 0, i32 0, [1 x i8]* @p_str6, i32 0, i32 0, [1 x i8]* @p_str6, [1 x i8]* @p_str6, [1 x i8]* @p_str6, i32 0, i32 0, i32 0, i32 0, [1 x i8]* @p_str6, [1 x i8]* @p_str6) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:146]
+ST_1 : Operation 17 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecInterface(i32* %eventSlice, [8 x i8]* @p_str13, i32 0, i32 0, [1 x i8]* @p_str6, i32 0, i32 0, [1 x i8]* @p_str6, [1 x i8]* @p_str6, [1 x i8]* @p_str6, i32 0, i32 0, i32 0, i32 0, [1 x i8]* @p_str6, [1 x i8]* @p_str6) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:146]
+ST_1 : Operation 18 [1/1] (0.00ns)   --->   "%glPLActiveSliceIdx_V_1 = load i2* @glPLActiveSliceIdx_V, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:147]
+ST_1 : Operation 19 [1/1] (0.95ns)   --->   "%tmp = icmp eq i2 %glPLActiveSliceIdx_V_1, 0" [abmofParseEvents/src/abmof_hw_accel.cpp:147]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 2.47> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_1 : Operation 20 [1/1] (1.76ns)   --->   "br i1 %tmp, label %1, label %._crit_edge" [abmofParseEvents/src/abmof_hw_accel.cpp:147]
+ST_1 : Operation 21 [1/1] (1.81ns)   --->   "store i2 1, i2* @glPLActiveSliceIdx_V, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:149]
+ST_1 : Operation 22 [1/1] (1.81ns)   --->   "store i2 0, i2* @glPLTminus1SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:151]
+ST_1 : Operation 23 [1/1] (1.81ns)   --->   "store i2 -2, i2* @glPLTminus2SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:152]
+ST_1 : Operation 24 [1/1] (1.76ns)   --->   "br label %._crit_edge" [abmofParseEvents/src/abmof_hw_accel.cpp:153]
+
+ <State 2> : 2.73ns
+ST_2 : Operation 25 [1/1] (0.00ns)   --->   "%tmp_1 = phi i2 [ 1, %1 ], [ %glPLActiveSliceIdx_V_1, %0 ]" [abmofParseEvents/src/abmof_hw_accel.cpp:147]
+ST_2 : Operation 26 [1/1] (0.95ns)   --->   "%tmp_2 = icmp eq i2 %tmp_1, 1" [abmofParseEvents/src/abmof_hw_accel.cpp:154]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 2.47> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_2 : Operation 27 [1/1] (1.76ns)   --->   "br i1 %tmp_2, label %2, label %._crit_edge198" [abmofParseEvents/src/abmof_hw_accel.cpp:154]
+ST_2 : Operation 28 [1/1] (1.81ns)   --->   "store i2 -2, i2* @glPLActiveSliceIdx_V, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:156]
+ST_2 : Operation 29 [1/1] (1.81ns)   --->   "store i2 1, i2* @glPLTminus1SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:158]
+ST_2 : Operation 30 [1/1] (1.81ns)   --->   "store i2 0, i2* @glPLTminus2SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:159]
+ST_2 : Operation 31 [1/1] (1.76ns)   --->   "br label %._crit_edge198" [abmofParseEvents/src/abmof_hw_accel.cpp:160]
+
+ <State 3> : 1.81ns
+ST_3 : Operation 32 [1/1] (0.00ns) (grouped into LUT with out node tmp_4)   --->   "%tmp_3 = phi i2 [ -2, %2 ], [ %tmp_1, %._crit_edge ]" [abmofParseEvents/src/abmof_hw_accel.cpp:147]
+ST_3 : Operation 33 [1/1] (0.95ns) (out node of the LUT)   --->   "%tmp_4 = icmp eq i2 %tmp_3, -2" [abmofParseEvents/src/abmof_hw_accel.cpp:161]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 2.47> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_3 : Operation 34 [1/1] (0.00ns)   --->   "br i1 %tmp_4, label %3, label %._crit_edge199" [abmofParseEvents/src/abmof_hw_accel.cpp:161]
+ST_3 : Operation 35 [1/1] (1.81ns)   --->   "store i2 0, i2* @glPLActiveSliceIdx_V, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:163]
+ST_3 : Operation 36 [1/1] (1.81ns)   --->   "store i2 -2, i2* @glPLTminus1SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:165]
+ST_3 : Operation 37 [1/1] (1.81ns)   --->   "store i2 1, i2* @glPLTminus2SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:166]
+ST_3 : Operation 38 [1/1] (0.00ns)   --->   "br label %._crit_edge199" [abmofParseEvents/src/abmof_hw_accel.cpp:167]
+ST_3 : Operation 39 [1/1] (0.00ns)   --->   "%tmp_5 = shl i32 %eventsArraySize_read, 1" [abmofParseEvents/src/abmof_hw_accel.cpp:185]
+ST_3 : Operation 40 [1/1] (1.76ns)   --->   "br label %4" [abmofParseEvents/src/abmof_hw_accel.cpp:185]
+
+ <State 4> : 8.35ns
+ST_4 : Operation 41 [1/1] (0.00ns)   --->   "%i = phi i32 [ 0, %._crit_edge199 ], [ %i_1, %_ifconv ]"
+ST_4 : Operation 42 [1/1] (2.47ns)   --->   "%tmp_6 = icmp slt i32 %i, %tmp_5" [abmofParseEvents/src/abmof_hw_accel.cpp:185]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 2.47> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_4 : Operation 43 [1/1] (0.00ns)   --->   "br i1 %tmp_6, label %_ifconv, label %5" [abmofParseEvents/src/abmof_hw_accel.cpp:185]
+ST_4 : Operation 44 [1/1] (0.00ns)   --->   "%tmp_7 = trunc i32 %i to i6" [abmofParseEvents/src/abmof_hw_accel.cpp:185]
+ST_4 : Operation 45 [1/1] (0.00ns)   --->   "%p_shl_cast = call i11 @_ssdm_op_BitConcatenate.i11.i6.i5(i6 %tmp_7, i5 0)" [abmofParseEvents/src/abmof_hw_accel.cpp:185]
+ST_4 : Operation 46 [1/1] (0.00ns)   --->   "%tmp_9 = trunc i32 %i to i8" [abmofParseEvents/src/abmof_hw_accel.cpp:185]
+ST_4 : Operation 47 [1/1] (0.00ns)   --->   "%p_shl1_cast = call i11 @_ssdm_op_BitConcatenate.i11.i8.i3(i8 %tmp_9, i3 0)" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_4 : Operation 48 [1/1] (1.63ns)   --->   "%tmp_11 = sub i11 %p_shl_cast, %p_shl1_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:317]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.55> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_4 : Operation 49 [1/1] (3.63ns)   --->   "%tmp_14 = call i32 @_ssdm_op_Read.ap_fifo.volatile.i32P(i32* %data) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:189]   --->   Core 32 'FIFO' <Latency = 0> <II = 1> <Delay = 3.63> <Storage> <Opcode : 'read' 'write' 'nbread' 'nbwrite'> <Ports = 0> <Width = 32> <Depth = 0> <FIFO>
+ST_4 : Operation 50 [1/1] (0.00ns)   --->   "%tmp_15 = call i15 @_ssdm_op_PartSelect.i15.i32.i32.i32(i32 %tmp_14, i32 17, i32 31)" [abmofParseEvents/src/abmof_hw_accel.cpp:190]
+ST_4 : Operation 51 [1/1] (0.00ns)   --->   "%x = zext i15 %tmp_15 to i16" [abmofParseEvents/src/abmof_hw_accel.cpp:190]
+ST_4 : Operation 52 [1/1] (0.00ns)   --->   "%y = call i15 @_ssdm_op_PartSelect.i15.i32.i32.i32(i32 %tmp_14, i32 2, i32 16)" [abmofParseEvents/src/abmof_hw_accel.cpp:191]
+ST_4 : Operation 53 [1/1] (0.00ns)   --->   "%y_cast = zext i15 %y to i16" [abmofParseEvents/src/abmof_hw_accel.cpp:191]
+ST_4 : Operation 54 [1/1] (0.00ns)   --->   "%tmp_18 = call i1 @_ssdm_op_BitSelect.i1.i32.i32(i32 %tmp_14, i32 1)" [abmofParseEvents/src/abmof_hw_accel.cpp:189]
+ST_4 : Operation 55 [1/1] (0.00ns)   --->   "%tmp_s = call i2 @_ssdm_op_BitConcatenate.i2.i1.i1(i1 %tmp_18, i1 false)" [abmofParseEvents/src/abmof_hw_accel.cpp:192]
+ST_4 : Operation 56 [1/1] (0.95ns)   --->   "%pol = icmp ne i2 %tmp_s, 0" [abmofParseEvents/src/abmof_hw_accel.cpp:192]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 2.47> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_4 : Operation 57 [2/2] (3.75ns)   --->   "call fastcc void @accumulateHW(i16 signext %x, i16 signext %y_cast, i1 zeroext %pol)" [abmofParseEvents/src/abmof_hw_accel.cpp:196]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+ST_4 : Operation 58 [1/1] (2.47ns)   --->   "%tmp_10 = icmp eq i32 %i, 0" [abmofParseEvents/src/abmof_hw_accel.cpp:307]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 2.47> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_4 : Operation 59 [1/1] (2.55ns)   --->   "%i_1 = add nsw i32 2, %i" [abmofParseEvents/src/abmof_hw_accel.cpp:185]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.55> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_4 : Operation 60 [1/1] (0.00ns)   --->   "ret void" [abmofParseEvents/src/abmof_hw_accel.cpp:330]
+
+ <State 5> : 0.00ns
+ST_5 : Operation 61 [1/2] (0.00ns)   --->   "call fastcc void @accumulateHW(i16 signext %x, i16 signext %y_cast, i1 zeroext %pol)" [abmofParseEvents/src/abmof_hw_accel.cpp:196]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 6> : 2.28ns
+ST_6 : Operation 62 [2/2] (0.00ns)   --->   "call fastcc void @calcOF(i16 signext %x, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:210]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+ST_6 : Operation 63 [1/1] (0.00ns)   --->   "%tmp_12 = call i23 @_ssdm_op_BitConcatenate.i23.i15.i8(i15 %y, i8 0)" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_6 : Operation 64 [1/1] (0.00ns)   --->   "%tmp_15_cast_cast = zext i23 %tmp_12 to i24" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_6 : Operation 65 [1/1] (0.00ns)   --->   "%tmp_13 = call i17 @_ssdm_op_BitConcatenate.i17.i1.i16(i1 %tmp_18, i16 %x)" [abmofParseEvents/src/abmof_hw_accel.cpp:189]
+ST_6 : Operation 66 [1/1] (0.00ns)   --->   "%tmp_14_cast = zext i17 %tmp_13 to i24" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_6 : Operation 67 [1/1] (2.28ns)   --->   "%tmp1 = add i24 %tmp_15_cast_cast, %tmp_14_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:317]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.55> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+
+ <State 7> : 0.00ns
+ST_7 : Operation 68 [1/2] (0.00ns)   --->   "call fastcc void @calcOF(i16 signext %x, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:210]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 8> : 3.25ns
+ST_8 : Operation 69 [1/1] (0.00ns)   --->   "%tmp_21_cast = sext i11 %tmp_11 to i64" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_8 : Operation 70 [1/1] (0.00ns)   --->   "%refBlock_V_addr = getelementptr [529 x i4]* @refBlock_V, i64 0, i64 %tmp_21_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_8 : Operation 71 [1/1] (0.00ns)   --->   "%targetBlocks_V_addr = getelementptr [529 x i4]* @targetBlocks_V, i64 0, i64 %tmp_21_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_8 : Operation 72 [2/2] (3.25ns)   --->   "%refBlock_V_load = load i4* getelementptr inbounds ([529 x i4]* @refBlock_V, i64 0, i64 0), align 16" [abmofParseEvents/src/abmof_hw_accel.cpp:310]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 4> <Depth = 529> <RAM>
+ST_8 : Operation 73 [2/2] (3.25ns)   --->   "%targetBlocks_V_load = load i4* getelementptr inbounds ([529 x i4]* @targetBlocks_V, i64 0, i64 0), align 16" [abmofParseEvents/src/abmof_hw_accel.cpp:310]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 4> <Depth = 529> <RAM>
+ST_8 : Operation 74 [2/2] (3.25ns)   --->   "%refBlock_V_load_1 = load i4* %refBlock_V_addr, align 16" [abmofParseEvents/src/abmof_hw_accel.cpp:317]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 4> <Depth = 529> <RAM>
+ST_8 : Operation 75 [2/2] (3.25ns)   --->   "%targetBlocks_V_load_1 = load i4* %targetBlocks_V_addr, align 16" [abmofParseEvents/src/abmof_hw_accel.cpp:317]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 4> <Depth = 529> <RAM>
+
+ <State 9> : 4.99ns
+ST_9 : Operation 76 [1/2] (3.25ns)   --->   "%refBlock_V_load = load i4* getelementptr inbounds ([529 x i4]* @refBlock_V, i64 0, i64 0), align 16" [abmofParseEvents/src/abmof_hw_accel.cpp:310]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 4> <Depth = 529> <RAM>
+ST_9 : Operation 77 [1/2] (3.25ns)   --->   "%targetBlocks_V_load = load i4* getelementptr inbounds ([529 x i4]* @targetBlocks_V, i64 0, i64 0), align 16" [abmofParseEvents/src/abmof_hw_accel.cpp:310]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 4> <Depth = 529> <RAM>
+ST_9 : Operation 78 [1/2] (3.25ns)   --->   "%refBlock_V_load_1 = load i4* %refBlock_V_addr, align 16" [abmofParseEvents/src/abmof_hw_accel.cpp:317]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 4> <Depth = 529> <RAM>
+ST_9 : Operation 79 [1/1] (0.00ns)   --->   "%tmp_18_cast = sext i4 %refBlock_V_load_1 to i5" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_9 : Operation 80 [1/2] (3.25ns)   --->   "%targetBlocks_V_load_1 = load i4* %targetBlocks_V_addr, align 16" [abmofParseEvents/src/abmof_hw_accel.cpp:317]   --->   Core 37 'RAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 4> <Depth = 529> <RAM>
+ST_9 : Operation 81 [1/1] (0.00ns)   --->   "%tmp_19_cast = sext i4 %targetBlocks_V_load_1 to i5" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_9 : Operation 82 [1/1] (1.73ns)   --->   "%tmp3 = add i5 %tmp_18_cast, %tmp_19_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:317]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.55> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+
+ <State 10> : 8.76ns
+ST_10 : Operation 83 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecLoopName([7 x i8]* @p_str14) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:186]
+ST_10 : Operation 84 [1/1] (0.00ns)   --->   "%tmp_8 = call i32 (...)* @_ssdm_op_SpecRegionBegin([7 x i8]* @p_str14) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:186]
+ST_10 : Operation 85 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecLoopTripCount(i32 0, i32 10000, i32 5000, [1 x i8]* @p_str6) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:188]
+ST_10 : Operation 86 [1/1] (0.00ns)   --->   "%sum_load = load i16* @sum, align 2" [abmofParseEvents/src/abmof_hw_accel.cpp:310]
+ST_10 : Operation 87 [1/1] (0.00ns)   --->   "%lhs_V = sext i16 %sum_load to i17" [abmofParseEvents/src/abmof_hw_accel.cpp:310]
+ST_10 : Operation 88 [1/1] (0.00ns)   --->   "%rhs_V = sext i4 %refBlock_V_load to i17" [abmofParseEvents/src/abmof_hw_accel.cpp:310]
+ST_10 : Operation 89 [1/1] (0.00ns) (grouped into TernaryAdder)   --->   "%r_V = add nsw i17 %lhs_V, %rhs_V" [abmofParseEvents/src/abmof_hw_accel.cpp:310]   --->   Core 80 'TAddSub' <Latency = 0> <II = 1> <Delay = 1.96> <IPBlock> <Opcode : 'add' 'sub'> <InPorts = 3> <OutPorts = 1> <Sync> <CReg>
+ST_10 : Operation 90 [1/1] (0.00ns)   --->   "%rhs_V_1_cast = sext i4 %targetBlocks_V_load to i17" [abmofParseEvents/src/abmof_hw_accel.cpp:310]
+ST_10 : Operation 91 [1/1] (3.93ns) (root node of TernaryAdder)   --->   "%r_V_1 = add i17 %r_V, %rhs_V_1_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:310]   --->   Core 80 'TAddSub' <Latency = 0> <II = 1> <Delay = 1.96> <IPBlock> <Opcode : 'add' 'sub'> <InPorts = 3> <OutPorts = 1> <Sync> <CReg>
+ST_10 : Operation 92 [1/1] (0.00ns)   --->   "%tmp_11_cast = sext i17 %r_V_1 to i25" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_10 : Operation 93 [1/1] (0.00ns)   --->   "%tmp1_cast = zext i24 %tmp1 to i25" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_10 : Operation 94 [1/1] (0.00ns)   --->   "%tmp3_cast = sext i5 %tmp3 to i17" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_10 : Operation 95 [1/1] (2.07ns)   --->   "%tmp2 = add i17 %tmp3_cast, %lhs_V" [abmofParseEvents/src/abmof_hw_accel.cpp:317]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.55> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_10 : Operation 96 [1/1] (0.00ns)   --->   "%tmp2_cast_cast = sext i17 %tmp2 to i25" [abmofParseEvents/src/abmof_hw_accel.cpp:317]
+ST_10 : Operation 97 [1/1] (2.31ns)   --->   "%tmp_16 = add i25 %tmp2_cast_cast, %tmp1_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:317]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.55> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_10 : Operation 98 [1/1] (0.73ns)   --->   "%storemerge = select i1 %tmp_10, i25 %tmp_11_cast, i25 %tmp_16" [abmofParseEvents/src/abmof_hw_accel.cpp:307]   --->   Core 26 'Sel' <Latency = 0> <II = 1> <Delay = 0.73> <FuncUnit> <Opcode : 'select'> <InPorts = 3> <OutPorts = 1>
+ST_10 : Operation 99 [1/1] (0.00ns)   --->   "%storemerge_cast = sext i25 %storemerge to i32" [abmofParseEvents/src/abmof_hw_accel.cpp:307]
+ST_10 : Operation 100 [1/1] (3.63ns)   --->   "call void @_ssdm_op_Write.ap_fifo.i32P(i32* %eventSlice, i32 %storemerge_cast) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:310]   --->   Core 32 'FIFO' <Latency = 0> <II = 1> <Delay = 3.63> <Storage> <Opcode : 'read' 'write' 'nbread' 'nbwrite'> <Ports = 0> <Width = 32> <Depth = 0> <FIFO>
+ST_10 : Operation 101 [1/1] (0.00ns)   --->   "%glCnt_load = load i16* @glCnt, align 2" [abmofParseEvents/src/abmof_hw_accel.cpp:327]
+ST_10 : Operation 102 [1/1] (2.07ns)   --->   "%tmp_17 = add i16 1, %glCnt_load" [abmofParseEvents/src/abmof_hw_accel.cpp:327]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.55> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_10 : Operation 103 [1/1] (0.00ns)   --->   "store i16 %tmp_17, i16* @glCnt, align 2" [abmofParseEvents/src/abmof_hw_accel.cpp:327]
+ST_10 : Operation 104 [1/1] (0.00ns)   --->   "%empty = call i32 (...)* @_ssdm_op_SpecRegionEnd([7 x i8]* @p_str14, i32 %tmp_8) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:328]
+ST_10 : Operation 105 [1/1] (0.00ns)   --->   "br label %4" [abmofParseEvents/src/abmof_hw_accel.cpp:185]
+
+
+============================================================
++ Verbose Summary: Timing violations
+============================================================
+Target clock period: 10ns, clock uncertainty: 0.1ns.
+
+ <State 1>: 2.73ns
+The critical path consists of the following:
+	'load' operation ('glPLActiveSliceIdx_V_1', abmofParseEvents/src/abmof_hw_accel.cpp:147) on static variable 'glPLActiveSliceIdx_V' [19]  (0 ns)
+	'icmp' operation ('tmp', abmofParseEvents/src/abmof_hw_accel.cpp:147) [20]  (0.959 ns)
+	multiplexor before 'phi' operation ('tmp_1', abmofParseEvents/src/abmof_hw_accel.cpp:147) with incoming values : ('glPLActiveSliceIdx_V_1', abmofParseEvents/src/abmof_hw_accel.cpp:147) [28]  (1.77 ns)
+
+ <State 2>: 2.73ns
+The critical path consists of the following:
+	'phi' operation ('tmp_1', abmofParseEvents/src/abmof_hw_accel.cpp:147) with incoming values : ('glPLActiveSliceIdx_V_1', abmofParseEvents/src/abmof_hw_accel.cpp:147) [28]  (0 ns)
+	'icmp' operation ('tmp_2', abmofParseEvents/src/abmof_hw_accel.cpp:154) [29]  (0.959 ns)
+	multiplexor before 'phi' operation ('tmp_3', abmofParseEvents/src/abmof_hw_accel.cpp:147) with incoming values : ('glPLActiveSliceIdx_V_1', abmofParseEvents/src/abmof_hw_accel.cpp:147) [37]  (1.77 ns)
+
+ <State 3>: 1.81ns
+The critical path consists of the following:
+	'store' operation (abmofParseEvents/src/abmof_hw_accel.cpp:163) of constant 0 on static variable 'glPLActiveSliceIdx_V' [41]  (1.81 ns)
+
+ <State 4>: 8.35ns
+The critical path consists of the following:
+	fifo read on port 'data' (abmofParseEvents/src/abmof_hw_accel.cpp:189) [64]  (3.63 ns)
+	'icmp' operation ('pol', abmofParseEvents/src/abmof_hw_accel.cpp:192) [71]  (0.959 ns)
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:196) to 'accumulateHW' [72]  (3.76 ns)
+
+ <State 5>: 0ns
+The critical path consists of the following:
+
+ <State 6>: 2.28ns
+The critical path consists of the following:
+	'add' operation ('tmp1', abmofParseEvents/src/abmof_hw_accel.cpp:317) [92]  (2.28 ns)
+
+ <State 7>: 0ns
+The critical path consists of the following:
+
+ <State 8>: 3.25ns
+The critical path consists of the following:
+	'getelementptr' operation ('targetBlocks_V_addr', abmofParseEvents/src/abmof_hw_accel.cpp:317) [63]  (0 ns)
+	'load' operation ('targetBlocks_V_load_1', abmofParseEvents/src/abmof_hw_accel.cpp:317) on array 'targetBlocks_V' [88]  (3.25 ns)
+
+ <State 9>: 4.99ns
+The critical path consists of the following:
+	'load' operation ('refBlock_V_load_1', abmofParseEvents/src/abmof_hw_accel.cpp:317) on array 'refBlock_V' [86]  (3.25 ns)
+	'add' operation ('tmp3', abmofParseEvents/src/abmof_hw_accel.cpp:317) [94]  (1.74 ns)
+
+ <State 10>: 8.76ns
+The critical path consists of the following:
+	'load' operation ('i_op', abmofParseEvents/src/abmof_hw_accel.cpp:310) on global variable 'sum' [75]  (0 ns)
+	'add' operation ('tmp2', abmofParseEvents/src/abmof_hw_accel.cpp:317) [96]  (2.08 ns)
+	'add' operation ('tmp_16', abmofParseEvents/src/abmof_hw_accel.cpp:317) [98]  (2.31 ns)
+	'select' operation ('storemerge', abmofParseEvents/src/abmof_hw_accel.cpp:307) [99]  (0.73 ns)
+	fifo write on port 'eventSlice' (abmofParseEvents/src/abmof_hw_accel.cpp:310) [101]  (3.63 ns)
+
+
+============================================================
++ Verbose Summary: Binding
+============================================================
+N/A
+* FSMD analyzer results:
+  - Output states:
+ - Input state : 
+  - Chain level:
+	State 1
+	State 2
+	State 3
+	State 4
+	State 5
+	State 6
+	State 7
+	State 8
+	State 9
+	State 10
+
+
+============================================================
++ Verbose Summary: Datapath Resource usage 
+============================================================
+N/A
