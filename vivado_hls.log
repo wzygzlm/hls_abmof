@@ -1,100 +1,65 @@
 INFO: [HLS 200-10] Running 'D:/Xilinx/Vivado/2018.1/bin/unwrapped/win64.o/vivado_hls.exe'
-INFO: [HLS 200-10] For user 'minliu' on host 'desktop-3tnsmfc' (Windows NT_amd64 version 6.2) on Fri Aug 31 23:59:47 +0200 2018
+INFO: [HLS 200-10] For user 'minliu' on host 'desktop-3tnsmfc' (Windows NT_amd64 version 6.2) on Sat Sep 01 17:16:07 +0200 2018
 INFO: [HLS 200-10] In directory 'E:/xfOpenCV/hls_2018_1'
 INFO: [HLS 200-10] Opening project 'E:/xfOpenCV/hls_2018_1/abmofParseEvents'.
 INFO: [HLS 200-10] Adding design file 'abmofParseEvents/src/abmof_hw_accel.cpp' to the project
 INFO: [HLS 200-10] Adding design file 'abmofParseEvents/src/abmof_hw_accel.h' to the project
-INFO: [HLS 200-10] Opening solution 'E:/xfOpenCV/hls_2018_1/abmofParseEvents/solution1'.
+INFO: [HLS 200-10] Opening solution 'E:/xfOpenCV/hls_2018_1/abmofParseEvents/solution5'.
 INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
 INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
-INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
 INFO: [HLS 200-10] Analyzing design file 'abmofParseEvents/src/abmof_hw_accel.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:10 . Memory (MB): peak = 104.156 ; gain = 46.406
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 104.180 ; gain = 46.430
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'AddSub_DSP' cannot be applied: Variable 'tmpSum' has no assigment in 'calcOF/calOFInnerLoop1'.
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:11 . Memory (MB): peak = 103.609 ; gain = 45.434
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:13 . Memory (MB): peak = 103.629 ; gain = 45.453
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 113.836 ; gain = 56.086
+INFO: [XFORM 203-603] Inlining function 'accumulateHW' into 'parseEvents' (abmofParseEvents/src/abmof_hw_accel.cpp:201).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 122.820 ; gain = 64.645
 INFO: [HLS 200-10] Checking synthesizability ...
-WARNING: [SYNCHK 200-23] abmofParseEvents/src/abmof_hw_accel.cpp:110: variable-indexed range selection may cause suboptimal QoR.
+WARNING: [XFORM 203-311] Cannot apply functional unit assignment of 'ADDSUB_DSP'(abmofParseEvents/src/abmof_hw_accel.cpp:102:1) on operation of 'DSP_tmp2', due to incompatible operation sets. The resource directive is discarded.
+WARNING: [SYNCHK 200-23] abmofParseEvents/src/abmof_hw_accel.cpp:29: variable-indexed range selection may cause suboptimal QoR.
 INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 119.676 ; gain = 61.926
-INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (abmofParseEvents/src/abmof_hw_accel.cpp:186:3) to (abmofParseEvents/src/abmof_hw_accel.cpp:185:53) in function 'parseEvents'... converting 4 basic blocks.
-INFO: [XFORM 203-11] Balancing expressions in function 'parseEvents' (abmofParseEvents/src/abmof_hw_accel.cpp:144)...4 expression(s) balanced.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 146.836 ; gain = 89.086
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 158.969 ; gain = 101.219
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 126.395 ; gain = 68.219
+WARNING: [XFORM 203-311] Cannot apply functional unit assignment of 'ADDSUB_DSP'(abmofParseEvents/src/abmof_hw_accel.cpp:102:1) on operation of 'DSP_tmp2', due to incompatible operation sets. The resource directive is discarded.
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'loop_1' (abmofParseEvents/src/abmof_hw_accel.cpp:183) in function 'parseEvents' for pipelining.
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'calcOF' (abmofParseEvents/src/abmof_hw_accel.cpp:93).
+INFO: [XFORM 203-501] Unrolling loop 'accumulateHW_label1' (abmofParseEvents/src/abmof_hw_accel.cpp:28) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'accumulateHW_label2' (abmofParseEvents/src/abmof_hw_accel.cpp:33) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readRefBlockLoop1' (abmofParseEvents/src/abmof_hw_accel.cpp:96) in function 'calcOF' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readBlockInnerLoop1' (abmofParseEvents/src/abmof_hw_accel.cpp:103) in function 'calcOF' completely.
+INFO: [XFORM 203-501] Unrolling loop 'parseEvents_label3' (abmofParseEvents/src/abmof_hw_accel.cpp:106) in function 'calcOF' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (abmofParseEvents/src/abmof_hw_accel.cpp:117) in function 'calcOF' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFInnerLoop1' (abmofParseEvents/src/abmof_hw_accel.cpp:119) in function 'calcOF' completely.
+INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V'  in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'refBlock.V'  in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'glPLSlices.V'  in dimension 2 with a cyclic factor 16.
+INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V'  in dimension 2 completely.
+INFO: [XFORM 203-101] Partitioning array 'refBlock.V'  in dimension 2 completely.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (abmofParseEvents/src/abmof_hw_accel.cpp:131:1) in function 'calcOF'... converting 676 basic blocks.
+INFO: [XFORM 203-11] Balancing expressions in function 'parseEvents' (abmofParseEvents/src/abmof_hw_accel.cpp:141)...4 expression(s) balanced.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:20 ; elapsed = 00:00:33 . Memory (MB): peak = 169.863 ; gain = 111.688
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.7'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.4'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.3'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.13'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.11'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.10'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.2'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.15'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.1'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.0'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.6'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.9'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.8'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.12'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.14'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.5'.
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:33 ; elapsed = 00:00:46 . Memory (MB): peak = 230.379 ; gain = 172.203
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'parseEvents' ...
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'accumulateHW'
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 13.978 seconds; current allocated memory: 114.694 MB.
-INFO: [BIND 205-100] Starting micro-architecture generation ...
-INFO: [BIND 205-101] Performing variable lifetime analysis.
-INFO: [BIND 205-101] Exploring resource sharing.
-INFO: [BIND 205-101] Binding ...
-INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.111 seconds; current allocated memory: 114.891 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'calcOF'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.077 seconds; current allocated memory: 115.116 MB.
-INFO: [BIND 205-100] Starting micro-architecture generation ...
-INFO: [BIND 205-101] Performing variable lifetime analysis.
-INFO: [BIND 205-101] Exploring resource sharing.
-INFO: [BIND 205-101] Binding ...
-INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.109 seconds; current allocated memory: 115.338 MB.
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'parseEvents'
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.138 seconds; current allocated memory: 115.752 MB.
-INFO: [BIND 205-100] Starting micro-architecture generation ...
-INFO: [BIND 205-101] Performing variable lifetime analysis.
-INFO: [BIND 205-101] Exploring resource sharing.
-INFO: [BIND 205-101] Binding ...
-INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.189 seconds; current allocated memory: 116.046 MB.
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'accumulateHW'
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [RTGEN 206-100] Finished creating RTL model for 'accumulateHW'.
-INFO: [HLS 200-111]  Elapsed time: 0.138 seconds; current allocated memory: 116.427 MB.
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'calcOF'
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [RTGEN 206-100] Finished creating RTL model for 'calcOF'.
-INFO: [HLS 200-111]  Elapsed time: 0.144 seconds; current allocated memory: 116.882 MB.
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'parseEvents'
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/data' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventsArraySize' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventSlice' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on function 'parseEvents' to 'ap_ctrl_hs'.
-WARNING: [RTGEN 206-101] Register 'glPLActiveSliceIdx_V' is power-on initialization.
-WARNING: [RTGEN 206-101] Register 'glPLTminus1SliceIdx_s' is power-on initialization.
-WARNING: [RTGEN 206-101] Register 'glPLTminus2SliceIdx_s' is power-on initialization.
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_V' to 'parseEvents_glPLSbkb' due to the length limit 20
-WARNING: [RTGEN 206-101] Global array 'refBlock_V' will not be exposed as RTL port.
-INFO: [SYN 201-210] Renamed object name 'parseEvents_refBlock_V' to 'parseEvents_refBlcud' due to the length limit 20
-WARNING: [RTGEN 206-101] Global array 'targetBlocks_V' will not be exposed as RTL port.
-INFO: [SYN 201-210] Renamed object name 'parseEvents_targetBlocks_V' to 'parseEvents_targedEe' due to the length limit 20
-WARNING: [RTGEN 206-101] Register 'sum' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'sum' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'glCnt' is power-on initialization.
-INFO: [RTGEN 206-100] Finished creating RTL model for 'parseEvents'.
-INFO: [HLS 200-111]  Elapsed time: 0.278 seconds; current allocated memory: 117.618 MB.
-INFO: [RTMG 210-278] Implementing memory 'parseEvents_glPLSbkb_ram (RAM)' using block RAMs with power-on initialization.
-INFO: [RTMG 210-278] Implementing memory 'parseEvents_refBlcud_ram (RAM)' using block RAMs with power-on initialization.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:03 ; elapsed = 00:00:17 . Memory (MB): peak = 172.754 ; gain = 115.004
-INFO: [SYSC 207-301] Generating SystemC RTL for parseEvents.
-INFO: [VHDL 208-304] Generating VHDL RTL for parseEvents.
-INFO: [VLOG 209-307] Generating Verilog RTL for parseEvents.
-INFO: [HLS 200-112] Total elapsed time: 16.598 seconds; peak allocated memory: 117.618 MB.
+INFO: [SCHED 204-61] Pipelining function 'calcOF'.

@@ -1,0 +1,51 @@
+<AutoPilot:ProjectResources xmlns:AutoPilot="com.autoesl.autopilot.ui.directiveView">
+    <sourceFile name="">
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="eventSlice" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="data" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="accumulateHW" label="" functionLabel="">
+            <pragma name="INLINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="loop_1" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="DEPENDENCE">
+                <option name="variable" value="glPLSlices"/>
+                <option name="inter" value="" positionalBoolean="type"/>
+                <option name="RAW" value="" positionalBoolean="direction"/>
+                <option name="false" value="" positionalBoolean="dependent"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="glPLSlices" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_BRAM"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="glPLSlices" positionalBoolean="4"/>
+                <option name="cyclic" value="" positionalBoolean="type"/>
+                <option name="factor" value="60"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="resetCurrentSliceHW" label="" functionLabel="">
+            <pragma name="INLINE"/>
+        </directive>
+        <directive functionName="resetCurrentSliceHW" label="resetSliceLoop2" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+    </sourceFile>
+</AutoPilot:ProjectResources>
+

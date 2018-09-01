@@ -1,0 +1,89 @@
+<AutoPilot:ProjectResources xmlns:AutoPilot="com.autoesl.autopilot.ui.directiveView">
+    <sourceFile name="">
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="eventSlice" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="data" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="accumulateHW" label="" functionLabel="">
+            <pragma name="INLINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="loop_1" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="DEPENDENCE">
+                <option name="variable" value="glPLSlices"/>
+                <option name="inter" value="" positionalBoolean="type"/>
+                <option name="RAW" value="" positionalBoolean="direction"/>
+                <option name="false" value="" positionalBoolean="dependent"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="glPLSlices" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_BRAM"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="glPLSlices" positionalBoolean="4"/>
+                <option name="cyclic" value="" positionalBoolean="type"/>
+                <option name="factor" value="16"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="Cond_Region" functionLabel="">
+            <pragma name="OCCURRENCE">
+                <option name="cycle" value="5000"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="refBlock" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="targetBlocks" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="calcOF" label="readRefBlockLoop1" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="tmp1" positionalBoolean="4"/>
+                <option name="core" value="AddSub_DSP"/>
+            </pragma>
+        </directive>
+        <directive functionName="calcOF" label="readRefBlockLoop1" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="tmp2" positionalBoolean="4"/>
+                <option name="core" value="AddSub_DSP"/>
+            </pragma>
+        </directive>
+        <directive functionName="calcOF" label="" functionLabel="">
+            <pragma name="ALLOCATION">
+                <option name="instances" value="AddSub_DSP" positionalBoolean="4"/>
+                <option name="limit" value="60"/>
+                <option name="core" value="" positionalBoolean="type"/>
+            </pragma>
+        </directive>
+        <directive functionName="calcOF" label="calOFInnerLoop1" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="tmpSum" positionalBoolean="4"/>
+                <option name="core" value="AddSub_DSP"/>
+            </pragma>
+        </directive>
+    </sourceFile>
+</AutoPilot:ProjectResources>
+

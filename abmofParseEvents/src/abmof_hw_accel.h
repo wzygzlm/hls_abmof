@@ -16,9 +16,9 @@
 
 #define BITS_PER_PIXEL 1
 
-#define BLOCK_SIZE 23
+#define BLOCK_SIZE 15
 #define SEARCH_DISTANCE 4
 
-void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventSlice);
+void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice);
 
 #endif

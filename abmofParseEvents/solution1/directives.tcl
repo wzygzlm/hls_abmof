@@ -5,3 +5,8 @@
 ############################################################
 set_directive_interface -mode ap_fifo "parseEvents" eventSlice
 set_directive_interface -mode ap_fifo "parseEvents" data
+set_directive_inline "accumulateHW"
+set_directive_pipeline "parseEvents/loop_1"
+set_directive_dependence -variable glPLSlices -type inter -direction RAW -dependent false "parseEvents"
+set_directive_resource -core RAM_2P_BRAM "parseEvents" glPLSlices
+set_directive_array_partition -type cyclic -factor 3 -dim 2 "parseEvents" glPLSlices

@@ -1,0 +1,724 @@
+
+
+================================================================
+== Vivado HLS Report for 'parseEvents'
+================================================================
+* Date:           Sat Sep  1 17:01:57 2018
+
+* Version:        2018.1 (Build 2188600 on Wed Apr 04 19:04:02 MDT 2018)
+* Project:        abmofParseEvents
+* Solution:       solution3
+* Product family: zynq
+* Target device:  xc7z007sclg225-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing (ns): 
+    * Summary: 
+    +--------+-------+----------+------------+
+    |  Clock | Target| Estimated| Uncertainty|
+    +--------+-------+----------+------------+
+    |ap_clk  |  10.00|     10.31|        0.10|
+    +--------+-------+----------+------------+
+
++ Latency (clock cycles): 
+    * Summary: 
+    +-----+--------+-----+--------+---------+
+    |    Latency   |   Interval   | Pipeline|
+    | min |   max  | min |   max  |   Type  |
+    +-----+--------+-----+--------+---------+
+    |    4|  180006|    4|  180006|   none  |
+    +-----+--------+-----+--------+---------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +----------+-----+--------+----------+-----------+-----------+-----------+----------+
+        |          |    Latency   | Iteration|  Initiation Interval  |    Trip   |          |
+        | Loop Name| min |   max  |  Latency |  achieved |   target  |   Count   | Pipelined|
+        +----------+-----+--------+----------+-----------+-----------+-----------+----------+
+        |- loop_1  |    0|  180002|        21|         18|          1| 0 ~ 10000 |    yes   |
+        +----------+-----+--------+----------+-----------+-----------+-----------+----------+
+
+============================================================
++ Verbose Summary: Synthesis Manager
+============================================================
+InlineROM: 1
+ExposeGlobal: 0
+============================================================
++ Verbose Summary: CDFG Model
+============================================================
+IsTopModel: 1
+ResetActiveHigh: 1
+IsCombinational: 0
+IsDatapathOnly: 0
+HasWiredReturn: 1
+HasMFsm: 0
+HasVarLatency: 1
+IsPipeline: 0
+IsRtlPipelined: 0
+IsInstanceOverlapped: 0
+IsDontTouch: 0
+HasImplIP: 0
+IsGatedGlobalClock: 0
+
++ Individual pipeline summary: 
+  * Pipeline-0: initiation interval (II) = 18, depth = 21
+
+
+============================================================
++ Verbose Summary: Schedule
+============================================================
+* Number of FSM states : 25
+* Pipeline : 1
+  Pipeline-0 : II = 18, D = 21, States = { 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 }
+* Dataflow Pipeline: 0
+
+* FSM state transitions: 
+1 --> 
+	2  / true
+2 --> 
+	3  / true
+3 --> 
+	4  / true
+4 --> 
+	25  / (!tmp_5)
+	5  / (tmp_5)
+5 --> 
+	6  / true
+6 --> 
+	7  / true
+7 --> 
+	8  / true
+8 --> 
+	9  / true
+9 --> 
+	10  / true
+10 --> 
+	11  / true
+11 --> 
+	12  / true
+12 --> 
+	13  / true
+13 --> 
+	14  / true
+14 --> 
+	15  / true
+15 --> 
+	16  / true
+16 --> 
+	17  / true
+17 --> 
+	18  / true
+18 --> 
+	19  / true
+19 --> 
+	20  / true
+20 --> 
+	21  / true
+21 --> 
+	22  / true
+22 --> 
+	23  / true
+23 --> 
+	24  / true
+24 --> 
+	4  / true
+25 --> 
+
+* FSM state operations: 
+
+ <State 1> : 2.73ns
+ST_1 : Operation 26 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecBitsMap(i64* %data) nounwind, !map !2771"
+ST_1 : Operation 27 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecBitsMap(i32 %eventsArraySize) nounwind, !map !2775"
+ST_1 : Operation 28 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecBitsMap(i32* %eventSlice) nounwind, !map !2781"
+ST_1 : Operation 29 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecTopModule([12 x i8]* @parseEvents_str) nounwind"
+ST_1 : Operation 30 [1/1] (0.00ns)   --->   "%eventsArraySize_read = call i32 @_ssdm_op_Read.ap_auto.i32(i32 %eventsArraySize) nounwind"
+ST_1 : Operation 31 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecMemCore([900 x i36]* @glPLSlices_V_0, [900 x i36]* @glPLSlices_V_1, [900 x i36]* @glPLSlices_V_2, [900 x i36]* @glPLSlices_V_3, [900 x i36]* @glPLSlices_V_4, [900 x i36]* @glPLSlices_V_5, [900 x i36]* @glPLSlices_V_6, [900 x i36]* @glPLSlices_V_7, [900 x i36]* @glPLSlices_V_8, [900 x i36]* @glPLSlices_V_9, [900 x i36]* @glPLSlices_V_10, [900 x i36]* @glPLSlices_V_11, [900 x i36]* @glPLSlices_V_12, [900 x i36]* @glPLSlices_V_13, [900 x i36]* @glPLSlices_V_14, [900 x i36]* @glPLSlices_V_15, [1 x i8]* @p_str, [12 x i8]* @p_str15, [1 x i8]* @p_str, i32 -1, [1 x i8]* @p_str, [1 x i8]* @p_str, [1 x i8]* @p_str, [1 x i8]* @p_str, [1 x i8]* @p_str) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:143]
+ST_1 : Operation 32 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecInterface(i64* %data, [8 x i8]* @p_str16, i32 0, i32 0, [1 x i8]* @p_str, i32 0, i32 0, [1 x i8]* @p_str, [1 x i8]* @p_str, [1 x i8]* @p_str, i32 0, i32 0, i32 0, i32 0, [1 x i8]* @p_str, [1 x i8]* @p_str) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:143]
+ST_1 : Operation 33 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecInterface(i32* %eventSlice, [8 x i8]* @p_str16, i32 0, i32 0, [1 x i8]* @p_str, i32 0, i32 0, [1 x i8]* @p_str, [1 x i8]* @p_str, [1 x i8]* @p_str, i32 0, i32 0, i32 0, i32 0, [1 x i8]* @p_str, [1 x i8]* @p_str) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:143]
+ST_1 : Operation 34 [1/1] (0.00ns)   --->   "%glPLActiveSliceIdx_V_1 = load i2* @glPLActiveSliceIdx_V, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:144]
+ST_1 : Operation 35 [1/1] (0.95ns)   --->   "%tmp = icmp eq i2 %glPLActiveSliceIdx_V_1, 0" [abmofParseEvents/src/abmof_hw_accel.cpp:144]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 0.95> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_1 : Operation 36 [1/1] (1.76ns)   --->   "br i1 %tmp, label %1, label %._crit_edge" [abmofParseEvents/src/abmof_hw_accel.cpp:144]
+ST_1 : Operation 37 [1/1] (1.81ns)   --->   "store i2 0, i2* @glPLTminus1SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:148]
+ST_1 : Operation 38 [1/1] (1.81ns)   --->   "store i2 -2, i2* @glPLTminus2SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:149]
+ST_1 : Operation 39 [1/1] (1.76ns)   --->   "br label %._crit_edge" [abmofParseEvents/src/abmof_hw_accel.cpp:150]
+
+ <State 2> : 2.73ns
+ST_2 : Operation 40 [1/1] (0.00ns)   --->   "%glPLActiveSliceIdx_V_2 = phi i1 [ true, %1 ], [ false, %0 ]"
+ST_2 : Operation 41 [1/1] (0.00ns)   --->   "%glPLActiveSliceIdx_V_3 = phi i2 [ 1, %1 ], [ %glPLActiveSliceIdx_V_1, %0 ]" [abmofParseEvents/src/abmof_hw_accel.cpp:144]
+ST_2 : Operation 42 [1/1] (0.95ns)   --->   "%tmp_2 = icmp eq i2 %glPLActiveSliceIdx_V_3, 1" [abmofParseEvents/src/abmof_hw_accel.cpp:151]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 0.95> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_2 : Operation 43 [1/1] (1.76ns)   --->   "br i1 %tmp_2, label %2, label %._crit_edge197" [abmofParseEvents/src/abmof_hw_accel.cpp:151]
+ST_2 : Operation 44 [1/1] (1.81ns)   --->   "store i2 1, i2* @glPLTminus1SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:155]
+ST_2 : Operation 45 [1/1] (1.81ns)   --->   "store i2 0, i2* @glPLTminus2SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:156]
+ST_2 : Operation 46 [1/1] (1.76ns)   --->   "br label %._crit_edge197" [abmofParseEvents/src/abmof_hw_accel.cpp:157]
+
+ <State 3> : 7.25ns
+ST_3 : Operation 47 [1/1] (0.00ns)   --->   "%glPLActiveSliceIdx_V_4 = phi i1 [ true, %2 ], [ %glPLActiveSliceIdx_V_2, %._crit_edge ]"
+ST_3 : Operation 48 [1/1] (0.00ns)   --->   "%glPLActiveSliceIdx_V_5 = phi i2 [ -2, %2 ], [ 1, %._crit_edge ]"
+ST_3 : Operation 49 [1/1] (0.00ns)   --->   "%glPLActiveSliceIdx_V_6 = phi i2 [ -2, %2 ], [ %glPLActiveSliceIdx_V_3, %._crit_edge ]" [abmofParseEvents/src/abmof_hw_accel.cpp:144]
+ST_3 : Operation 50 [1/1] (0.95ns)   --->   "%tmp_4 = icmp eq i2 %glPLActiveSliceIdx_V_6, -2" [abmofParseEvents/src/abmof_hw_accel.cpp:158]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 0.95> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_3 : Operation 51 [1/1] (1.76ns)   --->   "br i1 %tmp_4, label %3, label %._crit_edge198" [abmofParseEvents/src/abmof_hw_accel.cpp:158]
+ST_3 : Operation 52 [1/1] (1.81ns)   --->   "store i2 -2, i2* @glPLTminus1SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:162]
+ST_3 : Operation 53 [1/1] (1.81ns)   --->   "store i2 1, i2* @glPLTminus2SliceIdx_s, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:163]
+ST_3 : Operation 54 [1/1] (1.76ns)   --->   "br label %._crit_edge198" [abmofParseEvents/src/abmof_hw_accel.cpp:164]
+ST_3 : Operation 55 [1/1] (0.00ns)   --->   "%glPLActiveSliceIdx_V_7 = phi i1 [ true, %3 ], [ %glPLActiveSliceIdx_V_4, %._crit_edge197 ]"
+ST_3 : Operation 56 [1/1] (0.00ns)   --->   "%glPLActiveSliceIdx_V_8 = phi i2 [ 0, %3 ], [ %glPLActiveSliceIdx_V_5, %._crit_edge197 ]"
+ST_3 : Operation 57 [1/1] (0.00ns)   --->   "%glPLActiveSliceIdx_V_9 = phi i2 [ 0, %3 ], [ %glPLActiveSliceIdx_V_6, %._crit_edge197 ]" [abmofParseEvents/src/abmof_hw_accel.cpp:144]
+ST_3 : Operation 58 [1/1] (0.00ns)   --->   "br i1 %glPLActiveSliceIdx_V_7, label %mergeST, label %._crit_edge198.new"
+ST_3 : Operation 59 [1/1] (0.00ns)   --->   "store i2 %glPLActiveSliceIdx_V_8, i2* @glPLActiveSliceIdx_V, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:146]
+ST_3 : Operation 60 [1/1] (0.00ns)   --->   "br label %._crit_edge198.new"
+ST_3 : Operation 61 [1/1] (0.00ns)   --->   "%i_op_assign = alloca i16"
+ST_3 : Operation 62 [1/1] (0.00ns)   --->   "%tmp_3_cast = zext i2 %glPLActiveSliceIdx_V_9 to i11" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_3 : Operation 63 [1/1] (4.52ns)   --->   "%tmp_6 = mul i11 %tmp_3_cast, 300" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 16 'Mul' <Latency = 0> <II = 1> <Delay = 4.52> <FuncUnit> <Opcode : 'mul'> <InPorts = 2> <OutPorts = 1>
+ST_3 : Operation 64 [1/1] (1.76ns)   --->   "br label %4" [abmofParseEvents/src/abmof_hw_accel.cpp:182]
+
+ <State 4> : 2.52ns
+ST_4 : Operation 65 [1/1] (0.00ns)   --->   "%p_08_rec = phi i31 [ 0, %._crit_edge198.new ], [ %i, %10 ]"
+ST_4 : Operation 66 [1/1] (0.00ns)   --->   "%i_cast = zext i31 %p_08_rec to i32" [abmofParseEvents/src/abmof_hw_accel.cpp:329]
+ST_4 : Operation 67 [1/1] (2.47ns)   --->   "%tmp_5 = icmp slt i32 %i_cast, %eventsArraySize_read" [abmofParseEvents/src/abmof_hw_accel.cpp:182]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 0.95> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_4 : Operation 68 [1/1] (2.52ns)   --->   "%i = add i31 %p_08_rec, 1" [abmofParseEvents/src/abmof_hw_accel.cpp:329]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.07> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_4 : Operation 69 [1/1] (0.00ns)   --->   "br i1 %tmp_5, label %5, label %11" [abmofParseEvents/src/abmof_hw_accel.cpp:182]
+ST_4 : Operation 70 [1/1] (2.47ns)   --->   "%tmp_10 = icmp eq i31 %p_08_rec, 0" [abmofParseEvents/src/abmof_hw_accel.cpp:312]   --->   Core 25 'Cmp' <Latency = 0> <II = 1> <Delay = 0.95> <FuncUnit> <Opcode : 'icmp'> <InPorts = 2> <OutPorts = 1>
+ST_4 : Operation 71 [1/1] (0.00ns)   --->   "br i1 %tmp_10, label %8, label %9" [abmofParseEvents/src/abmof_hw_accel.cpp:312]
+ST_4 : Operation 72 [1/1] (0.00ns)   --->   "%tmp_28 = trunc i31 %p_08_rec to i4" [abmofParseEvents/src/abmof_hw_accel.cpp:329]
+ST_4 : Operation 73 [1/1] (1.36ns)   --->   "switch i4 %tmp_28, label %branch495 [
+    i4 1, label %branch287
+    i4 2, label %branch303
+    i4 3, label %branch319
+    i4 4, label %branch335
+    i4 5, label %branch351
+    i4 6, label %branch367
+    i4 7, label %branch383
+    i4 -8, label %branch399
+    i4 -7, label %branch415
+    i4 -6, label %branch431
+    i4 -5, label %branch447
+    i4 -4, label %branch463
+    i4 -3, label %branch479
+  ]" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_4 : Operation 74 [1/1] (1.36ns)   --->   "switch i4 %tmp_28, label %branch14 [
+    i4 1, label %branch62
+    i4 2, label %branch78
+    i4 3, label %branch94
+    i4 4, label %branch110
+    i4 5, label %branch126
+    i4 6, label %branch142
+    i4 7, label %branch158
+    i4 -8, label %branch174
+    i4 -7, label %branch190
+    i4 -6, label %branch206
+    i4 -5, label %branch222
+    i4 -4, label %branch238
+    i4 -3, label %branch254
+  ]" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_4 : Operation 75 [1/1] (1.36ns)   --->   "switch i4 %tmp_28, label %branch270 [
+    i4 1, label %branch257
+    i4 2, label %branch258
+    i4 3, label %branch259
+    i4 4, label %branch260
+    i4 5, label %branch261
+    i4 6, label %branch262
+    i4 7, label %branch263
+    i4 -8, label %branch264
+    i4 -7, label %branch265
+    i4 -6, label %branch266
+    i4 -5, label %branch267
+    i4 -4, label %branch268
+    i4 -3, label %branch269
+  ]" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+
+ <State 5> : 8.53ns
+ST_5 : Operation 76 [1/1] (3.63ns)   --->   "%tmp_3 = call i64 @_ssdm_op_Read.ap_fifo.volatile.i64P(i64* %data) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:186]   --->   Core 32 'FIFO' <Latency = 0> <II = 1> <Delay = 3.63> <Storage> <Opcode : 'read' 'write' 'nbread' 'nbwrite'> <Ports = 0> <Width = 32> <Depth = 0> <FIFO>
+ST_5 : Operation 77 [1/1] (0.00ns)   --->   "%x = call i15 @_ssdm_op_PartSelect.i15.i64.i32.i32(i64 %tmp_3, i32 17, i32 31)" [abmofParseEvents/src/abmof_hw_accel.cpp:187]
+ST_5 : Operation 78 [1/1] (0.00ns)   --->   "%y = call i15 @_ssdm_op_PartSelect.i15.i64.i32.i32(i64 %tmp_3, i32 2, i32 16)" [abmofParseEvents/src/abmof_hw_accel.cpp:188]
+ST_5 : Operation 79 [1/1] (0.00ns)   --->   "%tmp_7 = call i1 @_ssdm_op_BitSelect.i1.i64.i32(i64 %tmp_3, i32 1)" [abmofParseEvents/src/abmof_hw_accel.cpp:189]
+ST_5 : Operation 80 [1/1] (0.00ns)   --->   "br i1 %tmp_7, label %6, label %accumulateHW.exit" [abmofParseEvents/src/abmof_hw_accel.cpp:21->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 81 [1/1] (0.00ns)   --->   "%arrayNo = call i4 @_ssdm_op_PartSelect.i4.i64.i32.i32(i64 %tmp_3, i32 17, i32 20)" [abmofParseEvents/src/abmof_hw_accel.cpp:186]
+ST_5 : Operation 82 [1/1] (0.00ns)   --->   "%tmp_9_cast6 = call i11 @_ssdm_op_PartSelect.i11.i64.i32.i32(i64 %tmp_3, i32 21, i32 31)" [abmofParseEvents/src/abmof_hw_accel.cpp:186]
+ST_5 : Operation 83 [1/1] (1.63ns)   --->   "%tmp_8 = add i11 %tmp_6, %tmp_9_cast6" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.07> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_5 : Operation 84 [1/1] (0.00ns)   --->   "%tmp_8_cast = sext i11 %tmp_8 to i64" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 85 [1/1] (0.00ns)   --->   "%glPLSlices_V_0_addr = getelementptr [900 x i36]* @glPLSlices_V_0, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 86 [1/1] (0.00ns)   --->   "%glPLSlices_V_1_addr = getelementptr [900 x i36]* @glPLSlices_V_1, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 87 [1/1] (0.00ns)   --->   "%glPLSlices_V_10_addr = getelementptr [900 x i36]* @glPLSlices_V_10, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 88 [1/1] (0.00ns)   --->   "%glPLSlices_V_11_addr = getelementptr [900 x i36]* @glPLSlices_V_11, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 89 [1/1] (0.00ns)   --->   "%glPLSlices_V_12_addr = getelementptr [900 x i36]* @glPLSlices_V_12, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 90 [1/1] (0.00ns)   --->   "%glPLSlices_V_13_addr = getelementptr [900 x i36]* @glPLSlices_V_13, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 91 [1/1] (0.00ns)   --->   "%glPLSlices_V_14_addr = getelementptr [900 x i36]* @glPLSlices_V_14, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 92 [1/1] (0.00ns)   --->   "%glPLSlices_V_15_addr = getelementptr [900 x i36]* @glPLSlices_V_15, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 93 [1/1] (0.00ns)   --->   "%glPLSlices_V_2_addr = getelementptr [900 x i36]* @glPLSlices_V_2, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 94 [1/1] (0.00ns)   --->   "%glPLSlices_V_3_addr = getelementptr [900 x i36]* @glPLSlices_V_3, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 95 [1/1] (0.00ns)   --->   "%glPLSlices_V_4_addr = getelementptr [900 x i36]* @glPLSlices_V_4, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 96 [1/1] (0.00ns)   --->   "%glPLSlices_V_5_addr = getelementptr [900 x i36]* @glPLSlices_V_5, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 97 [1/1] (0.00ns)   --->   "%glPLSlices_V_6_addr = getelementptr [900 x i36]* @glPLSlices_V_6, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 98 [1/1] (0.00ns)   --->   "%glPLSlices_V_7_addr = getelementptr [900 x i36]* @glPLSlices_V_7, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 99 [1/1] (0.00ns)   --->   "%glPLSlices_V_8_addr = getelementptr [900 x i36]* @glPLSlices_V_8, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 100 [1/1] (0.00ns)   --->   "%glPLSlices_V_9_addr = getelementptr [900 x i36]* @glPLSlices_V_9, i64 0, i64 %tmp_8_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_5 : Operation 101 [2/2] (3.25ns)   --->   "%glPLSlices_V_0_load = load i36* %glPLSlices_V_0_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 102 [2/2] (3.25ns)   --->   "%glPLSlices_V_1_load = load i36* %glPLSlices_V_1_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 103 [2/2] (3.25ns)   --->   "%glPLSlices_V_2_load = load i36* %glPLSlices_V_2_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 104 [2/2] (3.25ns)   --->   "%glPLSlices_V_3_load = load i36* %glPLSlices_V_3_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 105 [2/2] (3.25ns)   --->   "%glPLSlices_V_4_load = load i36* %glPLSlices_V_4_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 106 [2/2] (3.25ns)   --->   "%glPLSlices_V_5_load = load i36* %glPLSlices_V_5_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 107 [2/2] (3.25ns)   --->   "%glPLSlices_V_6_load = load i36* %glPLSlices_V_6_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 108 [2/2] (3.25ns)   --->   "%glPLSlices_V_7_load = load i36* %glPLSlices_V_7_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 109 [2/2] (3.25ns)   --->   "%glPLSlices_V_8_load = load i36* %glPLSlices_V_8_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 110 [2/2] (3.25ns)   --->   "%glPLSlices_V_9_load = load i36* %glPLSlices_V_9_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 111 [2/2] (3.25ns)   --->   "%glPLSlices_V_10_load = load i36* %glPLSlices_V_10_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 112 [2/2] (3.25ns)   --->   "%glPLSlices_V_11_load = load i36* %glPLSlices_V_11_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 113 [2/2] (3.25ns)   --->   "%glPLSlices_V_12_load = load i36* %glPLSlices_V_12_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 114 [2/2] (3.25ns)   --->   "%glPLSlices_V_13_load = load i36* %glPLSlices_V_13_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 115 [2/2] (3.25ns)   --->   "%glPLSlices_V_14_load = load i36* %glPLSlices_V_14_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 116 [2/2] (3.25ns)   --->   "%glPLSlices_V_15_load = load i36* %glPLSlices_V_15_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_5 : Operation 117 [1/1] (0.00ns)   --->   "%tmp_27 = call i1 @_ssdm_op_BitSelect.i1.i64.i32(i64 %tmp_3, i32 1)" [abmofParseEvents/src/abmof_hw_accel.cpp:186]
+
+ <State 6> : 10.31ns
+ST_6 : Operation 118 [1/2] (3.25ns)   --->   "%glPLSlices_V_0_load = load i36* %glPLSlices_V_0_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 119 [1/2] (3.25ns)   --->   "%glPLSlices_V_1_load = load i36* %glPLSlices_V_1_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 120 [1/2] (3.25ns)   --->   "%glPLSlices_V_2_load = load i36* %glPLSlices_V_2_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 121 [1/2] (3.25ns)   --->   "%glPLSlices_V_3_load = load i36* %glPLSlices_V_3_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 122 [1/2] (3.25ns)   --->   "%glPLSlices_V_4_load = load i36* %glPLSlices_V_4_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 123 [1/2] (3.25ns)   --->   "%glPLSlices_V_5_load = load i36* %glPLSlices_V_5_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 124 [1/2] (3.25ns)   --->   "%glPLSlices_V_6_load = load i36* %glPLSlices_V_6_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 125 [1/2] (3.25ns)   --->   "%glPLSlices_V_7_load = load i36* %glPLSlices_V_7_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 126 [1/2] (3.25ns)   --->   "%glPLSlices_V_8_load = load i36* %glPLSlices_V_8_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 127 [1/2] (3.25ns)   --->   "%glPLSlices_V_9_load = load i36* %glPLSlices_V_9_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 128 [1/2] (3.25ns)   --->   "%glPLSlices_V_10_load = load i36* %glPLSlices_V_10_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 129 [1/2] (3.25ns)   --->   "%glPLSlices_V_11_load = load i36* %glPLSlices_V_11_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 130 [1/2] (3.25ns)   --->   "%glPLSlices_V_12_load = load i36* %glPLSlices_V_12_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 131 [1/2] (3.25ns)   --->   "%glPLSlices_V_13_load = load i36* %glPLSlices_V_13_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 132 [1/2] (3.25ns)   --->   "%glPLSlices_V_14_load = load i36* %glPLSlices_V_14_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 133 [1/2] (3.25ns)   --->   "%glPLSlices_V_15_load = load i36* %glPLSlices_V_15_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 134 [1/1] (2.06ns)   --->   "%tmpData_V = call i36 @_ssdm_op_Mux.ap_auto.16i36.i4(i36 %glPLSlices_V_0_load, i36 %glPLSlices_V_1_load, i36 %glPLSlices_V_2_load, i36 %glPLSlices_V_3_load, i36 %glPLSlices_V_4_load, i36 %glPLSlices_V_5_load, i36 %glPLSlices_V_6_load, i36 %glPLSlices_V_7_load, i36 %glPLSlices_V_8_load, i36 %glPLSlices_V_9_load, i36 %glPLSlices_V_10_load, i36 %glPLSlices_V_11_load, i36 %glPLSlices_V_12_load, i36 %glPLSlices_V_13_load, i36 %glPLSlices_V_14_load, i36 %glPLSlices_V_15_load, i4 %arrayNo) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 31 'MuxnS' <Latency = 0> <II = 1> <Delay = 2.06> <FuncUnit> <Opcode : 'mux'> <InPorts = 2> <OutPorts = 1>
+ST_6 : Operation 135 [1/1] (0.00ns)   --->   "%tmp_s = call i17 @_ssdm_op_BitConcatenate.i17.i15.i2(i15 %y, i2 0)" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 136 [1/1] (0.00ns)   --->   "%tmp_15_cast = zext i17 %tmp_s to i32" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 137 [1/1] (0.00ns)   --->   "%tmp_11 = call i1 @_ssdm_op_BitSelect.i1.i36.i32(i36 %tmpData_V, i32 %tmp_15_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 138 [1/1] (0.00ns)   --->   "%index_assign_1_s = or i17 %tmp_s, 1" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 139 [1/1] (0.00ns)   --->   "%index_assign_1_cast = zext i17 %index_assign_1_s to i32" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 140 [1/1] (0.00ns)   --->   "%tmp_14 = call i1 @_ssdm_op_BitSelect.i1.i36.i32(i36 %tmpData_V, i32 %index_assign_1_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 141 [1/1] (0.00ns)   --->   "%index_assign_1_1 = or i17 %tmp_s, 2" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 142 [1/1] (0.00ns)   --->   "%index_assign_1_1_cas = zext i17 %index_assign_1_1 to i32" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 143 [1/1] (0.00ns)   --->   "%tmp_15 = call i1 @_ssdm_op_BitSelect.i1.i36.i32(i36 %tmpData_V, i32 %index_assign_1_1_cas)" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 144 [1/1] (0.00ns)   --->   "%index_assign_1_2 = or i17 %tmp_s, 3" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 145 [1/1] (0.00ns)   --->   "%index_assign_1_2_cas = zext i17 %index_assign_1_2 to i32" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 146 [1/1] (0.00ns)   --->   "%tmp_16 = call i1 @_ssdm_op_BitSelect.i1.i36.i32(i36 %tmpData_V, i32 %index_assign_1_2_cas)" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 147 [1/1] (0.00ns)   --->   "%p_Result_4_3 = call i4 @_ssdm_op_BitConcatenate.i4.i1.i1.i1.i1(i1 %tmp_16, i1 %tmp_15, i1 %tmp_14, i1 %tmp_11)" [abmofParseEvents/src/abmof_hw_accel.cpp:29->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 148 [1/1] (1.73ns)   --->   "%tmpTmpData_V = add i4 1, %p_Result_4_3" [abmofParseEvents/src/abmof_hw_accel.cpp:31->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.07> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_6 : Operation 149 [1/1] (0.00ns)   --->   "%tmp_19 = trunc i4 %tmpTmpData_V to i1" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 150 [1/1] (0.00ns)   --->   "%p_Repl2_1 = zext i1 %tmp_19 to i64" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 151 [1/1] (0.00ns)   --->   "%tmp_20 = call i36 @_ssdm_op_BitSet.i36.i36.i32.i64(i36 %tmpData_V, i32 %tmp_15_cast, i64 %p_Repl2_1)" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 152 [1/1] (0.00ns)   --->   "%tmp_21 = call i1 @_ssdm_op_BitSelect.i1.i4.i32(i4 %tmpTmpData_V, i32 1)" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 153 [1/1] (0.00ns)   --->   "%p_Repl2_1_1 = zext i1 %tmp_21 to i64" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 154 [1/1] (0.00ns)   --->   "%tmp_22 = call i36 @_ssdm_op_BitSet.i36.i36.i32.i64(i36 %tmp_20, i32 %index_assign_1_cast, i64 %p_Repl2_1_1)" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 155 [1/1] (0.00ns)   --->   "%tmp_23 = call i1 @_ssdm_op_BitSelect.i1.i4.i32(i4 %tmpTmpData_V, i32 2)" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 156 [1/1] (0.00ns)   --->   "%p_Repl2_1_2 = zext i1 %tmp_23 to i64" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 157 [1/1] (0.00ns)   --->   "%tmp_24 = call i36 @_ssdm_op_BitSet.i36.i36.i32.i64(i36 %tmp_22, i32 %index_assign_1_1_cas, i64 %p_Repl2_1_2)" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 158 [1/1] (0.00ns)   --->   "%tmp_25 = call i1 @_ssdm_op_BitSelect.i1.i4.i32(i4 %tmpTmpData_V, i32 3)" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 159 [1/1] (0.00ns)   --->   "%p_Repl2_1_3 = zext i1 %tmp_25 to i64" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 160 [1/1] (0.00ns)   --->   "%tmp_26 = call i36 @_ssdm_op_BitSet.i36.i36.i32.i64(i36 %tmp_24, i32 %index_assign_1_2_cas, i64 %p_Repl2_1_3)" [abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 161 [1/1] (1.42ns)   --->   "switch i4 %arrayNo, label %branch45 [
+    i4 0, label %branch30
+    i4 1, label %branch31
+    i4 2, label %branch32
+    i4 3, label %branch33
+    i4 4, label %branch34
+    i4 5, label %branch35
+    i4 6, label %branch36
+    i4 7, label %branch37
+    i4 -8, label %branch38
+    i4 -7, label %branch39
+    i4 -6, label %branch40
+    i4 -5, label %branch41
+    i4 -4, label %branch42
+    i4 -3, label %branch43
+    i4 -2, label %branch44
+  ]" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 162 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_14_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 163 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 164 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_13_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 165 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 166 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_12_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 167 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 168 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_11_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 169 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 170 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_10_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 171 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 172 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_9_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 173 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 174 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_8_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 175 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 176 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_7_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 177 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 178 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_6_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 179 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 180 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_5_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 181 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 182 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_4_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 183 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 184 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_3_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 185 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 186 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_2_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 187 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 188 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_1_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 189 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 190 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_0_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 191 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_6 : Operation 192 [1/1] (3.25ns)   --->   "store i36 %tmp_26, i36* %glPLSlices_V_15_addr, align 8" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]   --->   Core 41 'RAM_2P_BRAM' <Latency = 1> <II = 1> <Delay = 3.25> <Storage> <Opcode : 'load' 'store'> <Ports = 2> <Width = 36> <Depth = 900> <RAM>
+ST_6 : Operation 193 [1/1] (0.00ns)   --->   "br label %7" [abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+
+ <State 7> : 6.00ns
+ST_7 : Operation 194 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecLoopName([7 x i8]* @p_str17) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:183]
+ST_7 : Operation 195 [1/1] (0.00ns)   --->   "%tmp_1 = call i32 (...)* @_ssdm_op_SpecRegionBegin([7 x i8]* @p_str17) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:183]
+ST_7 : Operation 196 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecPipeline(i32 -1, i32 1, i32 1, i32 0, [1 x i8]* @p_str) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:184]
+ST_7 : Operation 197 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecLoopTripCount(i32 0, i32 10000, i32 5000, [1 x i8]* @p_str) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:185]
+ST_7 : Operation 198 [1/1] (0.00ns)   --->   "%x_cast = zext i15 %x to i16" [abmofParseEvents/src/abmof_hw_accel.cpp:187]
+ST_7 : Operation 199 [1/1] (0.00ns)   --->   "%y_cast = zext i15 %y to i16" [abmofParseEvents/src/abmof_hw_accel.cpp:188]
+ST_7 : Operation 200 [1/1] (0.00ns)   --->   "%tmp_9 = call i32 (...)* @_ssdm_op_SpecRegionBegin([12 x i8]* @p_str18) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:193]
+ST_7 : Operation 201 [1/1] (0.00ns)   --->   "call void (...)* @_ssdm_op_SpecOccurrence(i32 5000, [1 x i8]* @p_str) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:194]
+ST_7 : Operation 202 [1/1] (0.00ns)   --->   "%empty = call i32 (...)* @_ssdm_op_SpecRegionEnd([12 x i8]* @p_str18, i32 %tmp_9) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:198]
+ST_7 : Operation 203 [1/1] (0.00ns)   --->   "br label %accumulateHW.exit" [abmofParseEvents/src/abmof_hw_accel.cpp:37->abmofParseEvents/src/abmof_hw_accel.cpp:201]
+ST_7 : Operation 204 [16/16] (6.00ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+ST_7 : Operation 205 [1/1] (0.00ns)   --->   "%tmp_12 = call i23 @_ssdm_op_BitConcatenate.i23.i15.i8(i15 %y, i8 0)" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_7 : Operation 206 [1/1] (0.00ns)   --->   "%tmp_19_cast_cast = zext i23 %tmp_12 to i24" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_7 : Operation 207 [1/1] (0.00ns)   --->   "%tmp_13 = call i17 @_ssdm_op_BitConcatenate.i17.i1.i16(i1 %tmp_27, i16 %x_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:186]
+ST_7 : Operation 208 [1/1] (0.00ns)   --->   "%tmp_16_cast = zext i17 %tmp_13 to i24" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_7 : Operation 209 [1/1] (2.28ns)   --->   "%tmp1 = add i24 %tmp_16_cast, %tmp_19_cast_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:322]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.07> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+
+ <State 8> : 9.41ns
+ST_8 : Operation 210 [15/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 9> : 9.41ns
+ST_9 : Operation 211 [14/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 10> : 9.41ns
+ST_10 : Operation 212 [13/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 11> : 9.41ns
+ST_11 : Operation 213 [12/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 12> : 9.41ns
+ST_12 : Operation 214 [11/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 13> : 9.41ns
+ST_13 : Operation 215 [10/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 14> : 9.41ns
+ST_14 : Operation 216 [9/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 15> : 9.41ns
+ST_15 : Operation 217 [8/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 16> : 9.41ns
+ST_16 : Operation 218 [7/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 17> : 9.41ns
+ST_17 : Operation 219 [6/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 18> : 9.41ns
+ST_18 : Operation 220 [5/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 19> : 9.41ns
+ST_19 : Operation 221 [4/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 20> : 9.41ns
+ST_20 : Operation 222 [3/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 21> : 9.41ns
+ST_21 : Operation 223 [2/16] (9.41ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 22> : 0.00ns
+ST_22 : Operation 224 [1/16] (0.00ns)   --->   "call fastcc void @calcOF(i16 signext %x_cast, i16 signext %y_cast)" [abmofParseEvents/src/abmof_hw_accel.cpp:215]   --->   Core 0 '' <Latency = 0> <II = 1> <Delay = 1.00> <Generic> <Opcode : >
+
+ <State 23> : 8.69ns
+ST_23 : Operation 225 [1/1] (0.00ns)   --->   "%sum_load = load i16* @sum, align 2" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 226 [1/1] (0.00ns)   --->   "%tmp_21_cast = sext i16 %sum_load to i17" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 227 [1/1] (0.00ns)   --->   "%refBlock_V_13_13_loa = load i4* @refBlock_V_13_13, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 228 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 229 [1/1] (0.00ns)   --->   "%refBlock_V_12_12_loa = load i4* @refBlock_V_12_12, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 230 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 231 [1/1] (0.00ns)   --->   "%refBlock_V_11_11_loa = load i4* @refBlock_V_11_11, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 232 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 233 [1/1] (0.00ns)   --->   "%refBlock_V_10_10_loa = load i4* @refBlock_V_10_10, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 234 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 235 [1/1] (0.00ns)   --->   "%refBlock_V_9_9_load = load i4* @refBlock_V_9_9, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 236 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 237 [1/1] (0.00ns)   --->   "%refBlock_V_8_8_load = load i4* @refBlock_V_8_8, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 238 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 239 [1/1] (0.00ns)   --->   "%refBlock_V_7_7_load = load i4* @refBlock_V_7_7, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 240 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 241 [1/1] (0.00ns)   --->   "%refBlock_V_6_6_load = load i4* @refBlock_V_6_6, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 242 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 243 [1/1] (0.00ns)   --->   "%refBlock_V_5_5_load = load i4* @refBlock_V_5_5, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 244 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 245 [1/1] (0.00ns)   --->   "%refBlock_V_4_4_load = load i4* @refBlock_V_4_4, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 246 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 247 [1/1] (0.00ns)   --->   "%refBlock_V_3_3_load = load i4* @refBlock_V_3_3, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 248 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 249 [1/1] (0.00ns)   --->   "%refBlock_V_2_2_load = load i4* @refBlock_V_2_2, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 250 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 251 [1/1] (0.00ns)   --->   "%refBlock_V_1_1_load = load i4* @refBlock_V_1_1, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 252 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 253 [1/1] (0.00ns)   --->   "%refBlock_V_14_14_loa = load i4* @refBlock_V_14_14, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 254 [1/1] (2.14ns)   --->   "br label %branch16620" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 255 [1/1] (0.00ns)   --->   "%refBlock_V_load_1_ph = phi i4 [ %refBlock_V_1_1_load, %branch287 ], [ %refBlock_V_2_2_load, %branch303 ], [ %refBlock_V_3_3_load, %branch319 ], [ %refBlock_V_4_4_load, %branch335 ], [ %refBlock_V_5_5_load, %branch351 ], [ %refBlock_V_6_6_load, %branch367 ], [ %refBlock_V_7_7_load, %branch383 ], [ %refBlock_V_8_8_load, %branch399 ], [ %refBlock_V_9_9_load, %branch415 ], [ %refBlock_V_10_10_loa, %branch431 ], [ %refBlock_V_11_11_loa, %branch447 ], [ %refBlock_V_12_12_loa, %branch463 ], [ %refBlock_V_13_13_loa, %branch479 ], [ %refBlock_V_14_14_loa, %branch495 ]" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 256 [1/1] (0.00ns)   --->   "%tmp_22_cast = sext i4 %refBlock_V_load_1_ph to i5" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 257 [1/1] (0.00ns)   --->   "%targetBlocks_V_13_13_1 = load i4* @targetBlocks_V_13_13, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 258 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 259 [1/1] (0.00ns)   --->   "%targetBlocks_V_12_12_1 = load i4* @targetBlocks_V_12_12, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 260 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 261 [1/1] (0.00ns)   --->   "%targetBlocks_V_11_11_1 = load i4* @targetBlocks_V_11_11, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 262 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 263 [1/1] (0.00ns)   --->   "%targetBlocks_V_10_10_1 = load i4* @targetBlocks_V_10_10, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 264 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 265 [1/1] (0.00ns)   --->   "%targetBlocks_V_9_9_l = load i4* @targetBlocks_V_9_9, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 266 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 267 [1/1] (0.00ns)   --->   "%targetBlocks_V_8_8_l = load i4* @targetBlocks_V_8_8, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 268 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 269 [1/1] (0.00ns)   --->   "%targetBlocks_V_7_7_l = load i4* @targetBlocks_V_7_7, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 270 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 271 [1/1] (0.00ns)   --->   "%targetBlocks_V_6_6_l = load i4* @targetBlocks_V_6_6, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 272 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 273 [1/1] (0.00ns)   --->   "%targetBlocks_V_5_5_l = load i4* @targetBlocks_V_5_5, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 274 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 275 [1/1] (0.00ns)   --->   "%targetBlocks_V_4_4_l = load i4* @targetBlocks_V_4_4, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 276 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 277 [1/1] (0.00ns)   --->   "%targetBlocks_V_3_3_l = load i4* @targetBlocks_V_3_3, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 278 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 279 [1/1] (0.00ns)   --->   "%targetBlocks_V_2_2_l = load i4* @targetBlocks_V_2_2, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 280 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 281 [1/1] (0.00ns)   --->   "%targetBlocks_V_1_1_l = load i4* @targetBlocks_V_1_1, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 282 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 283 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_13_1 = load i4* @targetBlocks_V_14_13, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 284 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 285 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_12_1 = load i4* @targetBlocks_V_14_12, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 286 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 287 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_11_1 = load i4* @targetBlocks_V_14_11, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 288 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 289 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_10_1 = load i4* @targetBlocks_V_14_10, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 290 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 291 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_9_s = load i4* @targetBlocks_V_14_9, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 292 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 293 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_8_s = load i4* @targetBlocks_V_14_8, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 294 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 295 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_7_s = load i4* @targetBlocks_V_14_7, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 296 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 297 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_6_s = load i4* @targetBlocks_V_14_6, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 298 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 299 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_5_s = load i4* @targetBlocks_V_14_5, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 300 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 301 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_4_s = load i4* @targetBlocks_V_14_4, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 302 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 303 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_3_s = load i4* @targetBlocks_V_14_3, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 304 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 305 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_2_s = load i4* @targetBlocks_V_14_2, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 306 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 307 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_1_s = load i4* @targetBlocks_V_14_1, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 308 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 309 [1/1] (0.00ns)   --->   "%targetBlocks_V_14_14_1 = load i4* @targetBlocks_V_14_14, align 1" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 310 [1/1] (2.56ns)   --->   "br label %branch1140" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 311 [1/1] (0.00ns)   --->   "%targetBlocks_V_load_s = phi i4 [ %targetBlocks_V_1_1_l, %branch62 ], [ %targetBlocks_V_2_2_l, %branch78 ], [ %targetBlocks_V_3_3_l, %branch94 ], [ %targetBlocks_V_4_4_l, %branch110 ], [ %targetBlocks_V_5_5_l, %branch126 ], [ %targetBlocks_V_6_6_l, %branch142 ], [ %targetBlocks_V_7_7_l, %branch158 ], [ %targetBlocks_V_8_8_l, %branch174 ], [ %targetBlocks_V_9_9_l, %branch190 ], [ %targetBlocks_V_10_10_1, %branch206 ], [ %targetBlocks_V_11_11_1, %branch222 ], [ %targetBlocks_V_12_12_1, %branch238 ], [ %targetBlocks_V_13_13_1, %branch254 ], [ %targetBlocks_V_14_1_s, %branch257 ], [ %targetBlocks_V_14_2_s, %branch258 ], [ %targetBlocks_V_14_3_s, %branch259 ], [ %targetBlocks_V_14_4_s, %branch260 ], [ %targetBlocks_V_14_5_s, %branch261 ], [ %targetBlocks_V_14_6_s, %branch262 ], [ %targetBlocks_V_14_7_s, %branch263 ], [ %targetBlocks_V_14_8_s, %branch264 ], [ %targetBlocks_V_14_9_s, %branch265 ], [ %targetBlocks_V_14_10_1, %branch266 ], [ %targetBlocks_V_14_11_1, %branch267 ], [ %targetBlocks_V_14_12_1, %branch268 ], [ %targetBlocks_V_14_13_1, %branch269 ], [ %targetBlocks_V_14_14_1, %branch270 ]" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 312 [1/1] (0.00ns)   --->   "%tmp_23_cast = sext i4 %targetBlocks_V_load_s to i5" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 313 [1/1] (0.00ns)   --->   "%tmp1_cast = zext i24 %tmp1 to i25" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 314 [1/1] (1.73ns)   --->   "%tmp3 = add i5 %tmp_22_cast, %tmp_23_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:322]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.07> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_23 : Operation 315 [1/1] (0.00ns)   --->   "%tmp3_cast = sext i5 %tmp3 to i17" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 316 [1/1] (2.07ns)   --->   "%tmp2 = add i17 %tmp3_cast, %tmp_21_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:322]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.07> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_23 : Operation 317 [1/1] (0.00ns)   --->   "%tmp2_cast_cast = sext i17 %tmp2 to i25" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_23 : Operation 318 [1/1] (2.31ns)   --->   "%tmp_17 = add i25 %tmp2_cast_cast, %tmp1_cast" [abmofParseEvents/src/abmof_hw_accel.cpp:322]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.07> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_23 : Operation 319 [1/1] (0.00ns)   --->   "%i_op_assign_load_1 = load i16* %i_op_assign" [abmofParseEvents/src/abmof_hw_accel.cpp:315]
+ST_23 : Operation 320 [1/1] (0.00ns)   --->   "%lhs_V = zext i16 %i_op_assign_load_1 to i18" [abmofParseEvents/src/abmof_hw_accel.cpp:315]
+ST_23 : Operation 321 [1/1] (0.00ns)   --->   "%refBlock_V_0_0_load = load i4* @refBlock_V_0_0, align 16" [abmofParseEvents/src/abmof_hw_accel.cpp:315]
+ST_23 : Operation 322 [1/1] (0.00ns)   --->   "%rhs_V = sext i4 %refBlock_V_0_0_load to i18" [abmofParseEvents/src/abmof_hw_accel.cpp:315]
+ST_23 : Operation 323 [1/1] (0.00ns) (grouped into TernaryAdder)   --->   "%r_V = add i18 %rhs_V, %lhs_V" [abmofParseEvents/src/abmof_hw_accel.cpp:315]   --->   Core 80 'TAddSub' <Latency = 0> <II = 1> <Delay = 1.98> <IPBlock> <Opcode : 'add' 'sub'> <InPorts = 3> <OutPorts = 1> <Sync> <CReg>
+ST_23 : Operation 324 [1/1] (0.00ns)   --->   "%targetBlocks_V_0_0_l = load i4* @targetBlocks_V_0_0, align 16" [abmofParseEvents/src/abmof_hw_accel.cpp:315]
+ST_23 : Operation 325 [1/1] (0.00ns)   --->   "%rhs_V_1_cast = sext i4 %targetBlocks_V_0_0_l to i18" [abmofParseEvents/src/abmof_hw_accel.cpp:315]
+ST_23 : Operation 326 [1/1] (3.96ns) (root node of TernaryAdder)   --->   "%r_V_1 = add i18 %rhs_V_1_cast, %r_V" [abmofParseEvents/src/abmof_hw_accel.cpp:315]   --->   Core 80 'TAddSub' <Latency = 0> <II = 1> <Delay = 1.98> <IPBlock> <Opcode : 'add' 'sub'> <InPorts = 3> <OutPorts = 1> <Sync> <CReg>
+ST_23 : Operation 327 [1/1] (0.00ns)   --->   "%tmp_11_cast = sext i18 %r_V_1 to i25" [abmofParseEvents/src/abmof_hw_accel.cpp:318]
+ST_23 : Operation 328 [1/1] (1.76ns)   --->   "br label %10" [abmofParseEvents/src/abmof_hw_accel.cpp:318]
+
+ <State 24> : 5.40ns
+ST_24 : Operation 329 [1/1] (1.76ns)   --->   "br label %10"
+ST_24 : Operation 330 [1/1] (0.00ns)   --->   "%storemerge = phi i25 [ %tmp_17, %branch1140 ], [ %tmp_11_cast, %8 ]" [abmofParseEvents/src/abmof_hw_accel.cpp:322]
+ST_24 : Operation 331 [1/1] (0.00ns)   --->   "%i_op_assign_load = load i16* %i_op_assign" [abmofParseEvents/src/abmof_hw_accel.cpp:331]
+ST_24 : Operation 332 [1/1] (0.00ns)   --->   "%storemerge_cast = sext i25 %storemerge to i32" [abmofParseEvents/src/abmof_hw_accel.cpp:315]
+ST_24 : Operation 333 [1/1] (3.63ns)   --->   "call void @_ssdm_op_Write.ap_fifo.i32P(i32* %eventSlice, i32 %storemerge_cast) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:315]   --->   Core 32 'FIFO' <Latency = 0> <II = 1> <Delay = 3.63> <Storage> <Opcode : 'read' 'write' 'nbread' 'nbwrite'> <Ports = 0> <Width = 32> <Depth = 0> <FIFO>
+ST_24 : Operation 334 [1/1] (2.07ns)   --->   "%localCnt = add i16 %i_op_assign_load, 1" [abmofParseEvents/src/abmof_hw_accel.cpp:331]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.07> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_24 : Operation 335 [1/1] (0.00ns)   --->   "%glCnt_load = load i16* @glCnt, align 2" [abmofParseEvents/src/abmof_hw_accel.cpp:332]
+ST_24 : Operation 336 [1/1] (2.07ns)   --->   "%tmp_18 = add i16 %glCnt_load, 1" [abmofParseEvents/src/abmof_hw_accel.cpp:332]   --->   Core 14 'AddSub' <Latency = 0> <II = 1> <Delay = 2.07> <FuncUnit> <Opcode : 'add' 'sub'> <InPorts = 2> <OutPorts = 1>
+ST_24 : Operation 337 [1/1] (0.00ns)   --->   "store i16 %tmp_18, i16* @glCnt, align 2" [abmofParseEvents/src/abmof_hw_accel.cpp:332]
+ST_24 : Operation 338 [1/1] (0.00ns)   --->   "%empty_8 = call i32 (...)* @_ssdm_op_SpecRegionEnd([7 x i8]* @p_str17, i32 %tmp_1) nounwind" [abmofParseEvents/src/abmof_hw_accel.cpp:333]
+ST_24 : Operation 339 [1/1] (0.00ns)   --->   "store i16 %localCnt, i16* %i_op_assign" [abmofParseEvents/src/abmof_hw_accel.cpp:331]
+ST_24 : Operation 340 [1/1] (0.00ns)   --->   "br label %4" [abmofParseEvents/src/abmof_hw_accel.cpp:182]
+
+ <State 25> : 0.00ns
+ST_25 : Operation 341 [1/1] (0.00ns)   --->   "ret void" [abmofParseEvents/src/abmof_hw_accel.cpp:335]
+
+
+============================================================
++ Verbose Summary: Timing violations
+============================================================
+Target clock period: 10ns, clock uncertainty: 0.1ns.
+
+ <State 1>: 2.73ns
+The critical path consists of the following:
+	'load' operation ('glPLActiveSliceIdx_V_1', abmofParseEvents/src/abmof_hw_accel.cpp:144) on static variable 'glPLActiveSliceIdx_V' [483]  (0 ns)
+	'icmp' operation ('tmp', abmofParseEvents/src/abmof_hw_accel.cpp:144) [484]  (0.959 ns)
+	multiplexor before 'phi' operation ('glPLActiveSliceIdx_V_2') [491]  (1.77 ns)
+
+ <State 2>: 2.73ns
+The critical path consists of the following:
+	'phi' operation ('glPLActiveSliceIdx_V_3', abmofParseEvents/src/abmof_hw_accel.cpp:144) with incoming values : ('glPLActiveSliceIdx_V_1', abmofParseEvents/src/abmof_hw_accel.cpp:144) [492]  (0 ns)
+	'icmp' operation ('tmp_2', abmofParseEvents/src/abmof_hw_accel.cpp:151) [493]  (0.959 ns)
+	multiplexor before 'phi' operation ('glPLActiveSliceIdx_V_4') [500]  (1.77 ns)
+
+ <State 3>: 7.25ns
+The critical path consists of the following:
+	'phi' operation ('glPLActiveSliceIdx_V_6', abmofParseEvents/src/abmof_hw_accel.cpp:144) with incoming values : ('glPLActiveSliceIdx_V_1', abmofParseEvents/src/abmof_hw_accel.cpp:144) [502]  (0 ns)
+	'icmp' operation ('tmp_4', abmofParseEvents/src/abmof_hw_accel.cpp:158) [503]  (0.959 ns)
+	multiplexor before 'phi' operation ('glPLActiveSliceIdx_V_9', abmofParseEvents/src/abmof_hw_accel.cpp:144) with incoming values : ('glPLActiveSliceIdx_V_1', abmofParseEvents/src/abmof_hw_accel.cpp:144) [512]  (1.77 ns)
+	'phi' operation ('glPLActiveSliceIdx_V_9', abmofParseEvents/src/abmof_hw_accel.cpp:144) with incoming values : ('glPLActiveSliceIdx_V_1', abmofParseEvents/src/abmof_hw_accel.cpp:144) [512]  (0 ns)
+	'mul' operation ('tmp_6', abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201) [520]  (4.52 ns)
+
+ <State 4>: 2.52ns
+The critical path consists of the following:
+	'phi' operation ('i') with incoming values : ('i', abmofParseEvents/src/abmof_hw_accel.cpp:329) [523]  (0 ns)
+	'add' operation ('i', abmofParseEvents/src/abmof_hw_accel.cpp:329) [526]  (2.52 ns)
+
+ <State 5>: 8.53ns
+The critical path consists of the following:
+	fifo read on port 'data' (abmofParseEvents/src/abmof_hw_accel.cpp:186) [533]  (3.63 ns)
+	'add' operation ('tmp_8', abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201) [546]  (1.64 ns)
+	'getelementptr' operation ('glPLSlices_V_6_addr', abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201) [560]  (0 ns)
+	'load' operation ('glPLSlices_V_6_load', abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201) on array 'glPLSlices_V_6' [570]  (3.25 ns)
+
+ <State 6>: 10.3ns
+The critical path consists of the following:
+	'load' operation ('glPLSlices_V_0_load', abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201) on array 'glPLSlices_V_0' [564]  (3.25 ns)
+	'mux' operation ('tmpData.V', abmofParseEvents/src/abmof_hw_accel.cpp:26->abmofParseEvents/src/abmof_hw_accel.cpp:201) [580]  (2.06 ns)
+	'add' operation ('tmpTmpData.V', abmofParseEvents/src/abmof_hw_accel.cpp:31->abmofParseEvents/src/abmof_hw_accel.cpp:201) [594]  (1.74 ns)
+	'store' operation (abmofParseEvents/src/abmof_hw_accel.cpp:36->abmofParseEvents/src/abmof_hw_accel.cpp:201) of variable 'tmp_26', abmofParseEvents/src/abmof_hw_accel.cpp:34->abmofParseEvents/src/abmof_hw_accel.cpp:201 on array 'glPLSlices_V_12' [615]  (3.25 ns)
+
+ <State 7>: 6ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (6 ns)
+
+ <State 8>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 9>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 10>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 11>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 12>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 13>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 14>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 15>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 16>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 17>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 18>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 19>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 20>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 21>: 9.41ns
+The critical path consists of the following:
+	'call' operation (abmofParseEvents/src/abmof_hw_accel.cpp:215) to 'calcOF' [659]  (9.41 ns)
+
+ <State 22>: 0ns
+The critical path consists of the following:
+
+ <State 23>: 8.69ns
+The critical path consists of the following:
+	'load' operation ('targetBlocks_V_13_13_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) on global variable 'targetBlocks_V_13_13' [717]  (0 ns)
+	multiplexor before 'phi' operation ('targetBlocks_V_load_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) with incoming values : ('targetBlocks_V_13_13_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_12_12_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_11_11_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_10_10_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_9_9_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_8_8_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_7_7_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_6_6_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_5_5_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_4_4_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_3_3_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_2_2_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_1_1_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_13_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_12_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_11_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_10_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_9_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_8_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_7_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_6_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_5_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_4_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_3_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_2_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_1_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_14_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) [800]  (2.57 ns)
+	'phi' operation ('targetBlocks_V_load_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) with incoming values : ('targetBlocks_V_13_13_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_12_12_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_11_11_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_10_10_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_9_9_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_8_8_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_7_7_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_6_6_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_5_5_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_4_4_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_3_3_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_2_2_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_1_1_l', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_13_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_12_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_11_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_10_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_9_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_8_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_7_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_6_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_5_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_4_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_3_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_2_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_1_s', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('targetBlocks_V_14_14_1', abmofParseEvents/src/abmof_hw_accel.cpp:322) [800]  (0 ns)
+	'add' operation ('tmp3', abmofParseEvents/src/abmof_hw_accel.cpp:322) [806]  (1.74 ns)
+	'add' operation ('tmp2', abmofParseEvents/src/abmof_hw_accel.cpp:322) [808]  (2.08 ns)
+	'add' operation ('tmp_17', abmofParseEvents/src/abmof_hw_accel.cpp:322) [810]  (2.31 ns)
+
+ <State 24>: 5.4ns
+The critical path consists of the following:
+	multiplexor before 'phi' operation ('storemerge', abmofParseEvents/src/abmof_hw_accel.cpp:322) with incoming values : ('tmp_17', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('tmp_11_cast', abmofParseEvents/src/abmof_hw_accel.cpp:318) [824]  (1.77 ns)
+	'phi' operation ('storemerge', abmofParseEvents/src/abmof_hw_accel.cpp:322) with incoming values : ('tmp_17', abmofParseEvents/src/abmof_hw_accel.cpp:322) ('tmp_11_cast', abmofParseEvents/src/abmof_hw_accel.cpp:318) [824]  (0 ns)
+	fifo write on port 'eventSlice' (abmofParseEvents/src/abmof_hw_accel.cpp:315) [827]  (3.63 ns)
+
+ <State 25>: 0ns
+The critical path consists of the following:
+
+
+============================================================
++ Verbose Summary: Binding
+============================================================
+N/A
+* FSMD analyzer results:
+  - Output states:
+ - Input state : 
+  - Chain level:
+	State 1
+	State 2
+	State 3
+	State 4
+	State 5
+	State 6
+	State 7
+	State 8
+	State 9
+	State 10
+	State 11
+	State 12
+	State 13
+	State 14
+	State 15
+	State 16
+	State 17
+	State 18
+	State 19
+	State 20
+	State 21
+	State 22
+	State 23
+	State 24
+	State 25
+
+
+============================================================
++ Verbose Summary: Datapath Resource usage 
+============================================================
+N/A

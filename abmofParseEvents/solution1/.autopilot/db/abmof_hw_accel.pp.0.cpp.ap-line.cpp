@@ -344,9 +344,9 @@ __extension__ typedef unsigned long long uint_fast64_t;
 __extension__ typedef long long intmax_t;
 __extension__ typedef unsigned long long uintmax_t;
 #pragma line 33 "D:/Xilinx/Vivado/2018.1/win64/tools/clang/bin/../lib/clang/3.1/include\\stdint.h" 2 3 4
-#pragma line 4 "abmofParseEvents/src/abmof_hw_accel.h" 2
+#pragma line 5 "abmofParseEvents/src/abmof_hw_accel.h" 2
 #pragma line 22 "abmofParseEvents/src/abmof_hw_accel.h"
-void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventSlice);
+void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice);
 #pragma line 2 "abmofParseEvents/src/abmof_hw_accel.cpp" 2
 #pragma line 1 "D:/Xilinx/Vivado/2018.1/common/technology/autopilot\\ap_int.h" 1
 #pragma line 60 "D:/Xilinx/Vivado/2018.1/common/technology/autopilot\\ap_int.h"
@@ -23151,25 +23151,6 @@ ap_int<4> targetBlocks[23][23];
 #pragma empty_line
 void calcOF(int16_t x, int16_t y)
 {
- readRefBlockLoop1: for(int8_t k = 0; k < 23; k++)
- {
-  col_pix_t tmp1, tmp2;
-#pragma empty_line
-  tmp1 = glPLSlices[glPLTminus1SliceIdx][x + k];
-  tmp2 = glPLSlices[glPLTminus2SliceIdx][x + k];
-#pragma empty_line
-  readBlockInnerLoop1: for(int8_t l = 0; l < 23; l++)
-  {
-   ap_int<4> tmpTmp1, tmpTmp2;
-   parseEvents_label3:for(int8_t yIndex = 0; yIndex < 4; yIndex++)
-   {
-    tmpTmp1[yIndex] = tmp1[4*y + yIndex];
-    tmpTmp2[yIndex] = tmp2[4*y + yIndex];
-   }
-   refBlock[k][l] = tmpTmp1;
-   targetBlocks[k][l] = tmpTmp2;
-  }
- }
 #pragma line 134 "abmofParseEvents/src/abmof_hw_accel.cpp"
 }
 #pragma empty_line
@@ -23178,10 +23159,10 @@ void calcOF(int16_t x, int16_t y)
 #pragma empty_line
 #pragma empty_line
 #pragma SDS data data_mover(data:AXIDMA_SIMPLE:1, eventSlice:AXIDMA_SIMPLE:2)
-#pragma SDS data copy(data[0:10000 * 2], eventSlice[0:eventsArraySize])
+#pragma SDS data copy(data[0:eventsArraySize], eventSlice[0:eventsArraySize])
 #pragma SDS data mem_attribute(data:PHYSICAL_CONTIGUOUS, eventSlice:PHYSICAL_CONTIGUOUS)
 #pragma empty_line
-void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventSlice)
+void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice)
 {
 #pragma empty_line
  if(glPLActiveSliceIdx == 0)
@@ -23222,25 +23203,23 @@ void parseEvents(const uint32_t * data, int32_t eventsArraySize, int32_t *eventS
  *eventSlice = localCnt + (glCnt << 16);
 #pragma empty_line
 #pragma empty_line
- loop_1:for(int32_t i = 0; i < eventsArraySize * 2; i = i + 2)
+ loop_1:for(int32_t i = 0; i < eventsArraySize; i = i + 1)
  {
 #pragma empty_line
 #pragma HLS loop_tripcount min=0 max=10000
- uint32_t tmp = data[i];
+ uint64_t tmp = data[i];
   int16_t x = ((tmp) >> 17) & 0x00007FFF;
   int16_t y = ((tmp) >> 2) & 0x00007FFF;
   bool pol = ((tmp) >> 1) & 0x00000001;
+  int64_t ts = tmp >> 32;
 #pragma empty_line
 #pragma empty_line
-#pragma empty_line
-  accumulateHW(x, y, pol, 0);
-#pragma line 210 "abmofParseEvents/src/abmof_hw_accel.cpp"
-  calcOF(x, y);
+  accumulateHW(x, y, pol, ts);
 #pragma line 307 "abmofParseEvents/src/abmof_hw_accel.cpp"
   if (i == 0)
   {
 #pragma empty_line
-   *eventSlice = sum + refBlock[i][i] + targetBlocks[i][i];
+   *eventSlice = localCnt + refBlock[i][i] + targetBlocks[i][i];
 #pragma empty_line
 #pragma empty_line
   }

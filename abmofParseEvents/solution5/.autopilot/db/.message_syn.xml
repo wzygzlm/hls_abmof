@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Messages>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1312" content="Analyzing design file &apos;abmofParseEvents/src/abmof_hw_accel.cpp&apos; ..." tag=""/>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1465" content="Validating synthesis directives ..." tag=""/>
+	<Message prefix="[HLS 200-40]" severity="WARNING" keynum="HLS_40_1852" content="Directive &apos;RESOURCE&apos; for core &apos;AddSub_DSP&apos; cannot be applied: Variable &apos;tmpSum&apos; has no assigment in &apos;calcOF/calOFInnerLoop1&apos;." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:11 . Memory (MB): peak = 103.609 ; gain = 45.434" tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:13 . Memory (MB): peak = 103.629 ; gain = 45.453" tag=""/>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1467" content="Starting code transformations ..." tag=""/>
+	<Message prefix="[XFORM 203-603]" severity="INFO" keynum="792" content="Inlining function &apos;accumulateHW&apos; into &apos;parseEvents&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:201)." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 122.820 ; gain = 64.645" tag=""/>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1472" content="Checking synthesizability ..." tag=""/>
+	<Message prefix="[XFORM 203-311]" severity="WARNING" keynum="786" content="Cannot apply functional unit assignment of &apos;ADDSUB_DSP&apos;(abmofParseEvents/src/abmof_hw_accel.cpp:102:1) on operation of &apos;DSP_tmp2&apos;, due to incompatible operation sets. The resource directive is discarded." tag=""/>
+	<Message prefix="[SYNCHK 200-23]" severity="WARNING" keynum="579" content="abmofParseEvents/src/abmof_hw_accel.cpp:29: variable-indexed range selection may cause suboptimal QoR." tag=""/>
+	<Message prefix="[SYNCHK 200-10]" severity="INFO" keynum="597" content="0 error(s), 1 warning(s)." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 126.395 ; gain = 68.219" tag=""/>
+	<Message prefix="[XFORM 203-311]" severity="WARNING" keynum="786" content="Cannot apply functional unit assignment of &apos;ADDSUB_DSP&apos;(abmofParseEvents/src/abmof_hw_accel.cpp:102:1) on operation of &apos;DSP_tmp2&apos;, due to incompatible operation sets. The resource directive is discarded." tag=""/>
+	<Message prefix="[XFORM 203-502]" severity="INFO" keynum="813" content="Unrolling all sub-loops inside loop &apos;loop_1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:183) in function &apos;parseEvents&apos; for pipelining." tag=""/>
+	<Message prefix="[XFORM 203-502]" severity="INFO" keynum="817" content="Unrolling all loops for pipelining in function &apos;calcOF&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:93)." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;accumulateHW_label1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:28) in function &apos;parseEvents&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;accumulateHW_label2&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:33) in function &apos;parseEvents&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;readRefBlockLoop1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:96) in function &apos;calcOF&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;readBlockInnerLoop1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:103) in function &apos;calcOF&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;parseEvents_label3&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:106) in function &apos;calcOF&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;calOFLoop1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:117) in function &apos;calcOF&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;calOFInnerLoop1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:119) in function &apos;calcOF&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="692" content="Partitioning array &apos;targetBlocks.V&apos;  in dimension 1 completely." tag=""/>
+	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="692" content="Partitioning array &apos;refBlock.V&apos;  in dimension 1 completely." tag=""/>
+	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="685" content="Partitioning array &apos;glPLSlices.V&apos;  in dimension 2 with a cyclic factor 16." tag=""/>
+	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="692" content="Partitioning array &apos;targetBlocks.V&apos;  in dimension 2 completely." tag=""/>
+	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="692" content="Partitioning array &apos;refBlock.V&apos;  in dimension 2 completely." tag=""/>
+	<Message prefix="[XFORM 203-401]" severity="INFO" keynum="809" content="Performing if-conversion on hyperblock to (abmofParseEvents/src/abmof_hw_accel.cpp:131:1) in function &apos;calcOF&apos;... converting 676 basic blocks." tag=""/>
+	<Message prefix="[XFORM 203-11]" severity="INFO" keynum="754" content="Balancing expressions in function &apos;parseEvents&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:141)...4 expression(s) balanced." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Pre-synthesis Time (s): cpu = 00:00:20 ; elapsed = 00:00:33 . Memory (MB): peak = 169.863 ; gain = 111.688" tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.7&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.4&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.3&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.13&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.11&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.10&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.2&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.15&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.1&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.0&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.6&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.9&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.8&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.12&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.14&apos;." tag=""/>
+	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.5&apos;." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Architecture Synthesis Time (s): cpu = 00:00:33 ; elapsed = 00:00:46 . Memory (MB): peak = 230.379 ; gain = 172.203" tag=""/>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1317" content="Starting hardware synthesis ..." tag=""/>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1385" content="Synthesizing &apos;parseEvents&apos; ..." tag=""/>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1477" content="----------------------------------------------------------------" tag=""/>
+	<Message prefix="[HLS 200-42]" severity="INFO" keynum="HLS_42_1438" content="-- Implementing module &apos;calcOF&apos;" tag=""/>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1478" content="----------------------------------------------------------------" tag=""/>
+	<Message prefix="[SCHED 204-11]" severity="INFO" keynum="139" content="Starting scheduling ..." tag=""/>
+	<Message prefix="[SCHED 204-61]" severity="INFO" keynum="112" content="Pipelining function &apos;calcOF&apos;." tag=""/>
+</Messages>

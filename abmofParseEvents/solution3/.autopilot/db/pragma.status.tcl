@@ -1,0 +1,10 @@
+lappend pragmaStatus0 {pragma "INTERFACE" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents" found 1 funcFound 1 applied 1 ambiguous 0 reason "null"}
+lappend pragmaStatus1 {pragma "INTERFACE" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents" found 1 funcFound 1 applied 1 ambiguous 0 reason "null"}
+lappend pragmaStatus2 {pragma "INLINE" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "accumulateHW" found 1 funcFound 1 applied 1 ambiguous 0 reason "null"}
+lappend pragmaStatus3 {pragma "PIPELINE" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents/loop_1" found 1 funcFound 1 applied 1 ambiguous 0 reason "null"}
+lappend pragmaStatus4 {pragma "DEPENDENCE" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents" found 1 funcFound 1 applied 1 ambiguous 0 reason "null" variable "glPLSlices"}
+lappend pragmaStatus5 {pragma "RESOURCE" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents" found 1 funcFound 1 applied 1 ambiguous 0 reason "null" variable "glPLSlices"}
+lappend pragmaStatus6 {pragma "ARRAY_PARTITION" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents" found 1 funcFound 1 applied 1 ambiguous 0 reason "null" variable "glPLSlices"}
+lappend pragmaStatus7 {pragma "OCCURRENCE" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents/Cond_Region" found 1 funcFound 1 applied 1 ambiguous 0 reason "null"}
+lappend pragmaStatus8 {pragma "ARRAY_PARTITION" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents" found 1 funcFound 1 applied 1 ambiguous 0 reason "null" variable "refBlock"}
+lappend pragmaStatus9 {pragma "ARRAY_PARTITION" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents" found 1 funcFound 1 applied 1 ambiguous 0 reason "null" variable "targetBlocks"}

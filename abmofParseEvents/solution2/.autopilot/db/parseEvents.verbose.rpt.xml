@@ -1,0 +1,510 @@
+<profile>
+
+<section name = "Vivado HLS Report for 'parseEvents'" level="0">
+<item name = "Date">Sat Sep  1 14:58:14 2018
+</item>
+<item name = "Version">2018.1 (Build 2188600 on Wed Apr 04 19:04:02 MDT 2018)</item>
+<item name = "Project">abmofParseEvents</item>
+<item name = "Solution">solution2</item>
+<item name = "Product family">zynq</item>
+<item name = "Target device">xc7z007sclg225-1</item>
+</section>
+
+<section name = "Performance Estimates" level="0">
+<item name = "Timing (ns)">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="4">Clock, Target, Estimated, Uncertainty</keys>
+<column name="ap_clk">10.00, 8.62, 0.10</column>
+</table>
+</item>
+</section>
+</item>
+<item name = "Latency (clock cycles)">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="6">, min, max, min, max, Type</keys>
+<column name="">244, 10263, 244, 10263, none</column>
+</table>
+</item>
+<item name = "Detail">
+<section name = "" level="1">
+<item name = "Instance"><table name="" hasTotal="0">
+<keys size="7">Instance, Module, min, max, min, max, Type</keys>
+</table>
+</item>
+<item name = "Loop"><table name="" hasTotal="0">
+<keys size="8">Loop Name, min, max, Latency, achieved, target, Count, Pipelined</keys>
+<column name="- resetSliceLoop2">240, 240, 1, 1, 1, 240, yes</column>
+<column name="- loop_1">0, 10019, 21, 1, 1, 0 ~ 10000, yes</column>
+</table>
+</item>
+</section>
+</item>
+</section>
+</item>
+</section>
+
+<section name = "Utilization Estimates" level="0">
+<item name = "Summary"><table name="" hasTotal="1">
+<keys size="5">Name, BRAM_18K, DSP48E, FF, LUT</keys>
+<column name="DSP">-, 1, -, -</column>
+<column name="Expression">-, -, 0, 419</column>
+<column name="FIFO">-, -, -, -</column>
+<column name="Instance">-, -, 577, 696</column>
+<column name="Memory">60, -, 0, 0</column>
+<column name="Multiplexer">-, -, -, 1905</column>
+<column name="Register">0, -, 1447, 128</column>
+<specialColumn name="Available">100, 66, 28800, 14400</specialColumn>
+<specialColumn name="Utilization (%)">60, 1, 7, 21</specialColumn>
+</table>
+</item>
+<item name = "Detail">
+<section name = "" level="1">
+<item name = "Instance"><table name="" hasTotal="1">
+<keys size="6">Instance, Module, BRAM_18K, DSP48E, FF, LUT</keys>
+<column name="parseEvents_mux_6bak_U2">parseEvents_mux_6bak, 0, 0, 0, 257</column>
+<column name="parseEvents_urem_9j0_U1">parseEvents_urem_9j0, 0, 0, 577, 439</column>
+</table>
+</item>
+<item name = "DSP48"><table name="" hasTotal="0">
+<keys size="3">Instance, Module, Expression</keys>
+<column name="parseEvents_mul_mbbk_U3">parseEvents_mul_mbbk, i0 * i1</column>
+</table>
+</item>
+<item name = "Memory"><table name="" hasTotal="1">
+<keys size="9">Memory, Module, BRAM_18K, FF, LUT, Words, Bits, Banks, W*Bits*Banks</keys>
+<column name="glPLSlices_V_0_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_1_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_2_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_3_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_4_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_5_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_6_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_7_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_8_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_9_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_10_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_11_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_12_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_13_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_14_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_15_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_16_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_17_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_18_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_19_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_20_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_21_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_22_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_23_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_24_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_25_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_26_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_27_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_28_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_29_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_30_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_31_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_32_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_33_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_34_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_35_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_36_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_37_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_38_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_39_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_40_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_41_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_42_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_43_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_44_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_45_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_46_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_47_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_48_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_49_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_50_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_51_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_52_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_53_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_54_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_55_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_56_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_57_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_58_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+<column name="glPLSlices_V_59_U">parseEvents_glPLSbkb, 1, 0, 0, 240, 36, 1, 8640</column>
+</table>
+</item>
+<item name = "FIFO"><table name="" hasTotal="1">
+<keys size="7">Name, BRAM_18K, FF, LUT, Depth, Bits, Size:D*B</keys>
+</table>
+</item>
+<item name = "Expression"><table name="" hasTotal="1">
+<keys size="7">Variable Name, Operation, DSP48E, FF, LUT, Bitwidth P0, Bitwidth P1</keys>
+<column name="i_fu_2117_p2">+, 0, 0, 38, 31, 1</column>
+<column name="j_fu_1991_p2">+, 0, 0, 15, 8, 1</column>
+<column name="localCnt_fu_2262_p2">+, 0, 0, 23, 16, 1</column>
+<column name="next_mul_fu_2001_p2">+, 0, 0, 24, 9, 17</column>
+<column name="next_urem_fu_2081_p2">+, 0, 0, 15, 8, 1</column>
+<column name="tmp2_fu_2238_p2">+, 0, 0, 25, 25, 1</column>
+<column name="tmpTmpData_V_fu_2571_p2">+, 0, 0, 13, 1, 4</column>
+<column name="tmp_16_fu_2244_p2">+, 0, 0, 25, 25, 25</column>
+<column name="tmp_18_fu_2272_p2">+, 0, 0, 23, 16, 1</column>
+<column name="tmp_8_fu_2196_p2">+, 0, 0, 15, 9, 9</column>
+<column name="ap_block_state6_pp1_stage0_iter2">and, 0, 0, 2, 1, 1</column>
+<column name="p_glPLActiveSliceIdx_3_fu_1973_p2">and, 0, 0, 2, 1, 1</column>
+<column name="exitcond_i_fu_1985_p2">icmp, 0, 0, 11, 8, 6</column>
+<column name="tmp_10_fu_2123_p2">icmp, 0, 0, 18, 31, 1</column>
+<column name="tmp_21_fu_2087_p2">icmp, 0, 0, 11, 8, 6</column>
+<column name="tmp_2_fu_1909_p2">icmp, 0, 0, 8, 2, 1</column>
+<column name="tmp_4_fu_1927_p2">icmp, 0, 0, 9, 2, 3</column>
+<column name="tmp_7_fu_2112_p2">icmp, 0, 0, 18, 32, 32</column>
+<column name="tmp_fu_1895_p2">icmp, 0, 0, 8, 2, 1</column>
+<column name="ap_block_pp1_stage0_01001">or, 0, 0, 2, 1, 1</column>
+<column name="index_assign_1_1_fu_2523_p2">or, 0, 0, 17, 17, 2</column>
+<column name="index_assign_1_2_fu_2541_p2">or, 0, 0, 17, 17, 2</column>
+<column name="index_assign_1_s_fu_2505_p2">or, 0, 0, 17, 17, 1</column>
+<column name="p_glPLActiveSliceIdx_1_fu_1939_p2">or, 0, 0, 2, 1, 1</column>
+<column name="tmp1_fu_1933_p2">or, 0, 0, 2, 1, 1</column>
+<column name="tmp_9_fu_1953_p2">or, 0, 0, 2, 1, 1</column>
+<column name="glPLActiveSliceIdx_V_2_fu_1915_p3">select, 0, 0, 3, 1, 3</column>
+<column name="glPLActiveSliceIdx_V_4_fu_1945_p3">select, 0, 0, 3, 1, 1</column>
+<column name="idx_urem_fu_2093_p3">select, 0, 0, 8, 1, 8</column>
+<column name="p_glPLActiveSliceIdx_2_fu_1959_p3">select, 0, 0, 2, 1, 2</column>
+<column name="p_glPLActiveSliceIdx_s_fu_1901_p3">select, 0, 0, 2, 1, 1</column>
+<column name="storemerge_fu_2250_p3">select, 0, 0, 25, 1, 25</column>
+<column name="tmp_3_cast_fu_2101_p3">select, 0, 0, 8, 1, 8</column>
+<column name="ap_enable_pp1">xor, 0, 0, 2, 1, 2</column>
+<column name="ap_enable_reg_pp1_iter1">xor, 0, 0, 2, 2, 1</column>
+<column name="not_tmp_4_fu_1967_p2">xor, 0, 0, 2, 1, 2</column>
+</table>
+</item>
+<item name = "Multiplexer"><table name="" hasTotal="1">
+<keys size="5">Name, LUT, Input Size, Bits, Total Bits</keys>
+<column name="ap_NS_fsm">33, 6, 1, 6</column>
+<column name="ap_enable_reg_pp1_iter1">9, 2, 1, 2</column>
+<column name="ap_enable_reg_pp1_iter20">9, 2, 1, 2</column>
+<column name="data_blk_n">9, 2, 1, 2</column>
+<column name="eventSlice_blk_n">9, 2, 1, 2</column>
+<column name="glPLSlices_V_0_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_0_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_10_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_10_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_11_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_11_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_12_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_12_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_13_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_13_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_14_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_14_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_15_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_15_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_16_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_16_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_17_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_17_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_18_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_18_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_19_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_19_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_1_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_1_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_20_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_20_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_21_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_21_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_22_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_22_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_23_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_23_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_24_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_24_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_25_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_25_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_26_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_26_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_27_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_27_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_28_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_28_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_29_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_29_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_2_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_2_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_30_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_30_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_31_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_31_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_32_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_32_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_33_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_33_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_34_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_34_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_35_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_35_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_36_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_36_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_37_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_37_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_38_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_38_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_39_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_39_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_3_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_3_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_40_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_40_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_41_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_41_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_42_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_42_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_43_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_43_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_44_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_44_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_45_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_45_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_46_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_46_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_47_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_47_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_48_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_48_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_49_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_49_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_4_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_4_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_50_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_50_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_51_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_51_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_52_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_52_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_53_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_53_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_54_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_54_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_55_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_55_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_56_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_56_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_57_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_57_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_58_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_58_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_59_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_59_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_5_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_5_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_6_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_6_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_7_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_7_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_8_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_8_d1">15, 3, 36, 108</column>
+<column name="glPLSlices_V_9_address1">15, 3, 8, 24</column>
+<column name="glPLSlices_V_9_d1">15, 3, 36, 108</column>
+<column name="j_0_i_reg_1847">9, 2, 8, 16</column>
+<column name="p_08_rec_reg_1880">9, 2, 31, 62</column>
+<column name="phi_mul_reg_1858">9, 2, 17, 34</column>
+<column name="phi_urem_reg_1869">9, 2, 8, 16</column>
+</table>
+</item>
+<item name = "Register"><table name="" hasTotal="1">
+<keys size="5">Name, FF, LUT, Bits, Const Bits</keys>
+<column name="ap_CS_fsm">5, 0, 5, 0</column>
+<column name="ap_enable_reg_pp1_iter0">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter1">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter10">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter11">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter12">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter13">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter14">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter15">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter16">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter17">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter18">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter19">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter2">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter20">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter3">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter4">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter5">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter6">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter7">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter8">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp1_iter9">1, 0, 1, 0</column>
+<column name="glCnt">16, 0, 16, 0</column>
+<column name="glPLActiveSliceIdx_V">2, 0, 2, 0</column>
+<column name="glPLSlices_V_0_addr_1_reg_2758">8, 0, 8, 0</column>
+<column name="glPLSlices_V_0_addr_1_reg_2758_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_10_addr_1_reg_2770">8, 0, 8, 0</column>
+<column name="glPLSlices_V_10_addr_1_reg_2770_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_11_addr_1_reg_2776">8, 0, 8, 0</column>
+<column name="glPLSlices_V_11_addr_1_reg_2776_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_12_addr_1_reg_2782">8, 0, 8, 0</column>
+<column name="glPLSlices_V_12_addr_1_reg_2782_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_13_addr_1_reg_2788">8, 0, 8, 0</column>
+<column name="glPLSlices_V_13_addr_1_reg_2788_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_14_addr_1_reg_2794">8, 0, 8, 0</column>
+<column name="glPLSlices_V_14_addr_1_reg_2794_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_15_addr_1_reg_2800">8, 0, 8, 0</column>
+<column name="glPLSlices_V_15_addr_1_reg_2800_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_16_addr_1_reg_2806">8, 0, 8, 0</column>
+<column name="glPLSlices_V_16_addr_1_reg_2806_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_17_addr_1_reg_2812">8, 0, 8, 0</column>
+<column name="glPLSlices_V_17_addr_1_reg_2812_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_18_addr_1_reg_2818">8, 0, 8, 0</column>
+<column name="glPLSlices_V_18_addr_1_reg_2818_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_19_addr_1_reg_2824">8, 0, 8, 0</column>
+<column name="glPLSlices_V_19_addr_1_reg_2824_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_1_addr_1_reg_2764">8, 0, 8, 0</column>
+<column name="glPLSlices_V_1_addr_1_reg_2764_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_20_addr_1_reg_2836">8, 0, 8, 0</column>
+<column name="glPLSlices_V_20_addr_1_reg_2836_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_21_addr_1_reg_2842">8, 0, 8, 0</column>
+<column name="glPLSlices_V_21_addr_1_reg_2842_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_22_addr_1_reg_2848">8, 0, 8, 0</column>
+<column name="glPLSlices_V_22_addr_1_reg_2848_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_23_addr_1_reg_2854">8, 0, 8, 0</column>
+<column name="glPLSlices_V_23_addr_1_reg_2854_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_24_addr_1_reg_2860">8, 0, 8, 0</column>
+<column name="glPLSlices_V_24_addr_1_reg_2860_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_25_addr_1_reg_2866">8, 0, 8, 0</column>
+<column name="glPLSlices_V_25_addr_1_reg_2866_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_26_addr_1_reg_2872">8, 0, 8, 0</column>
+<column name="glPLSlices_V_26_addr_1_reg_2872_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_27_addr_1_reg_2878">8, 0, 8, 0</column>
+<column name="glPLSlices_V_27_addr_1_reg_2878_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_28_addr_1_reg_2884">8, 0, 8, 0</column>
+<column name="glPLSlices_V_28_addr_1_reg_2884_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_29_addr_1_reg_2890">8, 0, 8, 0</column>
+<column name="glPLSlices_V_29_addr_1_reg_2890_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_2_addr_1_reg_2830">8, 0, 8, 0</column>
+<column name="glPLSlices_V_2_addr_1_reg_2830_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_30_addr_1_reg_2902">8, 0, 8, 0</column>
+<column name="glPLSlices_V_30_addr_1_reg_2902_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_31_addr_1_reg_2908">8, 0, 8, 0</column>
+<column name="glPLSlices_V_31_addr_1_reg_2908_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_32_addr_1_reg_2914">8, 0, 8, 0</column>
+<column name="glPLSlices_V_32_addr_1_reg_2914_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_33_addr_1_reg_2920">8, 0, 8, 0</column>
+<column name="glPLSlices_V_33_addr_1_reg_2920_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_34_addr_1_reg_2926">8, 0, 8, 0</column>
+<column name="glPLSlices_V_34_addr_1_reg_2926_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_35_addr_1_reg_2932">8, 0, 8, 0</column>
+<column name="glPLSlices_V_35_addr_1_reg_2932_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_36_addr_1_reg_2938">8, 0, 8, 0</column>
+<column name="glPLSlices_V_36_addr_1_reg_2938_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_37_addr_1_reg_2944">8, 0, 8, 0</column>
+<column name="glPLSlices_V_37_addr_1_reg_2944_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_38_addr_1_reg_2950">8, 0, 8, 0</column>
+<column name="glPLSlices_V_38_addr_1_reg_2950_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_39_addr_1_reg_2956">8, 0, 8, 0</column>
+<column name="glPLSlices_V_39_addr_1_reg_2956_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_3_addr_1_reg_2896">8, 0, 8, 0</column>
+<column name="glPLSlices_V_3_addr_1_reg_2896_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_40_addr_1_reg_2968">8, 0, 8, 0</column>
+<column name="glPLSlices_V_40_addr_1_reg_2968_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_41_addr_1_reg_2974">8, 0, 8, 0</column>
+<column name="glPLSlices_V_41_addr_1_reg_2974_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_42_addr_1_reg_2980">8, 0, 8, 0</column>
+<column name="glPLSlices_V_42_addr_1_reg_2980_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_43_addr_1_reg_2986">8, 0, 8, 0</column>
+<column name="glPLSlices_V_43_addr_1_reg_2986_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_44_addr_1_reg_2992">8, 0, 8, 0</column>
+<column name="glPLSlices_V_44_addr_1_reg_2992_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_45_addr_1_reg_2998">8, 0, 8, 0</column>
+<column name="glPLSlices_V_45_addr_1_reg_2998_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_46_addr_1_reg_3004">8, 0, 8, 0</column>
+<column name="glPLSlices_V_46_addr_1_reg_3004_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_47_addr_1_reg_3010">8, 0, 8, 0</column>
+<column name="glPLSlices_V_47_addr_1_reg_3010_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_48_addr_1_reg_3016">8, 0, 8, 0</column>
+<column name="glPLSlices_V_48_addr_1_reg_3016_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_49_addr_1_reg_3022">8, 0, 8, 0</column>
+<column name="glPLSlices_V_49_addr_1_reg_3022_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_4_addr_1_reg_2962">8, 0, 8, 0</column>
+<column name="glPLSlices_V_4_addr_1_reg_2962_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_50_addr_1_reg_3034">8, 0, 8, 0</column>
+<column name="glPLSlices_V_50_addr_1_reg_3034_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_51_addr_1_reg_3040">8, 0, 8, 0</column>
+<column name="glPLSlices_V_51_addr_1_reg_3040_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_52_addr_1_reg_3046">8, 0, 8, 0</column>
+<column name="glPLSlices_V_52_addr_1_reg_3046_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_53_addr_1_reg_3052">8, 0, 8, 0</column>
+<column name="glPLSlices_V_53_addr_1_reg_3052_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_54_addr_1_reg_3058">8, 0, 8, 0</column>
+<column name="glPLSlices_V_54_addr_1_reg_3058_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_55_addr_1_reg_3064">8, 0, 8, 0</column>
+<column name="glPLSlices_V_55_addr_1_reg_3064_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_56_addr_1_reg_3070">8, 0, 8, 0</column>
+<column name="glPLSlices_V_56_addr_1_reg_3070_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_57_addr_1_reg_3076">8, 0, 8, 0</column>
+<column name="glPLSlices_V_57_addr_1_reg_3076_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_58_addr_1_reg_3082">8, 0, 8, 0</column>
+<column name="glPLSlices_V_58_addr_1_reg_3082_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_59_addr_1_reg_3088">8, 0, 8, 0</column>
+<column name="glPLSlices_V_59_addr_1_reg_3088_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_5_addr_1_reg_3028">8, 0, 8, 0</column>
+<column name="glPLSlices_V_5_addr_1_reg_3028_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_6_addr_1_reg_3094">8, 0, 8, 0</column>
+<column name="glPLSlices_V_6_addr_1_reg_3094_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_7_addr_1_reg_3100">8, 0, 8, 0</column>
+<column name="glPLSlices_V_7_addr_1_reg_3100_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_8_addr_1_reg_3106">8, 0, 8, 0</column>
+<column name="glPLSlices_V_8_addr_1_reg_3106_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="glPLSlices_V_9_addr_1_reg_3112">8, 0, 8, 0</column>
+<column name="glPLSlices_V_9_addr_1_reg_3112_pp1_iter19_reg">8, 0, 8, 0</column>
+<column name="i_op_assign_fu_384">16, 0, 16, 0</column>
+<column name="j_0_i_reg_1847">8, 0, 8, 0</column>
+<column name="p_08_rec_reg_1880">31, 0, 31, 0</column>
+<column name="p_glPLActiveSliceIdx_3_reg_2676">1, 0, 1, 0</column>
+<column name="phi_mul_reg_1858">17, 0, 17, 0</column>
+<column name="phi_urem_reg_1869">8, 0, 8, 0</column>
+<column name="sum">0, 0, 16, 16</column>
+<column name="tmp_10_reg_2722">1, 0, 1, 0</column>
+<column name="tmp_10_reg_2722_pp1_iter1_reg">1, 0, 1, 0</column>
+<column name="tmp_11_reg_2743">15, 0, 15, 0</column>
+<column name="tmp_20_reg_2734">1, 0, 1, 0</column>
+<column name="tmp_22_reg_3118">7, 0, 7, 0</column>
+<column name="tmp_34_reg_3122">36, 0, 36, 0</column>
+<column name="tmp_35_reg_2748">1, 0, 1, 0</column>
+<column name="tmp_3_cast_reg_2708">4, 0, 9, 5</column>
+<column name="tmp_6_reg_2738">15, 0, 15, 0</column>
+<column name="tmp_7_reg_2713">1, 0, 1, 0</column>
+<column name="tmp_8_reg_2753">9, 0, 9, 0</column>
+<column name="x_reg_2727">15, 0, 15, 0</column>
+<column name="tmp_20_reg_2734">64, 32, 1, 0</column>
+<column name="tmp_6_reg_2738">64, 32, 15, 0</column>
+<column name="tmp_7_reg_2713">64, 32, 1, 0</column>
+<column name="tmp_8_reg_2753">64, 32, 9, 0</column>
+</table>
+</item>
+</section>
+</item>
+</section>
+
+<section name = "Interface" level="0">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="6">RTL Ports, Dir, Bits, Protocol, Source Object, C Type</keys>
+<column name="ap_clk">in, 1, ap_ctrl_hs, parseEvents, return value</column>
+<column name="ap_rst">in, 1, ap_ctrl_hs, parseEvents, return value</column>
+<column name="ap_start">in, 1, ap_ctrl_hs, parseEvents, return value</column>
+<column name="ap_done">out, 1, ap_ctrl_hs, parseEvents, return value</column>
+<column name="ap_idle">out, 1, ap_ctrl_hs, parseEvents, return value</column>
+<column name="ap_ready">out, 1, ap_ctrl_hs, parseEvents, return value</column>
+<column name="data_dout">in, 64, ap_fifo, data, pointer</column>
+<column name="data_empty_n">in, 1, ap_fifo, data, pointer</column>
+<column name="data_read">out, 1, ap_fifo, data, pointer</column>
+<column name="eventsArraySize">in, 32, ap_none, eventsArraySize, scalar</column>
+<column name="eventSlice_din">out, 32, ap_fifo, eventSlice, pointer</column>
+<column name="eventSlice_full_n">in, 1, ap_fifo, eventSlice, pointer</column>
+<column name="eventSlice_write">out, 1, ap_fifo, eventSlice, pointer</column>
+</table>
+</item>
+</section>
+</profile>

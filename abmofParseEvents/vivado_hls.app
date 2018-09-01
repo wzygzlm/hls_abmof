@@ -9,7 +9,11 @@
         <file name="abmofParseEvents/src/abmof_hw_accel.cpp" sc="0" tb="false" cflags=""/>
     </files>
     <solutions xmlns="">
-        <solution name="solution1" status="active"/>
+        <solution name="solution1" status="inactive"/>
+        <solution name="solution2" status="inactive"/>
+        <solution name="solution3" status="inactive"/>
+        <solution name="solution4" status="inactive"/>
+        <solution name="solution5" status="active"/>
     </solutions>
 </project>
 
