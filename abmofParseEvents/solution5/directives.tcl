@@ -7,13 +7,10 @@ set_directive_interface -mode ap_fifo "parseEvents" eventSlice
 set_directive_interface -mode ap_fifo "parseEvents" data
 set_directive_inline "accumulateHW"
 set_directive_pipeline "parseEvents/loop_1"
-set_directive_dependence -variable glPLSlices -type inter -direction RAW -dependent false "parseEvents"
-set_directive_resource -core RAM_2P_BRAM "parseEvents" glPLSlices
-set_directive_array_partition -type cyclic -factor 16 -dim 2 "parseEvents" glPLSlices
 set_directive_occurrence -cycle 5000 "parseEvents/Cond_Region"
-set_directive_array_partition -type complete -dim 0 "parseEvents" refBlock
-set_directive_array_partition -type complete -dim 0 "parseEvents" targetBlocks
-set_directive_resource -core AddSub_DSP "calcOF/readRefBlockLoop1" tmp1
-set_directive_resource -core AddSub_DSP "calcOF/readRefBlockLoop1" tmp2
-set_directive_allocation -limit 60 -type core "calcOF" AddSub_DSP
-set_directive_resource -core AddSub_DSP "calcOF/calOFInnerLoop1" tmpSum
+set_directive_resource -core RAM_T2P_BRAM "parseEvents" glPLSlice0
+set_directive_resource -core RAM_T2P_BRAM "parseEvents" glPLSlice1
+set_directive_resource -core RAM_T2P_BRAM "parseEvents" glPLSlice2
+set_directive_array_partition -type cyclic -factor 4 -dim 1 "parseEvents" glPLSlice0
+set_directive_array_partition -type cyclic -factor 4 -dim 1 "parseEvents" glPLSlice1
+set_directive_array_partition -type cyclic -factor 4 -dim 1 "parseEvents" glPLSlice2

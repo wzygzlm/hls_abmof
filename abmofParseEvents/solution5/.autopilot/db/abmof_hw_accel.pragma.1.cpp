@@ -23109,13 +23109,13 @@ struct ap_ufixed: ap_fixed_base<_AP_W, _AP_I, false, _AP_Q, _AP_O, _AP_N> {
 };
 #3 "abmofParseEvents/src/abmof_hw_accel.cpp" 2
 
-typedef ap_int<1> pix_t;
+typedef ap_int<4> pix_t;
 typedef ap_uint<2> sliceIdx_t;
 
-typedef ap_int<9 * 4> col_pix_t;
+typedef ap_int<180> col_pix_t;
 
+static col_pix_t glPLSlice0[240 * 4], glPLSlice1[240 * 4], glPLSlice2[240 * 4];
 
-static col_pix_t glPLSlices[3][240 * 1 * 20];
 
 static sliceIdx_t glPLActiveSliceIdx, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
 static uint16_t glCnt;
@@ -23129,99 +23129,81 @@ _ssdm_InlineSelf(0, "");
 
  col_pix_t tmpData;
  ap_int<4> tmpTmpData;
+
+ ap_int<7> yNewIdx = y/4;
+ ap_int<10> xNewIdx = x * 4 + y - 4 * yNewIdx;
+
  if (pol == true)
  {
-
-
-
-  tmpData = glPLSlices[glPLActiveSliceIdx][x];
-  accumulateHW_label1:for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+#41 "abmofParseEvents/src/abmof_hw_accel.cpp"
+  if(glPLActiveSliceIdx == 0)
   {
-   tmpTmpData[yIndex] = tmpData[4*y + yIndex];
+
+
+
+   tmpData = glPLSlice0[xNewIdx];
+
+   for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+   {
+    tmpTmpData[yIndex] = tmpData[4*yNewIdx + yIndex];
+   }
+   tmpTmpData += 1;
+
+   for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+   {
+    tmpData[4*yNewIdx + yIndex] = tmpTmpData[yIndex];
+   }
+
+   glPLSlice0[xNewIdx] = tmpData;
   }
-  tmpTmpData += 1;
-  accumulateHW_label2:for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+  else if(glPLActiveSliceIdx == 1)
   {
-   tmpData[4*y + yIndex] = tmpTmpData[yIndex];
+
+
+
+   tmpData = glPLSlice1[xNewIdx];
+
+   for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+   {
+    tmpTmpData[yIndex] = tmpData[4*yNewIdx + yIndex];
+   }
+   tmpTmpData += 1;
+
+   for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+   {
+    tmpData[4*yNewIdx + yIndex] = tmpTmpData[yIndex];
+   }
+
+   glPLSlice1[xNewIdx] = tmpData;
   }
-  glPLSlices[glPLActiveSliceIdx][x] = tmpData;
+  else if(glPLActiveSliceIdx == 2)
+  {
+
+
+
+   tmpData = glPLSlice2[xNewIdx];
+
+   for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+   {
+    tmpTmpData[yIndex] = tmpData[4*yNewIdx + yIndex];
+   }
+   tmpTmpData += 1;
+
+   for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+   {
+    tmpData[4*yNewIdx + yIndex] = tmpTmpData[yIndex];
+   }
+
+   glPLSlice2[xNewIdx] = tmpData;
+  }
  }
 }
-#53 "abmofParseEvents/src/abmof_hw_accel.cpp"
-void resetCurrentSliceHW()
-{
-
-
-
-
-  resetSliceLoop2:for(int16_t j = 0; j < 240 * 1 *20; j++)
-  {
-   glPLSlices[glPLActiveSliceIdx][j][0] = 0;
-  }
-}
-#88 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#152 "abmofParseEvents/src/abmof_hw_accel.cpp"
 int16_t sum;
 
 ap_int<4> refBlock[15][15];
 ap_int<4> targetBlocks[15][15];
-
-void calcOF(int16_t x, int16_t y)
-{
-_ssdm_op_SpecResourceLimit(60, "", "AddSub_DSP", "", "");
-#94 "abmofParseEvents/src/abmof_hw_accel.cpp"
-
- readRefBlockLoop1: for(int8_t k = 0; k < 15; k++)
- {
-  col_pix_t tmp1, tmp2;
-
-  {_ssdm_RegionBegin("?AddSub_DSP_tmp1_Region_1807081");
-tmp1 = glPLSlices[glPLTminus1SliceIdx][15 * x + k];
-_ssdm_op_SpecResource(&tmp1, "?AddSub_DSP_tmp1_Region_1807081", "", "AddSub_DSP", "", -1, "", "", "", "", "");
-_ssdm_RegionEnd("?AddSub_DSP_tmp1_Region_1807081");}
-#99 "abmofParseEvents/src/abmof_hw_accel.cpp"
-
-  {_ssdm_RegionBegin("?AddSub_DSP_tmp2_Region_1807136");
-tmp2 = glPLSlices[glPLTminus2SliceIdx][15 * x + k];
-_ssdm_op_SpecResource(&tmp2, "?AddSub_DSP_tmp2_Region_1807136", "", "AddSub_DSP", "", -1, "", "", "", "", "");
-_ssdm_RegionEnd("?AddSub_DSP_tmp2_Region_1807136");}
-#100 "abmofParseEvents/src/abmof_hw_accel.cpp"
-
-
-  readBlockInnerLoop1: for(int8_t l = 0; l < 15; l++)
-  {
-   ap_int<4> tmpTmp1, tmpTmp2;
-   parseEvents_label3:for(int8_t yIndex = 0; yIndex < 4; yIndex++)
-   {
-    tmpTmp1[yIndex] = tmp1[4*y + yIndex];
-    tmpTmp2[yIndex] = tmp2[4*y + yIndex];
-   }
-   refBlock[k][l] = tmpTmp1;
-   targetBlocks[k][l] = tmpTmp2;
-  }
- }
-
-
- calOFLoop1:for(int8_t m = 0; m < 15; m++)
- {
-  calOFInnerLoop1:for(int8_t n = 0; n < 15; n++)
-  {
-   ap_int<5> tmpSum = refBlock[m][n] - targetBlocks[m][n];
-_ssdm_op_SpecResource(&tmpSum, "", "AddSub_DSP", "", -1, "", "", "", "", "");
-#120 "abmofParseEvents/src/abmof_hw_accel.cpp"
-
-   if ( tmpSum < 0)
-   {
-    sum = sum - tmpSum;
-   }
-   else
-   {
-    sum = sum + tmpSum;
-   }
-  }
- }
-}
-
-
+#198 "abmofParseEvents/src/abmof_hw_accel.cpp"
 #pragma SDS data access_pattern(data:SEQUENTIAL, eventSlice:SEQUENTIAL)
 
 
@@ -23231,26 +23213,29 @@ _ssdm_op_SpecResource(&tmpSum, "", "AddSub_DSP", "", -1, "", "", "", "", "");
 
 void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice)
 {
-_ssdm_SpecArrayPartition( targetBlocks, 0, "COMPLETE", 0, "");
-#142 "abmofParseEvents/src/abmof_hw_accel.cpp"
+_ssdm_SpecArrayPartition( glPLSlice2, 1, "CYCLIC", 4, "");
+#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
-_ssdm_SpecArrayPartition( refBlock, 0, "COMPLETE", 0, "");
-#142 "abmofParseEvents/src/abmof_hw_accel.cpp"
+_ssdm_SpecArrayPartition( glPLSlice1, 1, "CYCLIC", 4, "");
+#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
-_ssdm_SpecArrayPartition( glPLSlices, 2, "CYCLIC", 16, "");
-#142 "abmofParseEvents/src/abmof_hw_accel.cpp"
+_ssdm_SpecArrayPartition( glPLSlice0, 1, "CYCLIC", 4, "");
+#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
-_ssdm_op_SpecResource(glPLSlices, "", "RAM_2P_BRAM", "", -1, "", "", "", "", "");
-#142 "abmofParseEvents/src/abmof_hw_accel.cpp"
+_ssdm_op_SpecResource(glPLSlice2, "", "RAM_T2P_BRAM", "", -1, "", "", "", "", "");
+#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
-_ssdm_SpecDependence( glPLSlices, 0, 0, 0, 0, 1);
-#142 "abmofParseEvents/src/abmof_hw_accel.cpp"
+_ssdm_op_SpecResource(glPLSlice1, "", "RAM_T2P_BRAM", "", -1, "", "", "", "", "");
+#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+
+_ssdm_op_SpecResource(glPLSlice0, "", "RAM_T2P_BRAM", "", -1, "", "", "", "", "");
+#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 _ssdm_op_SpecInterface(data, "ap_fifo", 0, 0, "", 0, 0, "", "", "", 0, 0, 0, 0, "", "");
-#142 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 _ssdm_op_SpecInterface(eventSlice, "ap_fifo", 0, 0, "", 0, 0, "", "", "", 0, 0, 0, 0, "", "");
-#142 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 
  if(glPLActiveSliceIdx == 0)
@@ -23260,14 +23245,14 @@ _ssdm_op_SpecInterface(eventSlice, "ap_fifo", 0, 0, "", 0, 0, "", "", "", 0, 0, 
   glPLTminus1SliceIdx = 0;
   glPLTminus2SliceIdx = 2;
  }
- if(glPLActiveSliceIdx == 1)
+ else if(glPLActiveSliceIdx == 1)
  {
   glPLActiveSliceIdx = 2;
 
   glPLTminus1SliceIdx = 1;
   glPLTminus2SliceIdx = 0;
  }
- if(glPLActiveSliceIdx == 2)
+ else if(glPLActiveSliceIdx == 2)
  {
   glPLActiveSliceIdx = 0;
 
@@ -23294,20 +23279,20 @@ _ssdm_op_SpecInterface(eventSlice, "ap_fifo", 0, 0, "", 0, 0, "", "", "", 0, 0, 
  loop_1:for(int32_t i = 0; i < eventsArraySize; i = i + 1)
  {
 _ssdm_op_SpecPipeline(-1, 1, 1, 0, "");
-#183 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#247 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 
 _ssdm_op_SpecLoopTripCount(0, 10000, 5000, "");
  uint64_t tmp = data[i];
-  int16_t x = ((tmp) >> 17) & 0x00007FFF;
-  int16_t y = ((tmp) >> 2) & 0x00007FFF;
+  int16_t x = ((tmp) >> 17) & 0x000001FF;
+  int16_t y = ((tmp) >> 2) & 0x000001FF;
   bool pol = ((tmp) >> 1) & 0x00000001;
   int64_t ts = tmp >> 32;
 
   Cond_Region:
   {
 _ssdm_op_SpecOccurrence(5000, "");
-#193 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#257 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
    if (ts > 10000)
     {
@@ -23317,20 +23302,18 @@ _ssdm_op_SpecOccurrence(5000, "");
 
 
   accumulateHW(x, y, pol, ts);
-#215 "abmofParseEvents/src/abmof_hw_accel.cpp"
-  calcOF(x, y);
-#312 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#376 "abmofParseEvents/src/abmof_hw_accel.cpp"
   if (i == 0)
   {
 
-   *eventSlice = localCnt + refBlock[i][i] + targetBlocks[i][i];
+   *eventSlice = glPLSlice0[x+1] + glPLSlice1[x+1] + glPLSlice2[x+1] + localCnt + refBlock[i][i] + targetBlocks[i][i];
 
 
   }
   else
   {
 
-   *eventSlice = x + (y << 8) + (pol << 16) + sum + + refBlock[i][i] + targetBlocks[i][i];
+   *eventSlice = glPLSlice0[x+1] + glPLSlice1[x+1] + glPLSlice2[x+1] + (y << 8) + refBlock[i][i] + targetBlocks[i][i];
 
 
   }

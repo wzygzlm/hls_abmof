@@ -1,0 +1,256 @@
+
+
+================================================================
+== Vivado HLS Report for 'parseEvents'
+================================================================
+* Date:           Sat Sep  1 23:44:36 2018
+
+* Version:        2018.1 (Build 2188600 on Wed Apr 04 19:04:02 MDT 2018)
+* Project:        abmofParseEvents
+* Solution:       solution5
+* Product family: zynq
+* Target device:  xc7z007sclg225-1
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing (ns): 
+    * Summary: 
+    +--------+-------+----------+------------+
+    |  Clock | Target| Estimated| Uncertainty|
+    +--------+-------+----------+------------+
+    |ap_clk  |  10.00|     10.20|        0.10|
+    +--------+-------+----------+------------+
+
++ Latency (clock cycles): 
+    * Summary: 
+    +-----+-------+-----+-------+---------+
+    |   Latency   |   Interval  | Pipeline|
+    | min |  max  | min |  max  |   Type  |
+    +-----+-------+-----+-------+---------+
+    |    2|  20006|    2|  20006|   none  |
+    +-----+-------+-----+-------+---------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +----------+-----+-------+----------+-----------+-----------+-----------+----------+
+        |          |   Latency   | Iteration|  Initiation Interval  |    Trip   |          |
+        | Loop Name| min |  max  |  Latency |  achieved |   target  |   Count   | Pipelined|
+        +----------+-----+-------+----------+-----------+-----------+-----------+----------+
+        |- loop_1  |    0|  20004|         7|          2|          1| 0 ~ 10000 |    yes   |
+        +----------+-----+-------+----------+-----------+-----------+-----------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+-------+-------+-------+
+|       Name      | BRAM_18K| DSP48E|   FF  |  LUT  |
++-----------------+---------+-------+-------+-------+
+|DSP              |        -|      -|      -|      -|
+|Expression       |        -|      -|      0|    537|
+|FIFO             |        -|      -|      -|      -|
+|Instance         |        -|      -|      0|    126|
+|Memory           |      120|      -|      0|      0|
+|Multiplexer      |        -|      -|      -|    303|
+|Register         |        0|      -|    515|     96|
++-----------------+---------+-------+-------+-------+
+|Total            |      120|      0|    515|   1062|
++-----------------+---------+-------+-------+-------+
+|Available        |      100|     66|  28800|  14400|
++-----------------+---------+-------+-------+-------+
+|Utilization (%)  |      120|      0|      1|      7|
++-----------------+---------+-------+-------+-------+
+
++ Detail: 
+    * Instance: 
+    +-------------------------+----------------------+---------+-------+---+----+
+    |         Instance        |        Module        | BRAM_18K| DSP48E| FF| LUT|
+    +-------------------------+----------------------+---------+-------+---+----+
+    |parseEvents_mux_4ncg_U1  |parseEvents_mux_4ncg  |        0|      0|  0|  21|
+    |parseEvents_mux_4ncg_U2  |parseEvents_mux_4ncg  |        0|      0|  0|  21|
+    |parseEvents_mux_4ncg_U3  |parseEvents_mux_4ncg  |        0|      0|  0|  21|
+    |parseEvents_mux_4ncg_U4  |parseEvents_mux_4ncg  |        0|      0|  0|  21|
+    |parseEvents_mux_4ncg_U5  |parseEvents_mux_4ncg  |        0|      0|  0|  21|
+    |parseEvents_mux_4ncg_U6  |parseEvents_mux_4ncg  |        0|      0|  0|  21|
+    +-------------------------+----------------------+---------+-------+---+----+
+    |Total                    |                      |        0|      0|  0| 126|
+    +-------------------------+----------------------+---------+-------+---+----+
+
+    * DSP48: 
+    N/A
+
+    * Memory: 
+    +------------------+----------------------+---------+---+----+------+-----+------+-------------+
+    |      Memory      |        Module        | BRAM_18K| FF| LUT| Words| Bits| Banks| W*Bits*Banks|
+    +------------------+----------------------+---------+---+----+------+-----+------+-------------+
+    |glPLSlice0_V_0_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice0_V_1_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice0_V_2_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice0_V_3_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice1_V_0_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice1_V_1_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice1_V_2_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice1_V_3_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice2_V_0_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice2_V_1_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice2_V_2_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    |glPLSlice2_V_3_U  |parseEvents_glPLSbkb  |       10|  0|   0|   240|  180|     1|        43200|
+    +------------------+----------------------+---------+---+----+------+-----+------+-------------+
+    |Total             |                      |      120|  0|   0|  2880| 2160|    12|       518400|
+    +------------------+----------------------+---------+---+----+------+-----+------+-------------+
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +----------------------------------+----------+-------+---+----+------------+------------+
+    |           Variable Name          | Operation| DSP48E| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +----------------------------------+----------+-------+---+----+------------+------------+
+    |eventSlice_din                    |     +    |      0|  0|  32|          32|          32|
+    |i_fu_565_p2                       |     +    |      0|  0|  38|          31|           1|
+    |localCnt_fu_1335_p2               |     +    |      0|  0|  23|           1|          16|
+    |tmp1_fu_1324_p2                   |     +    |      0|  0|  32|          32|          32|
+    |tmp2_fu_1293_p2                   |     +    |      0|  0|  39|          32|          32|
+    |tmpTmpData_V_1_fu_965_p2          |     +    |      0|  0|  13|           1|           4|
+    |tmpTmpData_V_2_fu_797_p2          |     +    |      0|  0|  13|           1|           4|
+    |tmpTmpData_V_fu_1133_p2           |     +    |      0|  0|  13|           1|           4|
+    |tmp_27_fu_639_p2                  |     +    |      0|  0|  14|           1|          10|
+    |tmp_35_fu_1345_p2                 |     +    |      0|  0|  23|           1|          16|
+    |xNewIdx_V_fu_692_p2               |     +    |      0|  0|  32|          10|          10|
+    |p_0505_0_i_fu_686_p2              |     -    |      0|  0|  32|          10|          10|
+    |ap_block_pp0_stage0_01001         |    and   |      0|  0|   2|           1|           1|
+    |ap_block_pp0_stage1_11001         |    and   |      0|  0|   2|           1|           1|
+    |ap_block_state3_pp0_stage1_iter0  |    and   |      0|  0|   2|           1|           1|
+    |ap_block_state8_pp0_stage0_iter3  |    and   |      0|  0|   2|           1|           1|
+    |ap_condition_392                  |    and   |      0|  0|   2|           1|           1|
+    |ap_condition_398                  |    and   |      0|  0|   2|           1|           1|
+    |tmp_1_fu_508_p2                   |   icmp   |      0|  0|   8|           2|           1|
+    |tmp_26_fu_571_p2                  |   icmp   |      0|  0|  18|          31|           1|
+    |tmp_2_fu_514_p2                   |   icmp   |      0|  0|   9|           2|           3|
+    |tmp_3_fu_560_p2                   |   icmp   |      0|  0|  18|          32|          32|
+    |tmp_7_fu_544_p2                   |   icmp   |      0|  0|   8|           2|           1|
+    |tmp_9_fu_550_p2                   |   icmp   |      0|  0|   9|           2|           3|
+    |tmp_fu_502_p2                     |   icmp   |      0|  0|   8|           2|           1|
+    |tmp_s_fu_538_p2                   |   icmp   |      0|  0|   8|           2|           1|
+    |grp_fu_487_p2                     |    or    |      0|  0|   9|           9|           2|
+    |grp_fu_492_p2                     |    or    |      0|  0|   9|           9|           2|
+    |index_assign_1_s_fu_1083_p2       |    or    |      0|  0|  32|          32|           1|
+    |index_assign_5_s_fu_915_p2        |    or    |      0|  0|  32|          32|           1|
+    |index_assign_9_s_fu_747_p2        |    or    |      0|  0|  32|          32|           1|
+    |i_op_assign_7_pn_fu_1313_p3       |  select  |      0|  0|  17|           1|          17|
+    |ap_enable_pp0                     |    xor   |      0|  0|   2|           1|           2|
+    |ap_enable_reg_pp0_iter1           |    xor   |      0|  0|   2|           2|           1|
+    +----------------------------------+----------+-------+---+----+------------+------------+
+    |Total                             |          |      0|  0| 537|         352|         247|
+    +----------------------------------+----------+-------+---+----+------------+------------+
+
+    * Multiplexer: 
+    +-------------------------------------------------+----+-----------+-----+-----------+
+    |                       Name                      | LUT| Input Size| Bits| Total Bits|
+    +-------------------------------------------------+----+-----------+-----+-----------+
+    |ap_NS_fsm                                        |  27|          5|    1|          5|
+    |ap_enable_reg_pp0_iter1                          |   9|          2|    1|          2|
+    |ap_enable_reg_pp0_iter3                          |   9|          2|    1|          2|
+    |ap_phi_mux_glPLActiveSliceIdx_V_2_phi_fu_454_p8  |  27|          5|    2|         10|
+    |ap_phi_mux_p_019_rec_phi_fu_471_p4               |   9|          2|   31|         62|
+    |data_blk_n                                       |   9|          2|    1|          2|
+    |eventSlice_blk_n                                 |   9|          2|    1|          2|
+    |glPLActiveSliceIdx_V                             |  15|          3|    2|          6|
+    |glPLSlice0_V_0_address0                          |  15|          3|    8|         24|
+    |glPLSlice0_V_1_address0                          |  15|          3|    8|         24|
+    |glPLSlice0_V_2_address0                          |  15|          3|    8|         24|
+    |glPLSlice0_V_3_address0                          |  15|          3|    8|         24|
+    |glPLSlice1_V_0_address0                          |  15|          3|    8|         24|
+    |glPLSlice1_V_1_address0                          |  15|          3|    8|         24|
+    |glPLSlice1_V_2_address0                          |  15|          3|    8|         24|
+    |glPLSlice1_V_3_address0                          |  15|          3|    8|         24|
+    |glPLSlice2_V_0_address0                          |  15|          3|    8|         24|
+    |glPLSlice2_V_1_address0                          |  15|          3|    8|         24|
+    |glPLSlice2_V_2_address0                          |  15|          3|    8|         24|
+    |glPLSlice2_V_3_address0                          |  15|          3|    8|         24|
+    |p_019_rec_reg_467                                |   9|          2|   31|         62|
+    +-------------------------------------------------+----+-----------+-----+-----------+
+    |Total                                            | 303|         61|  167|        441|
+    +-------------------------------------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +----------------------------------+----+----+-----+-----------+
+    |               Name               | FF | LUT| Bits| Const Bits|
+    +----------------------------------+----+----+-----+-----------+
+    |ap_CS_fsm                         |   4|   0|    4|          0|
+    |ap_enable_reg_pp0_iter0           |   1|   0|    1|          0|
+    |ap_enable_reg_pp0_iter1           |   1|   0|    1|          0|
+    |ap_enable_reg_pp0_iter2           |   1|   0|    1|          0|
+    |ap_enable_reg_pp0_iter3           |   1|   0|    1|          0|
+    |arrayNo3_reg_1435                 |   2|   0|    2|          0|
+    |arrayNo3_reg_1435_pp0_iter1_reg   |   2|   0|    2|          0|
+    |glCnt                             |  16|   0|   16|          0|
+    |glPLActiveSliceIdx_V              |   2|   0|    2|          0|
+    |glPLSlice0_V_0_addr_reg_1496      |   8|   0|    8|          0|
+    |glPLSlice0_V_1_addr_reg_1501      |   8|   0|    8|          0|
+    |glPLSlice0_V_2_addr_reg_1506      |   8|   0|    8|          0|
+    |glPLSlice0_V_3_addr_reg_1511      |   8|   0|    8|          0|
+    |glPLSlice1_V_0_addr_reg_1476      |   8|   0|    8|          0|
+    |glPLSlice1_V_1_addr_reg_1481      |   8|   0|    8|          0|
+    |glPLSlice1_V_2_addr_reg_1486      |   8|   0|    8|          0|
+    |glPLSlice1_V_3_addr_reg_1491      |   8|   0|    8|          0|
+    |glPLSlice2_V_0_addr_reg_1456      |   8|   0|    8|          0|
+    |glPLSlice2_V_1_addr_reg_1461      |   8|   0|    8|          0|
+    |glPLSlice2_V_2_addr_reg_1466      |   8|   0|    8|          0|
+    |glPLSlice2_V_3_addr_reg_1471      |   8|   0|    8|          0|
+    |i_op_assign_fu_152                |  16|   0|   16|          0|
+    |i_reg_1398                        |  31|   0|   31|          0|
+    |newIndex6_reg_1442                |   8|   0|    8|          0|
+    |newIndex6_reg_1442_pp0_iter1_reg  |   8|   0|    8|          0|
+    |p_019_rec_reg_467                 |  31|   0|   31|          0|
+    |tmp2_reg_1581                     |  32|   0|   32|          0|
+    |tmp_11_reg_1423                   |   7|   0|    7|          0|
+    |tmp_12_reg_1447                   |   7|   0|    9|          2|
+    |tmp_13_reg_1428                   |   2|   0|    2|          0|
+    |tmp_14_reg_1414                   |   1|   0|    1|          0|
+    |tmp_26_reg_1403                   |   1|   0|    1|          0|
+    |tmp_3_reg_1394                    |   1|   0|    1|          0|
+    |tmp_57_reg_1576                   |  32|   0|   32|          0|
+    |tmp_7_reg_1386                    |   1|   0|    1|          0|
+    |tmp_8_reg_1418                    |   8|   0|    8|          0|
+    |tmp_9_reg_1390                    |   1|   0|    1|          0|
+    |tmp_s_reg_1382                    |   1|   0|    1|          0|
+    |y_reg_1408                        |   9|   0|    9|          0|
+    |tmp_26_reg_1403                   |  64|  32|    1|          0|
+    |tmp_3_reg_1394                    |  64|  32|    1|          0|
+    |y_reg_1408                        |  64|  32|    9|          0|
+    +----------------------------------+----+----+-----+-----------+
+    |Total                             | 515|  96|  336|          2|
+    +----------------------------------+----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++-------------------+-----+-----+------------+-----------------+--------------+
+|     RTL Ports     | Dir | Bits|  Protocol  |  Source Object  |    C Type    |
++-------------------+-----+-----+------------+-----------------+--------------+
+|ap_clk             |  in |    1| ap_ctrl_hs |   parseEvents   | return value |
+|ap_rst             |  in |    1| ap_ctrl_hs |   parseEvents   | return value |
+|ap_start           |  in |    1| ap_ctrl_hs |   parseEvents   | return value |
+|ap_done            | out |    1| ap_ctrl_hs |   parseEvents   | return value |
+|ap_idle            | out |    1| ap_ctrl_hs |   parseEvents   | return value |
+|ap_ready           | out |    1| ap_ctrl_hs |   parseEvents   | return value |
+|data_dout          |  in |   64|   ap_fifo  |       data      |    pointer   |
+|data_empty_n       |  in |    1|   ap_fifo  |       data      |    pointer   |
+|data_read          | out |    1|   ap_fifo  |       data      |    pointer   |
+|eventsArraySize    |  in |   32|   ap_none  | eventsArraySize |    scalar    |
+|eventSlice_din     | out |   32|   ap_fifo  |    eventSlice   |    pointer   |
+|eventSlice_full_n  |  in |    1|   ap_fifo  |    eventSlice   |    pointer   |
+|eventSlice_write   | out |    1|   ap_fifo  |    eventSlice   |    pointer   |
++-------------------+-----+-----+------------+-----------------+--------------+
+

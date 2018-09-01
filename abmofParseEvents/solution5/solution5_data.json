@@ -17,22 +17,20 @@
       "interface parseEvents {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequireddata}} {}",
       "inline accumulateHW {} {}",
       "pipeline parseEvents\/loop_1 {} {}",
-      "dependence parseEvents {{variable glPLSlices} {inter positionBoolean0type} {RAW positionBoolean0direction} {false positionBoolean0dependent}} {}",
-      "resource parseEvents {{variable positionBooleanTextRequiredglPLSlices} {core RAM_2P_BRAM}} {}",
-      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {cyclic positionBoolean0type} {factor 20} {dim 2}} {}",
       "occurrence parseEvents\/Cond_Region {{cycle 5000}} {}",
-      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredrefBlock} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtargetBlocks} {complete positionBoolean0type} {dim 0}} {}",
-      "resource calcOF\/readRefBlockLoop1 {{variable positionBooleanTextRequiredtmp1} {core AddSub_DSP}} {}",
-      "resource calcOF\/readRefBlockLoop1 {{variable positionBooleanTextRequiredtmp2} {core AddSub_DSP}} {}",
-      "allocation calcOF {{instances positionBooleanTextRequiredAddSub_DSP} {limit 60} {core positionBoolean0type}} {}"
+      "resource parseEvents {{variable positionBooleanTextRequiredglPLSlice0} {core RAM_T2P_BRAM}} {}",
+      "resource parseEvents {{variable positionBooleanTextRequiredglPLSlice1} {core RAM_T2P_BRAM}} {}",
+      "resource parseEvents {{variable positionBooleanTextRequiredglPLSlice2} {core RAM_T2P_BRAM}} {}",
+      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlice0} {cyclic positionBoolean0type} {factor 4} {dim 1}} {}",
+      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlice1} {cyclic positionBoolean0type} {factor 4} {dim 1}} {}",
+      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlice2} {cyclic positionBoolean0type} {factor 4} {dim 1}} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "4",
+    "Latency": "2",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -49,26 +47,14 @@
   "Files": {
     "CSource": ["..\/src\/abmof_hw_accel.cpp"],
     "Vhdl": [
-      "impl\/vhdl\/calcOF.vhd",
-      "impl\/vhdl\/parseEvents_add_2bkb.vhd",
-      "impl\/vhdl\/parseEvents_glPLSeOg.vhd",
-      "impl\/vhdl\/parseEvents_mul_mAem.vhd",
-      "impl\/vhdl\/parseEvents_mux_2zec.vhd",
-      "impl\/vhdl\/parseEvents_sub_3cud.vhd",
-      "impl\/vhdl\/parseEvents_urem_dEe.vhd",
-      "impl\/vhdl\/parseEvents_urem_yd2.vhd",
+      "impl\/vhdl\/parseEvents_glPLSbkb.vhd",
+      "impl\/vhdl\/parseEvents_mux_4ncg.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
-      "impl\/verilog\/calcOF.v",
-      "impl\/verilog\/parseEvents_add_2bkb.v",
-      "impl\/verilog\/parseEvents_glPLSeOg.v",
-      "impl\/verilog\/parseEvents_glPLSeOg_ram.dat",
-      "impl\/verilog\/parseEvents_mul_mAem.v",
-      "impl\/verilog\/parseEvents_mux_2zec.v",
-      "impl\/verilog\/parseEvents_sub_3cud.v",
-      "impl\/verilog\/parseEvents_urem_dEe.v",
-      "impl\/verilog\/parseEvents_urem_yd2.v",
+      "impl\/verilog\/parseEvents_glPLSbkb.v",
+      "impl\/verilog\/parseEvents_glPLSbkb_ram.dat",
+      "impl\/verilog\/parseEvents_mux_4ncg.v",
       "impl\/verilog\/parseEvents.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -207,76 +193,47 @@
     "eventSlice": {
       "interfaceRef": "eventSlice",
       "dir": "out",
-      "firstOutLatency": "63"
+      "firstOutLatency": "7"
     }
   },
   "ModuleInfo": {
-    "Hierarchy": {
-      "ModuleName": "parseEvents",
-      "Instances": [{
-          "ModuleName": "calcOF",
-          "InstanceName": "grp_calcOF_fu_1673"
-        }]
-    },
-    "Metrics": {
-      "calcOF": {
+    "Hierarchy": {"ModuleName": "parseEvents"},
+    "Metrics": {"parseEvents": {
         "Latency": {
-          "LatencyBest": "37",
-          "LatencyAvg": "37",
-          "LatencyWorst": "37",
-          "PipelineII": "1",
-          "PipelineDepth": "38",
-          "PipelineType": "function"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "8.50"
-        },
-        "Area": {
-          "BRAM_18K": "0",
-          "DSP48E": "75",
-          "FF": "3046",
-          "LUT": "6812"
-        }
-      },
-      "parseEvents": {
-        "Latency": {
-          "LatencyBest": "4",
-          "LatencyAvg": "200024",
-          "LatencyWorst": "400024",
-          "PipelineIIMin": "5",
-          "PipelineIIMax": "400025",
-          "PipelineII": "5 ~ 400025",
+          "LatencyBest": "2",
+          "LatencyAvg": "10006",
+          "LatencyWorst": "20006",
+          "PipelineIIMin": "3",
+          "PipelineIIMax": "20007",
+          "PipelineII": "3 ~ 20007",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "11.26"
+          "Estimate": "10.20"
         },
         "Loops": [{
             "Name": "loop_1",
             "TripCount": "",
             "LatencyMin": "0",
-            "LatencyMax": "400020",
-            "Latency": "0 ~ 400020",
-            "PipelineII": "40",
-            "PipelineDepth": "61"
+            "LatencyMax": "20004",
+            "Latency": "0 ~ 20004",
+            "PipelineII": "2",
+            "PipelineDepth": "7"
           }],
         "Area": {
-          "BRAM_18K": "40",
-          "DSP48E": "76",
-          "FF": "4307",
-          "LUT": "9535"
+          "BRAM_18K": "120",
+          "FF": "515",
+          "LUT": "1062",
+          "DSP48E": "0"
         }
-      }
-    }
+      }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-01 17:13:07 +0200",
+    "Time": "2018-09-01 23:44:37 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

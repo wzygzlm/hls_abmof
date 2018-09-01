@@ -13,7 +13,8 @@
         <solution name="solution2" status="inactive"/>
         <solution name="solution3" status="inactive"/>
         <solution name="solution4" status="inactive"/>
-        <solution name="solution5" status="active"/>
+        <solution name="solution5" status="inactive"/>
+        <solution name="solution6" status="active"/>
     </solutions>
 </project>
 

@@ -4,10 +4,10 @@
 typedef ap_int<BITS_PER_PIXEL> pix_t;
 typedef ap_uint<2> sliceIdx_t;
 
-typedef ap_int<9 * 4> col_pix_t;
+typedef ap_int<DVS_HEIGHT> col_pix_t;
 
-// static col_pix_t glPLSlice0[DVS_WIDTH * BITS_PER_PIXEL], glPLSlice1[DVS_WIDTH * BITS_PER_PIXEL], glPLSlice2[DVS_WIDTH * BITS_PER_PIXEL];
-static col_pix_t glPLSlices[SLICES_NUMBER][DVS_WIDTH * BITS_PER_PIXEL * 20];
+static col_pix_t glPLSlice0[DVS_WIDTH * BITS_PER_PIXEL], glPLSlice1[DVS_WIDTH * BITS_PER_PIXEL], glPLSlice2[DVS_WIDTH * BITS_PER_PIXEL];
+// static col_pix_t glPLSlices[SLICES_NUMBER][DVS_WIDTH * BITS_PER_PIXEL * 20];
 
 static sliceIdx_t glPLActiveSliceIdx, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
 static uint16_t glCnt;
@@ -18,22 +18,86 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 {
 	col_pix_t tmpData;
 	ap_int<4> tmpTmpData;
+
+	ap_int<7> yNewIdx = y/BITS_PER_PIXEL;
+	ap_int<10> xNewIdx = x * BITS_PER_PIXEL + y - BITS_PER_PIXEL * yNewIdx;
+
 	if (pol == true)
 	{
-//		// Use bit selection plus for-loop to read multi-bits from a wider bit width value
-//		// rather than use range selection directly. The reason is that the latter will use
-//		// a lot of shift-register which will reduce a lot of LUTs consuming.
-		tmpData = glPLSlices[glPLActiveSliceIdx][x];
-		accumulateHW_label1:for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+//		switch(glPLActiveSliceIdx)
+//		{
+//		case 0:
+//			tmpData = glPLSlice0[x];
+//			break;
+//		case 1:
+//			tmpData = glPLSlice1[x];
+//			break;
+//		case 2:
+//			tmpData = glPLSlice2[x];
+//			break;
+//		default:
+//			break;
+//		}
+		if(glPLActiveSliceIdx == 0)
 		{
-			tmpTmpData[yIndex] = tmpData[4*y + yIndex];
+			// Use bit selection plus for-loop to read multi-bits from a wider bit width value
+			// rather than use range selection directly. The reason is that the latter will use
+			// a lot of shift-register which will reduce a lot of LUTs consuming.
+			tmpData = glPLSlice0[xNewIdx];
+
+			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			{
+				tmpTmpData[yIndex] = tmpData[4*yNewIdx + yIndex];
+			}
+			tmpTmpData +=  1;
+
+			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			{
+				tmpData[4*yNewIdx + yIndex] = tmpTmpData[yIndex];
+			}
+
+			glPLSlice0[xNewIdx] = tmpData;
 		}
-		tmpTmpData +=  1;
-		accumulateHW_label2:for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+		else if(glPLActiveSliceIdx == 1)
 		{
-			tmpData[4*y + yIndex] = tmpTmpData[yIndex];
+			// Use bit selection plus for-loop to read multi-bits from a wider bit width value
+			// rather than use range selection directly. The reason is that the latter will use
+			// a lot of shift-register which will reduce a lot of LUTs consuming.
+			tmpData = glPLSlice1[xNewIdx];
+
+			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			{
+				tmpTmpData[yIndex] = tmpData[4*yNewIdx + yIndex];
+			}
+			tmpTmpData +=  1;
+
+			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			{
+				tmpData[4*yNewIdx + yIndex] = tmpTmpData[yIndex];
+			}
+
+			glPLSlice1[xNewIdx] = tmpData;
 		}
-		glPLSlices[glPLActiveSliceIdx][x] = tmpData;
+		else if(glPLActiveSliceIdx == 2)
+		{
+			// Use bit selection plus for-loop to read multi-bits from a wider bit width value
+			// rather than use range selection directly. The reason is that the latter will use
+			// a lot of shift-register which will reduce a lot of LUTs consuming.
+			tmpData = glPLSlice2[xNewIdx];
+
+			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			{
+				tmpTmpData[yIndex] = tmpData[4*yNewIdx + yIndex];
+			}
+			tmpTmpData +=  1;
+
+			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			{
+				tmpData[4*yNewIdx + yIndex] = tmpTmpData[yIndex];
+			}
+
+			glPLSlice2[xNewIdx] = tmpData;
+		}
 	}
 }
 
@@ -50,17 +114,17 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 //	}
 //}
 
-void resetCurrentSliceHW()
-{
-	// clear current slice
-//	resetSliceLoop: for(int16_t i = 0; i < DVS_HEIGHT; i=i+180)
-//	{
-//#pragma HLS PIPELINE
-		resetSliceLoop2:for(int16_t j = 0; j < DVS_WIDTH * BITS_PER_PIXEL *20; j++)
-		{
-			glPLSlices[glPLActiveSliceIdx][j][0] = 0;
-		}
-}
+//void resetCurrentSliceHW()
+//{
+//	// clear current slice
+////	resetSliceLoop: for(int16_t i = 0; i < DVS_HEIGHT; i=i+180)
+////	{
+////#pragma HLS PIPELINE
+//		resetSliceLoop2:for(int16_t j = 0; j < DVS_WIDTH * BITS_PER_PIXEL *20; j++)
+//		{
+//			glPLSlices[glPLActiveSliceIdx][j][0] = 0;
+//		}
+//}
 
 
 //int32_t calcOF(ap_int<4> refBlock[BLOCK_SIZE][BLOCK_SIZE], ap_int<4> targetBlocks[BLOCK_SIZE][BLOCK_SIZE])
@@ -90,45 +154,45 @@ int16_t sum;
 ap_int<4> refBlock[BLOCK_SIZE][BLOCK_SIZE];
 ap_int<4> targetBlocks[BLOCK_SIZE][BLOCK_SIZE];
 
-void calcOF(int16_t x, int16_t y)
-{
-	readRefBlockLoop1: for(int8_t k = 0; k < BLOCK_SIZE; k++)
-	{
-		col_pix_t tmp1, tmp2;
-
-		tmp1 = glPLSlices[glPLTminus1SliceIdx][15 * x + k];
-		tmp2 = glPLSlices[glPLTminus2SliceIdx][15 * x + k];
-
-		readBlockInnerLoop1: for(int8_t l = 0; l < BLOCK_SIZE; l++)
-		{
-			ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-			parseEvents_label3:for(int8_t yIndex = 0; yIndex < 4; yIndex++)
-			{
-				tmpTmp1[yIndex] = tmp1[4*y + yIndex];
-				tmpTmp2[yIndex] = tmp2[4*y + yIndex];
-			}
-			refBlock[k][l] = tmpTmp1;
-			targetBlocks[k][l] = tmpTmp2;
-		}
-	}
-
-
-	calOFLoop1:for(int8_t m = 0; m < BLOCK_SIZE; m++)
-	{
-		calOFInnerLoop1:for(int8_t n = 0; n < BLOCK_SIZE; n++)
-		{
-			ap_int<5> tmpSum = refBlock[m][n] - targetBlocks[m][n];
-			if ( tmpSum < 0)
-			{
-				sum = sum - tmpSum;
-			}
-			else
-			{
-				sum = sum + tmpSum;
-			}
-		}
-	}
-}
+//void calcOF(int16_t x, int16_t y)
+//{
+//	readRefBlockLoop1: for(int8_t k = 0; k < BLOCK_SIZE; k++)
+//	{
+//		col_pix_t tmp1, tmp2;
+//
+//		tmp1 = glPLSlices[glPLTminus1SliceIdx][15 * x + k];
+//		tmp2 = glPLSlices[glPLTminus2SliceIdx][15 * x + k];
+//
+//		readBlockInnerLoop1: for(int8_t l = 0; l < BLOCK_SIZE; l++)
+//		{
+//			ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
+//			parseEvents_label3:for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+//			{
+//				tmpTmp1[yIndex] = tmp1[4*y + yIndex];
+//				tmpTmp2[yIndex] = tmp2[4*y + yIndex];
+//			}
+//			refBlock[k][l] = tmpTmp1;
+//			targetBlocks[k][l] = tmpTmp2;
+//		}
+//	}
+//
+//
+//	calOFLoop1:for(int8_t m = 0; m < BLOCK_SIZE; m++)
+//	{
+//		calOFInnerLoop1:for(int8_t n = 0; n < BLOCK_SIZE; n++)
+//		{
+//			ap_int<5> tmpSum = refBlock[m][n] - targetBlocks[m][n];
+//			if ( tmpSum < 0)
+//			{
+//				sum = sum - tmpSum;
+//			}
+//			else
+//			{
+//				sum = sum + tmpSum;
+//			}
+//		}
+//	}
+//}
 
 
 #pragma SDS data access_pattern(data:SEQUENTIAL, eventSlice:SEQUENTIAL)
@@ -148,14 +212,14 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 		glPLTminus1SliceIdx = 0;
 		glPLTminus2SliceIdx = 2;
 	}
-	if(glPLActiveSliceIdx == 1)
+	else if(glPLActiveSliceIdx == 1)
 	{
 		glPLActiveSliceIdx = 2;
 
 		glPLTminus1SliceIdx = 1;
 		glPLTminus2SliceIdx = 0;
 	}
-	if(glPLActiveSliceIdx == 2)
+	else if(glPLActiveSliceIdx == 2)
 	{
 		glPLActiveSliceIdx = 0;
 
@@ -212,7 +276,7 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 //		if(glPLActiveSliceIdx == 0)
 //		{
 
-		calcOF(x, y);
+//		calcOF(x, y);
 
 
 //
@@ -312,14 +376,14 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 		if (i == 0)
 		{
 			// Output the current slice index and the sum result.
-			*eventSlice = localCnt + refBlock[i][i] + targetBlocks[i][i];
+			*eventSlice = glPLSlice0[x+1] + glPLSlice1[x+1] + glPLSlice2[x+1] + localCnt + refBlock[i][i] + targetBlocks[i][i];
 			// *eventSlice = localCnt + (glCnt << 16);
 
 		}
 		else
 		{
 			// Reorder the data to make it easier to be parsed.
-			*eventSlice =  x + (y << 8) + (pol << 16)  + sum + + refBlock[i][i] + targetBlocks[i][i];
+			*eventSlice =  glPLSlice0[x+1] + glPLSlice1[x+1] + glPLSlice2[x+1] + (y << 8) + refBlock[i][i] + targetBlocks[i][i];
 			// *eventSlice = x + (y << 8) + (pol << 16) + (sum << 17);
 			// *eventSlice = glPLSlices[glPLActiveSliceIdx][x];
 		}

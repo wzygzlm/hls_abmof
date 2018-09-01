@@ -2,57 +2,82 @@
 <Messages>
 	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1312" content="Analyzing design file &apos;abmofParseEvents/src/abmof_hw_accel.cpp&apos; ..." tag=""/>
 	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1465" content="Validating synthesis directives ..." tag=""/>
-	<Message prefix="[HLS 200-40]" severity="WARNING" keynum="HLS_40_1852" content="Directive &apos;RESOURCE&apos; for core &apos;AddSub_DSP&apos; cannot be applied: Variable &apos;tmpSum&apos; has no assigment in &apos;calcOF/calOFInnerLoop1&apos;." tag=""/>
-	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:11 . Memory (MB): peak = 103.609 ; gain = 45.434" tag=""/>
-	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:13 . Memory (MB): peak = 103.629 ; gain = 45.453" tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:11 . Memory (MB): peak = 104.184 ; gain = 45.547" tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 104.203 ; gain = 45.566" tag=""/>
 	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1467" content="Starting code transformations ..." tag=""/>
-	<Message prefix="[XFORM 203-603]" severity="INFO" keynum="792" content="Inlining function &apos;accumulateHW&apos; into &apos;parseEvents&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:201)." tag=""/>
-	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 122.820 ; gain = 64.645" tag=""/>
+	<Message prefix="[XFORM 203-603]" severity="INFO" keynum="792" content="Inlining function &apos;accumulateHW&apos; into &apos;parseEvents&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:265)." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 119.809 ; gain = 61.172" tag=""/>
 	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1472" content="Checking synthesizability ..." tag=""/>
-	<Message prefix="[XFORM 203-311]" severity="WARNING" keynum="786" content="Cannot apply functional unit assignment of &apos;ADDSUB_DSP&apos;(abmofParseEvents/src/abmof_hw_accel.cpp:102:1) on operation of &apos;DSP_tmp2&apos;, due to incompatible operation sets. The resource directive is discarded." tag=""/>
-	<Message prefix="[SYNCHK 200-23]" severity="WARNING" keynum="579" content="abmofParseEvents/src/abmof_hw_accel.cpp:29: variable-indexed range selection may cause suboptimal QoR." tag=""/>
+	<Message prefix="[SYNCHK 200-23]" severity="WARNING" keynum="579" content="abmofParseEvents/src/abmof_hw_accel.cpp:50: variable-indexed range selection may cause suboptimal QoR." tag=""/>
 	<Message prefix="[SYNCHK 200-10]" severity="INFO" keynum="597" content="0 error(s), 1 warning(s)." tag=""/>
-	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 126.395 ; gain = 68.219" tag=""/>
-	<Message prefix="[XFORM 203-311]" severity="WARNING" keynum="786" content="Cannot apply functional unit assignment of &apos;ADDSUB_DSP&apos;(abmofParseEvents/src/abmof_hw_accel.cpp:102:1) on operation of &apos;DSP_tmp2&apos;, due to incompatible operation sets. The resource directive is discarded." tag=""/>
-	<Message prefix="[XFORM 203-502]" severity="INFO" keynum="813" content="Unrolling all sub-loops inside loop &apos;loop_1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:183) in function &apos;parseEvents&apos; for pipelining." tag=""/>
-	<Message prefix="[XFORM 203-502]" severity="INFO" keynum="817" content="Unrolling all loops for pipelining in function &apos;calcOF&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:93)." tag=""/>
-	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;accumulateHW_label1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:28) in function &apos;parseEvents&apos; completely." tag=""/>
-	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;accumulateHW_label2&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:33) in function &apos;parseEvents&apos; completely." tag=""/>
-	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;readRefBlockLoop1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:96) in function &apos;calcOF&apos; completely." tag=""/>
-	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;readBlockInnerLoop1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:103) in function &apos;calcOF&apos; completely." tag=""/>
-	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;parseEvents_label3&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:106) in function &apos;calcOF&apos; completely." tag=""/>
-	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;calOFLoop1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:117) in function &apos;calcOF&apos; completely." tag=""/>
-	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;calOFInnerLoop1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:119) in function &apos;calcOF&apos; completely." tag=""/>
-	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="692" content="Partitioning array &apos;targetBlocks.V&apos;  in dimension 1 completely." tag=""/>
-	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="692" content="Partitioning array &apos;refBlock.V&apos;  in dimension 1 completely." tag=""/>
-	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="685" content="Partitioning array &apos;glPLSlices.V&apos;  in dimension 2 with a cyclic factor 16." tag=""/>
-	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="692" content="Partitioning array &apos;targetBlocks.V&apos;  in dimension 2 completely." tag=""/>
-	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="692" content="Partitioning array &apos;refBlock.V&apos;  in dimension 2 completely." tag=""/>
-	<Message prefix="[XFORM 203-401]" severity="INFO" keynum="809" content="Performing if-conversion on hyperblock to (abmofParseEvents/src/abmof_hw_accel.cpp:131:1) in function &apos;calcOF&apos;... converting 676 basic blocks." tag=""/>
-	<Message prefix="[XFORM 203-11]" severity="INFO" keynum="754" content="Balancing expressions in function &apos;parseEvents&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:141)...4 expression(s) balanced." tag=""/>
-	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Pre-synthesis Time (s): cpu = 00:00:20 ; elapsed = 00:00:33 . Memory (MB): peak = 169.863 ; gain = 111.688" tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.7&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.4&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.3&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.13&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.11&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.10&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.2&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.15&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.1&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.0&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.6&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.9&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.8&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.12&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.14&apos;." tag=""/>
-	<Message prefix="[ANALYSIS 214-52]" severity="WARNING" keynum="3" content="Found false &apos;RAW&apos; inter dependency for variable &apos;glPLSlices.V.5&apos;." tag=""/>
-	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Architecture Synthesis Time (s): cpu = 00:00:33 ; elapsed = 00:00:46 . Memory (MB): peak = 230.379 ; gain = 172.203" tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 127.176 ; gain = 68.539" tag=""/>
+	<Message prefix="[XFORM 203-502]" severity="INFO" keynum="813" content="Unrolling all sub-loops inside loop &apos;loop_1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:247) in function &apos;parseEvents&apos; for pipelining." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;Loop-1.1&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:48) in function &apos;parseEvents&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;Loop-1.2&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:54) in function &apos;parseEvents&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;Loop-1.3&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:68) in function &apos;parseEvents&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;Loop-1.4&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:74) in function &apos;parseEvents&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;Loop-1.5&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:88) in function &apos;parseEvents&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-501]" severity="INFO" keynum="891" content="Unrolling loop &apos;Loop-1.6&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:94) in function &apos;parseEvents&apos; completely." tag=""/>
+	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="685" content="Partitioning array &apos;glPLSlice2.V&apos;  in dimension 1 with a cyclic factor 4." tag=""/>
+	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="685" content="Partitioning array &apos;glPLSlice1.V&apos;  in dimension 1 with a cyclic factor 4." tag=""/>
+	<Message prefix="[XFORM 203-101]" severity="INFO" keynum="685" content="Partitioning array &apos;glPLSlice0.V&apos;  in dimension 1 with a cyclic factor 4." tag=""/>
+	<Message prefix="[XFORM 203-401]" severity="INFO" keynum="809" content="Performing if-conversion on hyperblock from (abmofParseEvents/src/abmof_hw_accel.cpp:376:2) to (abmofParseEvents/src/abmof_hw_accel.cpp:246:49) in function &apos;parseEvents&apos;... converting 4 basic blocks." tag=""/>
+	<Message prefix="[XFORM 203-11]" severity="INFO" keynum="754" content="Balancing expressions in function &apos;parseEvents&apos; (abmofParseEvents/src/abmof_hw_accel.cpp:205)...3 expression(s) balanced." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 157.883 ; gain = 99.246" tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 160.738 ; gain = 102.102" tag=""/>
 	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1317" content="Starting hardware synthesis ..." tag=""/>
 	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1385" content="Synthesizing &apos;parseEvents&apos; ..." tag=""/>
 	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1477" content="----------------------------------------------------------------" tag=""/>
-	<Message prefix="[HLS 200-42]" severity="INFO" keynum="HLS_42_1438" content="-- Implementing module &apos;calcOF&apos;" tag=""/>
+	<Message prefix="[HLS 200-42]" severity="INFO" keynum="HLS_42_1438" content="-- Implementing module &apos;parseEvents&apos;" tag=""/>
 	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1478" content="----------------------------------------------------------------" tag=""/>
 	<Message prefix="[SCHED 204-11]" severity="INFO" keynum="139" content="Starting scheduling ..." tag=""/>
-	<Message prefix="[SCHED 204-61]" severity="INFO" keynum="112" content="Pipelining function &apos;calcOF&apos;." tag=""/>
+	<Message prefix="[SCHED 204-61]" severity="INFO" keynum="107" content="Pipelining loop &apos;loop_1&apos;." tag=""/>
+	<Message prefix="[SCHED 204-68]" severity="WARNING" keynum="98" content="Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
+   between &apos;store&apos; operation (abmofParseEvents/src/abmof_hw_accel.cpp:59-&gt;abmofParseEvents/src/abmof_hw_accel.cpp:265) of variable &apos;tmp_29&apos;, abmofParseEvents/src/abmof_hw_accel.cpp:56-&gt;abmofParseEvents/src/abmof_hw_accel.cpp:265 on array &apos;glPLSlice0_V_0&apos; and &apos;load&apos; operation (&apos;glPLSlice0_V_0_load&apos;, abmofParseEvents/src/abmof_hw_accel.cpp:46-&gt;abmofParseEvents/src/abmof_hw_accel.cpp:265) on array &apos;glPLSlice0_V_0&apos;." tag=""/>
+	<Message prefix="[SCHED 204-61]" severity="INFO" keynum="110" content="Pipelining result : Target II = 1, Final II = 2, Depth = 7." tag=""/>
+	<Message prefix="[SCHED 204-21]" severity="WARNING" keynum="137" content="Estimated clock period (10.201ns) exceeds the target (target clock period: 10ns, clock uncertainty: 0.1ns, effective delay budget: 9.9ns)." tag=""/>
+	<Message prefix="[SCHED 204-21]" severity="WARNING" keynum="135" content="The critical path consists of the following:
+	&apos;load&apos; operation (&apos;glPLSlice2_V_0_load&apos;, abmofParseEvents/src/abmof_hw_accel.cpp:86-&gt;abmofParseEvents/src/abmof_hw_accel.cpp:265) on array &apos;glPLSlice2_V_0&apos; (3.25 ns)
+	&apos;mux&apos; operation (&apos;tmpData.V&apos;, abmofParseEvents/src/abmof_hw_accel.cpp:86-&gt;abmofParseEvents/src/abmof_hw_accel.cpp:265) (1.96 ns)
+	&apos;add&apos; operation (&apos;tmpTmpData.V&apos;, abmofParseEvents/src/abmof_hw_accel.cpp:92-&gt;abmofParseEvents/src/abmof_hw_accel.cpp:265) (1.74 ns)
+	&apos;store&apos; operation (abmofParseEvents/src/abmof_hw_accel.cpp:99-&gt;abmofParseEvents/src/abmof_hw_accel.cpp:265) of variable &apos;tmp_56&apos;, abmofParseEvents/src/abmof_hw_accel.cpp:96-&gt;abmofParseEvents/src/abmof_hw_accel.cpp:265 on array &apos;glPLSlice2_V_3&apos; (3.25 ns)" tag=""/>
+	<Message prefix="[SCHED 204-11]" severity="INFO" keynum="138" content="Finished scheduling." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="474" content=" Elapsed time: 15.679 seconds; current allocated memory: 108.455 MB." tag=""/>
+	<Message prefix="[BIND 205-100]" severity="INFO" keynum="439" content="Starting micro-architecture generation ..." tag=""/>
+	<Message prefix="[BIND 205-101]" severity="INFO" keynum="211" content="Performing variable lifetime analysis." tag=""/>
+	<Message prefix="[BIND 205-101]" severity="INFO" keynum="210" content="Exploring resource sharing." tag=""/>
+	<Message prefix="[BIND 205-101]" severity="INFO" keynum="206" content="Binding ..." tag=""/>
+	<Message prefix="[BIND 205-100]" severity="INFO" keynum="438" content="Finished micro-architecture generation." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="474" content=" Elapsed time: 0.218 seconds; current allocated memory: 109.189 MB." tag=""/>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1483" content="----------------------------------------------------------------" tag=""/>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1484" content="-- Generating RTL for module &apos;parseEvents&apos;" tag=""/>
+	<Message prefix="[HLS 200-10]" severity="INFO" keynum="HLS_10_1485" content="----------------------------------------------------------------" tag=""/>
+	<Message prefix="[RTGEN 206-500]" severity="INFO" keynum="73" content="Setting interface mode on port &apos;parseEvents/data&apos; to &apos;ap_fifo&apos;." tag=""/>
+	<Message prefix="[RTGEN 206-500]" severity="INFO" keynum="73" content="Setting interface mode on port &apos;parseEvents/eventsArraySize&apos; to &apos;ap_none&apos;." tag=""/>
+	<Message prefix="[RTGEN 206-500]" severity="INFO" keynum="73" content="Setting interface mode on port &apos;parseEvents/eventSlice&apos; to &apos;ap_fifo&apos;." tag=""/>
+	<Message prefix="[RTGEN 206-500]" severity="INFO" keynum="73" content="Setting interface mode on function &apos;parseEvents&apos; to &apos;ap_ctrl_hs&apos;." tag=""/>
+	<Message prefix="[RTGEN 206-101]" severity="WARNING" keynum="374" content="Register &apos;glPLActiveSliceIdx_V&apos; is power-on initialization." tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice0_V_0&apos; to &apos;parseEvents_glPLSbkb&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice0_V_1&apos; to &apos;parseEvents_glPLScud&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice0_V_2&apos; to &apos;parseEvents_glPLSdEe&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice0_V_3&apos; to &apos;parseEvents_glPLSeOg&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice1_V_0&apos; to &apos;parseEvents_glPLSfYi&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice1_V_1&apos; to &apos;parseEvents_glPLSg8j&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice1_V_2&apos; to &apos;parseEvents_glPLShbi&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice1_V_3&apos; to &apos;parseEvents_glPLSibs&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice2_V_0&apos; to &apos;parseEvents_glPLSjbC&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice2_V_1&apos; to &apos;parseEvents_glPLSkbM&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice2_V_2&apos; to &apos;parseEvents_glPLSlbW&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_glPLSlice2_V_3&apos; to &apos;parseEvents_glPLSmb6&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[RTGEN 206-101]" severity="WARNING" keynum="374" content="Register &apos;glCnt&apos; is power-on initialization." tag=""/>
+	<Message prefix="[SYN 201-210]" severity="INFO" keynum="402" content="Renamed object name &apos;parseEvents_mux_42_180_1_1&apos; to &apos;parseEvents_mux_4ncg&apos; due to the length limit 20" tag=""/>
+	<Message prefix="[RTGEN 206-100]" severity="INFO" keynum="368" content="Generating core module &apos;parseEvents_mux_4ncg&apos;: 6 instance(s)." tag=""/>
+	<Message prefix="[RTGEN 206-100]" severity="INFO" keynum="369" content="Finished creating RTL model for &apos;parseEvents&apos;." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="474" content=" Elapsed time: 0.276 seconds; current allocated memory: 110.773 MB." tag=""/>
+	<Message prefix="[RTMG 210-278]" severity="INFO" keynum="RTMG_278_1792" content="Implementing memory &apos;parseEvents_glPLSbkb_ram (RAM_T2P_BRAM)&apos; using block RAMs with power-on initialization." tag=""/>
+	<Message prefix="[HLS 200-111]" severity="INFO" keynum="473" content="Finished generating all RTL models Time (s): cpu = 00:00:04 ; elapsed = 00:00:18 . Memory (MB): peak = 167.203 ; gain = 108.566" tag=""/>
+	<Message prefix="[SYSC 207-301]" severity="INFO" keynum="SYSC_301_1065" content="Generating SystemC RTL for parseEvents." tag=""/>
+	<Message prefix="[VHDL 208-304]" severity="INFO" keynum="VHDL_304_1066" content="Generating VHDL RTL for parseEvents." tag=""/>
+	<Message prefix="[VLOG 209-307]" severity="INFO" keynum="VLOG_307_1067" content="Generating Verilog RTL for parseEvents." tag=""/>
+	<Message prefix="[HLS 200-112]" severity="INFO" keynum="472" content="Total elapsed time: 17.802 seconds; peak allocated memory: 110.773 MB." tag=""/>
 </Messages>
