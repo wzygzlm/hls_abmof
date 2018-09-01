@@ -23184,7 +23184,74 @@ int16_t sum;
 
 ap_int<4> refBlock[15][15];
 ap_int<4> targetBlocks[15][15];
-# 198 "abmofParseEvents/src/abmof_hw_accel.cpp"
+
+void calcOF(int16_t x, int16_t y)
+{
+ readRefBlockLoop1: for(int8_t k = 0; k < 15; k++)
+ {
+  col_pix_t tmp1, tmp2;
+
+  ap_int<7> yNewIdx = y/4;
+  ap_int<10> xNewIdx = x * 4 + y - 4 * yNewIdx;
+
+  if(glPLActiveSliceIdx == 0)
+  {
+   tmp1 = glPLSlice2[xNewIdx + k];
+   tmp2 = glPLSlice1[xNewIdx + k];
+
+   for(int8_t l = 0; l < 15; l++)
+   {
+    ap_int<4> tmpTmp1, tmpTmp2;
+    for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+    {
+     tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+     tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+    }
+    refBlock[k][l] = tmpTmp1;
+    targetBlocks[k][l] = tmpTmp2;
+   }
+  }
+  else if(glPLActiveSliceIdx == 1)
+  {
+   tmp1 = glPLSlice0[xNewIdx + k];
+   tmp2 = glPLSlice2[xNewIdx + k];
+
+   readBlockInnerLoop2: for(int8_t l = 0; l < 15; l++)
+   {
+    ap_int<4> tmpTmp1, tmpTmp2;
+    for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+    {
+     tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+     tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+    }
+    refBlock[k][l] = tmpTmp1;
+    targetBlocks[k][l] = tmpTmp2;
+   }
+  }
+  else if(glPLActiveSliceIdx == 2)
+  {
+   tmp1 = glPLSlice1[xNewIdx + k];
+   tmp2 = glPLSlice0[xNewIdx + k];
+
+   for(int8_t l = 0; l < 15; l++)
+   {
+    ap_int<4> tmpTmp1, tmpTmp2;
+    for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+    {
+     tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+     tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+    }
+    refBlock[k][l] = tmpTmp1;
+    targetBlocks[k][l] = tmpTmp2;
+   }
+  }
+
+
+ }
+# 237 "abmofParseEvents/src/abmof_hw_accel.cpp"
+}
+
+
 #pragma SDS data access_pattern(data:SEQUENTIAL, eventSlice:SEQUENTIAL)
 
 
@@ -23253,7 +23320,7 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 
 
   accumulateHW(x, y, pol, ts);
-# 376 "abmofParseEvents/src/abmof_hw_accel.cpp"
+# 418 "abmofParseEvents/src/abmof_hw_accel.cpp"
   if (i == 0)
   {
 

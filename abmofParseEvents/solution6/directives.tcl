@@ -11,6 +11,7 @@ set_directive_occurrence -cycle 5000 "parseEvents/Cond_Region"
 set_directive_resource -core RAM_T2P_BRAM "parseEvents" glPLSlice0
 set_directive_resource -core RAM_T2P_BRAM "parseEvents" glPLSlice1
 set_directive_resource -core RAM_T2P_BRAM "parseEvents" glPLSlice2
-set_directive_array_partition -type cyclic -factor 8 -dim 1 "parseEvents" glPLSlice0
-set_directive_array_partition -type cyclic -factor 8 -dim 1 "parseEvents" glPLSlice1
-set_directive_array_partition -type cyclic -factor 8 -dim 1 "parseEvents" glPLSlice2
+set_directive_array_partition -type cyclic -factor 16 -dim 1 "parseEvents" glPLSlice0
+set_directive_array_partition -type cyclic -factor 16 -dim 1 "parseEvents" glPLSlice1
+set_directive_array_partition -type cyclic -factor 16 -dim 1 "parseEvents" glPLSlice2
+set_directive_inline "calcOF"

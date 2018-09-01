@@ -9,3 +9,4 @@ lappend pragmaStatus7 {pragma "RESOURCE" source "E:/xfOpenCV/hls_2018_1/abmofPar
 lappend pragmaStatus8 {pragma "ARRAY_PARTITION" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents" found 1 funcFound 1 applied 1 ambiguous 0 reason "null" variable "glPLSlice0"}
 lappend pragmaStatus9 {pragma "ARRAY_PARTITION" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents" found 1 funcFound 1 applied 1 ambiguous 0 reason "null" variable "glPLSlice1"}
 lappend pragmaStatus10 {pragma "ARRAY_PARTITION" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "parseEvents" found 1 funcFound 1 applied 1 ambiguous 0 reason "null" variable "glPLSlice2"}
+lappend pragmaStatus11 {pragma "INLINE" source "E:/xfOpenCV/hls_2018_1/abmofParseEvents/src/abmof_hw_accel.cpp" location "calcOF" found 1 funcFound 1 applied 1 ambiguous 0 reason "null"}

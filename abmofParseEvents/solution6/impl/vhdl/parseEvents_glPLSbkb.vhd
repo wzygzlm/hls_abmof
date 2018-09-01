@@ -14,8 +14,8 @@ entity parseEvents_glPLSbkb_ram is
     generic(
             mem_type    : string := "block"; 
             dwidth     : integer := 180; 
-            awidth     : integer := 7; 
-            mem_size    : integer := 120
+            awidth     : integer := 6; 
+            mem_size    : integer := 48
     ); 
     port (
           addr0     : in std_logic_vector(awidth-1 downto 0); 
@@ -101,8 +101,8 @@ use IEEE.std_logic_1164.all;
 entity parseEvents_glPLSbkb is
     generic (
         DataWidth : INTEGER := 180;
-        AddressRange : INTEGER := 120;
-        AddressWidth : INTEGER := 7);
+        AddressRange : INTEGER := 48;
+        AddressWidth : INTEGER := 6);
     port (
         reset : IN STD_LOGIC;
         clk : IN STD_LOGIC;

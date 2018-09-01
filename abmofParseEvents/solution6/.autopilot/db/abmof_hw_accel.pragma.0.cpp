@@ -23203,7 +23203,77 @@ int16_t sum;
 
 ap_int<4> refBlock[15][15];
 ap_int<4> targetBlocks[15][15];
-#198 "abmofParseEvents/src/abmof_hw_accel.cpp"
+
+void calcOF(int16_t x, int16_t y)
+{
+#pragma HLS INLINE
+#158 "abmofParseEvents/src/abmof_hw_accel.cpp"
+
+ readRefBlockLoop1: for(int8_t k = 0; k < 15; k++)
+ {
+  col_pix_t tmp1, tmp2;
+
+  ap_int<7> yNewIdx = y/4;
+  ap_int<10> xNewIdx = x * 4 + y - 4 * yNewIdx;
+
+  if(glPLActiveSliceIdx == 0)
+  {
+   tmp1 = glPLSlice2[xNewIdx + k];
+   tmp2 = glPLSlice1[xNewIdx + k];
+
+   for(int8_t l = 0; l < 15; l++)
+   {
+    ap_int<4> tmpTmp1, tmpTmp2;
+    for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+    {
+     tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+     tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+    }
+    refBlock[k][l] = tmpTmp1;
+    targetBlocks[k][l] = tmpTmp2;
+   }
+  }
+  else if(glPLActiveSliceIdx == 1)
+  {
+   tmp1 = glPLSlice0[xNewIdx + k];
+   tmp2 = glPLSlice2[xNewIdx + k];
+
+   readBlockInnerLoop2: for(int8_t l = 0; l < 15; l++)
+   {
+    ap_int<4> tmpTmp1, tmpTmp2;
+    for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+    {
+     tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+     tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+    }
+    refBlock[k][l] = tmpTmp1;
+    targetBlocks[k][l] = tmpTmp2;
+   }
+  }
+  else if(glPLActiveSliceIdx == 2)
+  {
+   tmp1 = glPLSlice1[xNewIdx + k];
+   tmp2 = glPLSlice0[xNewIdx + k];
+
+   for(int8_t l = 0; l < 15; l++)
+   {
+    ap_int<4> tmpTmp1, tmpTmp2;
+    for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+    {
+     tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+     tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+    }
+    refBlock[k][l] = tmpTmp1;
+    targetBlocks[k][l] = tmpTmp2;
+   }
+  }
+
+
+ }
+#237 "abmofParseEvents/src/abmof_hw_accel.cpp"
+}
+
+
 #pragma SDS data access_pattern(data:SEQUENTIAL, eventSlice:SEQUENTIAL)
 
 
@@ -23213,29 +23283,29 @@ ap_int<4> targetBlocks[15][15];
 
 void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice)
 {
-#pragma HLS ARRAY_PARTITION variable=glPLSlice2 cyclic factor=8 dim=1
-#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#pragma HLS ARRAY_PARTITION variable=glPLSlice2 cyclic factor=16 dim=1
+#248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
-#pragma HLS ARRAY_PARTITION variable=glPLSlice1 cyclic factor=8 dim=1
-#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#pragma HLS ARRAY_PARTITION variable=glPLSlice1 cyclic factor=16 dim=1
+#248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
-#pragma HLS ARRAY_PARTITION variable=glPLSlice0 cyclic factor=8 dim=1
-#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#pragma HLS ARRAY_PARTITION variable=glPLSlice0 cyclic factor=16 dim=1
+#248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 #pragma HLS RESOURCE variable=glPLSlice2 core=RAM_T2P_BRAM
-#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 #pragma HLS RESOURCE variable=glPLSlice1 core=RAM_T2P_BRAM
-#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 #pragma HLS RESOURCE variable=glPLSlice0 core=RAM_T2P_BRAM
-#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 #pragma HLS INTERFACE ap_fifo port=data
-#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 #pragma HLS INTERFACE ap_fifo port=eventSlice
-#206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 
  if(glPLActiveSliceIdx == 0)
@@ -23279,7 +23349,7 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
  loop_1:for(int32_t i = 0; i < eventsArraySize; i = i + 1)
  {
 #pragma HLS PIPELINE
-#247 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#289 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 
 #pragma HLS loop_tripcount min=0 max=10000
@@ -23292,7 +23362,7 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
   Cond_Region:
   {
 #pragma HLS OCCURRENCE cycle=5000
-#257 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#299 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
    if (ts > 10000)
     {
@@ -23302,7 +23372,7 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 
 
   accumulateHW(x, y, pol, ts);
-#376 "abmofParseEvents/src/abmof_hw_accel.cpp"
+#418 "abmofParseEvents/src/abmof_hw_accel.cpp"
   if (i == 0)
   {
 

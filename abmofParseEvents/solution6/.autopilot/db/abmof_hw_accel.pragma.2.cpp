@@ -23344,7 +23344,77 @@ int16_t sum;
 
 ap_int<4> refBlock[15][15];
 ap_int<4> targetBlocks[15][15];
-# 198 "abmofParseEvents/src/abmof_hw_accel.cpp"
+
+void calcOF(int16_t x, int16_t y)
+{
+_ssdm_InlineSelf(0, "");
+# 158 "abmofParseEvents/src/abmof_hw_accel.cpp"
+
+ readRefBlockLoop1: for(int8_t k = 0; k < 15; k++)
+ {
+  col_pix_t tmp1, tmp2;
+
+  ap_int<7> yNewIdx = y/4;
+  ap_int<10> xNewIdx = x * 4 + y - 4 * yNewIdx;
+
+  if(glPLActiveSliceIdx == 0)
+  {
+   tmp1 = glPLSlice2[xNewIdx + k];
+   tmp2 = glPLSlice1[xNewIdx + k];
+
+   for(int8_t l = 0; l < 15; l++)
+   {
+    ap_int<4> tmpTmp1, tmpTmp2;
+    for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+    {
+     tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+     tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+    }
+    refBlock[k][l] = tmpTmp1;
+    targetBlocks[k][l] = tmpTmp2;
+   }
+  }
+  else if(glPLActiveSliceIdx == 1)
+  {
+   tmp1 = glPLSlice0[xNewIdx + k];
+   tmp2 = glPLSlice2[xNewIdx + k];
+
+   readBlockInnerLoop2: for(int8_t l = 0; l < 15; l++)
+   {
+    ap_int<4> tmpTmp1, tmpTmp2;
+    for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+    {
+     tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+     tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+    }
+    refBlock[k][l] = tmpTmp1;
+    targetBlocks[k][l] = tmpTmp2;
+   }
+  }
+  else if(glPLActiveSliceIdx == 2)
+  {
+   tmp1 = glPLSlice1[xNewIdx + k];
+   tmp2 = glPLSlice0[xNewIdx + k];
+
+   for(int8_t l = 0; l < 15; l++)
+   {
+    ap_int<4> tmpTmp1, tmpTmp2;
+    for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+    {
+     tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+     tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+    }
+    refBlock[k][l] = tmpTmp1;
+    targetBlocks[k][l] = tmpTmp2;
+   }
+  }
+
+
+ }
+# 237 "abmofParseEvents/src/abmof_hw_accel.cpp"
+}
+
+
 #pragma SDS data access_pattern(data:SEQUENTIAL, eventSlice:SEQUENTIAL)
 
 
@@ -23354,29 +23424,29 @@ ap_int<4> targetBlocks[15][15];
 
 void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice)
 {
-_ssdm_SpecArrayPartition( glPLSlice2, 1, "CYCLIC", 8, "");
-# 206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+_ssdm_SpecArrayPartition( glPLSlice2, 1, "CYCLIC", 16, "");
+# 248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
-_ssdm_SpecArrayPartition( glPLSlice1, 1, "CYCLIC", 8, "");
-# 206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+_ssdm_SpecArrayPartition( glPLSlice1, 1, "CYCLIC", 16, "");
+# 248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
-_ssdm_SpecArrayPartition( glPLSlice0, 1, "CYCLIC", 8, "");
-# 206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+_ssdm_SpecArrayPartition( glPLSlice0, 1, "CYCLIC", 16, "");
+# 248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 _ssdm_op_SpecResource(glPLSlice2, "", "RAM_T2P_BRAM", "", -1, "", "", "", "", "");
-# 206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+# 248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 _ssdm_op_SpecResource(glPLSlice1, "", "RAM_T2P_BRAM", "", -1, "", "", "", "", "");
-# 206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+# 248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 _ssdm_op_SpecResource(glPLSlice0, "", "RAM_T2P_BRAM", "", -1, "", "", "", "", "");
-# 206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+# 248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 _ssdm_op_SpecInterface(data, "ap_fifo", 0, 0, "", 0, 0, "", "", "", 0, 0, 0, 0, "", "");
-# 206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+# 248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 _ssdm_op_SpecInterface(eventSlice, "ap_fifo", 0, 0, "", 0, 0, "", "", "", 0, 0, 0, 0, "", "");
-# 206 "abmofParseEvents/src/abmof_hw_accel.cpp"
+# 248 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 
  if(glPLActiveSliceIdx == 0)
@@ -23420,7 +23490,7 @@ _ssdm_op_SpecInterface(eventSlice, "ap_fifo", 0, 0, "", 0, 0, "", "", "", 0, 0, 
  loop_1:for(int32_t i = 0; i < eventsArraySize; i = i + 1)
  {
 _ssdm_op_SpecPipeline(-1, 1, 1, 0, "");
-# 247 "abmofParseEvents/src/abmof_hw_accel.cpp"
+# 289 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
 
 _ssdm_op_SpecLoopTripCount(0, 10000, 5000, "");
@@ -23433,7 +23503,7 @@ _ssdm_op_SpecLoopTripCount(0, 10000, 5000, "");
   Cond_Region:
   {
 _ssdm_op_SpecOccurrence(5000, "");
-# 257 "abmofParseEvents/src/abmof_hw_accel.cpp"
+# 299 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
    if (ts > 10000)
     {
@@ -23443,7 +23513,7 @@ _ssdm_op_SpecOccurrence(5000, "");
 
 
   accumulateHW(x, y, pol, ts);
-# 376 "abmofParseEvents/src/abmof_hw_accel.cpp"
+# 418 "abmofParseEvents/src/abmof_hw_accel.cpp"
  if (i == 0)
   {
 

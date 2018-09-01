@@ -154,27 +154,69 @@ int16_t sum;
 ap_int<4> refBlock[BLOCK_SIZE][BLOCK_SIZE];
 ap_int<4> targetBlocks[BLOCK_SIZE][BLOCK_SIZE];
 
-//void calcOF(int16_t x, int16_t y)
-//{
-//	readRefBlockLoop1: for(int8_t k = 0; k < BLOCK_SIZE; k++)
-//	{
-//		col_pix_t tmp1, tmp2;
-//
-//		tmp1 = glPLSlices[glPLTminus1SliceIdx][15 * x + k];
-//		tmp2 = glPLSlices[glPLTminus2SliceIdx][15 * x + k];
-//
-//		readBlockInnerLoop1: for(int8_t l = 0; l < BLOCK_SIZE; l++)
-//		{
-//			ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-//			parseEvents_label3:for(int8_t yIndex = 0; yIndex < 4; yIndex++)
-//			{
-//				tmpTmp1[yIndex] = tmp1[4*y + yIndex];
-//				tmpTmp2[yIndex] = tmp2[4*y + yIndex];
-//			}
-//			refBlock[k][l] = tmpTmp1;
-//			targetBlocks[k][l] = tmpTmp2;
-//		}
-//	}
+void calcOF(int16_t x, int16_t y)
+{
+	readRefBlockLoop1: for(int8_t k = 0; k < BLOCK_SIZE; k++)
+	{
+		col_pix_t tmp1, tmp2;
+
+		ap_int<7> yNewIdx = y/BITS_PER_PIXEL;
+		ap_int<10> xNewIdx = x * BITS_PER_PIXEL + y - BITS_PER_PIXEL * yNewIdx;
+
+		if(glPLActiveSliceIdx == 0)
+		{
+			tmp1 = glPLSlice2[xNewIdx + k];
+			tmp2 = glPLSlice1[xNewIdx + k];
+
+			for(int8_t l = 0; l < BLOCK_SIZE; l++)
+			{
+				ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
+				for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+				{
+					tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+					tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+				}
+				refBlock[k][l] = tmpTmp1;
+				targetBlocks[k][l] = tmpTmp2;
+			}
+		}
+		else if(glPLActiveSliceIdx == 1)
+		{
+			tmp1 = glPLSlice0[xNewIdx + k];
+			tmp2 = glPLSlice2[xNewIdx + k];
+
+			readBlockInnerLoop2: for(int8_t l = 0; l < BLOCK_SIZE; l++)
+			{
+				ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
+				for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+				{
+					tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+					tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+				}
+				refBlock[k][l] = tmpTmp1;
+				targetBlocks[k][l] = tmpTmp2;
+			}
+		}
+		else if(glPLActiveSliceIdx == 2)
+		{
+			tmp1 = glPLSlice1[xNewIdx + k];
+			tmp2 = glPLSlice0[xNewIdx + k];
+
+			for(int8_t l = 0; l < BLOCK_SIZE; l++)
+			{
+				ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
+				for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+				{
+					tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
+					tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+				}
+				refBlock[k][l] = tmpTmp1;
+				targetBlocks[k][l] = tmpTmp2;
+			}
+		}
+
+
+	}
 //
 //
 //	calOFLoop1:for(int8_t m = 0; m < BLOCK_SIZE; m++)
@@ -192,7 +234,7 @@ ap_int<4> targetBlocks[BLOCK_SIZE][BLOCK_SIZE];
 //			}
 //		}
 //	}
-//}
+}
 
 
 #pragma SDS data access_pattern(data:SEQUENTIAL, eventSlice:SEQUENTIAL)
