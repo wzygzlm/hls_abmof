@@ -17,7 +17,7 @@
 #define BITS_PER_PIXEL 4
 #define COMBINED_PIXELS 8
 
-#define BLOCK_SIZE 15
+#define BLOCK_SIZE 8
 #define SEARCH_DISTANCE 4
 
 void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice);

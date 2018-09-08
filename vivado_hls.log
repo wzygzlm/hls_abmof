@@ -1,5 +1,5 @@
 INFO: [HLS 200-10] Running 'D:/Xilinx/Vivado/2018.1/bin/unwrapped/win64.o/vivado_hls.exe'
-INFO: [HLS 200-10] For user 'minliu' on host 'desktop-3tnsmfc' (Windows NT_amd64 version 6.2) on Sat Sep 08 21:07:05 +0200 2018
+INFO: [HLS 200-10] For user 'minliu' on host 'desktop-3tnsmfc' (Windows NT_amd64 version 6.2) on Sat Sep 08 23:13:49 +0200 2018
 INFO: [HLS 200-10] In directory 'E:/xfOpenCV/hls_2018_1'
 INFO: [HLS 200-10] Opening project 'E:/xfOpenCV/hls_2018_1/abmofParseEvents_SmallBitWidth'.
 INFO: [HLS 200-10] Adding design file 'abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp' to the project
@@ -10,30 +10,42 @@ INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file 'abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 103.648 ; gain = 45.531
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:15 . Memory (MB): peak = 103.688 ; gain = 45.570
+WARNING: [HLS 200-40] Directive 'UNROLL' cannot be applied: Label 'readBlockInnerLoop0' does not exist in function 'calcOF'.
+WARNING: [HLS 200-40] Directive 'UNROLL' cannot be applied: Label 'readBlockInnerLoop1' does not exist in function 'calcOF'.
+WARNING: [HLS 200-40] Directive 'UNROLL' cannot be applied: Label 'readBlockInnerLoop2' does not exist in function 'calcOF'.
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:12 . Memory (MB): peak = 103.504 ; gain = 46.090
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 103.539 ; gain = 46.125
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [XFORM 203-603] Inlining function 'accumulateHW' into 'parseEvents' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307).
-INFO: [XFORM 203-603] Inlining function 'calcOF' into 'parseEvents' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:321).
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 122.059 ; gain = 63.941
+INFO: [XFORM 203-603] Inlining function 'accumulateHW' into 'parseEvents' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442).
+INFO: [XFORM 203-603] Inlining function 'calcOF' into 'parseEvents' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:456).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 122.625 ; gain = 65.211
 INFO: [HLS 200-10] Checking synthesizability ...
 WARNING: [SYNCHK 200-23] abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:50: variable-indexed range selection may cause suboptimal QoR.
 INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 125.809 ; gain = 67.691
-INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'loop_1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:289) in function 'parseEvents' for pipelining.
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 127.109 ; gain = 69.695
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'loop_1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:424) in function 'parseEvents' for pipelining.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:48) in function 'parseEvents' completely.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.2' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:54) in function 'parseEvents' completely.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.3' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:68) in function 'parseEvents' completely.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.4' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:74) in function 'parseEvents' completely.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.5' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:88) in function 'parseEvents' completely.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.6' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:94) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'readRefBlockLoop1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:160) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'readBlockInnerLoop0' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:172) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'calcOF_label0' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:175) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'readBlockInnerLoop1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:189) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'calcOF_label1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:192) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'readBlockInnerLoop2' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:206) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'calcOF_label2' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:209) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.7' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:174) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.7.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:177) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.8' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:186) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.8.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:189) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.9' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:198) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.9.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:201) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.10' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:210) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.10.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:213) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.11' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:222) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.11.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:225) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.12' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:234) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.12.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:237) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.13' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:246) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.13.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:249) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.14' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:258) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.14.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:261) in function 'parseEvents' completely.
 INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V'  in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'refBlock.V'  in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'glPLSlice2.V'  in dimension 1 with a cyclic factor 4.
@@ -41,8 +53,9 @@ INFO: [XFORM 203-101] Partitioning array 'glPLSlice1.V'  in dimension 1 with a c
 INFO: [XFORM 203-101] Partitioning array 'glPLSlice0.V'  in dimension 1 with a cyclic factor 4.
 INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V'  in dimension 2 completely.
 INFO: [XFORM 203-101] Partitioning array 'refBlock.V'  in dimension 2 completely.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:19 ; elapsed = 00:00:33 . Memory (MB): peak = 187.977 ; gain = 129.859
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 644.137 ; gain = 586.020
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:552:2) to (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:423:49) in function 'parseEvents'... converting 20 basic blocks.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:17 . Memory (MB): peak = 159.199 ; gain = 101.785
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:04 ; elapsed = 00:00:17 . Memory (MB): peak = 161.188 ; gain = 103.773
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'parseEvents' ...
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -51,19 +64,22 @@ INFO: [HLS 200-10] -------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'loop_1'.
 WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
-   between 'store' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:59->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) of variable 'tmp_221', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:56->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307 on array 'glPLSlice0_V_0' and 'load' operation ('glPLSlice0_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:46->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) on array 'glPLSlice0_V_0'.
-WARNING: [SCHED 204-69] Unable to schedule 'load' operation ('glPLSlice1_V_3_load_16', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:176->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:321) on array 'glPLSlice1_V_3' due to limited memory ports. Please consider using a memory core with more ports or partitioning the array 'glPLSlice1_V_3'.
-WARNING: [SCHED 204-69] Unable to schedule 'load' operation ('glPLSlice1_V_1_load_20', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:176->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:321) on array 'glPLSlice1_V_1' due to limited memory ports. Please consider using a memory core with more ports or partitioning the array 'glPLSlice1_V_1'.
-WARNING: [SCHED 204-69] Unable to schedule 'load' operation ('glPLSlice1_V_0_load_10', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:176->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:321) on array 'glPLSlice1_V_0' due to limited memory ports. Please consider using a memory core with more ports or partitioning the array 'glPLSlice1_V_0'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 8, Depth = 12.
+   between 'store' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:59->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) of variable 'tmp_43', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:56->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442 on array 'glPLSlice0_V_0' and 'load' operation ('glPLSlice0_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:46->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) on array 'glPLSlice0_V_0'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 2, Depth = 6.
+WARNING: [SCHED 204-21] Estimated clock period (10.201ns) exceeds the target (target clock period: 10ns, clock uncertainty: 0.1ns, effective delay budget: 9.9ns).
+WARNING: [SCHED 204-21] The critical path consists of the following:
+	'load' operation ('glPLSlice2_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:86->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) on array 'glPLSlice2_V_0' (3.25 ns)
+	'mux' operation ('tmpData.V', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:86->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) (1.96 ns)
+	'add' operation ('tmpTmpData.V', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:92->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) (1.74 ns)
+	'store' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:99->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) of variable 'tmp_71', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:96->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442 on array 'glPLSlice2_V_1' (3.25 ns)
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 73.492 seconds; current allocated memory: 493.603 MB.
+INFO: [HLS 200-111]  Elapsed time: 17.689 seconds; current allocated memory: 112.929 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 4.71 seconds; current allocated memory: 502.886 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.372 seconds; current allocated memory: 114.518 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'parseEvents'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -102,20 +118,6 @@ WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_0_6' will not be exposed as R
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_0_6' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_0_7' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_0_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_0_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_0_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_0_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_0_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_0_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_0_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_0_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_0_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_0_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_0_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_0_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_0_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_0_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_0_14' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_1_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_1_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Register 'refBlock_V_1_1' is power-on initialization.
@@ -134,20 +136,6 @@ WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_1_6' will not be exposed as R
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_1_6' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_1_7' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_1_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_1_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_1_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_1_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_1_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_1_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_1_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_1_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_1_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_1_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_1_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_1_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_1_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_1_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_1_14' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_2_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_1' will not be exposed as RTL port.
@@ -166,20 +154,6 @@ WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_6' will not be exposed as R
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_2_6' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_7' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_2_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_2_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_2_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_2_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_2_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_2_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_2_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_2_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_2_14' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_3_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_1' will not be exposed as RTL port.
@@ -198,20 +172,6 @@ WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_6' will not be exposed as R
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_3_6' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_7' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_3_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_3_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_3_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_3_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_3_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_3_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_3_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_3_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_3_14' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_4_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_1' will not be exposed as RTL port.
@@ -230,20 +190,6 @@ WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_6' will not be exposed as R
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_4_6' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_7' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_4_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_4_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_4_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_4_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_4_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_4_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_4_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_4_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_4_14' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_5_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_1' will not be exposed as RTL port.
@@ -262,20 +208,6 @@ WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_6' will not be exposed as R
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_5_6' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_7' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_5_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_5_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_5_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_5_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_5_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_5_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_5_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_5_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_5_14' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_6_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_6_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_6_1' will not be exposed as RTL port.
@@ -294,20 +226,6 @@ WARNING: [RTGEN 206-101] Register 'targetBlocks_V_6_6' is power-on initializatio
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_6_6' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_6_7' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_6_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_6_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_6_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_6_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_6_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_6_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_6_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_6_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_6_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_6_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_6_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_6_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_6_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_6_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_6_14' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_7_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_1' will not be exposed as RTL port.
@@ -326,271 +244,17 @@ WARNING: [RTGEN 206-101] Register 'refBlock_V_7_7' is power-on initialization.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_7' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Register 'targetBlocks_V_7_7' is power-on initialization.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_7_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_7_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_7_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_7_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_7_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_7_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_7_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_7_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'refBlock_V_8_8' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_8_8' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_8_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_8_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'refBlock_V_9_9' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_9_9' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_9_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_9_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'refBlock_V_10_10' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_10_10' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_10_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_10_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'refBlock_V_11_11' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_11_11' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_11_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_11_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'refBlock_V_12_12' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_12_12' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_12_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_12_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'refBlock_V_13_13' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_13_13' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_13_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_13_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_0' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_1' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_1' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_2' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_2' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_3' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_3' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_4' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_4' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_5' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_5' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_6' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_6' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_7' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_7' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_8' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_8' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_9' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_9' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_10' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_10' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_11' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_11' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_12' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_12' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_13' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_13' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'refBlock_V_14_14' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_14_14' will not be exposed as RTL port.
-WARNING: [RTGEN 206-101] Register 'targetBlocks_V_14_14' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_14_14' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Register 'glCnt' is power-on initialization.
 INFO: [SYN 201-210] Renamed object name 'parseEvents_mux_42_32_1_1' to 'parseEvents_mux_4ncg' due to the length limit 20
 INFO: [SYN 201-210] Renamed object name 'parseEvents_mac_muladd_6ns_7ns_6ns_12_1_1' to 'parseEvents_mac_mocq' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_mac_muladd_7ns_6ns_6ns_12_1_1' to 'parseEvents_mac_mpcA' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_mac_muladd_8ns_6ns_6ns_12_1_1' to 'parseEvents_mac_mqcK' due to the length limit 20
 INFO: [RTGEN 206-100] Generating core module 'parseEvents_mac_mocq': 3 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_mac_mpcA': 3 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_mac_mqcK': 42 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_4ncg': 48 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_4ncg': 3 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'parseEvents'.
-INFO: [HLS 200-111]  Elapsed time: 6.407 seconds; current allocated memory: 513.473 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.929 seconds; current allocated memory: 117.262 MB.
 INFO: [RTMG 210-278] Implementing memory 'parseEvents_glPLSbkb_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:01:13 ; elapsed = 00:01:33 . Memory (MB): peak = 736.668 ; gain = 678.551
+INFO: [RTMG 210-278] Implementing memory 'parseEvents_glPLSfYi_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:06 ; elapsed = 00:00:21 . Memory (MB): peak = 180.844 ; gain = 123.430
 INFO: [SYSC 207-301] Generating SystemC RTL for parseEvents.
 INFO: [VHDL 208-304] Generating VHDL RTL for parseEvents.
 INFO: [VLOG 209-307] Generating Verilog RTL for parseEvents.
-INFO: [HLS 200-112] Total elapsed time: 93.527 seconds; peak allocated memory: 513.473 MB.
+INFO: [HLS 200-112] Total elapsed time: 21.387 seconds; peak allocated memory: 117.262 MB.
