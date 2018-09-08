@@ -13,3 +13,9 @@ set_directive_resource -core RAM_T2P_BRAM "parseEvents" glPLSlice1
 set_directive_resource -core RAM_T2P_BRAM "parseEvents" glPLSlice2
 set_directive_pipeline "parseEvents/loop_1"
 set_directive_inline "accumulateHW"
+set_directive_inline "calcOF"
+set_directive_unroll "calcOF/calcOF_label0"
+set_directive_unroll "calcOF/calcOF_label1"
+set_directive_unroll "calcOF/readBlockInnerLoop0"
+set_directive_unroll "calcOF/readBlockInnerLoop1"
+set_directive_unroll "calcOF/readBlockInnerLoop2"

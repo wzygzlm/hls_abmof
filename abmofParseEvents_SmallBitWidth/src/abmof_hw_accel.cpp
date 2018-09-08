@@ -19,8 +19,8 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 	col_pix_t tmpData;
 	ap_int<BITS_PER_PIXEL> tmpTmpData;
 
-	ap_int<5> yNewIdx = y/COMBINED_PIXELS;
-	ap_int<12> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y - COMBINED_PIXELS * yNewIdx;
+	ap_int<5> yNewIdx = y%COMBINED_PIXELS;
+	ap_int<13> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y/COMBINED_PIXELS;
 
 	if (pol == true)
 	{
@@ -160,15 +160,15 @@ void calcOF(int16_t x, int16_t y)
 	{
 		col_pix_t tmp1, tmp2;
 
-		ap_int<5> yNewIdx = y/COMBINED_PIXELS;
-		ap_int<12> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y - COMBINED_PIXELS * yNewIdx;
+		ap_int<5> yNewIdx = y%COMBINED_PIXELS;
+		ap_int<13> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y/COMBINED_PIXELS;
 
 		if(glPLActiveSliceIdx == 0)
 		{
 			tmp1 = glPLSlice2[xNewIdx + k];
 			tmp2 = glPLSlice1[xNewIdx + k];
 
-			for(int8_t l = 0; l < BLOCK_SIZE; l++)
+			readBlockInnerLoop0:for(int8_t l = 0; l < BLOCK_SIZE; l++)
 			{
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
 				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
@@ -185,7 +185,7 @@ void calcOF(int16_t x, int16_t y)
 			tmp1 = glPLSlice0[xNewIdx + k];
 			tmp2 = glPLSlice2[xNewIdx + k];
 
-			readBlockInnerLoop2: for(int8_t l = 0; l < BLOCK_SIZE; l++)
+			readBlockInnerLoop1: for(int8_t l = 0; l < BLOCK_SIZE; l++)
 			{
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
 				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
@@ -202,7 +202,7 @@ void calcOF(int16_t x, int16_t y)
 			tmp1 = glPLSlice1[xNewIdx + k];
 			tmp2 = glPLSlice0[xNewIdx + k];
 
-			for(int8_t l = 0; l < BLOCK_SIZE; l++)
+			readBlockInnerLoop2:for(int8_t l = 0; l < BLOCK_SIZE; l++)
 			{
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
 				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
@@ -318,8 +318,7 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 //		if(glPLActiveSliceIdx == 0)
 //		{
 
-//		calcOF(x, y);
-
+		calcOF(x, y);
 
 //
 //			// sum = calcOF(refBlock, targetBlocks);
@@ -418,14 +417,16 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 		if (i == 0)
 		{
 			// Output the current slice index and the sum result.
-			*eventSlice = glPLSlice0[x+1] + glPLSlice1[x+1] + glPLSlice2[x+1] + localCnt + refBlock[i][i] + targetBlocks[i][i];
+			// *eventSlice = glPLSlice0[x+1] + glPLSlice1[x+1] + glPLSlice2[x+1] + localCnt + refBlock[i][i] + targetBlocks[i][i];
+			*eventSlice = localCnt + refBlock[i][i] + targetBlocks[i][i];
 			// *eventSlice = localCnt + (glCnt << 16);
 
 		}
 		else
 		{
 			// Reorder the data to make it easier to be parsed.
-			*eventSlice =  glPLSlice0[x+1] + glPLSlice1[x+1] + glPLSlice2[x+1] + (y << 8) + refBlock[i][i] + targetBlocks[i][i];
+			// *eventSlice =  glPLSlice0[x+1] + glPLSlice1[x+1] + glPLSlice2[x+1] + (y << 8) + refBlock[i][i] + targetBlocks[i][i];
+			*eventSlice =  (y << 8) + refBlock[i][i] + targetBlocks[i][i];
 			// *eventSlice = x + (y << 8) + (pol << 16) + (sum << 17);
 			// *eventSlice = glPLSlices[glPLActiveSliceIdx][x];
 		}

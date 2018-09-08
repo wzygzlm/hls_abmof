@@ -60,6 +60,24 @@
         <directive functionName="accumulateHW" label="" functionLabel="">
             <pragma name="INLINE"/>
         </directive>
+        <directive functionName="calcOF" label="" functionLabel="">
+            <pragma name="INLINE"/>
+        </directive>
+        <directive functionName="calcOF" label="calcOF_label0" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="calcOF" label="calcOF_label1" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="calcOF" label="readBlockInnerLoop0" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="calcOF" label="readBlockInnerLoop1" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="calcOF" label="readBlockInnerLoop2" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 
