@@ -10,15 +10,15 @@ INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file 'abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 103.387 ; gain = 44.871
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 103.426 ; gain = 44.910
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:11 . Memory (MB): peak = 103.398 ; gain = 45.293
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 103.434 ; gain = 45.328
 INFO: [HLS 200-10] Starting code transformations ...
 INFO: [XFORM 203-603] Inlining function 'accumulateHW' into 'parseEvents' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307).
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 121.145 ; gain = 62.629
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 120.926 ; gain = 62.820
 INFO: [HLS 200-10] Checking synthesizability ...
 WARNING: [SYNCHK 200-23] abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:50: variable-indexed range selection may cause suboptimal QoR.
 INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 126.543 ; gain = 68.027
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 126.605 ; gain = 68.500
 INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'loop_1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:289) in function 'parseEvents' for pipelining.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:48) in function 'parseEvents' completely.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.2' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:54) in function 'parseEvents' completely.
@@ -31,8 +31,8 @@ INFO: [XFORM 203-101] Partitioning array 'glPLSlice1.V'  in dimension 1 with a c
 INFO: [XFORM 203-101] Partitioning array 'glPLSlice0.V'  in dimension 1 with a cyclic factor 16.
 INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:418:2) to (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:288:49) in function 'parseEvents'... converting 4 basic blocks.
 INFO: [XFORM 203-11] Balancing expressions in function 'parseEvents' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:247)...3 expression(s) balanced.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 158.035 ; gain = 99.520
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:16 . Memory (MB): peak = 160.879 ; gain = 102.363
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 156.734 ; gain = 98.629
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:15 . Memory (MB): peak = 159.059 ; gain = 100.953
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'parseEvents' ...
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -41,22 +41,22 @@ INFO: [HLS 200-10] -------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'loop_1'.
 WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
-   between 'store' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:59->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) of variable 'tmp_38', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:56->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307 on array 'glPLSlice0_V_0' and 'load' operation ('glPLSlice0_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:46->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) on array 'glPLSlice0_V_0'.
+   between 'store' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:59->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) of variable 'tmp_36', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:56->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307 on array 'glPLSlice0_V_0' and 'load' operation ('glPLSlice0_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:46->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) on array 'glPLSlice0_V_0'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 2, Depth = 9.
 WARNING: [SCHED 204-21] Estimated clock period (10.307ns) exceeds the target (target clock period: 10ns, clock uncertainty: 0.1ns, effective delay budget: 9.9ns).
 WARNING: [SCHED 204-21] The critical path consists of the following:
 	'load' operation ('glPLSlice2_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:86->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) on array 'glPLSlice2_V_0' (3.25 ns)
 	'mux' operation ('tmpData.V', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:86->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) (2.06 ns)
 	'add' operation ('tmpTmpData.V', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:92->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) (1.74 ns)
-	'store' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:99->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) of variable 'tmp_62', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:96->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307 on array 'glPLSlice2_V_7' (3.25 ns)
+	'store' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:99->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307) of variable 'tmp_60', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:96->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:307 on array 'glPLSlice2_V_5' (3.25 ns)
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 16.855 seconds; current allocated memory: 112.155 MB.
+INFO: [HLS 200-111]  Elapsed time: 16.181 seconds; current allocated memory: 111.489 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.417 seconds; current allocated memory: 113.655 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.453 seconds; current allocated memory: 112.980 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'parseEvents'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -121,10 +121,10 @@ INFO: [RTGEN 206-100] Generating core module 'parseEvents_mul_mYie': 1 instance(
 INFO: [RTGEN 206-100] Generating core module 'parseEvents_mul_mZio': 1 instance(s).
 INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_1Xh4': 6 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'parseEvents'.
-INFO: [HLS 200-111]  Elapsed time: 0.634 seconds; current allocated memory: 116.968 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.608 seconds; current allocated memory: 116.280 MB.
 INFO: [RTMG 210-278] Implementing memory 'parseEvents_glPLSbkb_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:05 ; elapsed = 00:00:20 . Memory (MB): peak = 179.219 ; gain = 120.703
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:05 ; elapsed = 00:00:20 . Memory (MB): peak = 178.277 ; gain = 120.172
 INFO: [SYSC 207-301] Generating SystemC RTL for parseEvents.
 INFO: [VHDL 208-304] Generating VHDL RTL for parseEvents.
 INFO: [VLOG 209-307] Generating Verilog RTL for parseEvents.
-INFO: [HLS 200-112] Total elapsed time: 20.324 seconds; peak allocated memory: 116.968 MB.
+INFO: [HLS 200-112] Total elapsed time: 19.768 seconds; peak allocated memory: 116.280 MB.

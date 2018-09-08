@@ -17,10 +17,10 @@ int partFactor=6;
 void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 {
 	col_pix_t tmpData;
-	ap_int<4> tmpTmpData;
+	ap_int<BITS_PER_PIXEL> tmpTmpData;
 
-	ap_int<7> yNewIdx = y/COMBINED_PIXELS;
-	ap_int<10> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y - COMBINED_PIXELS * yNewIdx;
+	ap_int<5> yNewIdx = y/COMBINED_PIXELS;
+	ap_int<12> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y - COMBINED_PIXELS * yNewIdx;
 
 	if (pol == true)
 	{
@@ -45,15 +45,15 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 			// a lot of shift-register which will reduce a lot of LUTs consuming.
 			tmpData = glPLSlice0[xNewIdx];
 
-			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 			{
-				tmpTmpData[yIndex] = tmpData[4*yNewIdx + yIndex];
+				tmpTmpData[yIndex] = tmpData[BITS_PER_PIXEL*yNewIdx + yIndex];
 			}
 			tmpTmpData +=  1;
 
-			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 			{
-				tmpData[4*yNewIdx + yIndex] = tmpTmpData[yIndex];
+				tmpData[BITS_PER_PIXEL*yNewIdx + yIndex] = tmpTmpData[yIndex];
 			}
 
 			glPLSlice0[xNewIdx] = tmpData;
@@ -65,15 +65,15 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 			// a lot of shift-register which will reduce a lot of LUTs consuming.
 			tmpData = glPLSlice1[xNewIdx];
 
-			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 			{
-				tmpTmpData[yIndex] = tmpData[4*yNewIdx + yIndex];
+				tmpTmpData[yIndex] = tmpData[BITS_PER_PIXEL*yNewIdx + yIndex];
 			}
 			tmpTmpData +=  1;
 
-			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 			{
-				tmpData[4*yNewIdx + yIndex] = tmpTmpData[yIndex];
+				tmpData[BITS_PER_PIXEL*yNewIdx + yIndex] = tmpTmpData[yIndex];
 			}
 
 			glPLSlice1[xNewIdx] = tmpData;
@@ -85,15 +85,15 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 			// a lot of shift-register which will reduce a lot of LUTs consuming.
 			tmpData = glPLSlice2[xNewIdx];
 
-			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 			{
-				tmpTmpData[yIndex] = tmpData[4*yNewIdx + yIndex];
+				tmpTmpData[yIndex] = tmpData[BITS_PER_PIXEL*yNewIdx + yIndex];
 			}
 			tmpTmpData +=  1;
 
-			for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+			for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 			{
-				tmpData[4*yNewIdx + yIndex] = tmpTmpData[yIndex];
+				tmpData[BITS_PER_PIXEL*yNewIdx + yIndex] = tmpTmpData[yIndex];
 			}
 
 			glPLSlice2[xNewIdx] = tmpData;
@@ -160,8 +160,8 @@ void calcOF(int16_t x, int16_t y)
 	{
 		col_pix_t tmp1, tmp2;
 
-		ap_int<7> yNewIdx = y/BITS_PER_PIXEL;
-		ap_int<10> xNewIdx = x * BITS_PER_PIXEL + y - BITS_PER_PIXEL * yNewIdx;
+		ap_int<5> yNewIdx = y/COMBINED_PIXELS;
+		ap_int<12> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y - COMBINED_PIXELS * yNewIdx;
 
 		if(glPLActiveSliceIdx == 0)
 		{
@@ -170,11 +170,11 @@ void calcOF(int16_t x, int16_t y)
 
 			for(int8_t l = 0; l < BLOCK_SIZE; l++)
 			{
-				ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-				for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
+				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 				{
-					tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
-					tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+					tmpTmp1[yIndex] = tmp1[BITS_PER_PIXEL*yNewIdx + yIndex];
+					tmpTmp2[yIndex] = tmp2[BITS_PER_PIXEL*yNewIdx + yIndex];
 				}
 				refBlock[k][l] = tmpTmp1;
 				targetBlocks[k][l] = tmpTmp2;
@@ -187,11 +187,11 @@ void calcOF(int16_t x, int16_t y)
 
 			readBlockInnerLoop2: for(int8_t l = 0; l < BLOCK_SIZE; l++)
 			{
-				ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-				for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
+				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 				{
-					tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
-					tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+					tmpTmp1[yIndex] = tmp1[BITS_PER_PIXEL*yNewIdx + yIndex];
+					tmpTmp2[yIndex] = tmp2[BITS_PER_PIXEL*yNewIdx + yIndex];
 				}
 				refBlock[k][l] = tmpTmp1;
 				targetBlocks[k][l] = tmpTmp2;
@@ -204,11 +204,11 @@ void calcOF(int16_t x, int16_t y)
 
 			for(int8_t l = 0; l < BLOCK_SIZE; l++)
 			{
-				ap_int<4> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-				for(int8_t yIndex = 0; yIndex < 4; yIndex++)
+				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
+				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 				{
-					tmpTmp1[yIndex] = tmp1[4*yNewIdx + yIndex];
-					tmpTmp2[yIndex] = tmp2[4*yNewIdx + yIndex];
+					tmpTmp1[yIndex] = tmp1[BITS_PER_PIXEL*yNewIdx + yIndex];
+					tmpTmp2[yIndex] = tmp2[BITS_PER_PIXEL*yNewIdx + yIndex];
 				}
 				refBlock[k][l] = tmpTmp1;
 				targetBlocks[k][l] = tmpTmp2;
