@@ -6,7 +6,7 @@ typedef ap_uint<2> sliceIdx_t;
 
 typedef ap_int<COMBINED_PIXELS * BITS_PER_PIXEL> col_pix_t;
 
-static col_pix_t glPLSlice0[DVS_WIDTH * DVS_HEIGHT/COMBINED_PIXELS], glPLSlice1[DVS_WIDTH * DVS_HEIGHT/COMBINED_PIXELS], glPLSlice2[DVS_WIDTH * DVS_HEIGHT/COMBINED_PIXELS];
+static col_pix_t glPLSlice0[DVS_WIDTH][DVS_HEIGHT/COMBINED_PIXELS], glPLSlice1[DVS_WIDTH][DVS_HEIGHT/COMBINED_PIXELS], glPLSlice2[DVS_WIDTH][DVS_HEIGHT/COMBINED_PIXELS];
 // static col_pix_t glPLSlices[SLICES_NUMBER][DVS_WIDTH * BITS_PER_PIXEL * 20];
 
 static sliceIdx_t glPLActiveSliceIdx, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
@@ -20,7 +20,7 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 	ap_int<BITS_PER_PIXEL> tmpTmpData;
 
 	ap_int<5> yNewIdx = y%COMBINED_PIXELS;
-	ap_int<13> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y/COMBINED_PIXELS;
+//	ap_int<13> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y/COMBINED_PIXELS;
 
 	if (pol == true)
 	{
@@ -43,7 +43,7 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 			// Use bit selection plus for-loop to read multi-bits from a wider bit width value
 			// rather than use range selection directly. The reason is that the latter will use
 			// a lot of shift-register which will reduce a lot of LUTs consuming.
-			tmpData = glPLSlice0[xNewIdx];
+			tmpData = glPLSlice0[x][y/COMBINED_PIXELS];
 
 			for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 			{
@@ -56,14 +56,14 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 				tmpData[BITS_PER_PIXEL*yNewIdx + yIndex] = tmpTmpData[yIndex];
 			}
 
-			glPLSlice0[xNewIdx] = tmpData;
+			glPLSlice0[x][y/COMBINED_PIXELS] = tmpData;
 		}
 		else if(glPLActiveSliceIdx == 1)
 		{
 			// Use bit selection plus for-loop to read multi-bits from a wider bit width value
 			// rather than use range selection directly. The reason is that the latter will use
 			// a lot of shift-register which will reduce a lot of LUTs consuming.
-			tmpData = glPLSlice1[xNewIdx];
+			tmpData = glPLSlice1[x][y/COMBINED_PIXELS];
 
 			for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 			{
@@ -76,14 +76,14 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 				tmpData[BITS_PER_PIXEL*yNewIdx + yIndex] = tmpTmpData[yIndex];
 			}
 
-			glPLSlice1[xNewIdx] = tmpData;
+			glPLSlice1[x][y/COMBINED_PIXELS] = tmpData;
 		}
 		else if(glPLActiveSliceIdx == 2)
 		{
 			// Use bit selection plus for-loop to read multi-bits from a wider bit width value
 			// rather than use range selection directly. The reason is that the latter will use
 			// a lot of shift-register which will reduce a lot of LUTs consuming.
-			tmpData = glPLSlice2[xNewIdx];
+			tmpData = glPLSlice2[x][y/COMBINED_PIXELS];
 
 			for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 			{
@@ -96,7 +96,7 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 				tmpData[BITS_PER_PIXEL*yNewIdx + yIndex] = tmpTmpData[yIndex];
 			}
 
-			glPLSlice2[xNewIdx] = tmpData;
+			glPLSlice2[x][y/COMBINED_PIXELS] = tmpData;
 		}
 	}
 }
@@ -161,17 +161,17 @@ void calcOF(int16_t x, int16_t y)
 		col_pix_t tmp1, tmp2;
 
 		ap_int<5> yNewIdx = y%COMBINED_PIXELS;
-		ap_int<13> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y/COMBINED_PIXELS;
+	//	ap_int<13> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y/COMBINED_PIXELS;
 
 		if(glPLActiveSliceIdx == 0)
 		{
-			tmp1 = glPLSlice2[xNewIdx + k];
-			tmp2 = glPLSlice1[xNewIdx + k];
+			tmp1 = glPLSlice2[x + k][y/COMBINED_PIXELS];
+			tmp2 = glPLSlice1[x + k][y/COMBINED_PIXELS];
 
 			readBlockInnerLoop0:for(int8_t l = 0; l < BLOCK_SIZE; l++)
 			{
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
+				calcOF_label0:for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 				{
 					tmpTmp1[yIndex] = tmp1[BITS_PER_PIXEL*yNewIdx + yIndex];
 					tmpTmp2[yIndex] = tmp2[BITS_PER_PIXEL*yNewIdx + yIndex];
@@ -182,13 +182,13 @@ void calcOF(int16_t x, int16_t y)
 		}
 		else if(glPLActiveSliceIdx == 1)
 		{
-			tmp1 = glPLSlice0[xNewIdx + k];
-			tmp2 = glPLSlice2[xNewIdx + k];
+			tmp1 = glPLSlice0[x + k][y/COMBINED_PIXELS];
+			tmp2 = glPLSlice2[x + k][y/COMBINED_PIXELS];
 
 			readBlockInnerLoop1: for(int8_t l = 0; l < BLOCK_SIZE; l++)
 			{
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
+				calcOF_label1:for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 				{
 					tmpTmp1[yIndex] = tmp1[BITS_PER_PIXEL*yNewIdx + yIndex];
 					tmpTmp2[yIndex] = tmp2[BITS_PER_PIXEL*yNewIdx + yIndex];
@@ -199,13 +199,13 @@ void calcOF(int16_t x, int16_t y)
 		}
 		else if(glPLActiveSliceIdx == 2)
 		{
-			tmp1 = glPLSlice1[xNewIdx + k];
-			tmp2 = glPLSlice0[xNewIdx + k];
+			tmp1 = glPLSlice1[x + k][y/COMBINED_PIXELS];
+			tmp2 = glPLSlice0[x + k][y/COMBINED_PIXELS];
 
 			readBlockInnerLoop2:for(int8_t l = 0; l < BLOCK_SIZE; l++)
 			{
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
-				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
+				calcOF_label2:for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 				{
 					tmpTmp1[yIndex] = tmp1[BITS_PER_PIXEL*yNewIdx + yIndex];
 					tmpTmp2[yIndex] = tmp2[BITS_PER_PIXEL*yNewIdx + yIndex];
@@ -417,7 +417,7 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 		if (i == 0)
 		{
 			// Output the current slice index and the sum result.
-			// *eventSlice = glPLSlice0[x+1] + glPLSlice1[x+1] + glPLSlice2[x+1] + localCnt + refBlock[i][i] + targetBlocks[i][i];
+			// *eventSlice = glPLSlice0[x+1][y/COMBINED_PIXELS] + glPLSlice1[x+1][y/COMBINED_PIXELS] + glPLSlice2[x+1][y/COMBINED_PIXELS] + localCnt + refBlock[i][i] + targetBlocks[i][i];
 			*eventSlice = localCnt + refBlock[i][i] + targetBlocks[i][i];
 			// *eventSlice = localCnt + (glCnt << 16);
 
@@ -425,7 +425,7 @@ void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventS
 		else
 		{
 			// Reorder the data to make it easier to be parsed.
-			// *eventSlice =  glPLSlice0[x+1] + glPLSlice1[x+1] + glPLSlice2[x+1] + (y << 8) + refBlock[i][i] + targetBlocks[i][i];
+			// *eventSlice =  glPLSlice0[x+1][y/COMBINED_PIXELS] + glPLSlice1[x+1][y/COMBINED_PIXELS] + glPLSlice2[x+1][y/COMBINED_PIXELS] + (y << 8) + refBlock[i][i] + targetBlocks[i][i];
 			*eventSlice =  (y << 8) + refBlock[i][i] + targetBlocks[i][i];
 			// *eventSlice = x + (y << 8) + (pol << 16) + (sum << 17);
 			// *eventSlice = glPLSlices[glPLActiveSliceIdx][x];

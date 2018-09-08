@@ -12,10 +12,10 @@
 
 #define SLICES_NUMBER 3
 #define DVS_WIDTH  240
-#define DVS_HEIGHT 180
+#define DVS_HEIGHT 184
 
 #define BITS_PER_PIXEL 4
-#define COMBINED_PIXELS 4
+#define COMBINED_PIXELS 8
 
 #define BLOCK_SIZE 15
 #define SEARCH_DISTANCE 4

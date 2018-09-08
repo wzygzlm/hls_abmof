@@ -26,7 +26,9 @@
       "unroll calcOF\/readBlockInnerLoop0 {} {}",
       "unroll calcOF\/readBlockInnerLoop1 {} {}",
       "unroll calcOF\/readBlockInnerLoop2 {} {}",
-      "pipeline calcOF\/readRefBlockLoop1 {} {}"
+      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredrefBlock} {complete positionBoolean0type} {dim 0}} {}",
+      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtargetBlocks} {complete positionBoolean0type} {dim 0}} {}",
+      "inline calcOF {} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
@@ -50,25 +52,18 @@
   "Files": {
     "CSource": ["..\/src\/abmof_hw_accel.cpp"],
     "Vhdl": [
-      "impl\/vhdl\/calcOF.vhd",
-      "impl\/vhdl\/parseEvents_glPLSeOg.vhd",
-      "impl\/vhdl\/parseEvents_mac_m2iS.vhd",
-      "impl\/vhdl\/parseEvents_mac_mcud.vhd",
-      "impl\/vhdl\/parseEvents_mac_mdEe.vhd",
-      "impl\/vhdl\/parseEvents_mux_1bkb.vhd",
-      "impl\/vhdl\/parseEvents_refBl0iy.vhd",
+      "impl\/vhdl\/parseEvents_glPLSbkb.vhd",
+      "impl\/vhdl\/parseEvents_mac_mYie.vhd",
+      "impl\/vhdl\/parseEvents_mac_mZio.vhd",
+      "impl\/vhdl\/parseEvents_mux_1Xh4.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
-      "impl\/verilog\/calcOF.v",
-      "impl\/verilog\/parseEvents_glPLSeOg.v",
-      "impl\/verilog\/parseEvents_glPLSeOg_ram.dat",
-      "impl\/verilog\/parseEvents_mac_m2iS.v",
-      "impl\/verilog\/parseEvents_mac_mcud.v",
-      "impl\/verilog\/parseEvents_mac_mdEe.v",
-      "impl\/verilog\/parseEvents_mux_1bkb.v",
-      "impl\/verilog\/parseEvents_refBl0iy.v",
-      "impl\/verilog\/parseEvents_refBl0iy_ram.dat",
+      "impl\/verilog\/parseEvents_glPLSbkb.v",
+      "impl\/verilog\/parseEvents_glPLSbkb_ram.dat",
+      "impl\/verilog\/parseEvents_mac_mYie.v",
+      "impl\/verilog\/parseEvents_mac_mZio.v",
+      "impl\/verilog\/parseEvents_mux_1Xh4.v",
       "impl\/verilog\/parseEvents.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -207,47 +202,19 @@
     "eventSlice": {
       "interfaceRef": "eventSlice",
       "dir": "out",
-      "firstOutLatency": "14"
+      "firstOutLatency": "5"
     }
   },
   "ModuleInfo": {
-    "Hierarchy": {
-      "ModuleName": "parseEvents",
-      "Instances": [{
-          "ModuleName": "calcOF",
-          "InstanceName": "grp_calcOF_fu_1420"
-        }]
-    },
-    "Metrics": {
-      "calcOF": {
-        "Latency": {
-          "LatencyBest": "5",
-          "LatencyAvg": "5",
-          "LatencyWorst": "5",
-          "PipelineII": "5",
-          "PipelineDepth": "6",
-          "PipelineType": "function"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "9.63"
-        },
-        "Area": {
-          "DSP48E": "9",
-          "FF": "175",
-          "LUT": "3734",
-          "BRAM_18K": "0"
-        }
-      },
-      "parseEvents": {
+    "Hierarchy": {"ModuleName": "parseEvents"},
+    "Metrics": {"parseEvents": {
         "Latency": {
           "LatencyBest": "2",
-          "LatencyAvg": "40007",
-          "LatencyWorst": "80007",
+          "LatencyAvg": "10004",
+          "LatencyWorst": "20004",
           "PipelineIIMin": "3",
-          "PipelineIIMax": "80008",
-          "PipelineII": "3 ~ 80008",
+          "PipelineIIMax": "20005",
+          "PipelineII": "3 ~ 20005",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -260,23 +227,22 @@
             "Name": "loop_1",
             "TripCount": "",
             "LatencyMin": "0",
-            "LatencyMax": "80005",
-            "Latency": "0 ~ 80005",
-            "PipelineII": "8",
-            "PipelineDepth": "14"
+            "LatencyMax": "20002",
+            "Latency": "0 ~ 20002",
+            "PipelineII": "2",
+            "PipelineDepth": "5"
           }],
         "Area": {
-          "BRAM_18K": "50",
-          "DSP48E": "13",
-          "FF": "962",
-          "LUT": "7967"
+          "BRAM_18K": "48",
+          "DSP48E": "6",
+          "FF": "684",
+          "LUT": "2222"
         }
-      }
-    }
+      }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-08 19:28:46 +0200",
+    "Time": "2018-09-08 20:22:25 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
