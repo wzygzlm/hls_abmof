@@ -4,9 +4,9 @@
 typedef ap_int<BITS_PER_PIXEL> pix_t;
 typedef ap_uint<2> sliceIdx_t;
 
-typedef ap_int<DVS_HEIGHT> col_pix_t;
+typedef ap_int<COMBINED_PIXELS * BITS_PER_PIXEL> col_pix_t;
 
-static col_pix_t glPLSlice0[DVS_WIDTH * BITS_PER_PIXEL], glPLSlice1[DVS_WIDTH * BITS_PER_PIXEL], glPLSlice2[DVS_WIDTH * BITS_PER_PIXEL];
+static col_pix_t glPLSlice0[DVS_WIDTH * DVS_HEIGHT/COMBINED_PIXELS], glPLSlice1[DVS_WIDTH * DVS_HEIGHT/COMBINED_PIXELS], glPLSlice2[DVS_WIDTH * DVS_HEIGHT/COMBINED_PIXELS];
 // static col_pix_t glPLSlices[SLICES_NUMBER][DVS_WIDTH * BITS_PER_PIXEL * 20];
 
 static sliceIdx_t glPLActiveSliceIdx, glPLTminus1SliceIdx, glPLTminus2SliceIdx;

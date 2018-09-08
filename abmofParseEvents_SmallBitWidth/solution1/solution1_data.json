@@ -21,7 +21,8 @@
       "resource parseEvents {{variable positionBooleanTextRequiredglPLSlice0} {core RAM_T2P_BRAM}} {}",
       "resource parseEvents {{variable positionBooleanTextRequiredglPLSlice1} {core RAM_T2P_BRAM}} {}",
       "resource parseEvents {{variable positionBooleanTextRequiredglPLSlice2} {core RAM_T2P_BRAM}} {}",
-      "pipeline parseEvents\/loop_1 {} {}"
+      "pipeline parseEvents\/loop_1 {} {}",
+      "inline accumulateHW {} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
@@ -45,16 +46,14 @@
   "Files": {
     "CSource": ["..\/src\/abmof_hw_accel.cpp"],
     "Vhdl": [
-      "impl\/vhdl\/accumulateHW.vhd",
-      "impl\/vhdl\/parseEvents_glPLScud.vhd",
-      "impl\/vhdl\/parseEvents_mux_1bkb.vhd",
+      "impl\/vhdl\/parseEvents_glPLSbkb.vhd",
+      "impl\/vhdl\/parseEvents_mux_1Xh4.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
-      "impl\/verilog\/accumulateHW.v",
-      "impl\/verilog\/parseEvents_glPLScud.v",
-      "impl\/verilog\/parseEvents_glPLScud_ram.dat",
-      "impl\/verilog\/parseEvents_mux_1bkb.v",
+      "impl\/verilog\/parseEvents_glPLSbkb.v",
+      "impl\/verilog\/parseEvents_glPLSbkb_ram.dat",
+      "impl\/verilog\/parseEvents_mux_1Xh4.v",
       "impl\/verilog\/parseEvents.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -193,47 +192,19 @@
     "eventSlice": {
       "interfaceRef": "eventSlice",
       "dir": "out",
-      "firstOutLatency": "6"
+      "firstOutLatency": "7"
     }
   },
   "ModuleInfo": {
-    "Hierarchy": {
-      "ModuleName": "parseEvents",
-      "Instances": [{
-          "ModuleName": "accumulateHW",
-          "InstanceName": "grp_accumulateHW_fu_806"
-        }]
-    },
-    "Metrics": {
-      "accumulateHW": {
-        "Latency": {
-          "LatencyBest": "1",
-          "LatencyAvg": "1",
-          "LatencyWorst": "1",
-          "PipelineII": "2",
-          "PipelineDepth": "2",
-          "PipelineType": "function"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "10.31"
-        },
-        "Area": {
-          "FF": "311",
-          "LUT": "1172",
-          "BRAM_18K": "0",
-          "DSP48E": "0"
-        }
-      },
-      "parseEvents": {
+    "Hierarchy": {"ModuleName": "parseEvents"},
+    "Metrics": {"parseEvents": {
         "Latency": {
           "LatencyBest": "2",
-          "LatencyAvg": "20003",
-          "LatencyWorst": "40003",
+          "LatencyAvg": "10006",
+          "LatencyWorst": "20006",
           "PipelineIIMin": "3",
-          "PipelineIIMax": "40004",
-          "PipelineII": "3 ~ 40004",
+          "PipelineIIMax": "20007",
+          "PipelineII": "3 ~ 20007",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -246,23 +217,22 @@
             "Name": "loop_1",
             "TripCount": "",
             "LatencyMin": "0",
-            "LatencyMax": "40001",
-            "Latency": "0 ~ 40001",
-            "PipelineII": "4",
-            "PipelineDepth": "6"
+            "LatencyMax": "20004",
+            "Latency": "0 ~ 20004",
+            "PipelineII": "2",
+            "PipelineDepth": "7"
           }],
         "Area": {
-          "BRAM_18K": "240",
-          "FF": "503",
-          "LUT": "3634",
+          "BRAM_18K": "48",
+          "FF": "665",
+          "LUT": "1815",
           "DSP48E": "0"
         }
-      }
-    }
+      }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-08 14:13:51 +0200",
+    "Time": "2018-09-08 14:51:02 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

@@ -57,6 +57,9 @@
         <directive functionName="parseEvents" label="loop_1" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
+        <directive functionName="accumulateHW" label="" functionLabel="">
+            <pragma name="INLINE"/>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 
