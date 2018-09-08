@@ -5,8 +5,8 @@
 ############################################################
 open_project abmofParseEvents
 set_top parseEvents
-add_files abmofParseEvents/src/abmof_hw_accel.cpp
 add_files abmofParseEvents/src/abmof_hw_accel.h
+add_files abmofParseEvents/src/abmof_hw_accel.cpp
 open_solution "solution6"
 set_part {xc7z007sclg225-1}
 create_clock -period 10 -name default

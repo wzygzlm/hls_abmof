@@ -21,10 +21,11 @@
       "resource parseEvents {{variable positionBooleanTextRequiredglPLSlice0} {core RAM_T2P_BRAM}} {}",
       "resource parseEvents {{variable positionBooleanTextRequiredglPLSlice1} {core RAM_T2P_BRAM}} {}",
       "resource parseEvents {{variable positionBooleanTextRequiredglPLSlice2} {core RAM_T2P_BRAM}} {}",
-      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlice0} {cyclic positionBoolean0type} {factor 20} {dim 1}} {}",
-      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlice1} {cyclic positionBoolean0type} {factor 20} {dim 1}} {}",
-      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlice2} {cyclic positionBoolean0type} {factor 20} {dim 1}} {}",
-      "inline calcOF {} {}"
+      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlice0} {cyclic positionBoolean0type} {factor 16} {dim 1}} {}",
+      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlice1} {cyclic positionBoolean0type} {factor 16} {dim 1}} {}",
+      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlice2} {cyclic positionBoolean0type} {factor 16} {dim 1}} {}",
+      "inline calcOF {} {}",
+      "inline accumulateHW {} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
@@ -48,24 +49,14 @@
   "Files": {
     "CSource": ["..\/src\/abmof_hw_accel.cpp"],
     "Vhdl": [
-      "impl\/vhdl\/parseEvents_am_adbek.vhd",
       "impl\/vhdl\/parseEvents_glPLSbkb.vhd",
-      "impl\/vhdl\/parseEvents_mul_mbdk.vhd",
-      "impl\/vhdl\/parseEvents_mux_2bbk.vhd",
-      "impl\/vhdl\/parseEvents_mux_2bck.vhd",
-      "impl\/vhdl\/parseEvents_urem_9j0.vhd",
-      "impl\/vhdl\/parseEvents_urem_bak.vhd",
+      "impl\/vhdl\/parseEvents_mux_1Xh4.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
-      "impl\/verilog\/parseEvents_am_adbek.v",
       "impl\/verilog\/parseEvents_glPLSbkb.v",
       "impl\/verilog\/parseEvents_glPLSbkb_ram.dat",
-      "impl\/verilog\/parseEvents_mul_mbdk.v",
-      "impl\/verilog\/parseEvents_mux_2bbk.v",
-      "impl\/verilog\/parseEvents_mux_2bck.v",
-      "impl\/verilog\/parseEvents_urem_9j0.v",
-      "impl\/verilog\/parseEvents_urem_bak.v",
+      "impl\/verilog\/parseEvents_mux_1Xh4.v",
       "impl\/verilog\/parseEvents.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -204,7 +195,7 @@
     "eventSlice": {
       "interfaceRef": "eventSlice",
       "dir": "out",
-      "firstOutLatency": "20"
+      "firstOutLatency": "7"
     }
   },
   "ModuleInfo": {
@@ -212,39 +203,39 @@
     "Metrics": {"parseEvents": {
         "Latency": {
           "LatencyBest": "2",
-          "LatencyAvg": "10019",
-          "LatencyWorst": "20019",
+          "LatencyAvg": "10006",
+          "LatencyWorst": "20006",
           "PipelineIIMin": "3",
-          "PipelineIIMax": "20020",
-          "PipelineII": "3 ~ 20020",
+          "PipelineIIMax": "20007",
+          "PipelineII": "3 ~ 20007",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "11.26"
+          "Estimate": "10.31"
         },
         "Loops": [{
             "Name": "loop_1",
             "TripCount": "",
             "LatencyMin": "0",
-            "LatencyMax": "20017",
-            "Latency": "0 ~ 20017",
+            "LatencyMax": "20004",
+            "Latency": "0 ~ 20004",
             "PipelineII": "2",
-            "PipelineDepth": "20"
+            "PipelineDepth": "7"
           }],
         "Area": {
-          "BRAM_18K": "600",
-          "DSP48E": "4",
-          "FF": "1720",
-          "LUT": "2760"
+          "BRAM_18K": "480",
+          "FF": "711",
+          "LUT": "1843",
+          "DSP48E": "0"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-02 00:03:44 +0200",
+    "Time": "2018-09-08 14:15:29 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

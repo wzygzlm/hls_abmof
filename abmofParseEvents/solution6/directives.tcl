@@ -15,3 +15,4 @@ set_directive_array_partition -type cyclic -factor 16 -dim 1 "parseEvents" glPLS
 set_directive_array_partition -type cyclic -factor 16 -dim 1 "parseEvents" glPLSlice1
 set_directive_array_partition -type cyclic -factor 16 -dim 1 "parseEvents" glPLSlice2
 set_directive_inline "calcOF"
+set_directive_inline "accumulateHW"

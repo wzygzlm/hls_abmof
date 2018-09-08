@@ -23127,6 +23127,9 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 #pragma HLS INLINE
 #pragma line 18 "abmofParseEvents/src/abmof_hw_accel.cpp"
 
+#pragma HLS INLINE
+#pragma line 18 "abmofParseEvents/src/abmof_hw_accel.cpp"
+
  col_pix_t tmpData;
  ap_int<4> tmpTmpData;
 #pragma empty_line
