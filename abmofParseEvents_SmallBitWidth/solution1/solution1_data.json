@@ -47,12 +47,16 @@
     "CSource": ["..\/src\/abmof_hw_accel.cpp"],
     "Vhdl": [
       "impl\/vhdl\/parseEvents_glPLSbkb.vhd",
+      "impl\/vhdl\/parseEvents_mul_mYie.vhd",
+      "impl\/vhdl\/parseEvents_mul_mZio.vhd",
       "impl\/vhdl\/parseEvents_mux_1Xh4.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
       "impl\/verilog\/parseEvents_glPLSbkb.v",
       "impl\/verilog\/parseEvents_glPLSbkb_ram.dat",
+      "impl\/verilog\/parseEvents_mul_mYie.v",
+      "impl\/verilog\/parseEvents_mul_mZio.v",
       "impl\/verilog\/parseEvents_mux_1Xh4.v",
       "impl\/verilog\/parseEvents.v"
     ],
@@ -192,7 +196,7 @@
     "eventSlice": {
       "interfaceRef": "eventSlice",
       "dir": "out",
-      "firstOutLatency": "7"
+      "firstOutLatency": "9"
     }
   },
   "ModuleInfo": {
@@ -200,11 +204,11 @@
     "Metrics": {"parseEvents": {
         "Latency": {
           "LatencyBest": "2",
-          "LatencyAvg": "10006",
-          "LatencyWorst": "20006",
+          "LatencyAvg": "10008",
+          "LatencyWorst": "20008",
           "PipelineIIMin": "3",
-          "PipelineIIMax": "20007",
-          "PipelineII": "3 ~ 20007",
+          "PipelineIIMax": "20009",
+          "PipelineII": "3 ~ 20009",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -217,22 +221,22 @@
             "Name": "loop_1",
             "TripCount": "",
             "LatencyMin": "0",
-            "LatencyMax": "20004",
-            "Latency": "0 ~ 20004",
+            "LatencyMax": "20006",
+            "Latency": "0 ~ 20006",
             "PipelineII": "2",
-            "PipelineDepth": "7"
+            "PipelineDepth": "9"
           }],
         "Area": {
-          "BRAM_18K": "48",
-          "FF": "665",
-          "LUT": "1815",
-          "DSP48E": "0"
+          "BRAM_18K": "96",
+          "DSP48E": "2",
+          "FF": "885",
+          "LUT": "2029"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-08 14:51:02 +0200",
+    "Time": "2018-09-08 15:40:14 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

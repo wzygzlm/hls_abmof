@@ -19,8 +19,8 @@ void accumulateHW(int16_t x, int16_t y, bool pol, int64_t ts)
 	col_pix_t tmpData;
 	ap_int<4> tmpTmpData;
 
-	ap_int<7> yNewIdx = y/BITS_PER_PIXEL;
-	ap_int<10> xNewIdx = x * BITS_PER_PIXEL + y - BITS_PER_PIXEL * yNewIdx;
+	ap_int<7> yNewIdx = y/COMBINED_PIXELS;
+	ap_int<10> xNewIdx = x * DVS_HEIGHT/COMBINED_PIXELS + y - COMBINED_PIXELS * yNewIdx;
 
 	if (pol == true)
 	{
