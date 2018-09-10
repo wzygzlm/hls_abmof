@@ -7,11 +7,11 @@ open_project abmofParseEvents_SmallBitWidth
 set_top parseEvents
 add_files abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp
 add_files abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.h
-open_solution "solution4"
+open_solution "solution5"
 set_part {xc7z007sclg225-1}
-create_clock -period 30 -name default
+create_clock -period 10 -name default
 set_clock_uncertainty 0.1
-source "./abmofParseEvents_SmallBitWidth/solution4/directives.tcl"
+source "./abmofParseEvents_SmallBitWidth/solution5/directives.tcl"
 #csim_design
 csynth_design
 #cosim_design

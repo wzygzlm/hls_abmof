@@ -5,7 +5,7 @@ Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 
 ==============================================================
 
-INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 30ns.
 INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file 'abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp' ...
@@ -13,39 +13,24 @@ INFO: [HLS 200-10] Validating synthesis directives ...
 WARNING: [HLS 200-40] Directive 'UNROLL' cannot be applied: Label 'readBlockInnerLoop0' does not exist in function 'calcOF'.
 WARNING: [HLS 200-40] Directive 'UNROLL' cannot be applied: Label 'readBlockInnerLoop1' does not exist in function 'calcOF'.
 WARNING: [HLS 200-40] Directive 'UNROLL' cannot be applied: Label 'readBlockInnerLoop2' does not exist in function 'calcOF'.
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:12 . Memory (MB): peak = 103.504 ; gain = 46.090
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 103.539 ; gain = 46.125
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:25 . Memory (MB): peak = 104.105 ; gain = 46.270
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:38 . Memory (MB): peak = 104.125 ; gain = 46.289
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [XFORM 203-603] Inlining function 'accumulateHW' into 'parseEvents' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442).
-INFO: [XFORM 203-603] Inlining function 'calcOF' into 'parseEvents' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:456).
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 122.625 ; gain = 65.211
+INFO: [XFORM 203-603] Inlining function 'accumulateHW' into 'parseEvents' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:339).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:41 . Memory (MB): peak = 122.082 ; gain = 64.246
 INFO: [HLS 200-10] Checking synthesizability ...
 WARNING: [SYNCHK 200-23] abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:50: variable-indexed range selection may cause suboptimal QoR.
 INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 127.109 ; gain = 69.695
-INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'loop_1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:424) in function 'parseEvents' for pipelining.
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:03 ; elapsed = 00:00:41 . Memory (MB): peak = 125.875 ; gain = 68.039
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'loop_1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:321) in function 'parseEvents' for pipelining.
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'calcOF' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:138).
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:48) in function 'parseEvents' completely.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.2' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:54) in function 'parseEvents' completely.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.3' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:68) in function 'parseEvents' completely.
 INFO: [XFORM 203-501] Unrolling loop 'Loop-1.4' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:74) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.5' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:88) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.6' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:94) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.7' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:174) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.7.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:177) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.8' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:186) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.8.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:189) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.9' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:198) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.9.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:201) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.10' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:210) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.10.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:213) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.11' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:222) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.11.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:225) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.12' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:234) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.12.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:237) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.13' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:246) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.13.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:249) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.14' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:258) in function 'parseEvents' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.14.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:261) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readRefBlockLoop1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:141) in function 'calcOF' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:155) in function 'calcOF' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1.1' (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:158) in function 'calcOF' completely.
 INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V'  in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'refBlock.V'  in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'glPLSlice2.V'  in dimension 1 with a cyclic factor 4.
@@ -53,33 +38,56 @@ INFO: [XFORM 203-101] Partitioning array 'glPLSlice1.V'  in dimension 1 with a c
 INFO: [XFORM 203-101] Partitioning array 'glPLSlice0.V'  in dimension 1 with a cyclic factor 4.
 INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V'  in dimension 2 completely.
 INFO: [XFORM 203-101] Partitioning array 'refBlock.V'  in dimension 2 completely.
-INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:552:2) to (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:423:49) in function 'parseEvents'... converting 20 basic blocks.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:17 . Memory (MB): peak = 159.199 ; gain = 101.785
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:04 ; elapsed = 00:00:17 . Memory (MB): peak = 161.188 ; gain = 103.773
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:353:2) to (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:320:49) in function 'parseEvents'... converting 20 basic blocks.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:04 ; elapsed = 00:00:44 . Memory (MB): peak = 158.887 ; gain = 101.051
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:05 ; elapsed = 00:00:46 . Memory (MB): peak = 167.027 ; gain = 109.191
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'parseEvents' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'calcOF'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'calcOF'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 3.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 46.894 seconds; current allocated memory: 121.606 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 1.277 seconds; current allocated memory: 122.822 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'parseEvents'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'loop_1'.
 WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
-   between 'store' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:59->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) of variable 'tmp_43', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:56->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442 on array 'glPLSlice0_V_0' and 'load' operation ('glPLSlice0_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:46->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) on array 'glPLSlice0_V_0'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 2, Depth = 6.
-WARNING: [SCHED 204-21] Estimated clock period (10.201ns) exceeds the target (target clock period: 10ns, clock uncertainty: 0.1ns, effective delay budget: 9.9ns).
-WARNING: [SCHED 204-21] The critical path consists of the following:
-	'load' operation ('glPLSlice2_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:86->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) on array 'glPLSlice2_V_0' (3.25 ns)
-	'mux' operation ('tmpData.V', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:86->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) (1.96 ns)
-	'add' operation ('tmpTmpData.V', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:92->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) (1.74 ns)
-	'store' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:99->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442) of variable 'tmp_71', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:96->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:442 on array 'glPLSlice2_V_1' (3.25 ns)
+   between 'call' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:353) to 'calcOF' and 'load' operation ('glPLSlice1_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:46->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:339) on array 'glPLSlice1_V_0'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 2, distance = 1, offset = 1)
+   between 'call' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:353) to 'calcOF' and 'load' operation ('glPLSlice1_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:46->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:339) on array 'glPLSlice1_V_0'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 3, distance = 1, offset = 1)
+   between 'call' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:353) to 'calcOF' and 'load' operation ('glPLSlice1_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:46->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:339) on array 'glPLSlice1_V_0'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 4, distance = 1, offset = 1)
+   between 'call' operation (abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:353) to 'calcOF' and 'load' operation ('glPLSlice1_V_0_load', abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:46->abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp:339) on array 'glPLSlice1_V_0'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 5, Depth = 7.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 17.689 seconds; current allocated memory: 112.929 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.786 seconds; current allocated memory: 123.667 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.372 seconds; current allocated memory: 114.518 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.464 seconds; current allocated memory: 124.577 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'calcOF'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SYN 201-210] Renamed object name 'parseEvents_mac_muladd_7s_6ns_6ns_12_1_1' to 'parseEvents_mac_mbkb' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_mac_muladd_8s_6ns_6ns_12_1_1' to 'parseEvents_mac_mcud' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mac_mbkb': 4 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mac_mcud': 4 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'calcOF'.
+INFO: [HLS 200-111]  Elapsed time: 0.885 seconds; current allocated memory: 126.368 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'parseEvents'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -88,18 +96,14 @@ INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventsArraySiz
 INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventSlice' to 'ap_fifo'.
 INFO: [RTGEN 206-500] Setting interface mode on function 'parseEvents' to 'ap_ctrl_hs'.
 WARNING: [RTGEN 206-101] Register 'glPLActiveSliceIdx_V' is power-on initialization.
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice0_V_0' to 'parseEvents_glPLSbkb' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice0_V_1' to 'parseEvents_glPLScud' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice0_V_2' to 'parseEvents_glPLSdEe' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice0_V_3' to 'parseEvents_glPLSeOg' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice1_V_0' to 'parseEvents_glPLSfYi' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice1_V_1' to 'parseEvents_glPLSg8j' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice1_V_2' to 'parseEvents_glPLShbi' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice1_V_3' to 'parseEvents_glPLSibs' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice2_V_0' to 'parseEvents_glPLSjbC' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice2_V_1' to 'parseEvents_glPLSkbM' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice2_V_2' to 'parseEvents_glPLSlbW' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice2_V_3' to 'parseEvents_glPLSmb6' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice1_V_0' to 'parseEvents_glPLSdEe' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice1_V_1' to 'parseEvents_glPLSeOg' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice1_V_2' to 'parseEvents_glPLSfYi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice1_V_3' to 'parseEvents_glPLSg8j' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice2_V_0' to 'parseEvents_glPLShbi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice2_V_1' to 'parseEvents_glPLSibs' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice2_V_2' to 'parseEvents_glPLSjbC' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlice2_V_3' to 'parseEvents_glPLSkbM' due to the length limit 20
 WARNING: [RTGEN 206-101] Register 'refBlock_V_0_0' is power-on initialization.
 WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_0_0' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Register 'targetBlocks_V_0_0' is power-on initialization.
@@ -245,16 +249,15 @@ WARNING: [RTGEN 206-101] Global scalar 'refBlock_V_7_7' will not be exposed as R
 WARNING: [RTGEN 206-101] Register 'targetBlocks_V_7_7' is power-on initialization.
 WARNING: [RTGEN 206-101] Global scalar 'targetBlocks_V_7_7' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Register 'glCnt' is power-on initialization.
-INFO: [SYN 201-210] Renamed object name 'parseEvents_mux_42_32_1_1' to 'parseEvents_mux_4ncg' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'parseEvents_mac_muladd_6ns_7ns_6ns_12_1_1' to 'parseEvents_mac_mocq' due to the length limit 20
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_mac_mocq': 3 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_4ncg': 3 instance(s).
+INFO: [SYN 201-210] Renamed object name 'parseEvents_mux_42_32_1_1' to 'parseEvents_mux_4lbW' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_mac_muladd_6ns_7ns_6ns_12_1_1' to 'parseEvents_mac_mmb6' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mac_mmb6': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_4lbW': 2 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'parseEvents'.
-INFO: [HLS 200-111]  Elapsed time: 0.929 seconds; current allocated memory: 117.262 MB.
-INFO: [RTMG 210-278] Implementing memory 'parseEvents_glPLSbkb_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
-INFO: [RTMG 210-278] Implementing memory 'parseEvents_glPLSfYi_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:06 ; elapsed = 00:00:21 . Memory (MB): peak = 180.844 ; gain = 123.430
+INFO: [HLS 200-111]  Elapsed time: 3.084 seconds; current allocated memory: 128.915 MB.
+INFO: [RTMG 210-278] Implementing memory 'parseEvents_glPLSdEe_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:11 ; elapsed = 00:00:57 . Memory (MB): peak = 191.344 ; gain = 133.508
 INFO: [SYSC 207-301] Generating SystemC RTL for parseEvents.
 INFO: [VHDL 208-304] Generating VHDL RTL for parseEvents.
 INFO: [VLOG 209-307] Generating Verilog RTL for parseEvents.
-INFO: [HLS 200-112] Total elapsed time: 21.387 seconds; peak allocated memory: 117.262 MB.
+INFO: [HLS 200-112] Total elapsed time: 57.133 seconds; peak allocated memory: 128.915 MB.

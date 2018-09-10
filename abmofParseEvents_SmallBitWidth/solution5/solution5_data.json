@@ -27,17 +27,18 @@
       "unroll calcOF\/readBlockInnerLoop1 {} {}",
       "unroll calcOF\/readBlockInnerLoop2 {} {}",
       "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredrefBlock} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtargetBlocks} {complete positionBoolean0type} {dim 0}} {}"
+      "array_partition parseEvents {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtargetBlocks} {complete positionBoolean0type} {dim 0}} {}",
+      "inline calcOF {} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
-    "ClockPeriod": "30",
+    "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
     "Latency": "2",
     "Uncertainty": "0.1"
   },
-  "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 30.000 [get_ports ap_clk]"]},
+  "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
   "Ipx": {
     "Vendor": "xilinx.com",
     "Library": "hls",
@@ -51,22 +52,23 @@
   "Files": {
     "CSource": ["..\/src\/abmof_hw_accel.cpp"],
     "Vhdl": [
-      "impl\/vhdl\/calcOF.vhd",
-      "impl\/vhdl\/parseEvents_glPLSdEe.vhd",
-      "impl\/vhdl\/parseEvents_mac_mbkb.vhd",
-      "impl\/vhdl\/parseEvents_mac_mcud.vhd",
-      "impl\/vhdl\/parseEvents_mac_mmb6.vhd",
-      "impl\/vhdl\/parseEvents_mux_4lbW.vhd",
+      "impl\/vhdl\/parseEvents_glPLSbkb.vhd",
+      "impl\/vhdl\/parseEvents_glPLSfYi.vhd",
+      "impl\/vhdl\/parseEvents_mac_mocq.vhd",
+      "impl\/vhdl\/parseEvents_mac_mpcA.vhd",
+      "impl\/vhdl\/parseEvents_mac_mqcK.vhd",
+      "impl\/vhdl\/parseEvents_mux_4ncg.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
-      "impl\/verilog\/calcOF.v",
-      "impl\/verilog\/parseEvents_glPLSdEe.v",
-      "impl\/verilog\/parseEvents_glPLSdEe_ram.dat",
-      "impl\/verilog\/parseEvents_mac_mbkb.v",
-      "impl\/verilog\/parseEvents_mac_mcud.v",
-      "impl\/verilog\/parseEvents_mac_mmb6.v",
-      "impl\/verilog\/parseEvents_mux_4lbW.v",
+      "impl\/verilog\/parseEvents_glPLSbkb.v",
+      "impl\/verilog\/parseEvents_glPLSbkb_ram.dat",
+      "impl\/verilog\/parseEvents_glPLSfYi.v",
+      "impl\/verilog\/parseEvents_glPLSfYi_ram.dat",
+      "impl\/verilog\/parseEvents_mac_mocq.v",
+      "impl\/verilog\/parseEvents_mac_mpcA.v",
+      "impl\/verilog\/parseEvents_mac_mqcK.v",
+      "impl\/verilog\/parseEvents_mux_4ncg.v",
       "impl\/verilog\/parseEvents.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -205,76 +207,47 @@
     "eventSlice": {
       "interfaceRef": "eventSlice",
       "dir": "out",
-      "firstOutLatency": "7"
+      "firstOutLatency": "6"
     }
   },
   "ModuleInfo": {
-    "Hierarchy": {
-      "ModuleName": "parseEvents",
-      "Instances": [{
-          "ModuleName": "calcOF",
-          "InstanceName": "grp_calcOF_fu_540"
-        }]
-    },
-    "Metrics": {
-      "calcOF": {
+    "Hierarchy": {"ModuleName": "parseEvents"},
+    "Metrics": {"parseEvents": {
         "Latency": {
           "LatencyBest": "2",
-          "LatencyAvg": "2",
-          "LatencyWorst": "2",
-          "PipelineII": "1",
-          "PipelineDepth": "3",
-          "PipelineType": "function"
-        },
-        "Timing": {
-          "Target": "30.00",
-          "Uncertainty": "0.10",
-          "Estimate": "28.38"
-        },
-        "Area": {
-          "DSP48E": "8",
-          "FF": "51",
-          "LUT": "337",
-          "BRAM_18K": "0"
-        }
-      },
-      "parseEvents": {
-        "Latency": {
-          "LatencyBest": "2",
-          "LatencyAvg": "25003",
-          "LatencyWorst": "50003",
+          "LatencyAvg": "10005",
+          "LatencyWorst": "20005",
           "PipelineIIMin": "3",
-          "PipelineIIMax": "50004",
-          "PipelineII": "3 ~ 50004",
+          "PipelineIIMax": "20006",
+          "PipelineII": "3 ~ 20006",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
-          "Target": "30.00",
+          "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "28.38"
+          "Estimate": "10.20"
         },
         "Loops": [{
             "Name": "loop_1",
             "TripCount": "",
             "LatencyMin": "0",
-            "LatencyMax": "50001",
-            "Latency": "0 ~ 50001",
-            "PipelineII": "5",
-            "PipelineDepth": "7"
+            "LatencyMax": "20003",
+            "Latency": "0 ~ 20003",
+            "PipelineII": "2",
+            "PipelineDepth": "6"
           }],
         "Area": {
-          "BRAM_18K": "32",
-          "DSP48E": "10",
-          "FF": "345",
-          "LUT": "1263"
+          "BRAM_18K": "48",
+          "DSP48E": "9",
+          "FF": "606",
+          "LUT": "1240"
         }
-      }
-    }
+      }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-10 12:08:23 +0200",
+    "Time": "2018-09-10 12:55:09 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

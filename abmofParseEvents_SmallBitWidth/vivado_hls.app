@@ -1,4 +1,4 @@
-<project xmlns="com.autoesl.autopilot.project" top="parseEvents" name="abmofParseEvents_SmallBitWidth">
+<project xmlns="com.autoesl.autopilot.project" name="abmofParseEvents_SmallBitWidth" top="parseEvents">
     <includePaths/>
     <libraryPaths/>
     <Simulation>
@@ -12,7 +12,8 @@
         <solution name="solution1" status="inactive"/>
         <solution name="solution2" status="inactive"/>
         <solution name="solution3" status="inactive"/>
-        <solution name="solution4" status="active"/>
+        <solution name="solution4" status="inactive"/>
+        <solution name="solution5" status="active"/>
     </solutions>
 </project>
 
