@@ -15,7 +15,7 @@
 #define DVS_HEIGHT 184
 
 #define BITS_PER_PIXEL 4
-#define COMBINED_PIXELS 8
+#define COMBINED_PIXELS 16
 
 #define BLOCK_SIZE 8
 #define SEARCH_DISTANCE 4

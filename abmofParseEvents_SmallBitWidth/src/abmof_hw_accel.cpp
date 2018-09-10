@@ -159,11 +159,6 @@ void calcOF(int16_t x, int16_t y)
 {
 	readRefBlockLoop1: for(int8_t k = 0; k < BLOCK_SIZE; k++)
 	{
-		col_pix_t tmp1, tmp2;
-		col_pix_t tmp10, tmp20;
-		col_pix_t tmp11, tmp21;
-		col_pix_t tmp12, tmp22;
-
 		ap_int<5> yNewIdx = y%COMBINED_PIXELS;
 		// Clear the last two bits of x so that it always
 		// read data from the first part, otherwise a mux
@@ -178,11 +173,21 @@ void calcOF(int16_t x, int16_t y)
 		{
 			for(int8_t l = 0; l < BLOCK_SIZE; l++)
 			{
+				col_pix_t tmp1, tmp2;
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
+
+				// Read a column first.
+				// In fact, this statement doesn't have influence to increase
+				// the speed, since this statement will be combined with the statement
+				// in the for loop due to tmp1 and tmp2 are just wires in final syntheses.
+				// Put here just for better understanding.
+				tmp1 = glPLSlice2[xNewIdx+k][y/COMBINED_PIXELS];
+				tmp2 = glPLSlice1[xNewIdx+k][y/COMBINED_PIXELS];
+
 				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 				{
-					tmpTmp1[yIndex] = glPLSlice2[xNewIdx+k][y/COMBINED_PIXELS][BITS_PER_PIXEL*yNewIdx + yIndex];
-					tmpTmp2[yIndex] = glPLSlice1[xNewIdx+k][y/COMBINED_PIXELS][BITS_PER_PIXEL*yNewIdx + yIndex];
+					tmpTmp1[yIndex] = tmp1[BITS_PER_PIXEL*(yNewIdx + l) + yIndex];
+					tmpTmp2[yIndex] = tmp2[BITS_PER_PIXEL*(yNewIdx + l) + yIndex];
 				}
 				refBlock[k][l] = tmpTmp1;
 				targetBlocks[k][l] = tmpTmp2;
