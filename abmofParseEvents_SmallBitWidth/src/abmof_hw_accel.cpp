@@ -159,7 +159,7 @@ void calcOF(int16_t x, int16_t y)
 {
 	readRefBlockLoop1: for(int8_t k = 0; k < BLOCK_SIZE; k++)
 	{
-		ap_int<5> yNewIdx = y%COMBINED_PIXELS;
+		ap_uint<5> yNewIdx = y%COMBINED_PIXELS;
 		// Clear the last two bits of x so that it always
 		// read data from the first part, otherwise a mux
 		// will be syntheses for every x.
@@ -167,11 +167,11 @@ void calcOF(int16_t x, int16_t y)
 		// saves more resources.
 		// Another trick is use 9 bits instead of the original 16bits
 		// to save the resources further.
-		ap_int<9> xNewIdx = (x >> 2) << 2;
+		ap_uint<9> xNewIdx = (x >> 2) << 2;
 
 		if(glPLActiveSliceIdx == 0)
 		{
-			for(int8_t l = 0; l < BLOCK_SIZE; l++)
+			for(ap_int<5> l = 0; l < 8; l++)
 			{
 				col_pix_t tmp1, tmp2;
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
@@ -193,7 +193,54 @@ void calcOF(int16_t x, int16_t y)
 				targetBlocks[k][l] = tmpTmp2;
 			}
 		}
+		else if(glPLActiveSliceIdx == 1)
+		{
+			for(ap_int<5> l = 0; l < 8; l++)
+			{
+				col_pix_t tmp1, tmp2;
+				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
 
+				// Read a column first.
+				// In fact, this statement doesn't have influence to increase
+				// the speed, since this statement will be combined with the statement
+				// in the for loop due to tmp1 and tmp2 are just wires in final syntheses.
+				// Put here just for better understanding.
+				tmp1 = glPLSlice0[xNewIdx+k][y/COMBINED_PIXELS];
+				tmp2 = glPLSlice2[xNewIdx+k][y/COMBINED_PIXELS];
+
+				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
+				{
+					tmpTmp1[yIndex] = tmp1[BITS_PER_PIXEL*(yNewIdx + l) + yIndex];
+					tmpTmp2[yIndex] = tmp2[BITS_PER_PIXEL*(yNewIdx + l) + yIndex];
+				}
+				refBlock[k][l] = tmpTmp1;
+				targetBlocks[k][l] = tmpTmp2;
+			}
+		}
+		else if(glPLActiveSliceIdx == 2)
+		{
+			for(ap_int<5> l = 0; l < 8; l++)
+			{
+				col_pix_t tmp1, tmp2;
+				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
+
+				// Read a column first.
+				// In fact, this statement doesn't have influence to increase
+				// the speed, since this statement will be combined with the statement
+				// in the for loop due to tmp1 and tmp2 are just wires in final syntheses.
+				// Put here just for better understanding.
+				tmp1 = glPLSlice1[xNewIdx+k][y/COMBINED_PIXELS];
+				tmp2 = glPLSlice0[xNewIdx+k][y/COMBINED_PIXELS];
+
+				for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
+				{
+					tmpTmp1[yIndex] = tmp1[BITS_PER_PIXEL*(yNewIdx + l) + yIndex];
+					tmpTmp2[yIndex] = tmp2[BITS_PER_PIXEL*(yNewIdx + l) + yIndex];
+				}
+				refBlock[k][l] = tmpTmp1;
+				targetBlocks[k][l] = tmpTmp2;
+			}
+		}
 	}
 //
 //

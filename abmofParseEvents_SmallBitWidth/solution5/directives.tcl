@@ -18,4 +18,3 @@ set_directive_unroll "calcOF/readBlockInnerLoop1"
 set_directive_unroll "calcOF/readBlockInnerLoop2"
 set_directive_array_partition -type complete -dim 0 "parseEvents" refBlock
 set_directive_array_partition -type complete -dim 0 "parseEvents" targetBlocks
-set_directive_inline "calcOF"

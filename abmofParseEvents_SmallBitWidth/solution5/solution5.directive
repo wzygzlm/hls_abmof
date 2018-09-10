@@ -83,9 +83,6 @@
                 <option name="dim" value="0"/>
             </pragma>
         </directive>
-        <directive functionName="calcOF" label="" functionLabel="">
-            <pragma name="INLINE"/>
-        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 
