@@ -204,7 +204,7 @@
     "eventSlice": {
       "interfaceRef": "eventSlice",
       "dir": "out",
-      "firstOutLatency": "6"
+      "firstOutLatency": "7"
     }
   },
   "ModuleInfo": {
@@ -212,39 +212,39 @@
     "Metrics": {"parseEvents": {
         "Latency": {
           "LatencyBest": "2",
-          "LatencyAvg": "10005",
-          "LatencyWorst": "20005",
+          "LatencyAvg": "15005",
+          "LatencyWorst": "30005",
           "PipelineIIMin": "3",
-          "PipelineIIMax": "20006",
-          "PipelineII": "3 ~ 20006",
+          "PipelineIIMax": "30006",
+          "PipelineII": "3 ~ 30006",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "10.20"
+          "Estimate": "9.63"
         },
         "Loops": [{
             "Name": "loop_1",
             "TripCount": "",
             "LatencyMin": "0",
-            "LatencyMax": "20003",
-            "Latency": "0 ~ 20003",
-            "PipelineII": "2",
-            "PipelineDepth": "6"
+            "LatencyMax": "30003",
+            "Latency": "0 ~ 30003",
+            "PipelineII": "3",
+            "PipelineDepth": "7"
           }],
         "Area": {
           "BRAM_18K": "48",
-          "DSP48E": "27",
-          "FF": "520",
-          "LUT": "2147"
+          "DSP48E": "69",
+          "FF": "1515",
+          "LUT": "3689"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-10 16:32:23 +0200",
+    "Time": "2018-09-10 17:02:32 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

@@ -55,7 +55,7 @@
         </SimFlow>
     </Simulation>
     <name>
-        <value string="solution5"/>
+        <value string="solution6"/>
     </name>
     <project>
         <value string="abmofParseEvents_SmallBitWidth"/>

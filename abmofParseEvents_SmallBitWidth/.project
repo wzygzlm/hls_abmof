@@ -67,6 +67,11 @@
 			<location>E:/workspace/hls_abmof/abmofParseEvents_SmallBitWidth/solution5/.tcls</location>
 		</link>
 		<link>
+			<name>solution6/constraints</name>
+			<type>2</type>
+			<location>E:/workspace/hls_abmof/abmofParseEvents_SmallBitWidth/solution6/.tcls</location>
+		</link>
+		<link>
 			<name>source/abmof_hw_accel.cpp</name>
 			<type>1</type>
 			<location>E:/workspace/hls_abmof/abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp</location>
@@ -150,6 +155,21 @@
 			<name>solution5/constraints/script.tcl</name>
 			<type>1</type>
 			<location>E:/workspace/hls_abmof/abmofParseEvents_SmallBitWidth/solution5/script.tcl</location>
+		</link>
+		<link>
+			<name>solution6/constraints/.xml.directive</name>
+			<type>1</type>
+			<location>E:/workspace/hls_abmof/abmofParseEvents_SmallBitWidth/solution6/solution6.directive</location>
+		</link>
+		<link>
+			<name>solution6/constraints/directives.tcl</name>
+			<type>1</type>
+			<location>E:/workspace/hls_abmof/abmofParseEvents_SmallBitWidth/solution6/directives.tcl</location>
+		</link>
+		<link>
+			<name>solution6/constraints/script.tcl</name>
+			<type>1</type>
+			<location>E:/workspace/hls_abmof/abmofParseEvents_SmallBitWidth/solution6/script.tcl</location>
 		</link>
 	</linkedResources>
 </projectDescription>

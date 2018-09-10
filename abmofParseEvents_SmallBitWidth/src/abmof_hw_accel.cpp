@@ -167,7 +167,8 @@ void calcOF(int16_t x, int16_t y)
 		// saves more resources.
 		// Another trick is use 9 bits instead of the original 16bits
 		// to save the resources further.
-		ap_uint<9> xNewIdx = (x >> 2) << 2;
+		ap_uint<9> xNewIdx = ((x >> 2) << 2) + 0;
+//		xNewIdx = 100;
 
 		if(glPLActiveSliceIdx == 0)
 		{
