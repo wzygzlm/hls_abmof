@@ -13,15 +13,15 @@
     "Speed": "-1"
   },
   "HlsSolution": {"Directives": [
-      "resource sum\/calOFInnerLoop1 {{variable positionBooleanTextRequiredtmpSum} {core AddSub_DSP}} {}",
-      "pipeline sum\/calOFInnerLoop1 {} {}"
+      "pipeline sum\/calOFInnerLoop1 {} {}",
+      "resource sum\/calOFInnerLoop1 {{variable positionBooleanTextRequiredtmpSum} {core AddSub_DSP}} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "445",
+    "Latency": "2405",
     "Uncertainty": "1.25"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -38,12 +38,12 @@
   "Files": {
     "CSource": ["..\/src\/sum.cpp"],
     "Vhdl": [
-      "impl\/vhdl\/sum_mac_muladd_5nbkb.vhd",
+      "impl\/vhdl\/sum_mac_muladd_6nbkb.vhd",
       "impl\/vhdl\/sum_sub_5s_5s_5_1_1.vhd",
       "impl\/vhdl\/sum.vhd"
     ],
     "Verilog": [
-      "impl\/verilog\/sum_mac_muladd_5nbkb.v",
+      "impl\/verilog\/sum_mac_muladd_6nbkb.v",
       "impl\/verilog\/sum_sub_5s_5s_5_1_1.v",
       "impl\/verilog\/sum.v"
     ],
@@ -78,10 +78,10 @@
     "refBlock_V_address0": {
       "type": "data",
       "dir": "out",
-      "width": "9",
+      "width": "12",
       "ctype": {"DATA": {
           "Type": "null",
-          "Width": "9"
+          "Width": "12"
         }}
     },
     "refBlock_V_q0": {
@@ -96,19 +96,19 @@
     "sum_r": {
       "type": "data",
       "dir": "out",
-      "width": "32",
+      "width": "16",
       "ctype": {"DATA": {
           "Type": "integer signed",
-          "Width": "32"
+          "Width": "16"
         }}
     },
     "targetBlocks_V_address0": {
       "type": "data",
       "dir": "out",
-      "width": "9",
+      "width": "12",
       "ctype": {"DATA": {
           "Type": "null",
-          "Width": "9"
+          "Width": "12"
         }}
     },
     "targetBlocks_V_q0": {
@@ -148,7 +148,7 @@
     },
     "refBlock_V_address0": {
       "dir": "out",
-      "width": "9"
+      "width": "12"
     },
     "refBlock_V_ce0": {
       "dir": "out",
@@ -160,7 +160,7 @@
     },
     "targetBlocks_V_address0": {
       "dir": "out",
-      "width": "9"
+      "width": "12"
     },
     "targetBlocks_V_ce0": {
       "dir": "out",
@@ -172,7 +172,7 @@
     },
     "sum_r": {
       "dir": "out",
-      "width": "32"
+      "width": "16"
     },
     "sum_r_ap_vld": {
       "dir": "out",
@@ -189,7 +189,7 @@
       "dir": "in",
       "dataWidth": "4",
       "busTypeRef": "ap_memory",
-      "arraySize": "441",
+      "arraySize": "2401",
       "handshakeRef": "ap_none"
     },
     "targetBlocks_V_q0": {
@@ -197,25 +197,25 @@
       "dir": "in",
       "dataWidth": "4",
       "busTypeRef": "ap_memory",
-      "arraySize": "441",
+      "arraySize": "2401",
       "handshakeRef": "ap_none"
     },
     "sum_r": {
       "interfaceRef": "sum_r",
       "dir": "out",
-      "dataWidth": "32",
+      "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "0"
+      "firstOutLatency": "2"
     }
   },
   "ModuleInfo": {
     "Hierarchy": {"ModuleName": "sum"},
     "Metrics": {"sum": {
         "Latency": {
-          "LatencyBest": "445",
-          "LatencyAvg": "445",
-          "LatencyWorst": "445",
-          "PipelineII": "446",
+          "LatencyBest": "2405",
+          "LatencyAvg": "2405",
+          "LatencyWorst": "2405",
+          "PipelineII": "2406",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -226,22 +226,22 @@
         },
         "Loops": [{
             "Name": "calOFLoop1_calOFInnerLoop1",
-            "TripCount": "441",
-            "Latency": "443",
+            "TripCount": "2401",
+            "Latency": "2403",
             "PipelineII": "1",
             "PipelineDepth": "4"
           }],
         "Area": {
           "BRAM_18K": "0",
           "DSP48E": "2",
-          "FF": "139",
-          "LUT": "324"
+          "FF": "130",
+          "LUT": "260"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-12 17:51:01 +0200",
+    "Time": "2018-09-12 19:16:55 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

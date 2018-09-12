@@ -5,8 +5,8 @@
 ############################################################
 open_project abmofParseEvents_SmallBitWidth
 set_top parseEvents
-add_files abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp
 add_files abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.h
+add_files abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp
 open_solution "solution4"
 set_part {xc7z007sclg225-1}
 create_clock -period 30 -name default

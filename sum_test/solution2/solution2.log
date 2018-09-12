@@ -10,22 +10,22 @@ INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file 'sum_test/src/sum.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 102.949 ; gain = 44.566
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 102.969 ; gain = 44.586
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 102.980 ; gain = 44.418
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 103.000 ; gain = 44.438
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 109.348 ; gain = 50.965
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 109.660 ; gain = 51.098
 INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 112.891 ; gain = 54.508
-INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sum' (sum_test/src/sum.cpp:6).
-INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (sum_test/src/sum.cpp:11) in function 'sum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'calOFInnerLoop1' (sum_test/src/sum.cpp:13) in function 'sum' completely.
-INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V' (sum_test/src/sum.cpp:6) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'refBlock.V' (sum_test/src/sum.cpp:6) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V' (sum_test/src/sum.cpp:6) in dimension 2 completely.
-INFO: [XFORM 203-101] Partitioning array 'refBlock.V' (sum_test/src/sum.cpp:6) in dimension 2 completely.
-INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (sum_test/src/sum.cpp:25:1) in function 'sum'... converting 1324 basic blocks.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:27 ; elapsed = 00:00:43 . Memory (MB): peak = 179.914 ; gain = 121.531
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:01:01 ; elapsed = 00:01:17 . Memory (MB): peak = 208.730 ; gain = 150.348
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 113.309 ; gain = 54.746
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sum' (sum_test/src/sum.cpp:7).
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (sum_test/src/sum.cpp:12) in function 'sum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFInnerLoop1' (sum_test/src/sum.cpp:14) in function 'sum' completely.
+INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V' (sum_test/src/sum.cpp:7) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'refBlock.V' (sum_test/src/sum.cpp:7) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V' (sum_test/src/sum.cpp:7) in dimension 2 completely.
+INFO: [XFORM 203-101] Partitioning array 'refBlock.V' (sum_test/src/sum.cpp:7) in dimension 2 completely.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (sum_test/src/sum.cpp:26:1) in function 'sum'... converting 1324 basic blocks.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:26 ; elapsed = 00:00:41 . Memory (MB): peak = 180.227 ; gain = 121.664
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:01:01 ; elapsed = 00:01:16 . Memory (MB): peak = 209.590 ; gain = 151.027
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'sum' ...
 WARNING: [SYN 201-107] Renaming port name 'sum/sum' to 'sum/sum_r' to avoid the conflict with HDL keywords or other object names.
@@ -36,13 +36,13 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'sum'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 131.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 96.95 seconds; current allocated memory: 171.055 MB.
+INFO: [HLS 200-111]  Elapsed time: 96.73 seconds; current allocated memory: 171.055 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 9.548 seconds; current allocated memory: 185.918 MB.
+INFO: [HLS 200-111]  Elapsed time: 10.564 seconds; current allocated memory: 185.933 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'sum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -932,9 +932,9 @@ INFO: [RTGEN 206-500] Setting interface mode on port 'sum/sum_r' to 'ap_vld'.
 INFO: [RTGEN 206-500] Setting interface mode on function 'sum' to 'ap_ctrl_hs'.
 INFO: [RTGEN 206-104] Estimated max fanout for 'sum' is 157297 from HDL expression: (1'b0 == ap_block_pp0_stage0_11001)
 INFO: [RTGEN 206-100] Finished creating RTL model for 'sum'.
-INFO: [HLS 200-111]  Elapsed time: 80 seconds; current allocated memory: 279.189 MB.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:03:30 ; elapsed = 00:03:56 . Memory (MB): peak = 507.504 ; gain = 449.121
+INFO: [HLS 200-111]  Elapsed time: 85.858 seconds; current allocated memory: 279.205 MB.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:03:38 ; elapsed = 00:04:05 . Memory (MB): peak = 501.711 ; gain = 443.148
 INFO: [SYSC 207-301] Generating SystemC RTL for sum.
 INFO: [VHDL 208-304] Generating VHDL RTL for sum.
 INFO: [VLOG 209-307] Generating Verilog RTL for sum.
-INFO: [HLS 200-112] Total elapsed time: 236.636 seconds; peak allocated memory: 279.189 MB.
+INFO: [HLS 200-112] Total elapsed time: 244.898 seconds; peak allocated memory: 279.205 MB.

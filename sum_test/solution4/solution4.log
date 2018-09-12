@@ -10,16 +10,16 @@ INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file 'sum_test/src/sum.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'AddSub_DSP' cannot be applied: Variable 'tmpSum' has no assigment in 'sum/calOFInnerLoop1'.
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:11 . Memory (MB): peak = 102.895 ; gain = 44.723
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 102.934 ; gain = 44.762
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:11 . Memory (MB): peak = 102.914 ; gain = 45.105
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 102.953 ; gain = 45.145
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 109.715 ; gain = 51.543
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 110.836 ; gain = 53.027
 INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 113.480 ; gain = 55.309
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 114.977 ; gain = 57.168
 INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (sum_test/src/sum.cpp:14:4) to (sum_test/src/sum.cpp:13:45) in function 'sum'... converting 4 basic blocks.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 138.891 ; gain = 80.719
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 140.582 ; gain = 82.773
 INFO: [XFORM 203-541] Flattening a loop nest 'calOFLoop1' (sum_test/src/sum.cpp:12:3) in function 'sum'.
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 139.387 ; gain = 81.215
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 141.531 ; gain = 83.723
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'sum' ...
 WARNING: [SYN 201-107] Renaming port name 'sum/sum' to 'sum/sum_r' to avoid the conflict with HDL keywords or other object names.
@@ -33,16 +33,16 @@ WARNING: [SCHED 204-21] Estimated clock period (9.634ns) exceeds the target (tar
 WARNING: [SCHED 204-21] The critical path consists of the following:
 	'mul' operation ('tmp', sum_test/src/sum.cpp:15) (3.36 ns)
 	'add' operation ('tmp_1', sum_test/src/sum.cpp:15) (3.02 ns)
-	'getelementptr' operation ('refBlock_V_addr', sum_test/src/sum.cpp:15) (0 ns)
-	'load' operation ('refBlock_V_load', sum_test/src/sum.cpp:15) on array 'refBlock_V' (3.25 ns)
+	'getelementptr' operation ('targetBlocks_V_addr', sum_test/src/sum.cpp:15) (0 ns)
+	'load' operation ('targetBlocks_V_load', sum_test/src/sum.cpp:15) on array 'targetBlocks_V' (3.25 ns)
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 14.558 seconds; current allocated memory: 88.120 MB.
+INFO: [HLS 200-111]  Elapsed time: 14.409 seconds; current allocated memory: 89.869 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.094 seconds; current allocated memory: 88.312 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.089 seconds; current allocated memory: 90.057 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'sum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -50,14 +50,14 @@ INFO: [RTGEN 206-500] Setting interface mode on port 'sum/refBlock_V' to 'ap_mem
 INFO: [RTGEN 206-500] Setting interface mode on port 'sum/targetBlocks_V' to 'ap_memory'.
 INFO: [RTGEN 206-500] Setting interface mode on port 'sum/sum_r' to 'ap_vld'.
 INFO: [RTGEN 206-500] Setting interface mode on function 'sum' to 'ap_ctrl_hs'.
-INFO: [SYN 201-210] Renamed object name 'sum_mac_muladd_5ns_6ns_5ns_10_1_1' to 'sum_mac_muladd_5nbkb' due to the length limit 20
-INFO: [RTGEN 206-100] Generating core module 'sum_mac_muladd_5nbkb': 1 instance(s).
+INFO: [SYN 201-210] Renamed object name 'sum_mac_muladd_6ns_7ns_6ns_12_1_1' to 'sum_mac_muladd_6nbkb' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'sum_mac_muladd_6nbkb': 1 instance(s).
 INFO: [RTGEN 206-100] Generating core module 'sum_sub_5s_5s_5_1_1': 1 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'sum'.
-INFO: [HLS 200-111]  Elapsed time: 0.095 seconds; current allocated memory: 88.730 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.097 seconds; current allocated memory: 90.473 MB.
 INFO: [RTMG 210-287] Generating adder/subtractor assigned to DSP48: 'sum_sub_5s_5s_5_1_1_AddSub_DSP_0'
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 140.316 ; gain = 82.145
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 141.531 ; gain = 83.723
 INFO: [SYSC 207-301] Generating SystemC RTL for sum.
 INFO: [VHDL 208-304] Generating VHDL RTL for sum.
 INFO: [VLOG 209-307] Generating Verilog RTL for sum.
-INFO: [HLS 200-112] Total elapsed time: 15.849 seconds; peak allocated memory: 88.730 MB.
+INFO: [HLS 200-112] Total elapsed time: 15.765 seconds; peak allocated memory: 90.473 MB.
