@@ -1,0 +1,11 @@
+<AutoPilot:ProjectResources xmlns:AutoPilot="com.autoesl.autopilot.ui.directiveView">
+    <sourceFile name="">
+        <directive functionName="sum" label="calOFInnerLoop1" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="tmpSum" positionalBoolean="4"/>
+                <option name="core" value="AddSub_DSP"/>
+            </pragma>
+        </directive>
+    </sourceFile>
+</AutoPilot:ProjectResources>
+
