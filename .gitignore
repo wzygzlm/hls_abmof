@@ -34,3 +34,12 @@ sum_test/solution5/.autopilot
 sum_test/solution6/impl
 sum_test/solution6/syn
 sum_test/solution6/.autopilot
+calcDataFlow/solution1/impl
+calcDataFlow/solution1/syn
+calcDataFlow/solution1/.autopilot
+calcDataFlow/solution2/impl
+calcDataFlow/solution2/syn
+calcDataFlow/solution2/.autopilot
+calcDataFlow/solution3/impl
+calcDataFlow/solution3/syn
+calcDataFlow/solution3/.autopilot

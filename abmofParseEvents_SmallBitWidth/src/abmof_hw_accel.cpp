@@ -172,7 +172,7 @@ void calcOF(int16_t x, int16_t y)
 
 		if(glPLActiveSliceIdx == 0)
 		{
-			for(ap_int<5> l = 0; l < 8; l++)
+			for(ap_int<6> l = 0; l < 16; l++)
 			{
 				col_pix_t tmp1, tmp2;
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
@@ -196,7 +196,7 @@ void calcOF(int16_t x, int16_t y)
 		}
 		else if(glPLActiveSliceIdx == 1)
 		{
-			for(ap_int<5> l = 0; l < 8; l++)
+			for(ap_int<6> l = 0; l < 16; l++)
 			{
 				col_pix_t tmp1, tmp2;
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
@@ -220,7 +220,7 @@ void calcOF(int16_t x, int16_t y)
 		}
 		else if(glPLActiveSliceIdx == 2)
 		{
-			for(ap_int<5> l = 0; l < 8; l++)
+			for(ap_int<6> l = 0; l < 16; l++)
 			{
 				col_pix_t tmp1, tmp2;
 				ap_int<BITS_PER_PIXEL> tmpTmp1, tmpTmp2;   //Store the mult-bit data of every pixel in the block.
