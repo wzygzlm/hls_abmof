@@ -49,3 +49,6 @@ calcDataFlow/solution3/.autopilot
 calcDataFlow/solution4/impl
 calcDataFlow/solution4/syn
 calcDataFlow/solution4/.autopilot
+calcDataFlow/solution5/impl
+calcDataFlow/solution5/syn
+calcDataFlow/solution5/.autopilot

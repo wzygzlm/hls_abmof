@@ -1,21 +1,15 @@
 #include "calcDataFlow.h"
 #include <iostream>
+#include "hls_video.h"
 
 typedef ap_int<BITS_PER_PIXEL> pixel_t;
 
 void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
 {
 	ap_int<16> tmp = 0;
-	calOFLoop2:for(int16_t i = 0; i < BLOCK_SIZE; i++)
+	calOFLoop2:for(ap_uint<4> i = 0; i < BLOCK_SIZE; i++)
 	{
-		if(sum[i] >= 0)
-		{
-			tmp = tmp + sum[i];
-		}
-		else if(sum[i] < 0)
-		{
-			tmp = tmp - sum[i];
-		}
+		tmp = tmp + abs(sum[i]);   // abs function provided by hls reduce the area significantly.
 	}
 
 	*sadRet = tmp.to_short();
