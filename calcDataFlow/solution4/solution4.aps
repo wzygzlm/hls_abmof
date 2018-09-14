@@ -2,6 +2,9 @@
     <checksum>
         <value string="false"/>
     </checksum>
+    <downStreamTool>
+        <DownStreamTool name=""/>
+    </downStreamTool>
     <config>
         <schedule model="calcOF"/>
     </config>
@@ -37,8 +40,8 @@
             </RTLs>
         </UIAutoSimConf>
     </UIConfigurations>
-    <ExportDesign askAgain="true" evaluate="false" flow="false" flowChoice="syn" formatName="ip_catalog" rtl="verilog" rtlButton="false" rtlCombo="verilog">
-        <Format formatName="ip_catalog"/>
+    <ExportDesign askAgain="true" evaluate="false" flow="true" flowChoice="impl" formatName="ip_catalog" rtl="verilog" rtlButton="true" rtlCombo="verilog">
+        <Format formatName="ip_catalog" version="1.0"/>
         <Format formatName="sysgen"/>
         <Format formatName="sysgen_ise"/>
         <Format formatName="syn_dcp"/>
@@ -52,7 +55,7 @@
         </SimFlow>
     </Simulation>
     <name>
-        <value string="solution1"/>
+        <value string="solution4"/>
     </name>
     <project>
         <value string="calcDataFlow"/>
@@ -64,11 +67,8 @@
         <library name="DefaultPlatform" value="xilinx/zynq/zynq"/>
         <library name="DefaultPlatform" value="xilinx/zynq/zynq_fpv6"/>
     </libraryList>
-    <downStreamTool>
-        <DownStreamTool name="vivado"/>
-    </downStreamTool>
     <clockList>
-        <clock name="default" default="false" uncertainty="0.1" period="10"/>
+        <clock default="false" name="default" uncertainty="0.1" period="10"/>
     </clockList>
 </solution>
 

@@ -6,4 +6,4 @@
 set_directive_array_partition -type complete -dim 0 "calcOF" refBlock
 set_directive_array_partition -type complete -dim 0 "calcOF" targetBlocks
 set_directive_array_partition -type complete -dim 0 "calcOF" sum
-set_directive_pipeline "calcOF"
+set_directive_pipeline -II 1 "calcOF"

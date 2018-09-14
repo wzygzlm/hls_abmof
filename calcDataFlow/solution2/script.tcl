@@ -5,8 +5,8 @@
 ############################################################
 open_project calcDataFlow
 set_top calcOF
-add_files calcDataFlow/src/calcDataFlow.cpp
 add_files calcDataFlow/src/calcDataFlow.h
+add_files calcDataFlow/src/calcDataFlow.cpp
 add_files -tb calcDataFlow/src/test.cpp
 open_solution "solution2"
 set_part {xc7z007sclg225-1}
@@ -16,4 +16,4 @@ source "./calcDataFlow/solution2/directives.tcl"
 csim_design -setup
 csynth_design
 cosim_design
-export_design -format ip_catalog
+export_design -flow impl -rtl verilog -format ip_catalog

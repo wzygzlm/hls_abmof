@@ -67,6 +67,11 @@
 			<location>E:/xfOpenCV/hls_2018_1/abmofParseEvents_SmallBitWidth/solution6/.tcls</location>
 		</link>
 		<link>
+			<name>solution7/constraints</name>
+			<type>2</type>
+			<location>E:/xfOpenCV/hls_2018_1/abmofParseEvents_SmallBitWidth/solution7/.tcls</location>
+		</link>
+		<link>
 			<name>source/abmof_hw_accel.cpp</name>
 			<type>1</type>
 			<location>E:/xfOpenCV/hls_2018_1/abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp</location>
@@ -165,6 +170,21 @@
 			<name>solution6/constraints/script.tcl</name>
 			<type>1</type>
 			<location>E:/xfOpenCV/hls_2018_1/abmofParseEvents_SmallBitWidth/solution6/script.tcl</location>
+		</link>
+		<link>
+			<name>solution7/constraints/.xml.directive</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/hls_2018_1/abmofParseEvents_SmallBitWidth/solution7/solution7.directive</location>
+		</link>
+		<link>
+			<name>solution7/constraints/directives.tcl</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/hls_2018_1/abmofParseEvents_SmallBitWidth/solution7/directives.tcl</location>
+		</link>
+		<link>
+			<name>solution7/constraints/script.tcl</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/hls_2018_1/abmofParseEvents_SmallBitWidth/solution7/script.tcl</location>
 		</link>
 	</linkedResources>
 </projectDescription>

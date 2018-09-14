@@ -3,16 +3,17 @@
 ## Please DO NOT edit it.
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
-open_project abmofParseEvents_SmallBitWidth
-set_top parseEvents
-add_files abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.cpp
-add_files abmofParseEvents_SmallBitWidth/src/abmof_hw_accel.h
-open_solution "solution3"
+open_project calcDataFlow
+set_top calcOF
+add_files calcDataFlow/src/calcDataFlow.h
+add_files calcDataFlow/src/calcDataFlow.cpp
+add_files -tb calcDataFlow/src/test.cpp
+open_solution "solution4"
 set_part {xc7z007sclg225-1}
 create_clock -period 10 -name default
 set_clock_uncertainty 0.1
-source "./abmofParseEvents_SmallBitWidth/solution3/directives.tcl"
-#csim_design
+source "./calcDataFlow/solution4/directives.tcl"
+csim_design -setup
 csynth_design
-#cosim_design
-export_design -format ip_catalog
+cosim_design
+export_design -flow impl -rtl verilog -format ip_catalog

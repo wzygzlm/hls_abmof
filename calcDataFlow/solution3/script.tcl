@@ -5,8 +5,8 @@
 ############################################################
 open_project calcDataFlow
 set_top calcOF
-add_files calcDataFlow/src/calcDataFlow.cpp
 add_files calcDataFlow/src/calcDataFlow.h
+add_files calcDataFlow/src/calcDataFlow.cpp
 add_files -tb calcDataFlow/src/test.cpp
 open_solution "solution3"
 set_part {xc7z007sclg225-1}

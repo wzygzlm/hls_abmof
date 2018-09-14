@@ -16,6 +16,9 @@ abmofParseEvents_SmallBitWidth/solution5/.autopilot
 abmofParseEvents_SmallBitWidth/solution6/impl
 abmofParseEvents_SmallBitWidth/solution6/syn
 abmofParseEvents_SmallBitWidth/solution6/.autopilot
+abmofParseEvents_SmallBitWidth/solution7/impl
+abmofParseEvents_SmallBitWidth/solution7/syn
+abmofParseEvents_SmallBitWidth/solution7/.autopilot
 sum_test/solution1/impl
 sum_test/solution1/syn
 sum_test/solution1/.autopilot
@@ -43,3 +46,6 @@ calcDataFlow/solution2/.autopilot
 calcDataFlow/solution3/impl
 calcDataFlow/solution3/syn
 calcDataFlow/solution3/.autopilot
+calcDataFlow/solution4/impl
+calcDataFlow/solution4/syn
+calcDataFlow/solution4/.autopilot

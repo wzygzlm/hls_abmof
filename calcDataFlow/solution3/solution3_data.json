@@ -13,17 +13,19 @@
     "Speed": "-1"
   },
   "HlsSolution": {"Directives": [
-      "interface calcOF {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredrefBlock}} {}",
-      "interface calcOF {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredtargetBlocks}} {}",
+      "array_partition calcOF {{partition positionBooleanCmd} {variable positionBooleanTextRequiredrefBlock} {complete positionBoolean0type} {dim 0}} {}",
+      "array_partition calcOF {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtargetBlocks} {complete positionBoolean0type} {dim 0}} {}",
       "array_partition calcOF {{partition positionBooleanCmd} {variable positionBooleanTextRequiredsum} {complete positionBoolean0type} {dim 0}} {}",
-      "pipeline calcOF {} {}"
+      "unroll calcOF\/calOFLoop1 {} {}",
+      "pipeline calcOF {} {}",
+      "allocation sadSum {{instances positionBooleanTextRequiredadd} {limit 1} {operation positionBoolean0type}} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
-    "II": "15",
-    "Latency": "15",
+    "II": "14",
+    "Latency": "13",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -69,18 +71,140 @@
       "polarity": "ACTIVE_HIGH",
       "ctype": {"RST": {"Type": "bool"}}
     },
-    "refBlock_V": {
-      "type": "ap_fifo",
-      "fifo_width": "4",
-      "fifo_type": "read",
-      "ctype": {
-        "RD_DATA": {
+    "refBlock_0_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
           "Type": "integer signed",
           "Width": "4"
-        },
-        "EMPTY_N": {"Type": "bool"},
-        "RD_EN": {"Type": "bool"}
-      }
+        }}
+    },
+    "refBlock_10_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_11_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_12_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_13_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_14_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_1_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_2_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_3_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_4_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_5_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_6_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_7_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_8_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "refBlock_9_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
     },
     "sadRet": {
       "type": "data",
@@ -91,18 +215,140 @@
           "Width": "16"
         }}
     },
-    "targetBlocks_V": {
-      "type": "ap_fifo",
-      "fifo_width": "4",
-      "fifo_type": "read",
-      "ctype": {
-        "RD_DATA": {
+    "targetBlocks_0_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
           "Type": "integer signed",
           "Width": "4"
-        },
-        "EMPTY_N": {"Type": "bool"},
-        "RD_EN": {"Type": "bool"}
-      }
+        }}
+    },
+    "targetBlocks_10_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_11_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_12_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_13_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_14_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_1_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_2_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_3_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_4_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_5_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_6_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_7_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_8_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "targetBlocks_9_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
     }
   },
   "RtlPorts": {
@@ -130,29 +376,125 @@
       "dir": "out",
       "width": "1"
     },
-    "refBlock_V_dout": {
+    "refBlock_0_V": {
       "dir": "in",
       "width": "4"
     },
-    "refBlock_V_empty_n": {
-      "dir": "in",
-      "width": "1"
-    },
-    "refBlock_V_read": {
-      "dir": "out",
-      "width": "1"
-    },
-    "targetBlocks_V_dout": {
+    "refBlock_1_V": {
       "dir": "in",
       "width": "4"
     },
-    "targetBlocks_V_empty_n": {
+    "refBlock_2_V": {
       "dir": "in",
-      "width": "1"
+      "width": "4"
     },
-    "targetBlocks_V_read": {
-      "dir": "out",
-      "width": "1"
+    "refBlock_3_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_4_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_5_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_6_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_7_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_8_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_9_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_10_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_11_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_12_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_13_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "refBlock_14_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_0_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_1_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_2_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_3_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_4_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_5_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_6_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_7_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_8_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_9_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_10_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_11_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_12_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_13_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "targetBlocks_14_V": {
+      "dir": "in",
+      "width": "4"
     },
     "sadRet": {
       "dir": "out",
@@ -168,41 +510,213 @@
       "interfaceRef": "ap_ctrl",
       "dir": "out"
     },
-    "refBlock_V": {
-      "interfaceRef": "refBlock_V",
-      "dir": "in"
+    "refBlock_0_V": {
+      "interfaceRef": "refBlock_0_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
     },
-    "targetBlocks_V": {
-      "interfaceRef": "targetBlocks_V",
-      "dir": "in"
+    "refBlock_1_V": {
+      "interfaceRef": "refBlock_1_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_2_V": {
+      "interfaceRef": "refBlock_2_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_3_V": {
+      "interfaceRef": "refBlock_3_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_4_V": {
+      "interfaceRef": "refBlock_4_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_5_V": {
+      "interfaceRef": "refBlock_5_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_6_V": {
+      "interfaceRef": "refBlock_6_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_7_V": {
+      "interfaceRef": "refBlock_7_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_8_V": {
+      "interfaceRef": "refBlock_8_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_9_V": {
+      "interfaceRef": "refBlock_9_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_10_V": {
+      "interfaceRef": "refBlock_10_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_11_V": {
+      "interfaceRef": "refBlock_11_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_12_V": {
+      "interfaceRef": "refBlock_12_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_13_V": {
+      "interfaceRef": "refBlock_13_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_14_V": {
+      "interfaceRef": "refBlock_14_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_0_V": {
+      "interfaceRef": "targetBlocks_0_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_1_V": {
+      "interfaceRef": "targetBlocks_1_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_2_V": {
+      "interfaceRef": "targetBlocks_2_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_3_V": {
+      "interfaceRef": "targetBlocks_3_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_4_V": {
+      "interfaceRef": "targetBlocks_4_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_5_V": {
+      "interfaceRef": "targetBlocks_5_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_6_V": {
+      "interfaceRef": "targetBlocks_6_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_7_V": {
+      "interfaceRef": "targetBlocks_7_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_8_V": {
+      "interfaceRef": "targetBlocks_8_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_9_V": {
+      "interfaceRef": "targetBlocks_9_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_10_V": {
+      "interfaceRef": "targetBlocks_10_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_11_V": {
+      "interfaceRef": "targetBlocks_11_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_12_V": {
+      "interfaceRef": "targetBlocks_12_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_13_V": {
+      "interfaceRef": "targetBlocks_13_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "targetBlocks_14_V": {
+      "interfaceRef": "targetBlocks_14_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
     },
     "sadRet": {
       "interfaceRef": "sadRet",
       "dir": "out",
       "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "15"
+      "firstOutLatency": "13"
     }
   },
   "ModuleInfo": {
     "Hierarchy": {"ModuleName": "calcOF"},
     "Metrics": {"calcOF": {
         "Latency": {
-          "LatencyBest": "15",
-          "LatencyAvg": "15",
-          "LatencyWorst": "15",
-          "PipelineII": "15",
-          "PipelineDepth": "16",
+          "LatencyBest": "13",
+          "LatencyAvg": "13",
+          "LatencyWorst": "13",
+          "PipelineII": "14",
+          "PipelineDepth": "14",
           "PipelineType": "function"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.13"
+          "Estimate": "7.55"
         },
         "Area": {
-          "FF": "137",
-          "LUT": "546",
+          "FF": "133",
+          "LUT": "778",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -210,7 +724,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-13 19:24:17 +0200",
+    "Time": "2018-09-14 17:54:05 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

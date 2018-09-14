@@ -10,21 +10,21 @@ INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file 'calcDataFlow/src/calcDataFlow.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:11 . Memory (MB): peak = 103.254 ; gain = 45.332
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 103.293 ; gain = 45.371
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:11 . Memory (MB): peak = 103.234 ; gain = 44.902
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:13 . Memory (MB): peak = 103.270 ; gain = 44.938
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 110.195 ; gain = 52.273
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 111.238 ; gain = 52.906
 INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 113.699 ; gain = 55.777
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 115.141 ; gain = 56.809
 INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sadSum' (calcDataFlow/src/calcDataFlow.cpp:6).
-INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (calcDataFlow/src/calcDataFlow.cpp:26) in function 'calcOF' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (calcDataFlow/src/calcDataFlow.cpp:33) in function 'calcOF' completely.
 INFO: [XFORM 203-501] Unrolling loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) in function 'sadSum' completely.
-INFO: [XFORM 203-102] Partitioning array 'sum.V' (calcDataFlow/src/calcDataFlow.cpp:20) automatically.
-INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V' (calcDataFlow/src/calcDataFlow.cpp:17) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'refBlock.V' (calcDataFlow/src/calcDataFlow.cpp:17) in dimension 1 completely.
-INFO: [XFORM 203-11] Balancing expressions in function 'sadSum' (calcDataFlow/src/calcDataFlow.cpp:6)...14 expression(s) balanced.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 139.547 ; gain = 81.625
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 141.871 ; gain = 83.949
+INFO: [XFORM 203-102] Partitioning array 'sum.V' (calcDataFlow/src/calcDataFlow.cpp:27) automatically.
+INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V' (calcDataFlow/src/calcDataFlow.cpp:24) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'refBlock.V' (calcDataFlow/src/calcDataFlow.cpp:24) in dimension 1 completely.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (calcDataFlow/src/calcDataFlow.cpp:22:1) in function 'sadSum'... converting 46 basic blocks.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 141.629 ; gain = 83.297
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 144.281 ; gain = 85.949
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'calcOF' ...
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -32,32 +32,32 @@ INFO: [HLS 200-42] -- Implementing module 'sadSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'sadSum'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 1.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 5.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 13.916 seconds; current allocated memory: 98.118 MB.
+INFO: [HLS 200-111]  Elapsed time: 15.121 seconds; current allocated memory: 100.732 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.107 seconds; current allocated memory: 98.285 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.307 seconds; current allocated memory: 101.084 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'calcOF'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.072 seconds; current allocated memory: 98.578 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.098 seconds; current allocated memory: 101.420 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.112 seconds; current allocated memory: 98.820 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.101 seconds; current allocated memory: 101.753 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'sadSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'sadSum'.
-INFO: [HLS 200-111]  Elapsed time: 0.251 seconds; current allocated memory: 99.118 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.186 seconds; current allocated memory: 102.526 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'calcOF'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -94,9 +94,9 @@ INFO: [RTGEN 206-500] Setting interface mode on port 'calcOF/targetBlocks_14_V' 
 INFO: [RTGEN 206-500] Setting interface mode on port 'calcOF/sadRet' to 'ap_vld'.
 INFO: [RTGEN 206-500] Setting interface mode on function 'calcOF' to 'ap_ctrl_hs'.
 INFO: [RTGEN 206-100] Finished creating RTL model for 'calcOF'.
-INFO: [HLS 200-111]  Elapsed time: 0.195 seconds; current allocated memory: 99.617 MB.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:03 ; elapsed = 00:00:16 . Memory (MB): peak = 152.770 ; gain = 94.848
+INFO: [HLS 200-111]  Elapsed time: 0.329 seconds; current allocated memory: 103.307 MB.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:03 ; elapsed = 00:00:17 . Memory (MB): peak = 158.066 ; gain = 99.734
 INFO: [SYSC 207-301] Generating SystemC RTL for calcOF.
 INFO: [VHDL 208-304] Generating VHDL RTL for calcOF.
 INFO: [VLOG 209-307] Generating Verilog RTL for calcOF.
-INFO: [HLS 200-112] Total elapsed time: 15.857 seconds; peak allocated memory: 99.617 MB.
+INFO: [HLS 200-112] Total elapsed time: 17.471 seconds; peak allocated memory: 103.307 MB.

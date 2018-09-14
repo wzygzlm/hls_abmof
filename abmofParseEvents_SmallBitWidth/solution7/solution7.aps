@@ -2,8 +2,11 @@
     <checksum>
         <value string="false"/>
     </checksum>
+    <downStreamTool>
+        <DownStreamTool name=""/>
+    </downStreamTool>
     <config>
-        <schedule model="calcOF"/>
+        <schedule model="parseEvents"/>
     </config>
     <UIConfigurations>
         <UIAutosynConf hideTrivialOp="true" isBasedOnBoard="false" isSolutionDirty="false" isStopAskAgain="false" showDetailDesignViewer="false">
@@ -52,10 +55,10 @@
         </SimFlow>
     </Simulation>
     <name>
-        <value string="solution1"/>
+        <value string="solution7"/>
     </name>
     <project>
-        <value string="calcDataFlow"/>
+        <value string="abmofParseEvents_SmallBitWidth"/>
     </project>
     <targetInfo>
         <TargetInfo value="xc7z007s:clg225:-1"/>
@@ -64,11 +67,8 @@
         <library name="DefaultPlatform" value="xilinx/zynq/zynq"/>
         <library name="DefaultPlatform" value="xilinx/zynq/zynq_fpv6"/>
     </libraryList>
-    <downStreamTool>
-        <DownStreamTool name="vivado"/>
-    </downStreamTool>
     <clockList>
-        <clock name="default" default="false" uncertainty="0.1" period="10"/>
+        <clock default="false" name="default" uncertainty="0.1" period="10"/>
     </clockList>
 </solution>
 
