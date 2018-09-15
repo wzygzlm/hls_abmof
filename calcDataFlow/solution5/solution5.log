@@ -36,23 +36,23 @@ WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be ap
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:19 . Memory (MB): peak = 103.359 ; gain = 45.820
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:21 . Memory (MB): peak = 103.395 ; gain = 45.855
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:19 . Memory (MB): peak = 103.594 ; gain = 45.848
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:22 . Memory (MB): peak = 103.633 ; gain = 45.887
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [XFORM 203-603] Inlining function 'sadSum' into 'calcOF' (calcDataFlow/src/calcDataFlow.cpp:33).
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:22 . Memory (MB): peak = 133.754 ; gain = 76.215
+INFO: [XFORM 203-603] Inlining function 'sadSum' into 'calcOF' (calcDataFlow/src/calcDataFlow.cpp:34).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:23 . Memory (MB): peak = 135.523 ; gain = 77.777
 INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:23 . Memory (MB): peak = 152.949 ; gain = 95.410
-INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'calcOF' (calcDataFlow/src/calcDataFlow.cpp:18).
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:24 . Memory (MB): peak = 154.664 ; gain = 96.918
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'calcOF' (calcDataFlow/src/calcDataFlow.cpp:19).
 WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:11) because its parent loop or function is pipelined.
-INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (calcDataFlow/src/calcDataFlow.cpp:27) in function 'calcOF' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (calcDataFlow/src/calcDataFlow.cpp:28) in function 'calcOF' completely.
 INFO: [XFORM 203-501] Unrolling loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:11) in function 'calcOF' completely.
-INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V' (calcDataFlow/src/calcDataFlow.cpp:18) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'refBlock.V' (calcDataFlow/src/calcDataFlow.cpp:18) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'sum.V' (calcDataFlow/src/calcDataFlow.cpp:21) in dimension 1 completely.
-INFO: [XFORM 203-11] Balancing expressions in function 'calcOF' (calcDataFlow/src/calcDataFlow.cpp:18)...14 expression(s) balanced.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:24 . Memory (MB): peak = 195.996 ; gain = 138.457
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:24 . Memory (MB): peak = 200.953 ; gain = 143.414
+INFO: [XFORM 203-101] Partitioning array 'targetBlocks.V' (calcDataFlow/src/calcDataFlow.cpp:19) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'refBlock.V' (calcDataFlow/src/calcDataFlow.cpp:19) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'sum.V' (calcDataFlow/src/calcDataFlow.cpp:22) in dimension 1 completely.
+INFO: [XFORM 203-11] Balancing expressions in function 'calcOF' (calcDataFlow/src/calcDataFlow.cpp:19)...14 expression(s) balanced.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:25 . Memory (MB): peak = 198.848 ; gain = 141.102
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:25 . Memory (MB): peak = 204.402 ; gain = 146.656
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'calcOF' ...
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -62,13 +62,13 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'calcOF'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 24.3 seconds; current allocated memory: 146.072 MB.
+INFO: [HLS 200-111]  Elapsed time: 25.112 seconds; current allocated memory: 148.709 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.303 seconds; current allocated memory: 146.591 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.2 seconds; current allocated memory: 149.188 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'calcOF'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -105,9 +105,9 @@ INFO: [RTGEN 206-500] Setting interface mode on port 'calcOF/targetBlocks_14_V' 
 INFO: [RTGEN 206-500] Setting interface mode on port 'calcOF/sadRet' to 'ap_vld'.
 INFO: [RTGEN 206-500] Setting interface mode on function 'calcOF' to 'ap_ctrl_hs'.
 INFO: [RTGEN 206-100] Finished creating RTL model for 'calcOF'.
-INFO: [HLS 200-111]  Elapsed time: 0.235 seconds; current allocated memory: 147.505 MB.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:04 ; elapsed = 00:00:26 . Memory (MB): peak = 203.992 ; gain = 146.453
+INFO: [HLS 200-111]  Elapsed time: 0.24 seconds; current allocated memory: 150.152 MB.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:04 ; elapsed = 00:00:27 . Memory (MB): peak = 206.961 ; gain = 149.215
 INFO: [SYSC 207-301] Generating SystemC RTL for calcOF.
 INFO: [VHDL 208-304] Generating VHDL RTL for calcOF.
 INFO: [VLOG 209-307] Generating Verilog RTL for calcOF.
-INFO: [HLS 200-112] Total elapsed time: 26.273 seconds; peak allocated memory: 147.505 MB.
+INFO: [HLS 200-112] Total elapsed time: 27.123 seconds; peak allocated memory: 150.152 MB.

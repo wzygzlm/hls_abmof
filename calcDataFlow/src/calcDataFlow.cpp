@@ -9,7 +9,8 @@ void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
 	ap_int<16> tmp = 0;
 	calOFLoop2:for(ap_uint<4> i = 0; i < BLOCK_SIZE; i++)
 	{
-		tmp = tmp + abs(sum[i]);   // abs function provided by hls reduce the area significantly.
+		if(sum[i] < 0) sum[i] = -sum[i];
+		tmp = tmp + sum[i];
 	}
 
 	*sadRet = tmp.to_short();
