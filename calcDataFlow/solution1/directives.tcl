@@ -5,12 +5,17 @@
 ############################################################
 set_directive_inline "sadSum"
 set_directive_unroll -factor 1 "sadSum/calOFLoop2"
-set_directive_array_partition -type complete -dim 0 "colSADSum" t1Block
-set_directive_array_partition -type complete -dim 0 "colSADSum" t2Blocks
 set_directive_pipeline "sad"
 set_directive_array_partition -type complete -dim 0 "colSADSum/colSADSumLoop" input1
 set_directive_array_partition -type complete -dim 0 "colSADSum/colSADSumLoop" input2
 set_directive_unroll "colSADSum/colSADSumInnerLoop"
 set_directive_inline -off "sad"
 set_directive_array_partition -type complete -dim 0 "colSADSum" retVal
+set_directive_array_partition -type complete -dim 0 "colSADSum" t1Col
+set_directive_array_partition -type complete -dim 0 "colSADSum" t2Col
 set_directive_pipeline "colSADSum"
+set_directive_inline -off "colSADSum"
+set_directive_stream -dim 1 "blockSADSum" t1Block
+set_directive_stream -dim 1 "blockSADSum" t2Block
+set_directive_stream -dim 1 "blockSADSum" sumBlock
+set_directive_allocation -limit 1 -type function "blockSADSum" colSADSum

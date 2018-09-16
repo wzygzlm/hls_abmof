@@ -36,8 +36,8 @@ void sad(pixel_t refBlock[BLOCK_SIZE], pixel_t targetBlocks[BLOCK_SIZE], int16_t
 
 }
 
-void colSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-			pixel_t t2Blocks[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+void colSADSum(pixel_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+			pixel_t t2Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			int16_t retVal[2*SEARCH_DISTANCE + 1])
 {
 	colSADSumLoop:for(ap_uint<4> i = 0; i <= 2*SEARCH_DISTANCE; i++)
@@ -45,11 +45,26 @@ void colSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pixel_t input1[BLOCK_SIZE], input2[BLOCK_SIZE];
 		colSADSumInnerLoop:for(ap_uint<4> j = 0; j < BLOCK_SIZE; j++)
 		{
-			input1[j] = t1Block[j];
-			input2[j] = t2Blocks[i+j];
+			input1[j] = t1Col[j];
+			input2[j] = t2Col[i+j];
 		}
 		sad(input1, input2, &retVal[i]);
 	}
 
+}
+
+void blockSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pixel_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		int16_t sumBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][2*SEARCH_DISTANCE + 1])
+{
+//	int16_t retVal[BLOCK_SIZE + 2 * SEARCH_DISTANCE][2*SEARCH_DISTANCE + 1]);
+
+//	blockSADSumLoop:for(int16_t m = 0; m < 4; m++)
+//	{
+		colSADSum(t1Block[0], t2Block[0], sumBlock[0]);
+		colSADSum(t1Block[1], t2Block[1], sumBlock[1]);
+		colSADSum(t1Block[2], t2Block[2], sumBlock[2]);
+		colSADSum(t1Block[3], t2Block[3], sumBlock[3]);
+//	}
 }
 
