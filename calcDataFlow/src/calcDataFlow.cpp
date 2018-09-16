@@ -1,6 +1,6 @@
 #include "calcDataFlow.h"
 #include <iostream>
-#include "hls_video.h"
+//#include "hls_video.h"
 
 typedef ap_int<BITS_PER_PIXEL> pixel_t;
 
@@ -16,7 +16,7 @@ void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
 	*sadRet = tmp.to_short();
 }
 
-void calcOF(pixel_t refBlock[BLOCK_SIZE], pixel_t targetBlocks[BLOCK_SIZE], int16_t *sadRet)
+void sad(pixel_t refBlock[BLOCK_SIZE], pixel_t targetBlocks[BLOCK_SIZE], int16_t *sadRet)
 {
 	int16_t retVal = 0;
 	ap_int<pixel_t::width+1> sum[BLOCK_SIZE];
@@ -32,6 +32,23 @@ void calcOF(pixel_t refBlock[BLOCK_SIZE], pixel_t targetBlocks[BLOCK_SIZE], int1
 		}
 
 		sadSum(sum, sadRet);
+	}
+
+}
+
+void colSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+			pixel_t t2Blocks[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+			int16_t retVal[2*SEARCH_DISTANCE + 1])
+{
+	colSADSumLoop:for(ap_uint<4> i = 0; i <= 2*SEARCH_DISTANCE; i++)
+	{
+		pixel_t input1[BLOCK_SIZE], input2[BLOCK_SIZE];
+		colSADSumInnerLoop:for(ap_uint<4> j = 0; j < BLOCK_SIZE; j++)
+		{
+			input1[j] = t1Block[j];
+			input2[j] = t2Blocks[i+j];
+		}
+		sad(input1, input2, &retVal[i]);
 	}
 
 }
