@@ -52,20 +52,20 @@ void colSADSum(pixel_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 }
 
-void blockSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-		pixel_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+void blockSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pixel_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		int16_t sumBlock[2*SEARCH_DISTANCE + 1])
 {
-	blockSADSumLoop:for (int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
-	{
+//	blockSADSumLoop:for (int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+//	{
 		pixel_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE], in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 		int16_t out[2*SEARCH_DISTANCE + 1];
 
-		// Convert the ap_memory input interface to wires.
+		// Convert the ap_fifo input interface to wires.
 		readColLoop:for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
 		{
-			in1[j] = t1Block[i][j];
-			in2[j] = t2Block[i][j];
+			in1[j] = t1Block[j];
+			in2[j] = t2Block[j];
 		}
 
 		std::cout << "in1 is: " << std::endl;
@@ -89,6 +89,6 @@ void blockSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 
 		{
 			sumBlock[j] = out[j];
 		}
-	}
+//	}
 }
 

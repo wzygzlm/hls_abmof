@@ -22,21 +22,23 @@
       "inline sad {{off positionBoolean1}} {}",
       "pipeline colSADSum {} {}",
       "inline colSADSum {{off positionBoolean1}} {}",
-      "pipeline blockSADSum\/blockSADSumLoop {} {}",
-      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 2}} {}",
-      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 2}} {}",
+      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 1}} {}",
+      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 1}} {}",
       "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 0}} {}",
       "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Col} {complete positionBoolean0type} {dim 0}} {}",
       "array_partition blockSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredsumBlock} {complete positionBoolean0type} {dim 0}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredsumBlock}} {}",
-      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredretVal} {complete positionBoolean0type} {dim 0}} {}"
+      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredretVal} {complete positionBoolean0type} {dim 0}} {}",
+      "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt1Block}} {}",
+      "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt2Block}} {}",
+      "pipeline blockSADSum {} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
-    "II": "x",
-    "Latency": "20",
+    "II": "1",
+    "Latency": "1",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -181,43 +183,33 @@
         "WR_EN": {"Type": "bool"}
       }
     },
-    "t1Block_V_address0": {
-      "type": "data",
-      "dir": "out",
-      "width": "5",
-      "ctype": {"DATA": {
-          "Type": "null",
-          "Width": "5"
-        }}
-    },
-    "t1Block_V_q0": {
-      "type": "data",
-      "dir": "in",
-      "width": "68",
-      "ctype": {"DATA": {
+    "t1Block_V": {
+      "type": "ap_fifo",
+      "fifo_width": "68",
+      "fifo_type": "read",
+      "ctype": {
+        "RD_DATA": {
           "Type": "integer signed",
           "Width": "4",
           "Bits": "68"
-        }}
+        },
+        "EMPTY_N": {"Type": "bool"},
+        "RD_EN": {"Type": "bool"}
+      }
     },
-    "t2Block_V_address0": {
-      "type": "data",
-      "dir": "out",
-      "width": "5",
-      "ctype": {"DATA": {
-          "Type": "null",
-          "Width": "5"
-        }}
-    },
-    "t2Block_V_q0": {
-      "type": "data",
-      "dir": "in",
-      "width": "68",
-      "ctype": {"DATA": {
+    "t2Block_V": {
+      "type": "ap_fifo",
+      "fifo_width": "68",
+      "fifo_type": "read",
+      "ctype": {
+        "RD_DATA": {
           "Type": "integer signed",
           "Width": "4",
           "Bits": "68"
-        }}
+        },
+        "EMPTY_N": {"Type": "bool"},
+        "RD_EN": {"Type": "bool"}
+      }
     }
   },
   "RtlPorts": {
@@ -245,29 +237,29 @@
       "dir": "out",
       "width": "1"
     },
-    "t1Block_V_address0": {
-      "dir": "out",
-      "width": "5"
-    },
-    "t1Block_V_ce0": {
-      "dir": "out",
-      "width": "1"
-    },
-    "t1Block_V_q0": {
+    "t1Block_V_dout": {
       "dir": "in",
       "width": "68"
     },
-    "t2Block_V_address0": {
-      "dir": "out",
-      "width": "5"
+    "t1Block_V_empty_n": {
+      "dir": "in",
+      "width": "1"
     },
-    "t2Block_V_ce0": {
+    "t1Block_V_read": {
       "dir": "out",
       "width": "1"
     },
-    "t2Block_V_q0": {
+    "t2Block_V_dout": {
       "dir": "in",
       "width": "68"
+    },
+    "t2Block_V_empty_n": {
+      "dir": "in",
+      "width": "1"
+    },
+    "t2Block_V_read": {
+      "dir": "out",
+      "width": "1"
     },
     "sumBlock_0_din": {
       "dir": "out",
@@ -359,56 +351,48 @@
       "interfaceRef": "ap_ctrl",
       "dir": "out"
     },
-    "t1Block_V_q0": {
-      "interfaceRef": "t1Block_V_q0",
-      "dir": "in",
-      "dataWidth": "68",
-      "busTypeRef": "ap_memory",
-      "arraySize": "17",
-      "handshakeRef": "ap_none"
+    "t1Block_V": {
+      "interfaceRef": "t1Block_V",
+      "dir": "in"
     },
-    "t2Block_V_q0": {
-      "interfaceRef": "t2Block_V_q0",
-      "dir": "in",
-      "dataWidth": "68",
-      "busTypeRef": "ap_memory",
-      "arraySize": "17",
-      "handshakeRef": "ap_none"
+    "t2Block_V": {
+      "interfaceRef": "t2Block_V",
+      "dir": "in"
     },
     "sumBlock_0": {
       "interfaceRef": "sumBlock_0",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "1"
     },
     "sumBlock_1": {
       "interfaceRef": "sumBlock_1",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "1"
     },
     "sumBlock_2": {
       "interfaceRef": "sumBlock_2",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "1"
     },
     "sumBlock_3": {
       "interfaceRef": "sumBlock_3",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "1"
     },
     "sumBlock_4": {
       "interfaceRef": "sumBlock_4",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "1"
     },
     "sumBlock_5": {
       "interfaceRef": "sumBlock_5",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "1"
     },
     "sumBlock_6": {
       "interfaceRef": "sumBlock_6",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "1"
     }
   },
   "ModuleInfo": {
@@ -416,7 +400,7 @@
       "ModuleName": "blockSADSum",
       "Instances": [{
           "ModuleName": "colSADSum",
-          "InstanceName": "grp_colSADSum_fu_212",
+          "InstanceName": "grp_colSADSum_fu_171",
           "Instances": [
             {
               "ModuleName": "sad",
@@ -494,28 +478,21 @@
       },
       "blockSADSum": {
         "Latency": {
-          "LatencyBest": "20",
-          "LatencyAvg": "20",
-          "LatencyWorst": "20",
-          "PipelineII": "21",
-          "PipelineDepth": "",
-          "PipelineType": "none"
+          "LatencyBest": "1",
+          "LatencyAvg": "1",
+          "LatencyWorst": "1",
+          "PipelineII": "1",
+          "PipelineDepth": "2",
+          "PipelineType": "function"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
           "Estimate": "8.99"
         },
-        "Loops": [{
-            "Name": "blockSADSumLoop",
-            "TripCount": "17",
-            "Latency": "18",
-            "PipelineII": "1",
-            "PipelineDepth": "3"
-          }],
         "Area": {
-          "FF": "125",
-          "LUT": "3890",
+          "FF": "114",
+          "LUT": "3834",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -524,7 +501,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-17 20:01:37 +0200",
+    "Time": "2018-09-17 20:20:39 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

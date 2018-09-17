@@ -12,7 +12,7 @@
   <warningLogs>
     <logs>
       <synLog>
-        <logs message="WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) because its parent loop or function is pipelined." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T20:01:33.248+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) because its parent loop or function is pipelined." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T20:20:34.902+0200" type="Warning"/>
       </synLog>
       <simLog/>
       <mgLog/>
