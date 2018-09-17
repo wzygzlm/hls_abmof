@@ -41,6 +41,37 @@
             </pragma>
         </directive>
         <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="retVal" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockSADSum" label="blockSADSumLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="blockSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="t1Block" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="t2Block" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
             <pragma name="ARRAY_PARTITION">
                 <option name="variable" value="t1Col" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
@@ -52,45 +83,6 @@
                 <option name="variable" value="t2Col" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
                 <option name="dim" value="0"/>
-            </pragma>
-        </directive>
-        <directive functionName="colSADSum" label="" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
-        <directive functionName="colSADSum" label="" functionLabel="">
-            <pragma name="INLINE">
-                <option name="off" value="" positionalBoolean="1"/>
-            </pragma>
-        </directive>
-        <directive functionName="blockSADSum" label="" functionLabel="">
-            <pragma name="STREAM">
-                <option name="variable" value="t1Block" positionalBoolean="4"/>
-                <option name="dim" value="1"/>
-            </pragma>
-        </directive>
-        <directive functionName="blockSADSum" label="" functionLabel="">
-            <pragma name="STREAM">
-                <option name="variable" value="t2Block" positionalBoolean="4"/>
-                <option name="dim" value="1"/>
-            </pragma>
-        </directive>
-        <directive functionName="blockSADSum" label="" functionLabel="">
-            <pragma name="STREAM">
-                <option name="variable" value="sumBlock" positionalBoolean="4"/>
-                <option name="dim" value="1"/>
-            </pragma>
-        </directive>
-        <directive functionName="blockSADSum" label="" functionLabel="">
-            <pragma name="ALLOCATION">
-                <option name="instances" value="colSADSum" positionalBoolean="4"/>
-                <option name="limit" value="1"/>
-                <option name="function" value="" positionalBoolean="type"/>
-            </pragma>
-        </directive>
-        <directive functionName="colSADSum" label="" functionLabel="">
-            <pragma name="INTERFACE">
-                <option name="ap_fifo" value="" positionalBoolean="mode"/>
-                <option name="port" value="retVal" positionalBoolean="4"/>
             </pragma>
         </directive>
     </sourceFile>

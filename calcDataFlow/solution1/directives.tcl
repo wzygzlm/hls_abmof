@@ -11,12 +11,11 @@ set_directive_array_partition -type complete -dim 0 "colSADSum/colSADSumLoop" in
 set_directive_unroll "colSADSum/colSADSumInnerLoop"
 set_directive_inline -off "sad"
 set_directive_array_partition -type complete -dim 0 "colSADSum" retVal
-set_directive_array_partition -type complete -dim 0 "colSADSum" t1Col
-set_directive_array_partition -type complete -dim 0 "colSADSum" t2Col
 set_directive_pipeline "colSADSum"
 set_directive_inline -off "colSADSum"
-set_directive_stream -dim 1 "blockSADSum" t1Block
-set_directive_stream -dim 1 "blockSADSum" t2Block
-set_directive_stream -dim 1 "blockSADSum" sumBlock
-set_directive_allocation -limit 1 -type function "blockSADSum" colSADSum
 set_directive_interface -mode ap_fifo "colSADSum" retVal
+set_directive_pipeline "blockSADSum/blockSADSumLoop"
+set_directive_array_reshape -type complete -dim 2 "blockSADSum" t1Block
+set_directive_array_reshape -type complete -dim 2 "blockSADSum" t2Block
+set_directive_array_partition -type complete -dim 0 "colSADSum" t1Col
+set_directive_array_partition -type complete -dim 0 "colSADSum" t2Col

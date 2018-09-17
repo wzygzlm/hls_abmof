@@ -8,7 +8,129 @@ Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
 INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
-INFO: [SIM 211-2] *************** CSIM start ***************
-INFO: [SIM 211-4] CSIM will launch GCC as the compiler.
-INFO: [SIM 211-1] CSim file generation done with 0 errors.
-INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-10] Analyzing design file 'calcDataFlow/src/calcDataFlow.cpp' ...
+INFO: [HLS 200-10] Validating synthesis directives ...
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 103.617 ; gain = 45.184
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:14 . Memory (MB): peak = 103.652 ; gain = 45.219
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [XFORM 203-603] Inlining function 'sadSum' into 'sad' (calcDataFlow/src/calcDataFlow.cpp:32).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:01 ; elapsed = 00:00:15 . Memory (MB): peak = 113.293 ; gain = 54.859
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 119.363 ; gain = 60.930
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'colSADSum' (calcDataFlow/src/calcDataFlow.cpp:38).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sad' (calcDataFlow/src/calcDataFlow.cpp:18).
+WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) because its parent loop or function is pipelined.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumLoop' (calcDataFlow/src/calcDataFlow.cpp:43) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:46) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (calcDataFlow/src/calcDataFlow.cpp:27) in function 'sad' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) in function 'sad' completely.
+INFO: [XFORM 203-102] Partitioning array 'sum.V' (calcDataFlow/src/calcDataFlow.cpp:21) automatically.
+INFO: [XFORM 203-101] Partitioning array 't2Col.V' (calcDataFlow/src/calcDataFlow.cpp:39) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 't1Col.V' (calcDataFlow/src/calcDataFlow.cpp:38) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'retVal' (calcDataFlow/src/calcDataFlow.cpp:40) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'input2.V' (calcDataFlow/src/calcDataFlow.cpp:44) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'input1.V' (calcDataFlow/src/calcDataFlow.cpp:44) in dimension 1 completely.
+INFO: [XFORM 203-11] Balancing expressions in function 'sad' (calcDataFlow/src/calcDataFlow.cpp:18)...10 expression(s) balanced.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 147.250 ; gain = 88.816
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 149.434 ; gain = 91.000
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'colSADSum' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'sad'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'sad'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 15.983 seconds; current allocated memory: 105.530 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.104 seconds; current allocated memory: 105.919 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'colSADSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'colSADSum'.
+WARNING: [SCHED 204-63] Unable to schedule the whole 2 cycles 'call' operation (calcDataFlow/src/calcDataFlow.cpp:50) to 'sad' within the last cycle (II = 1).
+Please consider increasing the initiation interval of the pipeline.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 3.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.131 seconds; current allocated memory: 106.181 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.299 seconds; current allocated memory: 106.672 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'sad'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'sad'.
+INFO: [HLS 200-111]  Elapsed time: 0.302 seconds; current allocated memory: 107.670 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'colSADSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_0_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_1_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_2_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_3_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_4_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_5_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_6_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_7_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_8_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_9_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_10_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_11_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_12_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_13_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_14_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_15_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t1Col_16_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_0_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_1_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_2_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_3_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_4_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_5_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_6_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_7_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_8_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_9_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_10_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_11_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_12_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_13_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_14_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_15_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/t2Col_16_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/retVal_0' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/retVal_1' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/retVal_2' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/retVal_3' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/retVal_4' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/retVal_5' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'colSADSum/retVal_6' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'colSADSum' to 'ap_ctrl_hs'.
+WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_11_V' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_12_V' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_13_V' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_14_V' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_15_V' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_16_V' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'colSADSum'.
+INFO: [HLS 200-111]  Elapsed time: 0.419 seconds; current allocated memory: 108.763 MB.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:04 ; elapsed = 00:00:19 . Memory (MB): peak = 164.285 ; gain = 105.852
+INFO: [SYSC 207-301] Generating SystemC RTL for colSADSum.
+INFO: [VHDL 208-304] Generating VHDL RTL for colSADSum.
+INFO: [VLOG 209-307] Generating Verilog RTL for colSADSum.
+INFO: [HLS 200-112] Total elapsed time: 18.803 seconds; peak allocated memory: 108.763 MB.

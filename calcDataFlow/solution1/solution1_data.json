@@ -21,15 +21,14 @@
       "unroll colSADSum\/colSADSumInnerLoop {} {}",
       "inline sad {{off positionBoolean1}} {}",
       "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredretVal} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Col} {complete positionBoolean0type} {dim 0}} {}",
       "pipeline colSADSum {} {}",
       "inline colSADSum {{off positionBoolean1}} {}",
-      "stream blockSADSum {{variable positionBooleanTextRequiredt1Block} {dim 1}} {}",
-      "stream blockSADSum {{variable positionBooleanTextRequiredt2Block} {dim 1}} {}",
-      "stream blockSADSum {{variable positionBooleanTextRequiredsumBlock} {dim 1}} {}",
-      "allocation blockSADSum {{instances positionBooleanTextRequiredcolSADSum} {limit 1} {function positionBoolean0type}} {}",
-      "interface colSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredretVal}} {}"
+      "interface colSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredretVal}} {}",
+      "pipeline blockSADSum\/blockSADSumLoop {} {}",
+      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 2}} {}",
+      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 2}} {}",
+      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 0}} {}",
+      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Col} {complete positionBoolean0type} {dim 0}} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
@@ -1058,7 +1057,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-17 14:30:30 +0200",
+    "Time": "2018-09-17 19:21:57 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
