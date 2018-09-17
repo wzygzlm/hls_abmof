@@ -1,4 +1,4 @@
-<project xmlns="com.autoesl.autopilot.project" name="calcDataFlow" top="colSADSum">
+<project xmlns="com.autoesl.autopilot.project" name="calcDataFlow" top="blockSADSum">
     <includePaths/>
     <libraryPaths/>
     <Simulation>

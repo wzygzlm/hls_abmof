@@ -12,14 +12,7 @@
   <warningLogs>
     <logs>
       <synLog>
-        <logs message="WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_16_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T19:21:56.160+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_15_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T19:21:56.115+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_14_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T19:21:56.113+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_13_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T19:21:56.110+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_12_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T19:21:56.107+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Port 'colSADSum/t1Col_11_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T19:21:56.104+0200" type="Warning"/>
-        <logs message="WARNING: [SCHED 204-63] Unable to schedule the whole 2 cycles 'call' operation (calcDataFlow/src/calcDataFlow.cpp:50) to 'sad' within the last cycle (II = 1).&#xD;&#xA;Please consider increasing the initiation interval of the pipeline." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T19:21:55.128+0200" type="Warning"/>
-        <logs message="WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) because its parent loop or function is pipelined." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T19:21:53.830+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) because its parent loop or function is pipelined." projectName="calcDataFlow" solutionName="solution1" date="2018-09-17T20:01:33.248+0200" type="Warning"/>
       </synLog>
       <simLog/>
       <mgLog/>
