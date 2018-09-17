@@ -17,8 +17,13 @@ set_directive_array_reshape -type complete -dim 1 "blockSADSum" t2Block
 set_directive_array_partition -type complete -dim 0 "colSADSum" t1Col
 set_directive_array_partition -type complete -dim 0 "colSADSum" t2Col
 set_directive_array_reshape -type complete -dim 1 "blockSADSum" sumBlock
-set_directive_interface -mode ap_fifo "blockSADSum" sumBlock
 set_directive_array_partition -type complete -dim 0 "colSADSum" retVal
-set_directive_interface -mode ap_fifo "blockSADSum" t1Block
 set_directive_interface -mode ap_fifo "blockSADSum" t2Block
 set_directive_pipeline "blockSADSum"
+set_directive_pipeline "miniSADSum"
+set_directive_array_reshape -type complete -dim 1 "miniSADSum" miniSumRet
+set_directive_array_reshape -type complete -dim 1 "miniSADSum" t2Block
+set_directive_interface -mode ap_fifo "blockSADSum" t1Block
+set_directive_interface -mode ap_fifo "blockSADSum" t2Block
+set_directive_array_partition -type complete -dim 0 "miniSADSum" localSumReg
+set_directive_array_reshape -type complete -dim 1 "miniSADSum" t1Block

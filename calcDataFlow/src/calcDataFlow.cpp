@@ -94,17 +94,46 @@ void blockSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 
 // Set the initial value as the max integer.
-ap_int<16> miniRetVal[2*SEARCH_DISTANCE + 1] = {0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff};
-ap_int<16> sumTmp[2*SEARCH_DISTANCE + 1];
+static ap_int<16> miniRetVal[2*SEARCH_DISTANCE + 1] = {0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff};
+static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1];
+static ap_int<16> localSumReg[2*SEARCH_DISTANCE + 1][2*SEARCH_DISTANCE + 1];
 
 void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pixel_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-		int16_t sumBlock[2*SEARCH_DISTANCE + 1], int16_t *miniSumRet)
+		ap_int<16> miniSumRet[2*SEARCH_DISTANCE + 1])
 {
-	miniLoop: for(int8_t i = 0; i < 3; i++)
-	{
-		blockSADSum(t1Block, t2Block, sumBlock);
+	pixel_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE], in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	int16_t out[2*SEARCH_DISTANCE + 1];
 
+	readColLoop:for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+	{
+		in1[j] = t1Block[j];
+		in2[j] = t2Block[j];
+	}
+
+	colSADSum(in1, in2, out);
+
+	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
+	{
+		miniSumTmp[i] = miniSumTmp[i] + out[i] - localSumReg[0][i];
+	}
+
+	shiftMainLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE; i++)
+	{
+		shiftInnerLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
+		{
+			localSumReg[i][j] = localSumReg[i + 1][j];
+		}
+	}
+
+	shiftLastLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
+	{
+		localSumReg[2*SEARCH_DISTANCE][j] = out[j];
+	}
+
+	outputRetLoop:for (int j = 0; j <= 2 * SEARCH_DISTANCE; j++)
+	{
+		miniSumRet[j] = miniSumTmp[j];
 	}
 }
 

@@ -6,7 +6,7 @@
         <DownStreamTool name=""/>
     </downStreamTool>
     <config>
-        <schedule model="blockSADSum"/>
+        <schedule model="miniSADSum"/>
     </config>
     <UIConfigurations>
         <UIAutosynConf hideTrivialOp="true" isBasedOnBoard="false" isSolutionDirty="true" isStopAskAgain="false" showDetailDesignViewer="false">

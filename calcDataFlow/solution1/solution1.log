@@ -10,37 +10,44 @@ INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file 'calcDataFlow/src/calcDataFlow.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 103.566 ; gain = 45.094
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:14 . Memory (MB): peak = 103.605 ; gain = 45.133
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:22 . Memory (MB): peak = 103.473 ; gain = 45.066
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:33 . Memory (MB): peak = 103.508 ; gain = 45.102
 INFO: [HLS 200-10] Starting code transformations ...
 INFO: [XFORM 203-603] Inlining function 'sadSum' into 'sad' (calcDataFlow/src/calcDataFlow.cpp:32).
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 113.852 ; gain = 55.379
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:36 . Memory (MB): peak = 114.418 ; gain = 56.012
 INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 119.895 ; gain = 61.422
-INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'blockSADSum' (calcDataFlow/src/calcDataFlow.cpp:55).
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:37 . Memory (MB): peak = 120.578 ; gain = 62.172
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'miniSADSum' (calcDataFlow/src/calcDataFlow.cpp:101).
 INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'colSADSum' (calcDataFlow/src/calcDataFlow.cpp:38).
 INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sad' (calcDataFlow/src/calcDataFlow.cpp:18).
 WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) because its parent loop or function is pipelined.
-INFO: [XFORM 203-501] Unrolling loop 'readColLoop' (calcDataFlow/src/calcDataFlow.cpp:66) in function 'blockSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'outputRetLoop' (calcDataFlow/src/calcDataFlow.cpp:89) in function 'blockSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readColLoop' (calcDataFlow/src/calcDataFlow.cpp:109) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'addLoop' (calcDataFlow/src/calcDataFlow.cpp:117) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftMainLoop' (calcDataFlow/src/calcDataFlow.cpp:122) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:124) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftLastLoop' (calcDataFlow/src/calcDataFlow.cpp:130) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'outputRetLoop' (calcDataFlow/src/calcDataFlow.cpp:135) in function 'miniSADSum' completely.
 INFO: [XFORM 203-501] Unrolling loop 'colSADSumLoop' (calcDataFlow/src/calcDataFlow.cpp:43) in function 'colSADSum' completely.
 INFO: [XFORM 203-501] Unrolling loop 'colSADSumInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:46) in function 'colSADSum' completely.
 INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (calcDataFlow/src/calcDataFlow.cpp:27) in function 'sad' completely.
 INFO: [XFORM 203-501] Unrolling loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) in function 'sad' completely.
 INFO: [XFORM 203-102] Partitioning array 'sum.V' (calcDataFlow/src/calcDataFlow.cpp:21) automatically.
-INFO: [XFORM 203-131] Reshaping array 'sumBlock' (calcDataFlow/src/calcDataFlow.cpp:57) in dimension 1 completely.
-INFO: [XFORM 203-131] Reshaping array 't1Block.V' (calcDataFlow/src/calcDataFlow.cpp:55) in dimension 1 completely.
-INFO: [XFORM 203-131] Reshaping array 't2Block.V' (calcDataFlow/src/calcDataFlow.cpp:56) in dimension 1 completely.
+INFO: [XFORM 203-102] Partitioning array 'miniSumTmp.V' automatically.
+INFO: [XFORM 203-131] Reshaping array 't1Block.V' (calcDataFlow/src/calcDataFlow.cpp:101) in dimension 1 completely.
+INFO: [XFORM 203-131] Reshaping array 't2Block.V' (calcDataFlow/src/calcDataFlow.cpp:102) in dimension 1 completely.
+INFO: [XFORM 203-131] Reshaping array 'miniSumRet.V' (calcDataFlow/src/calcDataFlow.cpp:103) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'localSumReg.V'  in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'out'  in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'in2.V' (calcDataFlow/src/calcDataFlow.cpp:61) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'in1.V' (calcDataFlow/src/calcDataFlow.cpp:61) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'in2.V' (calcDataFlow/src/calcDataFlow.cpp:105) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'in1.V' (calcDataFlow/src/calcDataFlow.cpp:105) in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'input2.V' (calcDataFlow/src/calcDataFlow.cpp:44) in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'input1.V' (calcDataFlow/src/calcDataFlow.cpp:44) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'localSumReg.V'  in dimension 2 completely.
 INFO: [XFORM 203-11] Balancing expressions in function 'sad' (calcDataFlow/src/calcDataFlow.cpp:18)...10 expression(s) balanced.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 147.258 ; gain = 88.785
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 159.160 ; gain = 100.688
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:39 . Memory (MB): peak = 149.617 ; gain = 91.211
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:04 ; elapsed = 00:00:40 . Memory (MB): peak = 163.105 ; gain = 104.699
 INFO: [HLS 200-10] Starting hardware synthesis ...
-INFO: [HLS 200-10] Synthesizing 'blockSADSum' ...
+INFO: [HLS 200-10] Synthesizing 'miniSADSum' ...
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'sad'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -48,13 +55,13 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'sad'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 16.362 seconds; current allocated memory: 115.156 MB.
+INFO: [HLS 200-111]  Elapsed time: 40.969 seconds; current allocated memory: 118.775 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.133 seconds; current allocated memory: 115.531 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.643 seconds; current allocated memory: 119.134 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'colSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -62,48 +69,104 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'colSADSum'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.098 seconds; current allocated memory: 115.751 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.174 seconds; current allocated memory: 119.369 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.16 seconds; current allocated memory: 116.103 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.347 seconds; current allocated memory: 119.722 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'blockSADSum'
+INFO: [HLS 200-42] -- Implementing module 'miniSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-61] Pipelining function 'blockSADSum'.
+INFO: [SCHED 204-61] Pipelining function 'miniSADSum'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.328 seconds; current allocated memory: 116.668 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.435 seconds; current allocated memory: 120.441 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.278 seconds; current allocated memory: 117.012 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.444 seconds; current allocated memory: 120.991 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'sad'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'sad'.
-INFO: [HLS 200-111]  Elapsed time: 0.277 seconds; current allocated memory: 117.919 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.733 seconds; current allocated memory: 121.905 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'colSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'colSADSum'.
-INFO: [HLS 200-111]  Elapsed time: 0.31 seconds; current allocated memory: 118.907 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.641 seconds; current allocated memory: 122.862 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'blockSADSum'
+INFO: [HLS 200-10] -- Generating RTL for module 'miniSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [RTGEN 206-500] Setting interface mode on port 'blockSADSum/t1Block_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'blockSADSum/t2Block_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'blockSADSum/sumBlock' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on function 'blockSADSum' to 'ap_ctrl_hs'.
-INFO: [RTGEN 206-100] Finished creating RTL model for 'blockSADSum'.
-INFO: [HLS 200-111]  Elapsed time: 0.358 seconds; current allocated memory: 119.843 MB.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:04 ; elapsed = 00:00:20 . Memory (MB): peak = 174.074 ; gain = 115.602
-INFO: [SYSC 207-301] Generating SystemC RTL for blockSADSum.
-INFO: [VHDL 208-304] Generating VHDL RTL for blockSADSum.
-INFO: [VLOG 209-307] Generating Verilog RTL for blockSADSum.
-INFO: [HLS 200-112] Total elapsed time: 19.594 seconds; peak allocated memory: 119.843 MB.
+INFO: [RTGEN 206-500] Setting interface mode on port 'miniSADSum/t1Block_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'miniSADSum/t2Block_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'miniSADSum/miniSumRet_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'miniSADSum' to 'ap_ctrl_hs'.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_6' is power-on initialization.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'miniSADSum'.
+INFO: [HLS 200-111]  Elapsed time: 1.154 seconds; current allocated memory: 124.148 MB.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:07 ; elapsed = 00:00:48 . Memory (MB): peak = 180.855 ; gain = 122.449
+INFO: [SYSC 207-301] Generating SystemC RTL for miniSADSum.
+INFO: [VHDL 208-304] Generating VHDL RTL for miniSADSum.
+INFO: [VLOG 209-307] Generating Verilog RTL for miniSADSum.
+INFO: [HLS 200-112] Total elapsed time: 48.146 seconds; peak allocated memory: 124.148 MB.
