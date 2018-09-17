@@ -19,3 +19,4 @@ set_directive_stream -dim 1 "blockSADSum" t1Block
 set_directive_stream -dim 1 "blockSADSum" t2Block
 set_directive_stream -dim 1 "blockSADSum" sumBlock
 set_directive_allocation -limit 1 -type function "blockSADSum" colSADSum
+set_directive_interface -mode ap_fifo "colSADSum" retVal

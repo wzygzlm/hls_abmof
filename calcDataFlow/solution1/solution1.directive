@@ -87,6 +87,12 @@
                 <option name="function" value="" positionalBoolean="type"/>
             </pragma>
         </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="retVal" positionalBoolean="4"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 
