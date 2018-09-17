@@ -31,19 +31,19 @@
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt2Block}} {}",
       "pipeline blockSADSum {} {}",
       "pipeline miniSADSum {} {}",
-      "array_reshape miniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredminiSumRet} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape miniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 1}} {}",
+      "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredminiSumRet} {complete positionBoolean0type} {dim 0}} {}",
+      "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 0}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt1Block}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt2Block}} {}",
       "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredlocalSumReg} {complete positionBoolean0type} {dim 0}} {}",
-      "array_reshape miniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 1}} {}"
+      "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 0}} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "1",
-    "Latency": "1",
+    "Latency": "2",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -97,34 +97,373 @@
       "polarity": "ACTIVE_HIGH",
       "ctype": {"RST": {"Type": "bool"}}
     },
-    "miniSumRet_V": {
+    "miniSumRet_0_V": {
       "type": "data",
       "dir": "out",
-      "width": "112",
+      "width": "16",
       "ctype": {"DATA": {
           "Type": "integer signed",
-          "Width": "16",
-          "Bits": "112"
+          "Width": "16"
         }}
     },
-    "t1Block_V": {
+    "miniSumRet_1_V": {
       "type": "data",
-      "dir": "in",
-      "width": "68",
+      "dir": "out",
+      "width": "16",
       "ctype": {"DATA": {
           "Type": "integer signed",
-          "Width": "4",
-          "Bits": "68"
+          "Width": "16"
         }}
     },
-    "t2Block_V": {
+    "miniSumRet_2_V": {
       "type": "data",
-      "dir": "in",
-      "width": "68",
+      "dir": "out",
+      "width": "16",
       "ctype": {"DATA": {
           "Type": "integer signed",
-          "Width": "4",
-          "Bits": "68"
+          "Width": "16"
+        }}
+    },
+    "miniSumRet_3_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "16",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "16"
+        }}
+    },
+    "miniSumRet_4_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "16",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "16"
+        }}
+    },
+    "miniSumRet_5_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "16",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "16"
+        }}
+    },
+    "miniSumRet_6_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "16",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "16"
+        }}
+    },
+    "t1Block_0_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_10_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_11_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_12_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_13_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_14_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_15_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_16_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_1_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_2_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_3_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_4_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_5_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_6_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_7_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_8_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t1Block_9_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_0_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_10_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_11_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_12_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_13_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_14_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_15_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_16_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_1_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_2_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_3_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_4_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_5_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_6_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_7_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_8_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
+        }}
+    },
+    "t2Block_9_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4"
         }}
     }
   },
@@ -153,19 +492,195 @@
       "dir": "out",
       "width": "1"
     },
-    "t1Block_V": {
+    "t1Block_0_V": {
       "dir": "in",
-      "width": "68"
+      "width": "4"
     },
-    "t2Block_V": {
+    "t1Block_1_V": {
       "dir": "in",
-      "width": "68"
+      "width": "4"
     },
-    "miniSumRet_V": {
+    "t1Block_2_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_3_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_4_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_5_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_6_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_7_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_8_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_9_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_10_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_11_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_12_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_13_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_14_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_15_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t1Block_16_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_0_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_1_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_2_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_3_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_4_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_5_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_6_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_7_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_8_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_9_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_10_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_11_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_12_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_13_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_14_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_15_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "t2Block_16_V": {
+      "dir": "in",
+      "width": "4"
+    },
+    "miniSumRet_0_V": {
       "dir": "out",
-      "width": "112"
+      "width": "16"
     },
-    "miniSumRet_V_ap_vld": {
+    "miniSumRet_0_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
+    "miniSumRet_1_V": {
+      "dir": "out",
+      "width": "16"
+    },
+    "miniSumRet_1_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
+    "miniSumRet_2_V": {
+      "dir": "out",
+      "width": "16"
+    },
+    "miniSumRet_2_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
+    "miniSumRet_3_V": {
+      "dir": "out",
+      "width": "16"
+    },
+    "miniSumRet_3_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
+    "miniSumRet_4_V": {
+      "dir": "out",
+      "width": "16"
+    },
+    "miniSumRet_4_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
+    "miniSumRet_5_V": {
+      "dir": "out",
+      "width": "16"
+    },
+    "miniSumRet_5_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
+    "miniSumRet_6_V": {
+      "dir": "out",
+      "width": "16"
+    },
+    "miniSumRet_6_V_ap_vld": {
       "dir": "out",
       "width": "1"
     }
@@ -175,24 +690,258 @@
       "interfaceRef": "ap_ctrl",
       "dir": "out"
     },
-    "t1Block_V": {
-      "interfaceRef": "t1Block_V",
+    "t1Block_0_V": {
+      "interfaceRef": "t1Block_0_V",
       "dir": "in",
-      "dataWidth": "68",
+      "dataWidth": "4",
       "handshakeRef": "ap_none"
     },
-    "t2Block_V": {
-      "interfaceRef": "t2Block_V",
+    "t1Block_1_V": {
+      "interfaceRef": "t1Block_1_V",
       "dir": "in",
-      "dataWidth": "68",
+      "dataWidth": "4",
       "handshakeRef": "ap_none"
     },
-    "miniSumRet_V": {
-      "interfaceRef": "miniSumRet_V",
+    "t1Block_2_V": {
+      "interfaceRef": "t1Block_2_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_3_V": {
+      "interfaceRef": "t1Block_3_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_4_V": {
+      "interfaceRef": "t1Block_4_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_5_V": {
+      "interfaceRef": "t1Block_5_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_6_V": {
+      "interfaceRef": "t1Block_6_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_7_V": {
+      "interfaceRef": "t1Block_7_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_8_V": {
+      "interfaceRef": "t1Block_8_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_9_V": {
+      "interfaceRef": "t1Block_9_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_10_V": {
+      "interfaceRef": "t1Block_10_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_11_V": {
+      "interfaceRef": "t1Block_11_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_12_V": {
+      "interfaceRef": "t1Block_12_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_13_V": {
+      "interfaceRef": "t1Block_13_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_14_V": {
+      "interfaceRef": "t1Block_14_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_15_V": {
+      "interfaceRef": "t1Block_15_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t1Block_16_V": {
+      "interfaceRef": "t1Block_16_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_0_V": {
+      "interfaceRef": "t2Block_0_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_1_V": {
+      "interfaceRef": "t2Block_1_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_2_V": {
+      "interfaceRef": "t2Block_2_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_3_V": {
+      "interfaceRef": "t2Block_3_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_4_V": {
+      "interfaceRef": "t2Block_4_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_5_V": {
+      "interfaceRef": "t2Block_5_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_6_V": {
+      "interfaceRef": "t2Block_6_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_7_V": {
+      "interfaceRef": "t2Block_7_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_8_V": {
+      "interfaceRef": "t2Block_8_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_9_V": {
+      "interfaceRef": "t2Block_9_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_10_V": {
+      "interfaceRef": "t2Block_10_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_11_V": {
+      "interfaceRef": "t2Block_11_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_12_V": {
+      "interfaceRef": "t2Block_12_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_13_V": {
+      "interfaceRef": "t2Block_13_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_14_V": {
+      "interfaceRef": "t2Block_14_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_15_V": {
+      "interfaceRef": "t2Block_15_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "t2Block_16_V": {
+      "interfaceRef": "t2Block_16_V",
+      "dir": "in",
+      "dataWidth": "4",
+      "handshakeRef": "ap_none"
+    },
+    "miniSumRet_0_V": {
+      "interfaceRef": "miniSumRet_0_V",
       "dir": "out",
-      "dataWidth": "112",
+      "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "1"
+      "firstOutLatency": "2"
+    },
+    "miniSumRet_1_V": {
+      "interfaceRef": "miniSumRet_1_V",
+      "dir": "out",
+      "dataWidth": "16",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "2"
+    },
+    "miniSumRet_2_V": {
+      "interfaceRef": "miniSumRet_2_V",
+      "dir": "out",
+      "dataWidth": "16",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "2"
+    },
+    "miniSumRet_3_V": {
+      "interfaceRef": "miniSumRet_3_V",
+      "dir": "out",
+      "dataWidth": "16",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "2"
+    },
+    "miniSumRet_4_V": {
+      "interfaceRef": "miniSumRet_4_V",
+      "dir": "out",
+      "dataWidth": "16",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "2"
+    },
+    "miniSumRet_5_V": {
+      "interfaceRef": "miniSumRet_5_V",
+      "dir": "out",
+      "dataWidth": "16",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "2"
+    },
+    "miniSumRet_6_V": {
+      "interfaceRef": "miniSumRet_6_V",
+      "dir": "out",
+      "dataWidth": "16",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "2"
     }
   },
   "ModuleInfo": {
@@ -200,7 +949,7 @@
       "ModuleName": "miniSADSum",
       "Instances": [{
           "ModuleName": "colSADSum",
-          "InstanceName": "grp_colSADSum_fu_227",
+          "InstanceName": "grp_colSADSum_fu_517",
           "Instances": [
             {
               "ModuleName": "sad",
@@ -278,11 +1027,11 @@
       },
       "miniSADSum": {
         "Latency": {
-          "LatencyBest": "1",
-          "LatencyAvg": "1",
-          "LatencyWorst": "1",
+          "LatencyBest": "2",
+          "LatencyAvg": "2",
+          "LatencyWorst": "2",
           "PipelineII": "1",
-          "PipelineDepth": "2",
+          "PipelineDepth": "3",
           "PipelineType": "function"
         },
         "Timing": {
@@ -291,8 +1040,8 @@
           "Estimate": "8.99"
         },
         "Area": {
-          "FF": "1010",
-          "LUT": "3973",
+          "FF": "1466",
+          "LUT": "4192",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -301,7 +1050,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-18 01:04:09 +0200",
+    "Time": "2018-09-18 01:20:01 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

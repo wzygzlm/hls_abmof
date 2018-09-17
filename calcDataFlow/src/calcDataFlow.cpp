@@ -116,6 +116,7 @@ void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
 		miniSumTmp[i] = miniSumTmp[i] + out[i] - localSumReg[0][i];
+		if(miniSumTmp[i] < miniRetVal[i]) miniRetVal[i] = miniSumTmp[i];
 	}
 
 	shiftMainLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE; i++)
@@ -133,7 +134,7 @@ void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	outputRetLoop:for (int j = 0; j <= 2 * SEARCH_DISTANCE; j++)
 	{
-		miniSumRet[j] = miniSumTmp[j];
+		miniSumRet[j] = miniRetVal[j];
 	}
 }
 
