@@ -6,6 +6,7 @@
 using namespace std;
 #include "ap_fixed.h"
 #include "calcDataFlow.h"
+#include "time.h"
 
 void colSADSumSW(pixel_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pixel_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
@@ -45,6 +46,7 @@ int main()
     int err_cnt = 0;
 	int retval=0;
 
+	srand((unsigned)time(NULL));
 	for(int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
 	{
 		input1[i] = rand() % 16;
