@@ -26,7 +26,7 @@
       "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 1}} {}",
       "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 0}} {}",
       "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Col} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition blockSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredsumBlock} {complete positionBoolean0type} {dim 0}} {}",
+      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredsumBlock} {complete positionBoolean0type} {dim 1}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredsumBlock}} {}",
       "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredretVal} {complete positionBoolean0type} {dim 0}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt1Block}} {}",
@@ -92,92 +92,15 @@
       "polarity": "ACTIVE_HIGH",
       "ctype": {"RST": {"Type": "bool"}}
     },
-    "sumBlock_0": {
+    "sumBlock": {
       "type": "ap_fifo",
-      "fifo_width": "16",
+      "fifo_width": "112",
       "fifo_type": "write",
       "ctype": {
         "WR_DATA": {
           "Type": "integer signed",
-          "Width": "16"
-        },
-        "FULL_N": {"Type": "bool"},
-        "WR_EN": {"Type": "bool"}
-      }
-    },
-    "sumBlock_1": {
-      "type": "ap_fifo",
-      "fifo_width": "16",
-      "fifo_type": "write",
-      "ctype": {
-        "WR_DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        },
-        "FULL_N": {"Type": "bool"},
-        "WR_EN": {"Type": "bool"}
-      }
-    },
-    "sumBlock_2": {
-      "type": "ap_fifo",
-      "fifo_width": "16",
-      "fifo_type": "write",
-      "ctype": {
-        "WR_DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        },
-        "FULL_N": {"Type": "bool"},
-        "WR_EN": {"Type": "bool"}
-      }
-    },
-    "sumBlock_3": {
-      "type": "ap_fifo",
-      "fifo_width": "16",
-      "fifo_type": "write",
-      "ctype": {
-        "WR_DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        },
-        "FULL_N": {"Type": "bool"},
-        "WR_EN": {"Type": "bool"}
-      }
-    },
-    "sumBlock_4": {
-      "type": "ap_fifo",
-      "fifo_width": "16",
-      "fifo_type": "write",
-      "ctype": {
-        "WR_DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        },
-        "FULL_N": {"Type": "bool"},
-        "WR_EN": {"Type": "bool"}
-      }
-    },
-    "sumBlock_5": {
-      "type": "ap_fifo",
-      "fifo_width": "16",
-      "fifo_type": "write",
-      "ctype": {
-        "WR_DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        },
-        "FULL_N": {"Type": "bool"},
-        "WR_EN": {"Type": "bool"}
-      }
-    },
-    "sumBlock_6": {
-      "type": "ap_fifo",
-      "fifo_width": "16",
-      "fifo_type": "write",
-      "ctype": {
-        "WR_DATA": {
-          "Type": "integer signed",
-          "Width": "16"
+          "Width": "16",
+          "Bits": "112"
         },
         "FULL_N": {"Type": "bool"},
         "WR_EN": {"Type": "bool"}
@@ -261,87 +184,15 @@
       "dir": "out",
       "width": "1"
     },
-    "sumBlock_0_din": {
+    "sumBlock_din": {
       "dir": "out",
-      "width": "16"
+      "width": "112"
     },
-    "sumBlock_0_full_n": {
+    "sumBlock_full_n": {
       "dir": "in",
       "width": "1"
     },
-    "sumBlock_0_write": {
-      "dir": "out",
-      "width": "1"
-    },
-    "sumBlock_1_din": {
-      "dir": "out",
-      "width": "16"
-    },
-    "sumBlock_1_full_n": {
-      "dir": "in",
-      "width": "1"
-    },
-    "sumBlock_1_write": {
-      "dir": "out",
-      "width": "1"
-    },
-    "sumBlock_2_din": {
-      "dir": "out",
-      "width": "16"
-    },
-    "sumBlock_2_full_n": {
-      "dir": "in",
-      "width": "1"
-    },
-    "sumBlock_2_write": {
-      "dir": "out",
-      "width": "1"
-    },
-    "sumBlock_3_din": {
-      "dir": "out",
-      "width": "16"
-    },
-    "sumBlock_3_full_n": {
-      "dir": "in",
-      "width": "1"
-    },
-    "sumBlock_3_write": {
-      "dir": "out",
-      "width": "1"
-    },
-    "sumBlock_4_din": {
-      "dir": "out",
-      "width": "16"
-    },
-    "sumBlock_4_full_n": {
-      "dir": "in",
-      "width": "1"
-    },
-    "sumBlock_4_write": {
-      "dir": "out",
-      "width": "1"
-    },
-    "sumBlock_5_din": {
-      "dir": "out",
-      "width": "16"
-    },
-    "sumBlock_5_full_n": {
-      "dir": "in",
-      "width": "1"
-    },
-    "sumBlock_5_write": {
-      "dir": "out",
-      "width": "1"
-    },
-    "sumBlock_6_din": {
-      "dir": "out",
-      "width": "16"
-    },
-    "sumBlock_6_full_n": {
-      "dir": "in",
-      "width": "1"
-    },
-    "sumBlock_6_write": {
+    "sumBlock_write": {
       "dir": "out",
       "width": "1"
     }
@@ -359,38 +210,8 @@
       "interfaceRef": "t2Block_V",
       "dir": "in"
     },
-    "sumBlock_0": {
-      "interfaceRef": "sumBlock_0",
-      "dir": "out",
-      "firstOutLatency": "1"
-    },
-    "sumBlock_1": {
-      "interfaceRef": "sumBlock_1",
-      "dir": "out",
-      "firstOutLatency": "1"
-    },
-    "sumBlock_2": {
-      "interfaceRef": "sumBlock_2",
-      "dir": "out",
-      "firstOutLatency": "1"
-    },
-    "sumBlock_3": {
-      "interfaceRef": "sumBlock_3",
-      "dir": "out",
-      "firstOutLatency": "1"
-    },
-    "sumBlock_4": {
-      "interfaceRef": "sumBlock_4",
-      "dir": "out",
-      "firstOutLatency": "1"
-    },
-    "sumBlock_5": {
-      "interfaceRef": "sumBlock_5",
-      "dir": "out",
-      "firstOutLatency": "1"
-    },
-    "sumBlock_6": {
-      "interfaceRef": "sumBlock_6",
+    "sumBlock": {
+      "interfaceRef": "sumBlock",
       "dir": "out",
       "firstOutLatency": "1"
     }
@@ -400,7 +221,7 @@
       "ModuleName": "blockSADSum",
       "Instances": [{
           "ModuleName": "colSADSum",
-          "InstanceName": "grp_colSADSum_fu_171",
+          "InstanceName": "grp_colSADSum_fu_119",
           "Instances": [
             {
               "ModuleName": "sad",
@@ -492,7 +313,7 @@
         },
         "Area": {
           "FF": "114",
-          "LUT": "3834",
+          "LUT": "3778",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -501,7 +322,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-17 20:20:39 +0200",
+    "Time": "2018-09-17 20:54:20 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

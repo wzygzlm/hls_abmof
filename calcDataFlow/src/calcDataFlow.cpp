@@ -92,3 +92,19 @@ void blockSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 //	}
 }
 
+
+// Set the initial value as the max integer.
+ap_int<16> miniRetVal[2*SEARCH_DISTANCE + 1] = {0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff};
+ap_int<16> sumTmp[2*SEARCH_DISTANCE + 1];
+
+void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pixel_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		int16_t sumBlock[2*SEARCH_DISTANCE + 1], int16_t *miniSumRet)
+{
+	miniLoop: for(int8_t i = 0; i < 3; i++)
+	{
+		blockSADSum(t1Block, t2Block, sumBlock);
+
+	}
+}
+

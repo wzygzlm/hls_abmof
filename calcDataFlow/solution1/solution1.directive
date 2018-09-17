@@ -70,10 +70,10 @@
             </pragma>
         </directive>
         <directive functionName="blockSADSum" label="" functionLabel="">
-            <pragma name="ARRAY_PARTITION">
+            <pragma name="ARRAY_RESHAPE">
                 <option name="variable" value="sumBlock" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
-                <option name="dim" value="0"/>
+                <option name="dim" value="1"/>
             </pragma>
         </directive>
         <directive functionName="blockSADSum" label="" functionLabel="">
