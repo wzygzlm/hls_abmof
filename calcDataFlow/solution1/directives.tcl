@@ -26,3 +26,5 @@ set_directive_interface -mode ap_fifo "blockSADSum" t1Block
 set_directive_interface -mode ap_fifo "blockSADSum" t2Block
 set_directive_array_partition -type complete -dim 0 "miniSADSum" localSumReg
 set_directive_array_partition -type complete -dim 0 "miniSADSum" t1Block
+set_directive_allocation -limit 5 -type operation "miniSADSum/addLoop" icmp
+set_directive_array_partition -type complete -dim 0 "min" inArr

@@ -45,6 +45,7 @@ static ap_int<16> miniRetVal[2*SEARCH_DISTANCE + 1] = {0x7fff, 0x7fff, 0x7fff, 0
 static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1] = {0, 0, 0, 0, 0, 0, 0};
 static ap_int<16> localSumReg[2*SEARCH_DISTANCE + 1][2*SEARCH_DISTANCE + 1];
 
+static int16_t testTmpSum;
 void miniSADSumSW(pixel_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pixel_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		ap_int<16> *miniSumRet)
@@ -98,7 +99,10 @@ void miniSADSumSW(pixel_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	{
 		intMiniRetVal[j] = miniRetVal[j].to_short();
 	}
-	*miniSumRet = ap_int<16>(*min_element(miniRetVal, miniRetVal + 2*SEARCH_DISTANCE));
+
+	testTmpSum = *min_element(intMiniRetVal, intMiniRetVal + 2*SEARCH_DISTANCE + 1);
+	cout << "Minimal value in int16_t is: " << testTmpSum << endl;
+	*miniSumRet = ap_int<16>(*min_element(miniRetVal, miniRetVal + 2*SEARCH_DISTANCE + 1));
 
 	shiftCnt++;
 }

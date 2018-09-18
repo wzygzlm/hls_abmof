@@ -93,7 +93,15 @@ void blockSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 //	}
 }
 
-
+void min(ap_int<16> inArr[8], ap_int<16> *outMin)
+{
+	ap_int<16> tmp = inArr[0];
+	minLoop: for(int8_t i = 1; i < 8; i++)
+	{
+		tmp = tmp < inArr[i] ? tmp : inArr[i];
+	}
+	*outMin = tmp;
+}
 
 
 void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],

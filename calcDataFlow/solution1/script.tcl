@@ -4,7 +4,7 @@
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
 open_project calcDataFlow
-set_top miniSADSum
+set_top min
 add_files calcDataFlow/src/calcDataFlow.cpp
 add_files calcDataFlow/src/calcDataFlow.h
 add_files -tb calcDataFlow/src/test.cpp
