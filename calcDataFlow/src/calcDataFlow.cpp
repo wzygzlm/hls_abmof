@@ -9,6 +9,7 @@ void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
 	calOFLoop2:for(ap_uint<4> i = 0; i < BLOCK_SIZE; i++)
 	{
 		if(sum[i] < 0) sum[i] = -sum[i];
+//		sum[i] = sum[i] < 0 ? ap_int<BITS_PER_PIXEL+1>(-sum[i]) : sum[i];
 		tmp = tmp + sum[i];
 	}
 
@@ -116,7 +117,8 @@ void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
 		miniSumTmp[i] = miniSumTmp[i] + out[i] - localSumReg[0][i];
-		if(miniSumTmp[i] < miniRetVal[i]) miniRetVal[i] = miniSumTmp[i];
+		miniRetVal[i] = miniSumTmp[i] < miniRetVal[i] ? miniSumTmp[i] : miniRetVal[i];
+//		else miniRetVal[i] = miniRetVal[i];
 	}
 
 	shiftMainLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE; i++)

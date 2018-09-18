@@ -10,43 +10,43 @@ INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file 'calcDataFlow/src/calcDataFlow.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:27 . Memory (MB): peak = 103.539 ; gain = 45.879
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:40 . Memory (MB): peak = 103.574 ; gain = 45.914
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 104.301 ; gain = 46.500
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:19 . Memory (MB): peak = 104.320 ; gain = 46.520
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [XFORM 203-603] Inlining function 'sadSum' into 'sad' (calcDataFlow/src/calcDataFlow.cpp:32).
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:41 . Memory (MB): peak = 114.598 ; gain = 56.938
+INFO: [XFORM 203-603] Inlining function 'sadSum' into 'sad' (calcDataFlow/src/calcDataFlow.cpp:33).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:20 . Memory (MB): peak = 114.723 ; gain = 56.922
 INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:41 . Memory (MB): peak = 120.918 ; gain = 63.258
-INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'miniSADSum' (calcDataFlow/src/calcDataFlow.cpp:101).
-INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'colSADSum' (calcDataFlow/src/calcDataFlow.cpp:38).
-INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sad' (calcDataFlow/src/calcDataFlow.cpp:18).
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:20 . Memory (MB): peak = 121.168 ; gain = 63.367
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'miniSADSum' (calcDataFlow/src/calcDataFlow.cpp:102).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'colSADSum' (calcDataFlow/src/calcDataFlow.cpp:39).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sad' (calcDataFlow/src/calcDataFlow.cpp:19).
 WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) because its parent loop or function is pipelined.
-INFO: [XFORM 203-501] Unrolling loop 'readColLoop' (calcDataFlow/src/calcDataFlow.cpp:109) in function 'miniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'addLoop' (calcDataFlow/src/calcDataFlow.cpp:117) in function 'miniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'shiftMainLoop' (calcDataFlow/src/calcDataFlow.cpp:123) in function 'miniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'shiftInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:125) in function 'miniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'shiftLastLoop' (calcDataFlow/src/calcDataFlow.cpp:131) in function 'miniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'outputRetLoop' (calcDataFlow/src/calcDataFlow.cpp:136) in function 'miniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'colSADSumLoop' (calcDataFlow/src/calcDataFlow.cpp:43) in function 'colSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'colSADSumInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:46) in function 'colSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (calcDataFlow/src/calcDataFlow.cpp:27) in function 'sad' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readColLoop' (calcDataFlow/src/calcDataFlow.cpp:110) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'addLoop' (calcDataFlow/src/calcDataFlow.cpp:118) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftMainLoop' (calcDataFlow/src/calcDataFlow.cpp:125) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:127) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftLastLoop' (calcDataFlow/src/calcDataFlow.cpp:133) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'outputRetLoop' (calcDataFlow/src/calcDataFlow.cpp:138) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumLoop' (calcDataFlow/src/calcDataFlow.cpp:44) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:47) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (calcDataFlow/src/calcDataFlow.cpp:28) in function 'sad' completely.
 INFO: [XFORM 203-501] Unrolling loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) in function 'sad' completely.
-INFO: [XFORM 203-102] Partitioning array 'sum.V' (calcDataFlow/src/calcDataFlow.cpp:21) automatically.
+INFO: [XFORM 203-102] Partitioning array 'sum.V' (calcDataFlow/src/calcDataFlow.cpp:22) automatically.
 INFO: [XFORM 203-102] Partitioning array 'miniSumTmp.V' automatically.
 INFO: [XFORM 203-102] Partitioning array 'miniRetVal.V' automatically.
-INFO: [XFORM 203-101] Partitioning array 't1Block.V' (calcDataFlow/src/calcDataFlow.cpp:101) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 't1Block.V' (calcDataFlow/src/calcDataFlow.cpp:102) in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'localSumReg.V'  in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 't2Block.V' (calcDataFlow/src/calcDataFlow.cpp:102) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'miniSumRet.V' (calcDataFlow/src/calcDataFlow.cpp:103) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 't2Block.V' (calcDataFlow/src/calcDataFlow.cpp:103) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'miniSumRet.V' (calcDataFlow/src/calcDataFlow.cpp:104) in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'out'  in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'in2.V' (calcDataFlow/src/calcDataFlow.cpp:105) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'in1.V' (calcDataFlow/src/calcDataFlow.cpp:105) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'input2.V' (calcDataFlow/src/calcDataFlow.cpp:44) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'input1.V' (calcDataFlow/src/calcDataFlow.cpp:44) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'in2.V' (calcDataFlow/src/calcDataFlow.cpp:106) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'in1.V' (calcDataFlow/src/calcDataFlow.cpp:106) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'input2.V' (calcDataFlow/src/calcDataFlow.cpp:45) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'input1.V' (calcDataFlow/src/calcDataFlow.cpp:45) in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'localSumReg.V'  in dimension 2 completely.
-INFO: [XFORM 203-11] Balancing expressions in function 'sad' (calcDataFlow/src/calcDataFlow.cpp:18)...10 expression(s) balanced.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:42 . Memory (MB): peak = 149.805 ; gain = 92.145
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:43 . Memory (MB): peak = 166.141 ; gain = 108.480
+INFO: [XFORM 203-11] Balancing expressions in function 'sad' (calcDataFlow/src/calcDataFlow.cpp:19)...10 expression(s) balanced.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:22 . Memory (MB): peak = 149.859 ; gain = 92.059
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:22 . Memory (MB): peak = 165.727 ; gain = 107.926
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'miniSADSum' ...
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -56,13 +56,13 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'sad'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 43.238 seconds; current allocated memory: 121.279 MB.
+INFO: [HLS 200-111]  Elapsed time: 22.714 seconds; current allocated memory: 121.036 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.159 seconds; current allocated memory: 121.654 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.292 seconds; current allocated memory: 121.412 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'colSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -70,37 +70,37 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'colSADSum'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.158 seconds; current allocated memory: 121.874 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.101 seconds; current allocated memory: 121.631 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.326 seconds; current allocated memory: 122.226 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.33 seconds; current allocated memory: 121.983 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'miniSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'miniSADSum'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 3.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.596 seconds; current allocated memory: 123.140 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.308 seconds; current allocated memory: 122.780 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.436 seconds; current allocated memory: 123.860 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.339 seconds; current allocated memory: 123.427 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'sad'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'sad'.
-INFO: [HLS 200-111]  Elapsed time: 0.508 seconds; current allocated memory: 124.813 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.417 seconds; current allocated memory: 124.381 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'colSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'colSADSum'.
-INFO: [HLS 200-111]  Elapsed time: 0.536 seconds; current allocated memory: 125.749 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.854 seconds; current allocated memory: 125.332 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'miniSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -222,9 +222,9 @@ WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_15_V' has no fanin or fanout a
 WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_16_V' has no fanin or fanout and is left dangling.
                Please use C simulation to confirm this function argument can be read from or written to.
 INFO: [RTGEN 206-100] Finished creating RTL model for 'miniSADSum'.
-INFO: [HLS 200-111]  Elapsed time: 1.447 seconds; current allocated memory: 127.153 MB.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:08 ; elapsed = 00:00:50 . Memory (MB): peak = 186.063 ; gain = 128.402
+INFO: [HLS 200-111]  Elapsed time: 0.762 seconds; current allocated memory: 126.651 MB.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:05 ; elapsed = 00:00:30 . Memory (MB): peak = 185.688 ; gain = 127.887
 INFO: [SYSC 207-301] Generating SystemC RTL for miniSADSum.
 INFO: [VHDL 208-304] Generating VHDL RTL for miniSADSum.
 INFO: [VLOG 209-307] Generating Verilog RTL for miniSADSum.
-INFO: [HLS 200-112] Total elapsed time: 50.146 seconds; peak allocated memory: 127.153 MB.
+INFO: [HLS 200-112] Total elapsed time: 29.646 seconds; peak allocated memory: 126.651 MB.
