@@ -47,7 +47,7 @@ static ap_int<16> localSumReg[2*SEARCH_DISTANCE + 1][2*SEARCH_DISTANCE + 1];
 
 void miniSADSumSW(pixel_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pixel_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-		ap_int<16> miniSumRet[2*SEARCH_DISTANCE + 1])
+		ap_int<16> *miniSumRet)
 {
 	static int16_t shiftCnt = 0;
 	int16_t out[2*SEARCH_DISTANCE + 1];
@@ -85,10 +85,20 @@ void miniSADSumSW(pixel_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	}
 	cout << endl;
 
+	cout << "miniRetVal is: " << endl;
+	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+	{
+		cout << miniRetVal[m] << " ";
+	}
+	cout << endl;
+
+	// Convert it to standard c type, so min function could be used.
+	uint16_t intMiniRetVal[2*SEARCH_DISTANCE + 1];
 	for (int j = 0; j <= 2 * SEARCH_DISTANCE; j++)
 	{
-		miniSumRet[j] = miniRetVal[j];
+		intMiniRetVal[j] = miniRetVal[j].to_short();
 	}
+	*miniSumRet = ap_int<16>(*min_element(miniRetVal, miniRetVal + 2*SEARCH_DISTANCE));
 
 	shiftCnt++;
 }
@@ -97,7 +107,7 @@ int main()
 {
 	pixel_t input1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			input2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-	ap_int<16> sumArray[2*SEARCH_DISTANCE + 1], sumArraySW[2*SEARCH_DISTANCE + 1];
+	ap_int<16> miniSum, miniSumSW;
 
     int err_cnt = 0;
 	int retval=0;
@@ -112,27 +122,27 @@ int main()
 			input1[j] = rand() % 16;
 			input2[j] = rand() % 16;
 		}
-		miniSADSum(input1, input2, sumArray);
-		miniSADSumSW(input1, input2, sumArraySW);
+		miniSADSum(input1, input2, &miniSum);
+		miniSADSumSW(input1, input2, &miniSumSW);
 
 		// Compare the results file with the golden results
-		cout << "sumArray is: " << endl;
-		for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
-		{
-			cout << sumArray[m] << " ";
-		}
-		cout << endl;
+		cout << "miniSum is: " << miniSum << endl;
+//		for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+//		{
+//			cout << sumArray[m] << " ";
+//		}
+//		cout << endl;
 
-		cout << "sumArraySW is: " << endl;
-		for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
-		{
-			cout << sumArraySW[m] << " ";
-		}
-		cout << endl;
+		cout << "miniSumSW is: " << miniSumSW << endl;
+//		for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+//		{
+//			cout << sumArraySW[m] << " ";
+//		}
+//		cout << endl;
 
 		for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 		{
-			if(sumArray[i] != sumArraySW[i])
+			if(miniSum != miniSumSW)
 			{
 				err_cnt++;
 				cout<<"!!! ERROR: Mismatch detected at index" << i << "!!!" << endl;

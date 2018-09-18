@@ -97,13 +97,6 @@
         </directive>
         <directive functionName="miniSADSum" label="" functionLabel="">
             <pragma name="ARRAY_PARTITION">
-                <option name="variable" value="miniSumRet" positionalBoolean="4"/>
-                <option name="complete" value="" positionalBoolean="type"/>
-                <option name="dim" value="0"/>
-            </pragma>
-        </directive>
-        <directive functionName="miniSADSum" label="" functionLabel="">
-            <pragma name="ARRAY_PARTITION">
                 <option name="variable" value="t2Block" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
                 <option name="dim" value="0"/>

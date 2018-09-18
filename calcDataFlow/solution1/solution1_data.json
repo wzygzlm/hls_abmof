@@ -31,7 +31,6 @@
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt2Block}} {}",
       "pipeline blockSADSum {} {}",
       "pipeline miniSADSum {} {}",
-      "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredminiSumRet} {complete positionBoolean0type} {dim 0}} {}",
       "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 0}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt1Block}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt2Block}} {}",
@@ -43,7 +42,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "1",
-    "Latency": "1",
+    "Latency": "3",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -97,61 +96,7 @@
       "polarity": "ACTIVE_HIGH",
       "ctype": {"RST": {"Type": "bool"}}
     },
-    "miniSumRet_0_V": {
-      "type": "data",
-      "dir": "out",
-      "width": "16",
-      "ctype": {"DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        }}
-    },
-    "miniSumRet_1_V": {
-      "type": "data",
-      "dir": "out",
-      "width": "16",
-      "ctype": {"DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        }}
-    },
-    "miniSumRet_2_V": {
-      "type": "data",
-      "dir": "out",
-      "width": "16",
-      "ctype": {"DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        }}
-    },
-    "miniSumRet_3_V": {
-      "type": "data",
-      "dir": "out",
-      "width": "16",
-      "ctype": {"DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        }}
-    },
-    "miniSumRet_4_V": {
-      "type": "data",
-      "dir": "out",
-      "width": "16",
-      "ctype": {"DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        }}
-    },
-    "miniSumRet_5_V": {
-      "type": "data",
-      "dir": "out",
-      "width": "16",
-      "ctype": {"DATA": {
-          "Type": "integer signed",
-          "Width": "16"
-        }}
-    },
-    "miniSumRet_6_V": {
+    "miniSumRet_V": {
       "type": "data",
       "dir": "out",
       "width": "16",
@@ -628,59 +573,11 @@
       "dir": "in",
       "width": "4"
     },
-    "miniSumRet_0_V": {
+    "miniSumRet_V": {
       "dir": "out",
       "width": "16"
     },
-    "miniSumRet_0_V_ap_vld": {
-      "dir": "out",
-      "width": "1"
-    },
-    "miniSumRet_1_V": {
-      "dir": "out",
-      "width": "16"
-    },
-    "miniSumRet_1_V_ap_vld": {
-      "dir": "out",
-      "width": "1"
-    },
-    "miniSumRet_2_V": {
-      "dir": "out",
-      "width": "16"
-    },
-    "miniSumRet_2_V_ap_vld": {
-      "dir": "out",
-      "width": "1"
-    },
-    "miniSumRet_3_V": {
-      "dir": "out",
-      "width": "16"
-    },
-    "miniSumRet_3_V_ap_vld": {
-      "dir": "out",
-      "width": "1"
-    },
-    "miniSumRet_4_V": {
-      "dir": "out",
-      "width": "16"
-    },
-    "miniSumRet_4_V_ap_vld": {
-      "dir": "out",
-      "width": "1"
-    },
-    "miniSumRet_5_V": {
-      "dir": "out",
-      "width": "16"
-    },
-    "miniSumRet_5_V_ap_vld": {
-      "dir": "out",
-      "width": "1"
-    },
-    "miniSumRet_6_V": {
-      "dir": "out",
-      "width": "16"
-    },
-    "miniSumRet_6_V_ap_vld": {
+    "miniSumRet_V_ap_vld": {
       "dir": "out",
       "width": "1"
     }
@@ -894,54 +791,12 @@
       "dataWidth": "4",
       "handshakeRef": "ap_none"
     },
-    "miniSumRet_0_V": {
-      "interfaceRef": "miniSumRet_0_V",
+    "miniSumRet_V": {
+      "interfaceRef": "miniSumRet_V",
       "dir": "out",
       "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "1"
-    },
-    "miniSumRet_1_V": {
-      "interfaceRef": "miniSumRet_1_V",
-      "dir": "out",
-      "dataWidth": "16",
-      "handshakeRef": "ap_vld",
-      "firstOutLatency": "1"
-    },
-    "miniSumRet_2_V": {
-      "interfaceRef": "miniSumRet_2_V",
-      "dir": "out",
-      "dataWidth": "16",
-      "handshakeRef": "ap_vld",
-      "firstOutLatency": "1"
-    },
-    "miniSumRet_3_V": {
-      "interfaceRef": "miniSumRet_3_V",
-      "dir": "out",
-      "dataWidth": "16",
-      "handshakeRef": "ap_vld",
-      "firstOutLatency": "1"
-    },
-    "miniSumRet_4_V": {
-      "interfaceRef": "miniSumRet_4_V",
-      "dir": "out",
-      "dataWidth": "16",
-      "handshakeRef": "ap_vld",
-      "firstOutLatency": "1"
-    },
-    "miniSumRet_5_V": {
-      "interfaceRef": "miniSumRet_5_V",
-      "dir": "out",
-      "dataWidth": "16",
-      "handshakeRef": "ap_vld",
-      "firstOutLatency": "1"
-    },
-    "miniSumRet_6_V": {
-      "interfaceRef": "miniSumRet_6_V",
-      "dir": "out",
-      "dataWidth": "16",
-      "handshakeRef": "ap_vld",
-      "firstOutLatency": "1"
+      "firstOutLatency": "3"
     }
   },
   "ModuleInfo": {
@@ -949,7 +804,7 @@
       "ModuleName": "miniSADSum",
       "Instances": [{
           "ModuleName": "colSADSum",
-          "InstanceName": "grp_colSADSum_fu_453",
+          "InstanceName": "grp_colSADSum_fu_387",
           "Instances": [
             {
               "ModuleName": "sad",
@@ -1027,20 +882,20 @@
       },
       "miniSADSum": {
         "Latency": {
-          "LatencyBest": "1",
-          "LatencyAvg": "1",
-          "LatencyWorst": "1",
+          "LatencyBest": "3",
+          "LatencyAvg": "3",
+          "LatencyWorst": "3",
           "PipelineII": "1",
-          "PipelineDepth": "2",
+          "PipelineDepth": "4",
           "PipelineType": "function"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.22"
+          "Estimate": "23.85"
         },
         "Area": {
-          "FF": "1138",
+          "FF": "1173",
           "LUT": "4226",
           "BRAM_18K": "0",
           "DSP48E": "0"
@@ -1050,7 +905,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-18 17:07:39 +0200",
+    "Time": "2018-09-18 17:44:53 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
