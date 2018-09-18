@@ -949,7 +949,7 @@
       "ModuleName": "miniSADSum",
       "Instances": [{
           "ModuleName": "colSADSum",
-          "InstanceName": "grp_colSADSum_fu_447",
+          "InstanceName": "grp_colSADSum_fu_453",
           "Instances": [
             {
               "ModuleName": "sad",
@@ -1037,11 +1037,11 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.05"
+          "Estimate": "9.22"
         },
         "Area": {
-          "FF": "1122",
-          "LUT": "4176",
+          "FF": "1138",
+          "LUT": "4226",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1050,7 +1050,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-18 16:10:10 +0200",
+    "Time": "2018-09-18 17:07:39 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

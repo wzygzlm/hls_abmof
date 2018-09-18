@@ -17,4 +17,9 @@ void colSADSum(pixel_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 void blockSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pixel_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		int16_t sumBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][2*SEARCH_DISTANCE + 1]);
+
+void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pixel_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		ap_int<16> miniSumRet[2*SEARCH_DISTANCE + 1]);
+
 #endif
