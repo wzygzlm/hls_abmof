@@ -1,153 +1,155 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <AutoPilot:ProjectResources xmlns:AutoPilot="com.autoesl.autopilot.ui.directiveView">
-  <sourceFile>
-    <directive functionName="sadSum" label="" functionLabel="">
-      <pragma name="INLINE"/>
-    </directive>
-    <directive functionName="sadSum" label="calOFLoop2" functionLabel="">
-      <pragma name="UNROLL">
-        <option name="factor" value="1"/>
-      </pragma>
-    </directive>
-    <directive functionName="sad" label="" functionLabel="">
-      <pragma name="PIPELINE"/>
-    </directive>
-    <directive functionName="colSADSum" label="colSADSumLoop" functionLabel="">
-      <pragma name="ARRAY_PARTITION">
-        <option name="variable" value="input1" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="0"/>
-      </pragma>
-    </directive>
-    <directive functionName="colSADSum" label="colSADSumLoop" functionLabel="">
-      <pragma name="ARRAY_PARTITION">
-        <option name="variable" value="input2" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="0"/>
-      </pragma>
-    </directive>
-    <directive functionName="colSADSum" label="colSADSumInnerLoop" functionLabel="">
-      <pragma name="UNROLL">
-        <option name="factor" value="2"/>
-      </pragma>
-    </directive>
-    <directive functionName="sad" label="" functionLabel="">
-      <pragma name="INLINE">
-        <option name="off" value="" positionalBoolean="1"/>
-      </pragma>
-    </directive>
-    <directive functionName="colSADSum" label="" functionLabel="">
-      <pragma name="PIPELINE"/>
-    </directive>
-    <directive functionName="colSADSum" label="" functionLabel="">
-      <pragma name="INLINE">
-        <option name="off" value="" positionalBoolean="1"/>
-      </pragma>
-    </directive>
-    <directive functionName="blockSADSum" label="" functionLabel="">
-      <pragma name="ARRAY_RESHAPE">
-        <option name="variable" value="t1Block" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="1"/>
-      </pragma>
-    </directive>
-    <directive functionName="blockSADSum" label="" functionLabel="">
-      <pragma name="ARRAY_RESHAPE">
-        <option name="variable" value="t2Block" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="1"/>
-      </pragma>
-    </directive>
-    <directive functionName="colSADSum" label="" functionLabel="">
-      <pragma name="ARRAY_PARTITION">
-        <option name="variable" value="t1Col" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="0"/>
-      </pragma>
-    </directive>
-    <directive functionName="colSADSum" label="" functionLabel="">
-      <pragma name="ARRAY_PARTITION">
-        <option name="variable" value="t2Col" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="0"/>
-      </pragma>
-    </directive>
-    <directive functionName="blockSADSum" label="" functionLabel="">
-      <pragma name="ARRAY_RESHAPE">
-        <option name="variable" value="sumBlock" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="1"/>
-      </pragma>
-    </directive>
-    <directive functionName="colSADSum" label="" functionLabel="">
-      <pragma name="ARRAY_PARTITION">
-        <option name="variable" value="retVal" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="0"/>
-      </pragma>
-    </directive>
-    <directive functionName="blockSADSum" label="" functionLabel="">
-      <pragma name="INTERFACE">
-        <option name="ap_fifo" value="" positionalBoolean="mode"/>
-        <option name="port" value="t2Block" positionalBoolean="4"/>
-      </pragma>
-    </directive>
-    <directive functionName="blockSADSum" label="" functionLabel="">
-      <pragma name="PIPELINE"/>
-    </directive>
-    <directive functionName="miniSADSum" label="" functionLabel="">
-      <pragma name="PIPELINE"/>
-    </directive>
-    <directive functionName="miniSADSum" label="" functionLabel="">
-      <pragma name="ARRAY_PARTITION">
-        <option name="variable" value="t2Block" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="0"/>
-      </pragma>
-    </directive>
-    <directive functionName="blockSADSum" label="" functionLabel="">
-      <pragma name="INTERFACE">
-        <option name="ap_fifo" value="" positionalBoolean="mode"/>
-        <option name="port" value="t1Block" positionalBoolean="4"/>
-      </pragma>
-    </directive>
-    <directive functionName="blockSADSum" label="" functionLabel="">
-      <pragma name="INTERFACE">
-        <option name="ap_fifo" value="" positionalBoolean="mode"/>
-        <option name="port" value="t2Block" positionalBoolean="4"/>
-      </pragma>
-    </directive>
-    <directive functionName="miniSADSum" label="" functionLabel="">
-      <pragma name="ARRAY_PARTITION">
-        <option name="variable" value="localSumReg" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="0"/>
-      </pragma>
-    </directive>
-    <directive functionName="miniSADSum" label="" functionLabel="">
-      <pragma name="ARRAY_PARTITION">
-        <option name="variable" value="t1Block" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="0"/>
-      </pragma>
-    </directive>
-    <directive functionName="min" label="" functionLabel="">
-      <pragma name="ARRAY_PARTITION">
-        <option name="variable" value="inArr" positionalBoolean="4"/>
-        <option name="complete" value="" positionalBoolean="type"/>
-        <option name="dim" value="0"/>
-      </pragma>
-    </directive>
-    <directive functionName="min" label="minLoop" functionLabel="">
-      <pragma name="UNROLL"/>
-    </directive>
-    <directive functionName="min" label="" functionLabel="">
-      <pragma name="PIPELINE"/>
-    </directive>
-    <directive functionName="min" label="" functionLabel="">
-      <pragma name="INLINE">
-        <option name="off" value=" " positionalBoolean="1"/>
-      </pragma>
-    </directive>
-  </sourceFile>
+    <sourceFile name="">
+        <directive functionName="sadSum" label="calOFLoop2" functionLabel="">
+            <pragma name="UNROLL">
+                <option name="factor" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="sad" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colSADSum" label="colSADSumLoop" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="input1" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="colSADSumLoop" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="input2" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="colSADSumInnerLoop" functionLabel="">
+            <pragma name="UNROLL">
+                <option name="factor" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="sad" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="t1Block" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="t2Block" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="t1Col" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="t2Col" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="sumBlock" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="retVal" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockSADSum" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="t2Block" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockSADSum" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="t2Block" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockSADSum" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="t1Block" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockSADSum" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="t2Block" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="localSumReg" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="t1Block" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="min" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="inArr" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="min" label="minLoop" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="min" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="min" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="sadSum" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+    </sourceFile>
 </AutoPilot:ProjectResources>
+

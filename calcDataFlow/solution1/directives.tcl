@@ -3,7 +3,6 @@
 ## Please DO NOT edit it.
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
-set_directive_inline "sadSum"
 set_directive_unroll -factor 1 "sadSum/calOFLoop2"
 set_directive_pipeline "sad"
 set_directive_array_partition -type complete -dim 0 "colSADSum/colSADSumLoop" input1
@@ -30,3 +29,4 @@ set_directive_array_partition -type complete -dim 0 "min" inArr
 set_directive_unroll "min/minLoop"
 set_directive_pipeline "min"
 set_directive_inline -off "min"
+set_directive_inline -off "sadSum"

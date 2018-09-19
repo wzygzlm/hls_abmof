@@ -29,47 +29,47 @@
 		<link>
 			<name>source</name>
 			<type>2</type>
-			<location>E:/workspace/hls_abmof/calcDataFlow/.apc/.src</location>
+			<location>E:/xfOpenCV/hls_2018_1/calcDataFlow/.apc/.src</location>
 		</link>
 		<link>
 			<name>testbench</name>
 			<type>2</type>
-			<location>E:/workspace/hls_abmof/calcDataFlow/.apc/.tb</location>
+			<location>E:/xfOpenCV/hls_2018_1/calcDataFlow/.apc/.tb</location>
 		</link>
 		<link>
 			<name>solution1/constraints</name>
 			<type>2</type>
-			<location>E:/workspace/hls_abmof/calcDataFlow/solution1/.tcls</location>
+			<location>E:/xfOpenCV/hls_2018_1/calcDataFlow/solution1/.tcls</location>
 		</link>
 		<link>
 			<name>source/calcDataFlow.cpp</name>
 			<type>1</type>
-			<location>E:/workspace/hls_abmof/calcDataFlow/src/calcDataFlow.cpp</location>
+			<location>E:/xfOpenCV/hls_2018_1/calcDataFlow/src/calcDataFlow.cpp</location>
 		</link>
 		<link>
 			<name>source/calcDataFlow.h</name>
 			<type>1</type>
-			<location>E:/workspace/hls_abmof/calcDataFlow/src/calcDataFlow.h</location>
+			<location>E:/xfOpenCV/hls_2018_1/calcDataFlow/src/calcDataFlow.h</location>
 		</link>
 		<link>
 			<name>testbench/test.cpp</name>
 			<type>1</type>
-			<location>E:/workspace/hls_abmof/calcDataFlow/src/test.cpp</location>
+			<location>E:/xfOpenCV/hls_2018_1/calcDataFlow/src/test.cpp</location>
 		</link>
 		<link>
 			<name>solution1/constraints/.xml.directive</name>
 			<type>1</type>
-			<location>E:/workspace/hls_abmof/calcDataFlow/solution1/solution1.directive</location>
+			<location>E:/xfOpenCV/hls_2018_1/calcDataFlow/solution1/solution1.directive</location>
 		</link>
 		<link>
 			<name>solution1/constraints/directives.tcl</name>
 			<type>1</type>
-			<location>E:/workspace/hls_abmof/calcDataFlow/solution1/directives.tcl</location>
+			<location>E:/xfOpenCV/hls_2018_1/calcDataFlow/solution1/directives.tcl</location>
 		</link>
 		<link>
 			<name>solution1/constraints/script.tcl</name>
 			<type>1</type>
-			<location>E:/workspace/hls_abmof/calcDataFlow/solution1/script.tcl</location>
+			<location>E:/xfOpenCV/hls_2018_1/calcDataFlow/solution1/script.tcl</location>
 		</link>
 	</linkedResources>
 </projectDescription>

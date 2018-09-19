@@ -93,16 +93,18 @@ void blockSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 //	}
 }
 
-ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1], ap_int<16> initMin)
+// Function Description: return the minimum value of an array.
+ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1])
 {
-	// This initial value could be any value even a port
-	// but cannot be 0x7fff, don't know why.
-	// If 0x7fff, when pipeline the function, multiple muxs
-	// will be generated.
-	ap_int<16> tmp = initMin;
+	ap_int<16> tmp = inArr[0];
 	minLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE + 1; i++)
 	{
-		tmp = tmp < inArr[i] ? tmp : inArr[i];
+		// Here is a bug. Use the if-else statement,
+		// cannot use the question mark statement.
+		// Otherwise a lot of muxs will be generated,
+		// DON'T KNOW WHY. SHOULD BE A BUG.
+		if(inArr[i] < tmp) tmp = inArr[i];
+//		tmp = (inArr[i] < tmp) ? inArr[i] : tmp;
 	}
 	return tmp;
 }
@@ -136,7 +138,7 @@ void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 //		miniRetVal = (miniRetValTmpIter < miniSumTmp[i]) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniSumTmp[i];
 //		else miniRetVal[i] = miniRetVal[i];
 	}
-	miniRetValTmpIter = min(miniSumTmp, 0x7ffe);
+	miniRetValTmpIter = min(miniSumTmp);
 	// Use a new register to store the old value and use the return value as the new value.
 	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniRetVal;
 
