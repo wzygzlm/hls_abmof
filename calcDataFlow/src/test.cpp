@@ -118,44 +118,44 @@ int main()
 
 //	srand((unsigned)time(NULL));
 	/******************* Test miniSADSum module **************************/
-//	for(int k = 0; k < TEST_TIMES; k++)
-//	{
-//		cout << "Test " << k << ":" << endl;
-//
-//		for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+	for(int k = 0; k < TEST_TIMES; k++)
+	{
+		cout << "Test " << k << ":" << endl;
+
+		for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+		{
+			input1[j] = rand() % 16;
+			input2[j] = rand() % 16;
+		}
+		miniSADSum(input1, input2, &miniSum);
+		miniSADSumSW(input1, input2, &miniSumSW);
+
+		// Compare the results file with the golden results
+		cout << "miniSum is: " << miniSum << endl;
+//		for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
 //		{
-//			input1[j] = rand() % 16;
-//			input2[j] = rand() % 16;
+//			cout << sumArray[m] << " ";
 //		}
-//		miniSADSum(input1, input2, &miniSum);
-//		miniSADSumSW(input1, input2, &miniSumSW);
-//
-//		// Compare the results file with the golden results
-//		cout << "miniSum is: " << miniSum << endl;
-////		for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
-////		{
-////			cout << sumArray[m] << " ";
-////		}
-////		cout << endl;
-//
-//		cout << "miniSumSW is: " << miniSumSW << endl;
-////		for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
-////		{
-////			cout << sumArraySW[m] << " ";
-////		}
-////		cout << endl;
-//
-//		for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
-//		{
-//			if(miniSum != miniSumSW)
-//			{
-//				err_cnt++;
-//				cout<<"!!! ERROR: Mismatch detected at index" << i << "!!!" << endl;
-//			}
-//		}
-//
 //		cout << endl;
-//	}
+
+		cout << "miniSumSW is: " << miniSumSW << endl;
+//		for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+//		{
+//			cout << sumArraySW[m] << " ";
+//		}
+//		cout << endl;
+
+		for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+		{
+			if(miniSum != miniSumSW)
+			{
+				err_cnt++;
+				cout<<"!!! ERROR: Mismatch detected at index" << i << "!!!" << endl;
+			}
+		}
+
+		cout << endl;
+	}
 
 	/******************* Test min module **************************/
 	ap_int<16> testData[2*SEARCH_DISTANCE + 1];
