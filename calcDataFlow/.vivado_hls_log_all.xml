@@ -3,19 +3,20 @@
   <errorLogs>
     <logs>
       <synLog/>
-      <simLog/>
-      <mgLog/>
-      <packageLog/>
-      <csimLog/>
     </logs>
   </errorLogs>
   <warningLogs>
     <logs>
-      <synLog/>
-      <simLog/>
-      <mgLog/>
-      <packageLog/>
-      <csimLog/>
+      <synLog>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_16_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-19T02:36:06.754+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_15_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-19T02:36:06.704+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_14_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-19T02:36:06.694+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_13_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-19T02:36:06.687+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_12_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-19T02:36:06.681+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_11_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-19T02:36:06.673+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-19T02:36:06.662+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-19T02:36:06.649+0200" type="Warning"/>
+      </synLog>
     </logs>
   </warningLogs>
 </vivadoHLSLog:LogRoot>

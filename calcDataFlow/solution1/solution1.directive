@@ -26,7 +26,9 @@
             </pragma>
         </directive>
         <directive functionName="colSADSum" label="colSADSumInnerLoop" functionLabel="">
-            <pragma name="UNROLL"/>
+            <pragma name="UNROLL">
+                <option name="factor" value="2"/>
+            </pragma>
         </directive>
         <directive functionName="sad" label="" functionLabel="">
             <pragma name="INLINE">
@@ -128,18 +130,22 @@
                 <option name="dim" value="0"/>
             </pragma>
         </directive>
-        <directive functionName="miniSADSum" label="addLoop" functionLabel="">
-            <pragma name="ALLOCATION">
-                <option name="instances" value="icmp" positionalBoolean="4"/>
-                <option name="limit" value="5"/>
-                <option name="operation" value="" positionalBoolean="type"/>
-            </pragma>
-        </directive>
         <directive functionName="min" label="" functionLabel="">
             <pragma name="ARRAY_PARTITION">
                 <option name="variable" value="inArr" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
                 <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="min" label="minLoop" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="min" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="min" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
             </pragma>
         </directive>
     </sourceFile>

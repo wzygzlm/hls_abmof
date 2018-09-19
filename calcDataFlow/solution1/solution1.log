@@ -8,48 +8,7 @@ Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
 INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
-INFO: [HLS 200-10] Analyzing design file 'calcDataFlow/src/calcDataFlow.cpp' ...
-INFO: [HLS 200-10] Validating synthesis directives ...
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 104.422 ; gain = 45.992
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 104.445 ; gain = 46.016
-INFO: [HLS 200-10] Starting code transformations ...
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 115.031 ; gain = 56.602
-INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 120.664 ; gain = 62.234
-INFO: [XFORM 203-101] Partitioning array 'inArr.V' (calcDataFlow/src/calcDataFlow.cpp:96) in dimension 1 completely.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 147.191 ; gain = 88.762
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 148.203 ; gain = 89.773
-INFO: [HLS 200-10] Starting hardware synthesis ...
-INFO: [HLS 200-10] Synthesizing 'min' ...
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'min'
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 17.347 seconds; current allocated memory: 95.933 MB.
-INFO: [BIND 205-100] Starting micro-architecture generation ...
-INFO: [BIND 205-101] Performing variable lifetime analysis.
-INFO: [BIND 205-101] Exploring resource sharing.
-INFO: [BIND 205-101] Binding ...
-INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.128 seconds; current allocated memory: 96.076 MB.
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'min'
-INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [RTGEN 206-500] Setting interface mode on port 'min/inArr_0_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'min/inArr_1_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'min/inArr_2_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'min/inArr_3_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'min/inArr_4_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'min/inArr_5_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'min/inArr_6_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'min/inArr_7_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'min/outMin_V' to 'ap_vld'.
-INFO: [RTGEN 206-500] Setting interface mode on function 'min' to 'ap_ctrl_hs'.
-INFO: [RTGEN 206-100] Finished creating RTL model for 'min'.
-INFO: [HLS 200-111]  Elapsed time: 0.094 seconds; current allocated memory: 96.299 MB.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:02 ; elapsed = 00:00:18 . Memory (MB): peak = 148.203 ; gain = 89.773
-INFO: [SYSC 207-301] Generating SystemC RTL for min.
-INFO: [VHDL 208-304] Generating VHDL RTL for min.
-INFO: [VLOG 209-307] Generating Verilog RTL for min.
-INFO: [HLS 200-112] Total elapsed time: 18.503 seconds; peak allocated memory: 96.299 MB.
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [SIM 211-4] CSIM will launch GCC as the compiler.
+INFO: [SIM 211-1] CSim file generation done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
