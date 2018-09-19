@@ -138,9 +138,21 @@ void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 //		miniRetVal = (miniRetValTmpIter < miniSumTmp[i]) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniSumTmp[i];
 //		else miniRetVal[i] = miniRetVal[i];
 	}
+
+	std::cout << "miniSumTmp from HW is: " << std::endl;
+	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+	{
+		std::cout << miniSumTmp[m] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "Old miniRetVal from HW is: " << miniRetVal << std::endl;
+
 	miniRetValTmpIter = min(miniSumTmp);
 	// Use a new register to store the old value and use the return value as the new value.
 	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniRetVal;
+
+	std::cout << "New miniRetVal from HW is: " << miniRetVal << std::endl;
 
 	shiftMainLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE; i++)
 	{

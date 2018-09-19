@@ -22,4 +22,6 @@ void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pixel_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		ap_int<16> *miniSumRet);
 
+ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1]);
+
 #endif

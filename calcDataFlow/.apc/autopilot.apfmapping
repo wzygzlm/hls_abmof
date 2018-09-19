@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
   <source>
-    <originFiles name="calcDataFlow.h" path="E:\xfOpenCV\hls_2018_1\calcDataFlow\src\calcDataFlow.h"/>
     <originFiles name="calcDataFlow.cpp" path="E:\xfOpenCV\hls_2018_1\calcDataFlow\src\calcDataFlow.cpp"/>
+    <originFiles name="calcDataFlow.h" path="E:\xfOpenCV\hls_2018_1\calcDataFlow\src\calcDataFlow.h"/>
   </source>
   <testbench>
     <originFiles name="test.cpp" path="E:\xfOpenCV\hls_2018_1\calcDataFlow\src\test.cpp"/>
