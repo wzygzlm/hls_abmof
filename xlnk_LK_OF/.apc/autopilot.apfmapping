@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
+  <source>
+    <originFiles name="ap_bmp.cpp" path="E:\workspace\hls_abmof\xlnk_LK_OF\src\ap_bmp.cpp"/>
+    <originFiles name="ap_bmp.h" path="E:\workspace\hls_abmof\xlnk_LK_OF\src\ap_bmp.h"/>
+    <originFiles name="LKof_defines.h" path="E:\workspace\hls_abmof\xlnk_LK_OF\src\LKof_defines.h"/>
+    <originFiles name="LKof_hls_opt.cpp" path="E:\workspace\hls_abmof\xlnk_LK_OF\src\LKof_hls_opt.cpp"/>
+    <originFiles name="LKof_ref.cpp" path="E:\workspace\hls_abmof\xlnk_LK_OF\src\LKof_ref.cpp"/>
+    <originFiles name="motion_compensation.cpp" path="E:\workspace\hls_abmof\xlnk_LK_OF\src\motion_compensation.cpp"/>
+    <originFiles name="sdsoc_defines.h" path="E:\workspace\hls_abmof\xlnk_LK_OF\src\sdsoc_defines.h"/>
+  </source>
+  <testbench>
+    <originFiles name="LKof_main.cpp" path="E:\workspace\hls_abmof\xlnk_LK_OF\src\LKof_main.cpp"/>
+  </testbench>
+</autopilotfilemapping:AutoPilotFileMapping>
