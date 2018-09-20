@@ -11,7 +11,13 @@
   </errorLogs>
   <warningLogs>
     <logs>
-      <synLog/>
+      <synLog>
+        <logs message="WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.0'." projectName="readBlocks" solutionName="solution1" date="2018-09-20T17:06:34.433+0200" type="Warning"/>
+        <logs message="WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.1'." projectName="readBlocks" solutionName="solution1" date="2018-09-20T17:06:34.248+0200" type="Warning"/>
+        <logs message="WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.2'." projectName="readBlocks" solutionName="solution1" date="2018-09-20T17:06:34.245+0200" type="Warning"/>
+        <logs message="WARNING: [SYNCHK 200-77] The top function 'writePix' (readBlocks/src/readBlocks.cpp:34) has no outputs. Possible cause(s) are: (1) Output parameters are passed by value; (2) intended outputs (parameters or global variables) are never written; (3) there are infinite loops." projectName="readBlocks" solutionName="solution1" date="2018-09-20T17:06:33.573+0200" type="Warning"/>
+        <logs message="WARNING: [SYNCHK 200-23] readBlocks/src/readBlocks.cpp:20: variable-indexed range selection may cause suboptimal QoR." projectName="readBlocks" solutionName="solution1" date="2018-09-20T17:06:33.570+0200" type="Warning"/>
+      </synLog>
       <simLog/>
       <mgLog/>
       <packageLog/>

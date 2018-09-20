@@ -2,6 +2,7 @@
 <autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
   <source>
     <originFiles name="readBlocks.cpp" path="E:\xfOpenCV\hls_2018_1\readBlocks\src\readBlocks.cpp"/>
+    <originFiles name="readBlocks.h" path="E:\xfOpenCV\hls_2018_1\readBlocks\src\readBlocks.h"/>
   </source>
   <testbench/>
 </autopilotfilemapping:AutoPilotFileMapping>
