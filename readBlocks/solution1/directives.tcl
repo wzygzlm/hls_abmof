@@ -6,12 +6,16 @@
 set_directive_resource -core RAM_T2P_BRAM "writePix" glPLSlices
 set_directive_pipeline "writePix"
 set_directive_dependence -variable glPLSlices -type inter -direction RAW -dependent false "writePix"
-set_directive_array_partition -type complete -dim 1 "writePix" glPLSlices
-set_directive_array_partition -type complete -dim 1 "readCols" glPLSlices
 set_directive_unroll "readPixFromCol/readWiderBitsLoop"
 set_directive_unroll "writePixToCol/writeWiderBitsLoop"
 set_directive_inline "readPixFromCol"
 set_directive_inline "writePixToCol"
-set_directive_pipeline "testWriteAndReadHW"
-set_directive_dependence -variable glPLSlices -type inter -direction RAW -dependent false "testWriteAndReadHW"
-set_directive_inline -off "writePix"
+set_directive_inline "writePix"
+set_directive_pipeline "readBlockCols"
+set_directive_array_partition -type complete -dim 0 "readBlockCols" refCol
+set_directive_inline -off "readPix"
+set_directive_inline -off "readBlockCols"
+set_directive_unroll "readPixFromTwoCols/readTwoColsWiderBitsLoop"
+set_directive_inline "readPixFromTwoCols"
+set_directive_pipeline "topHW"
+set_directive_array_partition -type complete -dim 1 "writePix" glPLSlices

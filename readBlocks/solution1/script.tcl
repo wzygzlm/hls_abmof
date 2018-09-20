@@ -4,7 +4,7 @@
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
 open_project readBlocks
-set_top writePix
+set_top topHW
 add_files readBlocks/src/readBlocks.cpp
 add_files readBlocks/src/readBlocks.h
 add_files -tb readBlocks/src/test.cpp

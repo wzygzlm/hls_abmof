@@ -10,94 +10,137 @@ INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file 'readBlocks/src/readBlocks.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 104.188 ; gain = 46.406
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 104.207 ; gain = 46.426
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 104.168 ; gain = 46.668
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:21 . Memory (MB): peak = 104.188 ; gain = 46.688
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [XFORM 203-603] Inlining function 'readPixFromCol' into 'readPix' (readBlocks/src/readBlocks.cpp:51).
-INFO: [XFORM 203-603] Inlining function 'readPixFromCol' into 'writePix' (readBlocks/src/readBlocks.cpp:40).
-INFO: [XFORM 203-603] Inlining function 'writePixToCol' into 'writePix' (readBlocks/src/readBlocks.cpp:44).
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 121.883 ; gain = 64.102
+INFO: [XFORM 203-603] Inlining function 'readPixFromCol' into 'writePix' (readBlocks/src/readBlocks.cpp:57).
+INFO: [XFORM 203-603] Inlining function 'writePixToCol' into 'writePix' (readBlocks/src/readBlocks.cpp:61).
+INFO: [XFORM 203-603] Inlining function 'writePix' into 'topHW' (readBlocks/src/readBlocks.cpp:96).
+INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (readBlocks/src/readBlocks.cpp:88).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:24 . Memory (MB): peak = 120.348 ; gain = 62.848
 INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [XFORM 203-602] Inlining function 'readPix' into 'testWriteAndReadHW' (readBlocks/src/readBlocks.cpp:59) automatically.
 WARNING: [SYNCHK 200-23] readBlocks/src/readBlocks.cpp:16: variable-indexed range selection may cause suboptimal QoR.
 INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 124.977 ; gain = 67.195
-INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'writePix' (readBlocks/src/readBlocks.cpp:14:57).
-INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'readPix' (readBlocks/src/readBlocks.cpp:14:56).
-INFO: [XFORM 203-501] Unrolling loop 'readWiderBitsLoop' (readBlocks/src/readBlocks.cpp:15) in function 'writePix' completely.
-INFO: [XFORM 203-501] Unrolling loop 'writeWiderBitsLoop' (readBlocks/src/readBlocks.cpp:25) in function 'writePix' completely.
-INFO: [XFORM 203-501] Unrolling loop 'readWiderBitsLoop' (readBlocks/src/readBlocks.cpp:15) in function 'readPix' completely.
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:25 . Memory (MB): peak = 126.523 ; gain = 69.023
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'topHW' (readBlocks/src/readBlocks.cpp:94).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'readBlockCols' (readBlocks/src/readBlocks.cpp:67).
+INFO: [XFORM 203-501] Unrolling loop 'readWiderBitsLoop' (readBlocks/src/readBlocks.cpp:15) in function 'topHW' completely.
+INFO: [XFORM 203-501] Unrolling loop 'writeWiderBitsLoop' (readBlocks/src/readBlocks.cpp:37) in function 'topHW' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readRefLoop' (readBlocks/src/readBlocks.cpp:87) in function 'readBlockCols' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readTwoColsWiderBitsLoop' (readBlocks/src/readBlocks.cpp:28) in function 'readBlockCols' completely.
 INFO: [XFORM 203-101] Partitioning array 'glPLSlices.V'  in dimension 1 completely.
-INFO: [XFORM 203-602] Inlining function 'readPix' into 'testWriteAndReadHW' (readBlocks/src/readBlocks.cpp:59) automatically.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 151.945 ; gain = 94.164
+INFO: [XFORM 203-101] Partitioning array 'tagCol.V' (readBlocks/src/readBlocks.cpp:94) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'refCol.V' (readBlocks/src/readBlocks.cpp:94) in dimension 1 completely.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:30 . Memory (MB): peak = 156.008 ; gain = 98.508
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.3'.
 WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.1'.
-WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.2'.
 WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.0'.
-WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.1'.
 WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.2'.
-WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.0'.
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 154.289 ; gain = 96.508
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:30 . Memory (MB): peak = 160.715 ; gain = 103.215
 INFO: [HLS 200-10] Starting hardware synthesis ...
-INFO: [HLS 200-10] Synthesizing 'testWriteAndReadHW' ...
+INFO: [HLS 200-10] Synthesizing 'topHW' ...
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'writePix'
+INFO: [HLS 200-42] -- Implementing module 'readBlockCols'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-61] Pipelining function 'writePix'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 3.
+INFO: [SCHED 204-61] Pipelining function 'readBlockCols'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 16.548 seconds; current allocated memory: 109.821 MB.
+INFO: [HLS 200-111]  Elapsed time: 30.16 seconds; current allocated memory: 116.258 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.145 seconds; current allocated memory: 110.025 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.134 seconds; current allocated memory: 116.506 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'testWriteAndReadHW'
+INFO: [HLS 200-42] -- Implementing module 'topHW'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-61] Pipelining function 'testWriteAndReadHW'.
+INFO: [SCHED 204-61] Pipelining function 'topHW'.
 WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
-   between 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:51->readBlocks/src/readBlocks.cpp:59) on array 'glPLSlices_V_0' and 'call' operation (readBlocks/src/readBlocks.cpp:58) to 'writePix'.
+   between 'call' operation ('call_ret', readBlocks/src/readBlocks.cpp:98) to 'readBlockCols' and 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:55->readBlocks/src/readBlocks.cpp:96) on array 'glPLSlices_V_0'.
 WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 2, distance = 1, offset = 1)
-   between 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:51->readBlocks/src/readBlocks.cpp:59) on array 'glPLSlices_V_0' and 'call' operation (readBlocks/src/readBlocks.cpp:58) to 'writePix'.
+   between 'call' operation ('call_ret', readBlocks/src/readBlocks.cpp:98) to 'readBlockCols' and 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:55->readBlocks/src/readBlocks.cpp:96) on array 'glPLSlices_V_0'.
 WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 3, distance = 1, offset = 1)
-   between 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:51->readBlocks/src/readBlocks.cpp:59) on array 'glPLSlices_V_0' and 'call' operation (readBlocks/src/readBlocks.cpp:58) to 'writePix'.
+   between 'call' operation ('call_ret', readBlocks/src/readBlocks.cpp:98) to 'readBlockCols' and 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:55->readBlocks/src/readBlocks.cpp:96) on array 'glPLSlices_V_0'.
 WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 4, distance = 1, offset = 1)
-   between 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:51->readBlocks/src/readBlocks.cpp:59) on array 'glPLSlices_V_0' and 'call' operation (readBlocks/src/readBlocks.cpp:58) to 'writePix'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 5, Depth = 5.
+   between 'call' operation ('call_ret2', readBlocks/src/readBlocks.cpp:99) to 'readBlockCols' and 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:55->readBlocks/src/readBlocks.cpp:96) on array 'glPLSlices_V_0'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 5, distance = 1, offset = 1)
+   between 'call' operation ('call_ret2', readBlocks/src/readBlocks.cpp:99) to 'readBlockCols' and 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:55->readBlocks/src/readBlocks.cpp:96) on array 'glPLSlices_V_0'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 6, Depth = 6.
+WARNING: [SCHED 204-21] Estimated clock period (10.201ns) exceeds the target (target clock period: 10ns, clock uncertainty: 0.1ns, effective delay budget: 9.9ns).
+WARNING: [SCHED 204-21] The critical path consists of the following:
+	'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:55->readBlocks/src/readBlocks.cpp:96) on array 'glPLSlices_V_0' (3.25 ns)
+	'mux' operation ('tmpData.V', readBlocks/src/readBlocks.cpp:55->readBlocks/src/readBlocks.cpp:96) (1.96 ns)
+	'add' operation ('tmpTmpData.V', readBlocks/src/readBlocks.cpp:59->readBlocks/src/readBlocks.cpp:96) (1.74 ns)
+	'store' operation (readBlocks/src/readBlocks.cpp:63->readBlocks/src/readBlocks.cpp:96) of variable 'tmp_15', readBlocks/src/readBlocks.cpp:38->readBlocks/src/readBlocks.cpp:61->readBlocks/src/readBlocks.cpp:96 on array 'glPLSlices_V_1' (3.25 ns)
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.068 seconds; current allocated memory: 110.156 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.132 seconds; current allocated memory: 116.945 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.123 seconds; current allocated memory: 110.300 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.144 seconds; current allocated memory: 117.352 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'writePix'
+INFO: [HLS 200-10] -- Generating RTL for module 'readBlockCols'
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [SYN 201-210] Renamed object name 'testWriteAndReadHW_mux_32_64_1_1' to 'testWriteAndReadHbkb' due to the length limit 20
-INFO: [RTGEN 206-100] Generating core module 'testWriteAndReadHbkb': 1 instance(s).
-INFO: [RTGEN 206-100] Finished creating RTL model for 'writePix'.
-INFO: [HLS 200-111]  Elapsed time: 0.11 seconds; current allocated memory: 110.691 MB.
+INFO: [SYN 201-210] Renamed object name 'topHW_mux_42_128_1_1' to 'topHW_mux_42_128_bkb' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'topHW_mux_42_128_bkb': 2 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'readBlockCols'.
+INFO: [HLS 200-111]  Elapsed time: 0.338 seconds; current allocated memory: 118.434 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'testWriteAndReadHW'
+INFO: [HLS 200-10] -- Generating RTL for module 'topHW'
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [RTGEN 206-500] Setting interface mode on port 'testWriteAndReadHW/xArray_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'testWriteAndReadHW/yArray_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'testWriteAndReadHW/idx_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on function 'testWriteAndReadHW' to 'ap_ctrl_hs'.
-INFO: [SYN 201-210] Renamed object name 'testWriteAndReadHW_glPLSlices_V_0' to 'testWriteAndReadHcud' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'testWriteAndReadHW_glPLSlices_V_1' to 'testWriteAndReadHdEe' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'testWriteAndReadHW_glPLSlices_V_2' to 'testWriteAndReadHeOg' due to the length limit 20
-INFO: [RTGEN 206-100] Generating core module 'testWriteAndReadHbkb': 1 instance(s).
-INFO: [RTGEN 206-100] Finished creating RTL model for 'testWriteAndReadHW'.
-INFO: [HLS 200-111]  Elapsed time: 0.148 seconds; current allocated memory: 111.139 MB.
-INFO: [RTMG 210-278] Implementing memory 'testWriteAndReadHcud_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:03 ; elapsed = 00:00:18 . Memory (MB): peak = 164.313 ; gain = 106.531
-INFO: [SYSC 207-301] Generating SystemC RTL for testWriteAndReadHW.
-INFO: [VHDL 208-304] Generating VHDL RTL for testWriteAndReadHW.
-INFO: [VLOG 209-307] Generating Verilog RTL for testWriteAndReadHW.
-INFO: [HLS 200-112] Total elapsed time: 18.357 seconds; peak allocated memory: 111.139 MB.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/x_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/y_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/idx_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_0_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_1_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_2_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_3_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_4_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_5_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_6_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_7_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_8_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_9_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_10_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_11_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_12_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_13_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_14_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_15_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/refCol_16_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_0_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_1_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_2_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_3_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_4_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_5_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_6_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_7_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_8_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_9_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_10_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_11_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_12_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_13_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_14_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_15_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/tagCol_16_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'topHW' to 'ap_ctrl_hs'.
+INFO: [SYN 201-210] Renamed object name 'topHW_glPLSlices_V_0' to 'topHW_glPLSlices_cud' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'topHW_glPLSlices_V_1' to 'topHW_glPLSlices_dEe' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'topHW_glPLSlices_V_2' to 'topHW_glPLSlices_eOg' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'topHW_glPLSlices_V_3' to 'topHW_glPLSlices_fYi' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'topHW_mux_42_128_bkb': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'topHW'.
+INFO: [HLS 200-111]  Elapsed time: 0.271 seconds; current allocated memory: 119.648 MB.
+INFO: [RTMG 210-278] Implementing memory 'topHW_glPLSlices_cud_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:04 ; elapsed = 00:00:33 . Memory (MB): peak = 176.020 ; gain = 118.520
+INFO: [SYSC 207-301] Generating SystemC RTL for topHW.
+INFO: [VHDL 208-304] Generating VHDL RTL for topHW.
+INFO: [VLOG 209-307] Generating Verilog RTL for topHW.
+INFO: [HLS 200-112] Total elapsed time: 32.776 seconds; peak allocated memory: 119.648 MB.
