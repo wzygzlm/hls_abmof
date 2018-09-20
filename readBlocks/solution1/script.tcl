@@ -7,12 +7,13 @@ open_project readBlocks
 set_top writePix
 add_files readBlocks/src/readBlocks.cpp
 add_files readBlocks/src/readBlocks.h
+add_files -tb readBlocks/src/test.cpp
 open_solution "solution1"
 set_part {xc7z007sclg225-1} -tool vivado
 create_clock -period 10 -name default
 set_clock_uncertainty 0.1
 source "./readBlocks/solution1/directives.tcl"
-#csim_design
+csim_design -setup
 csynth_design
-#cosim_design
+cosim_design -trace_level all
 export_design -rtl verilog -format ip_catalog

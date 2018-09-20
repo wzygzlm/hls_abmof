@@ -43,6 +43,22 @@
         <directive functionName="writePixToCol" label="" functionLabel="">
             <pragma name="INLINE"/>
         </directive>
+        <directive functionName="testWriteAndReadHW" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="testWriteAndReadHW" label="" functionLabel="">
+            <pragma name="DEPENDENCE">
+                <option name="variable" value="glPLSlices"/>
+                <option name="inter" value="" positionalBoolean="type"/>
+                <option name="RAW" value="" positionalBoolean="direction"/>
+                <option name="false" value="" positionalBoolean="dependent"/>
+            </pragma>
+        </directive>
+        <directive functionName="writePix" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 

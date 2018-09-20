@@ -2,10 +2,6 @@
 #include "ap_int.h"
 #include "readBlocks.h"
 
-typedef ap_int<BITS_PER_PIXEL> pix_t;
-typedef ap_int<COMBINED_PIXELS * BITS_PER_PIXEL> col_pix_t;
-typedef ap_uint<2> sliceIdx_t;
-
 static col_pix_t glPLSlices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdx, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
 
@@ -48,6 +44,19 @@ void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 	writePixToCol(&tmpData, yNewIdx, tmpTmpData);
 
 	glPLSlices[sliceIdx][x][y/COMBINED_PIXELS] = tmpData;
+}
+
+pix_t readPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
+{
+	return readPixFromCol(glPLSlices[sliceIdx][x][y/COMBINED_PIXELS], y%COMBINED_PIXELS);
+}
+
+pix_t testWriteAndReadHW(ap_uint<8> xArray, ap_uint<8> yArray, sliceIdx_t idx)
+{
+	ap_uint<8> x = xArray;
+	ap_uint<8> y = yArray;
+	writePix(x, y, idx);
+	return readPix(x, y, idx);
 }
 
 void readCols(ap_uint<9> x, ap_uint<9> y, ap_int<5> colOffset)
