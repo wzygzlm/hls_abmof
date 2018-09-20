@@ -29,52 +29,52 @@
 		<link>
 			<name>source</name>
 			<type>2</type>
-			<location>E:/xfOpenCV/hls_2018_1/readBlocks/.apc/.src</location>
+			<location>E:/workspace/hls_abmof/readBlocks/.apc/.src</location>
 		</link>
 		<link>
 			<name>testbench</name>
 			<type>2</type>
-			<location>E:/xfOpenCV/hls_2018_1/readBlocks/.apc/.tb</location>
+			<location>E:/workspace/hls_abmof/readBlocks/.apc/.tb</location>
 		</link>
 		<link>
-			<name>.reference/stdlib.h</name>
+			<name>.reference/ap_fixed_sim.h</name>
 			<type>1</type>
-			<location>D:/Xilinx/Vivado/2018.1/msys/include/stdlib.h</location>
+			<location>E:/Xilinx/Vivado/2018.1/include/etc/ap_fixed_sim.h</location>
+		</link>
+		<link>
+			<name>.reference/ap_private.h</name>
+			<type>1</type>
+			<location>E:/Xilinx/Vivado/2018.1/include/etc/ap_private.h</location>
 		</link>
 		<link>
 			<name>solution1/constraints</name>
 			<type>2</type>
-			<location>E:/xfOpenCV/hls_2018_1/readBlocks/solution1/.tcls</location>
+			<location>E:/workspace/hls_abmof/readBlocks/solution1/.tcls</location>
 		</link>
 		<link>
 			<name>source/readBlocks.cpp</name>
 			<type>1</type>
-			<location>E:/xfOpenCV/hls_2018_1/readBlocks/src/readBlocks.cpp</location>
-		</link>
-		<link>
-			<name>source/readBlocks.h</name>
-			<type>1</type>
-			<location>E:/xfOpenCV/hls_2018_1/readBlocks/src/readBlocks.h</location>
+			<location>E:/workspace/hls_abmof/readBlocks/src/readBlocks.cpp</location>
 		</link>
 		<link>
 			<name>testbench/test.cpp</name>
 			<type>1</type>
-			<location>E:/xfOpenCV/hls_2018_1/readBlocks/src/test.cpp</location>
+			<location>E:/workspace/hls_abmof/readBlocks/src/test.cpp</location>
 		</link>
 		<link>
 			<name>solution1/constraints/.xml.directive</name>
 			<type>1</type>
-			<location>E:/xfOpenCV/hls_2018_1/readBlocks/solution1/solution1.directive</location>
+			<location>E:/workspace/hls_abmof/readBlocks/solution1/solution1.directive</location>
 		</link>
 		<link>
 			<name>solution1/constraints/directives.tcl</name>
 			<type>1</type>
-			<location>E:/xfOpenCV/hls_2018_1/readBlocks/solution1/directives.tcl</location>
+			<location>E:/workspace/hls_abmof/readBlocks/solution1/directives.tcl</location>
 		</link>
 		<link>
 			<name>solution1/constraints/script.tcl</name>
 			<type>1</type>
-			<location>E:/xfOpenCV/hls_2018_1/readBlocks/solution1/script.tcl</location>
+			<location>E:/workspace/hls_abmof/readBlocks/solution1/script.tcl</location>
 		</link>
 	</linkedResources>
 </projectDescription>

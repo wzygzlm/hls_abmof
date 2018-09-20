@@ -39,6 +39,10 @@ void writePixToCol(col_pix_t *colData, ap_uint<8> idx, pix_t pixData)
 	}
 }
 
+void resetPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
+{
+	glPLSlices[sliceIdx][x][y/COMBINED_PIXELS] = 0;
+}
 
 pix_t readPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 {
@@ -83,6 +87,7 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx, ap_int<5> co
 //	refTagData.range(COMBINED_PIXELS * BITS_PER_PIXEL - 1, 0) = refTagData2;
 
 	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS;
+
 	readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
 	{
 		refCol[i] = readPixFromTwoCols(refColData,  yColOffsetIdx);
@@ -94,7 +99,7 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx, ap_int<5> co
 void topHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 	writePix(x, y, idx);
-
 	readBlockCols(x, y, idx + 1, 0, refCol);
 	readBlockCols(x, y, idx + 2, 0, tagCol);
+	resetPix(x, y, idx + 3);
 }
