@@ -13,9 +13,12 @@ pix_t readPixFromCol(col_pix_t colData, ap_uint<8> idx)
 	// a lot of shift-register which will increase a lot of LUTs consumed.
 	readWiderBitsLoop: for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 	{
-		ap_uint<8> colIdx;
+		const int bitOffset = BITS_PER_PIXEL >> 1;
+		ap_uint<8 + bitOffset> colIdx;
 		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
-		colIdx = (ap_uint<8>(idx * BITS_PER_PIXEL)(8, (BITS_PER_PIXEL >> 1)), ap_uint<(BITS_PER_PIXEL >> 1)>(yIndex));
+		colIdx.range(8 + bitOffset - 1, bitOffset) = ap_uint<10>(idx * BITS_PER_PIXEL).range(8 + bitOffset - 1, bitOffset);
+		colIdx.range(bitOffset - 1, 0) = ap_uint<2>(yIndex);
+
 		retData[yIndex] = colData[colIdx];
 //		retData[yIndex] = colData[BITS_PER_PIXEL*idx + yIndex];
 	}
@@ -34,9 +37,12 @@ pix_t readPixFromTwoCols(two_cols_pix_t colData, ap_uint<8> idx)
 //	retData = colData(colIdxHi, colIdxLo);
 	readTwoColsWiderBitsLoop: for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 	{
-		ap_uint<8> colIdx;
+		const int bitOffset = BITS_PER_PIXEL >> 1;
+		ap_uint<8 + bitOffset> colIdx;
 		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
-		colIdx = (ap_uint<8>(idx * BITS_PER_PIXEL)(8, (BITS_PER_PIXEL >> 1)), ap_uint<(BITS_PER_PIXEL >> 1)>(yIndex));
+		colIdx.range(8 + bitOffset - 1, bitOffset) = ap_uint<10>(idx * BITS_PER_PIXEL).range(8 + bitOffset - 1, bitOffset);
+		colIdx.range(bitOffset - 1, 0) = ap_uint<2>(yIndex);
+
 		retData[yIndex] = colData[colIdx];
 //		retData[yIndex] = colData[BITS_PER_PIXEL*idx + yIndex];
 	}
@@ -47,9 +53,12 @@ void writePixToCol(col_pix_t *colData, ap_uint<8> idx, pix_t pixData)
 {
 	writeWiderBitsLoop: for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 	{
-		ap_uint<8> colIdx;
+		const int bitOffset = BITS_PER_PIXEL >> 1;
+		ap_uint<8 + bitOffset> colIdx;
 		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
-		colIdx = (ap_uint<8>(idx * BITS_PER_PIXEL)(8, (BITS_PER_PIXEL >> 1)), ap_uint<(BITS_PER_PIXEL >> 1)>(yIndex));
+		colIdx.range(8 + bitOffset - 1, bitOffset) = ap_uint<10>(idx * BITS_PER_PIXEL).range(8 + bitOffset - 1, bitOffset);
+		colIdx.range(bitOffset - 1, 0) = ap_uint<2>(yIndex);
+
 		(*colData)[colIdx] = pixData[yIndex];
 	}
 }
@@ -87,12 +96,12 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_
 {
 	two_cols_pix_t refColData;
 	// concatenate two columns together
-	refColData = (glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS], glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS + 1]);
+	refColData = (glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS + 1], glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS]);
 
 	// concatenate two columns together
-	two_cols_pix_t refTagData;
+	two_cols_pix_t tagColData;
 	// Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-	refTagData = (glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS + 1]);
+	tagColData = (glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS + 1], glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS]);
 
 	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS;
 //	ap_uint<128> test = refColData >>  yColOffsetIdx;
@@ -101,7 +110,7 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_
 	{
 //		refCol[i] = test(4 * i + 3, 4 * i);
 		refCol[i] = readPixFromTwoCols(refColData,  yColOffsetIdx);
-		tagCol[i] = readPixFromTwoCols(refTagData,  yColOffsetIdx);
+		tagCol[i] = readPixFromTwoCols(tagColData,  yColOffsetIdx);
 		yColOffsetIdx++;
 	}
 }

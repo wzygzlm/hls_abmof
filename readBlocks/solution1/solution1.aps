@@ -2,11 +2,17 @@
     <checksum>
         <value string="false"/>
     </checksum>
+    <downStreamTool>
+        <DownStreamTool name="vivado"/>
+    </downStreamTool>
+    <clockList>
+        <clock name="default" period="10" uncertainty="0.1"/>
+    </clockList>
     <config>
         <schedule model="topHW"/>
     </config>
     <UIConfigurations>
-        <UIAutosynConf hideTrivialOp="true" isBasedOnBoard="false" isSolutionDirty="true" isStopAskAgain="false" showDetailDesignViewer="false">
+        <UIAutosynConf hideTrivialOp="true" isBasedOnBoard="false" isSolutionDirty="false" isStopAskAgain="false" showDetailDesignViewer="false">
             <Platform>xilinx/zynq/zynq</Platform>
             <customLibs/>
         </UIAutosynConf>
@@ -43,8 +49,8 @@
         <Format formatName="syn_dcp"/>
         <Format formatName="pcore" use_netlist="none"/>
     </ExportDesign>
-    <Simulation>
-        <SimFlow askAgain="true" clangSanitizer="false" compile="false" compileChoice="gcc" dumpTrace="all" name="cosim" optimizeCompile="false" reduce_diskspace="false" setup="false" toolName="Auto">
+    <Simulation argv="">
+        <SimFlow askAgain="true" clangSanitizer="false" compile="false" compileChoice="gcc" dumpTrace="all" name="cosim" optimizeCompile="false" reduce_diskspace="false" setup="false" toolName="auto" ldflags="" mflags="" compiledLibrary="">
             <Rtl active="false" name="systemc"/>
             <Rtl active="true" name="verilog"/>
             <Rtl active="false" name="vhdl"/>
@@ -63,11 +69,5 @@
         <library name="DefaultPlatform" value="xilinx/zynq/zynq"/>
         <library value="xilinx/zynq/zynq_fpv6" name="DefaultPlatform"/>
     </libraryList>
-    <downStreamTool>
-        <DownStreamTool name="vivado"/>
-    </downStreamTool>
-    <clockList>
-        <clock name="default" default="false" uncertainty="0.1" period="10"/>
-    </clockList>
 </solution>
 
