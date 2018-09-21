@@ -28,14 +28,15 @@
       "unroll readPixFromTwoCols\/readTwoColsWiderBitsLoop {} {}",
       "inline readPixFromTwoCols {} {}",
       "pipeline topHW {} {}",
-      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {complete positionBoolean0type} {dim 1}} {}"
+      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {complete positionBoolean0type} {dim 1}} {}",
+      "array_partition readBlockCols {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtagCol} {complete positionBoolean0type} {dim 0}} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
-    "II": "7",
-    "Latency": "6",
+    "II": "5",
+    "Latency": "4",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -883,119 +884,119 @@
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_1_V": {
       "interfaceRef": "tagCol_1_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_2_V": {
       "interfaceRef": "tagCol_2_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_3_V": {
       "interfaceRef": "tagCol_3_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_4_V": {
       "interfaceRef": "tagCol_4_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_5_V": {
       "interfaceRef": "tagCol_5_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_6_V": {
       "interfaceRef": "tagCol_6_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_7_V": {
       "interfaceRef": "tagCol_7_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_8_V": {
       "interfaceRef": "tagCol_8_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_9_V": {
       "interfaceRef": "tagCol_9_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_10_V": {
       "interfaceRef": "tagCol_10_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_11_V": {
       "interfaceRef": "tagCol_11_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_12_V": {
       "interfaceRef": "tagCol_12_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_13_V": {
       "interfaceRef": "tagCol_13_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_14_V": {
       "interfaceRef": "tagCol_14_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_15_V": {
       "interfaceRef": "tagCol_15_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     },
     "tagCol_16_V": {
       "interfaceRef": "tagCol_16_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "3"
     }
   },
   "ModuleInfo": {
@@ -1022,19 +1023,19 @@
           "Estimate": "6.54"
         },
         "Area": {
-          "FF": "9",
-          "LUT": "102",
+          "FF": "11",
+          "LUT": "353",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
       },
       "topHW": {
         "Latency": {
-          "LatencyBest": "6",
-          "LatencyAvg": "6",
-          "LatencyWorst": "6",
-          "PipelineII": "7",
-          "PipelineDepth": "7",
+          "LatencyBest": "4",
+          "LatencyAvg": "4",
+          "LatencyWorst": "4",
+          "PipelineII": "5",
+          "PipelineDepth": "5",
           "PipelineType": "function"
         },
         "Timing": {
@@ -1045,7 +1046,7 @@
         "Area": {
           "BRAM_18K": "60",
           "FF": "84",
-          "LUT": "466",
+          "LUT": "694",
           "DSP48E": "0"
         }
       }
@@ -1053,7 +1054,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-21 00:31:23 +0200",
+    "Time": "2018-09-21 14:58:12 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

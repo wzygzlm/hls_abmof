@@ -24,9 +24,16 @@ pix_t readPixFromTwoCols(two_cols_pix_t colData, ap_uint<8> idx)
 	// Use bit selection plus for-loop to read multi-bits from a wider bit width value
 	// rather than use range selection directly. The reason is that the latter will use
 	// a lot of shift-register which will increase a lot of LUTs consumed.
+//	ap_uint<256> colIdxHi, colIdxLo;
+//	colIdxHi = (ap_uint<8>(idx * BITS_PER_PIXEL)(8,2), ap_uint<2>(0));
+//	colIdxLo = (ap_uint<8>(idx * BITS_PER_PIXEL)(8,2), ap_uint<2>(BITS_PER_PIXEL - 1));
+//	retData = colData(colIdxHi, colIdxLo);
 	readTwoColsWiderBitsLoop: for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 	{
-		retData[yIndex] = colData[BITS_PER_PIXEL*idx + yIndex];
+		ap_uint<256> colIdx;
+		colIdx = (ap_uint<8>(idx * BITS_PER_PIXEL)(8, BITS_PER_PIXEL >> 1), ap_uint<2>(yIndex));
+		retData[yIndex] = colData[colIdx];
+//		retData[yIndex] = colData[BITS_PER_PIXEL*idx + yIndex];
 	}
 	return retData;
 }
@@ -67,39 +74,32 @@ void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 	glPLSlices[sliceIdx][x][y/COMBINED_PIXELS] = tmpData;
 }
 
-void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx, ap_int<5> colOffset,
-		pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
+void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag, ap_int<5> colOffset,
+		pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
-//	readBlockLoop: for(int8_t i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
-//	{
-//		refCol[i] = readPix(x, y + i, 0);
-//	}
-	col_pix_t refColData1 = glPLSlices[sliceIdx][x][y/COMBINED_PIXELS];
-	col_pix_t refColData2 = glPLSlices[sliceIdx][x][y/COMBINED_PIXELS + 1];
 	two_cols_pix_t refColData;
-	refColData.range(COMBINED_PIXELS * BITS_PER_PIXEL * 2 - 1, COMBINED_PIXELS * BITS_PER_PIXEL) = refColData1;
-	refColData.range(COMBINED_PIXELS * BITS_PER_PIXEL - 1, 0) = refColData2;
-//
-//	col_pix_t refTagData1 = glPLSlices[sliceIdx + 1][x][y/COMBINED_PIXELS];
-//	col_pix_t refTagData2 = glPLSlices[sliceIdx + 1][x][y/COMBINED_PIXELS + 1];
-//	two_cols_pix_t refTagData;
-//	refTagData.range(COMBINED_PIXELS * BITS_PER_PIXEL * 2 - 1, COMBINED_PIXELS * BITS_PER_PIXEL) = refTagData1;
-//	refTagData.range(COMBINED_PIXELS * BITS_PER_PIXEL - 1, 0) = refTagData2;
+	// Concat two columns together
+	refColData = (glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS], glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS + 1]);
+
+	// Concat two columns together
+	two_cols_pix_t refTagData;
+	refTagData = (glPLSlices[sliceIdxTag][x][y/COMBINED_PIXELS], glPLSlices[sliceIdxTag][x][y/COMBINED_PIXELS + 1]);
 
 	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS;
+//	ap_uint<128> test = refColData >>  yColOffsetIdx;
 
 	readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
 	{
+//		refCol[i] = test(4 * i + 3, 4 * i);
 		refCol[i] = readPixFromTwoCols(refColData,  yColOffsetIdx);
-//		tagCol[i] = readPixFromTwoCols(refTagData,  yColOffsetIdx);
-//		yColOffsetIdx++;
+		tagCol[i] = readPixFromTwoCols(refTagData,  yColOffsetIdx);
+		yColOffsetIdx++;
 	}
 }
 
 void topHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 	writePix(x, y, idx);
-	readBlockCols(x, y, idx + 1, 0, refCol);
-	readBlockCols(x, y, idx + 2, 0, tagCol);
+	readBlockCols(x, y, idx + 1, idx + 2, 0, refCol, tagCol);
 	resetPix(x, y, idx + 3);
 }

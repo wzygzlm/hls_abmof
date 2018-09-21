@@ -68,6 +68,13 @@
                 <option name="dim" value="1"/>
             </pragma>
         </directive>
+        <directive functionName="readBlockCols" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="tagCol" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 
