@@ -78,12 +78,13 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_
 		pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 	two_cols_pix_t refColData;
-	// Concat two columns together
+	// concatenate two columns together
 	refColData = (glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS], glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS + 1]);
 
-	// Concat two columns together
+	// concatenate two columns together
 	two_cols_pix_t refTagData;
-	refTagData = (glPLSlices[sliceIdxTag][x][y/COMBINED_PIXELS], glPLSlices[sliceIdxTag][x][y/COMBINED_PIXELS + 1]);
+	// Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+	refTagData = (glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS + 1]);
 
 	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS;
 //	ap_uint<128> test = refColData >>  yColOffsetIdx;
