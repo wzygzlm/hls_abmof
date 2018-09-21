@@ -89,6 +89,30 @@
                 <option name="dim" value="0"/>
             </pragma>
         </directive>
+        <directive functionName="parseEvents" label="loop_1" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="data" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="eventSlice" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="topHW" label="" functionLabel="">
+            <pragma name="INLINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="loop_1" functionLabel="">
+            <pragma name="LOOP_TRIPCOUNT">
+                <option name="min" value="1"/>
+                <option name="max" value="10000"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 

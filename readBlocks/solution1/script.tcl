@@ -4,7 +4,7 @@
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
 open_project readBlocks
-set_top topHW
+set_top parseEvents
 add_files readBlocks/src/readBlocks.cpp
 add_files readBlocks/src/readBlocks.h
 add_files -tb readBlocks/src/test.cpp

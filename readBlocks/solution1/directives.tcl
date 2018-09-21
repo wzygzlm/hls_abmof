@@ -22,3 +22,8 @@ set_directive_array_partition -type complete -dim 1 "writePix" glPLSlices
 set_directive_array_partition -type complete -dim 0 "readBlockCols" tagCol
 set_directive_array_partition -type complete -dim 0 "topHW" refCol
 set_directive_array_partition -type complete -dim 0 "topHW" tagCol
+set_directive_pipeline "parseEvents/loop_1"
+set_directive_interface -mode ap_fifo "parseEvents" data
+set_directive_interface -mode ap_fifo "parseEvents" eventSlice
+set_directive_inline "topHW"
+set_directive_loop_tripcount -min 1 -max 10000 "parseEvents/loop_1"

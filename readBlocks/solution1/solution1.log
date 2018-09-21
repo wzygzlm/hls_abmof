@@ -8,12 +8,140 @@ Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
 INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
-INFO: [COSIM 212-47] Using XSIM for RTL simulation.
-INFO: [COSIM 212-14] Instrumenting C test bench ...
-INFO: [COSIM 212-302] Starting C TB testing ... 
-INFO: [COSIM 212-333] Generating C post check test bench ...
-INFO: [COSIM 212-12] Generating RTL test bench ...
-INFO: [COSIM 212-323] Starting verilog simulation. 
-INFO: [COSIM 212-15] Starting XSIM ...
-INFO: [COSIM 212-316] Starting C post checking ...
-INFO: [COSIM 212-1000] *** C/RTL co-simulation finished: PASS ***
+INFO: [HLS 200-10] Analyzing design file 'readBlocks/src/readBlocks.cpp' ...
+INFO: [HLS 200-10] Validating synthesis directives ...
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 104.605 ; gain = 47.152
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:16 . Memory (MB): peak = 104.645 ; gain = 47.191
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [XFORM 203-603] Inlining function 'readPixFromCol' into 'writePix' (readBlocks/src/readBlocks.cpp:85).
+INFO: [XFORM 203-603] Inlining function 'writePixToCol' into 'writePix' (readBlocks/src/readBlocks.cpp:89).
+INFO: [XFORM 203-603] Inlining function 'writePix' into 'topHW' (readBlocks/src/readBlocks.cpp:120).
+INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (readBlocks/src/readBlocks.cpp:113).
+INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (readBlocks/src/readBlocks.cpp:112).
+INFO: [XFORM 203-603] Inlining function 'topHW' into 'parseEvents' (readBlocks/src/readBlocks.cpp:136).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 123.520 ; gain = 66.066
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [XFORM 203-602] Inlining function 'resetPix' into 'parseEvents' (readBlocks/src/readBlocks.cpp:122->readBlocks/src/readBlocks.cpp:136) automatically.
+WARNING: [SYNCHK 200-23] readBlocks/src/readBlocks.cpp:46: variable-indexed range selection may cause suboptimal QoR.
+INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 129.535 ; gain = 72.082
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'loop_1' (readBlocks/src/readBlocks.cpp:130) in function 'parseEvents' for pipelining.
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'readBlockCols' (readBlocks/src/readBlocks.cpp:95).
+INFO: [XFORM 203-501] Unrolling loop 'readWiderBitsLoop' (readBlocks/src/readBlocks.cpp:15) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'writeWiderBitsLoop' (readBlocks/src/readBlocks.cpp:55) in function 'parseEvents' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readRefLoop' (readBlocks/src/readBlocks.cpp:110) in function 'readBlockCols' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readTwoColsWiderBitsLoop' (readBlocks/src/readBlocks.cpp:39) in function 'readBlockCols' completely.
+INFO: [XFORM 203-101] Partitioning array 'tagCol.V' (readBlocks/src/readBlocks.cpp:125) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'refCol.V' (readBlocks/src/readBlocks.cpp:125) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'glPLSlices.V'  in dimension 1 completely.
+INFO: [XFORM 203-602] Inlining function 'resetPix' into 'parseEvents' (readBlocks/src/readBlocks.cpp:122->readBlocks/src/readBlocks.cpp:136) automatically.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:04 ; elapsed = 00:00:19 . Memory (MB): peak = 160.188 ; gain = 102.734
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.2'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.3'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.1'.
+WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.0'.
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:06 ; elapsed = 00:00:21 . Memory (MB): peak = 170.910 ; gain = 113.457
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'parseEvents' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'readBlockCols'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'readBlockCols'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 21.507 seconds; current allocated memory: 124.524 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.212 seconds; current allocated memory: 125.758 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'parseEvents'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'loop_1'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
+   between 'call' operation ('call_ret', readBlocks/src/readBlocks.cpp:121->readBlocks/src/readBlocks.cpp:136) to 'readBlockCols' and 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:83->readBlocks/src/readBlocks.cpp:120->readBlocks/src/readBlocks.cpp:136) on array 'glPLSlices_V_0'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 2, distance = 1, offset = 1)
+   between 'call' operation ('call_ret', readBlocks/src/readBlocks.cpp:121->readBlocks/src/readBlocks.cpp:136) to 'readBlockCols' and 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:83->readBlocks/src/readBlocks.cpp:120->readBlocks/src/readBlocks.cpp:136) on array 'glPLSlices_V_0'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 3, distance = 1, offset = 1)
+   between 'call' operation ('call_ret', readBlocks/src/readBlocks.cpp:121->readBlocks/src/readBlocks.cpp:136) to 'readBlockCols' and 'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:83->readBlocks/src/readBlocks.cpp:120->readBlocks/src/readBlocks.cpp:136) on array 'glPLSlices_V_0'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 4, Depth = 6.
+WARNING: [SCHED 204-21] Estimated clock period (10.201ns) exceeds the target (target clock period: 10ns, clock uncertainty: 0.1ns, effective delay budget: 9.9ns).
+WARNING: [SCHED 204-21] The critical path consists of the following:
+	'load' operation ('glPLSlices_V_0_load', readBlocks/src/readBlocks.cpp:83->readBlocks/src/readBlocks.cpp:120->readBlocks/src/readBlocks.cpp:136) on array 'glPLSlices_V_0' (3.25 ns)
+	'mux' operation ('tmpData.V', readBlocks/src/readBlocks.cpp:83->readBlocks/src/readBlocks.cpp:120->readBlocks/src/readBlocks.cpp:136) (1.96 ns)
+	'add' operation ('tmpTmpData.V', readBlocks/src/readBlocks.cpp:87->readBlocks/src/readBlocks.cpp:120->readBlocks/src/readBlocks.cpp:136) (1.74 ns)
+	'store' operation (readBlocks/src/readBlocks.cpp:91->readBlocks/src/readBlocks.cpp:120->readBlocks/src/readBlocks.cpp:136) of variable 'tmp_220', readBlocks/src/readBlocks.cpp:62->readBlocks/src/readBlocks.cpp:89->readBlocks/src/readBlocks.cpp:120->readBlocks/src/readBlocks.cpp:136 on array 'glPLSlices_V_2' (3.25 ns)
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.316 seconds; current allocated memory: 126.363 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.18 seconds; current allocated memory: 126.900 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'readBlockCols'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SYN 201-210] Renamed object name 'parseEvents_mux_42_128_1_1' to 'parseEvents_mux_4bkb' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_4bkb': 4 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'readBlockCols'.
+INFO: [HLS 200-111]  Elapsed time: 0.309 seconds; current allocated memory: 131.787 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'parseEvents'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/data' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventsArraySize' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventSlice' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_0_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_1_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_2_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_3_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_4_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_5_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_6_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_7_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_8_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_9_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_10_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_11_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_12_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_13_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_14_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_15_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/refCol_16_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_0_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_1_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_2_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_3_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_4_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_5_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_6_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_7_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_8_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_9_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_10_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_11_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_12_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_13_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_14_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_15_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/tagCol_16_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'parseEvents' to 'ap_ctrl_hs'.
+WARNING: [RTGEN 206-101] Register 'glPLActiveSliceIdx_V' is power-on initialization.
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_V_0' to 'parseEvents_glPLScud' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_V_1' to 'parseEvents_glPLSdEe' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_V_2' to 'parseEvents_glPLSeOg' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_glPLSlices_V_3' to 'parseEvents_glPLSfYi' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_4bkb': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'parseEvents'.
+INFO: [HLS 200-111]  Elapsed time: 0.827 seconds; current allocated memory: 134.524 MB.
+INFO: [RTMG 210-278] Implementing memory 'parseEvents_glPLScud_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:08 ; elapsed = 00:00:25 . Memory (MB): peak = 198.910 ; gain = 141.457
+INFO: [SYSC 207-301] Generating SystemC RTL for parseEvents.
+INFO: [VHDL 208-304] Generating VHDL RTL for parseEvents.
+INFO: [VLOG 209-307] Generating Verilog RTL for parseEvents.
+INFO: [HLS 200-112] Total elapsed time: 25.213 seconds; peak allocated memory: 134.524 MB.

@@ -121,3 +121,21 @@ void topHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, pix_t refCol[BLOCK_SIZE +
 	readBlockCols(x, y, idx + 1, idx + 2, refCol, tagCol);
 	resetPix(x, y, idx + 3);
 }
+
+void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
+{
+	glPLActiveSliceIdx++;
+	// Every event always consists of 2 int32_t which is 8bytes.
+	loop_1:for(int32_t i = 0; i < eventsArraySize; i++)
+	{
+		uint64_t tmp = data[i];
+		ap_uint<8> x = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
+		ap_uint<8> y = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
+		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
+		int64_t ts = tmp >> 32;
+		topHW(x, y, glPLActiveSliceIdx, refCol, tagCol);
+
+		*eventSlice = x + (y << 8) + (pol << 16);
+		eventSlice++;
+	}
+}
