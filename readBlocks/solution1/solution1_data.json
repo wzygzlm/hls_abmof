@@ -29,7 +29,9 @@
       "inline readPixFromTwoCols {} {}",
       "pipeline topHW {} {}",
       "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {complete positionBoolean0type} {dim 1}} {}",
-      "array_partition readBlockCols {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtagCol} {complete positionBoolean0type} {dim 0}} {}"
+      "array_partition readBlockCols {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtagCol} {complete positionBoolean0type} {dim 0}} {}",
+      "array_partition topHW {{partition positionBooleanCmd} {variable positionBooleanTextRequiredrefCol} {complete positionBoolean0type} {dim 0}} {}",
+      "array_partition topHW {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtagCol} {complete positionBoolean0type} {dim 0}} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
@@ -1004,7 +1006,7 @@
       "ModuleName": "topHW",
       "Instances": [{
           "ModuleName": "readBlockCols",
-          "InstanceName": "grp_readBlockCols_fu_468"
+          "InstanceName": "grp_readBlockCols_fu_462"
         }]
     },
     "Metrics": {
@@ -1046,7 +1048,7 @@
         "Area": {
           "BRAM_18K": "60",
           "FF": "84",
-          "LUT": "694",
+          "LUT": "673",
           "DSP48E": "0"
         }
       }
@@ -1054,7 +1056,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-21 17:18:13 +0200",
+    "Time": "2018-09-21 17:46:34 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

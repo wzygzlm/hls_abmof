@@ -20,3 +20,5 @@ set_directive_inline "readPixFromTwoCols"
 set_directive_pipeline "topHW"
 set_directive_array_partition -type complete -dim 1 "writePix" glPLSlices
 set_directive_array_partition -type complete -dim 0 "readBlockCols" tagCol
+set_directive_array_partition -type complete -dim 0 "topHW" refCol
+set_directive_array_partition -type complete -dim 0 "topHW" tagCol

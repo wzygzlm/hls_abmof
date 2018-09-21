@@ -13,7 +13,11 @@ pix_t readPixFromCol(col_pix_t colData, ap_uint<8> idx)
 	// a lot of shift-register which will increase a lot of LUTs consumed.
 	readWiderBitsLoop: for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 	{
-		retData[yIndex] = colData[BITS_PER_PIXEL*idx + yIndex];
+		ap_uint<8> colIdx;
+		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
+		colIdx = (ap_uint<8>(idx * BITS_PER_PIXEL)(8, (BITS_PER_PIXEL >> 1)), ap_uint<(BITS_PER_PIXEL >> 1)>(yIndex));
+		retData[yIndex] = colData[colIdx];
+//		retData[yIndex] = colData[BITS_PER_PIXEL*idx + yIndex];
 	}
 	return retData;
 }
@@ -30,8 +34,9 @@ pix_t readPixFromTwoCols(two_cols_pix_t colData, ap_uint<8> idx)
 //	retData = colData(colIdxHi, colIdxLo);
 	readTwoColsWiderBitsLoop: for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 	{
-		ap_uint<256> colIdx;
-		colIdx = (ap_uint<8>(idx * BITS_PER_PIXEL)(8, BITS_PER_PIXEL >> 1), ap_uint<2>(yIndex));
+		ap_uint<8> colIdx;
+		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
+		colIdx = (ap_uint<8>(idx * BITS_PER_PIXEL)(8, (BITS_PER_PIXEL >> 1)), ap_uint<(BITS_PER_PIXEL >> 1)>(yIndex));
 		retData[yIndex] = colData[colIdx];
 //		retData[yIndex] = colData[BITS_PER_PIXEL*idx + yIndex];
 	}
@@ -42,7 +47,10 @@ void writePixToCol(col_pix_t *colData, ap_uint<8> idx, pix_t pixData)
 {
 	writeWiderBitsLoop: for(int8_t yIndex = 0; yIndex < BITS_PER_PIXEL; yIndex++)
 	{
-		(*colData)[BITS_PER_PIXEL*idx + yIndex] = pixData[yIndex];
+		ap_uint<8> colIdx;
+		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
+		colIdx = (ap_uint<8>(idx * BITS_PER_PIXEL)(8, (BITS_PER_PIXEL >> 1)), ap_uint<(BITS_PER_PIXEL >> 1)>(yIndex));
+		(*colData)[colIdx] = pixData[yIndex];
 	}
 }
 
@@ -74,7 +82,7 @@ void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 	glPLSlices[sliceIdx][x][y/COMBINED_PIXELS] = tmpData;
 }
 
-void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag, ap_int<5> colOffset,
+void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
 		pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 	two_cols_pix_t refColData;
@@ -101,6 +109,6 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_
 void topHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 	writePix(x, y, idx);
-	readBlockCols(x, y, idx + 1, idx + 2, 0, refCol, tagCol);
+	readBlockCols(x, y, idx + 1, idx + 2, refCol, tagCol);
 	resetPix(x, y, idx + 3);
 }

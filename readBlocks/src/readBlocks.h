@@ -28,7 +28,7 @@ typedef ap_int<COMBINED_PIXELS * BITS_PER_PIXEL> col_pix_t;
 typedef ap_int<COMBINED_PIXELS * BITS_PER_PIXEL * 2> two_cols_pix_t;
 typedef ap_uint<2> sliceIdx_t;
 
-void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx, ap_int<5> colOffset, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE]);
+void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE]);
 
 void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx);
 pix_t readPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx);
