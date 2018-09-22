@@ -51,7 +51,7 @@ void readBlockColsSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceId
 void topSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 	writePixSW(x, y, idx);
-	readBlockColsSW(x, y, idx + 1, idx + 2, refCol, tagCol);
+	readBlockColsSW(x, y - BLOCK_SIZE/2 - SEARCH_DISTANCE, idx + 1, idx + 2, refCol, tagCol);
 	resetPixSW(x, y, idx + 3);
 }
 

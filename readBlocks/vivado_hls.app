@@ -1,4 +1,4 @@
-<project xmlns="com.autoesl.autopilot.project" top="parseEvents" name="readBlocks">
+<project xmlns="com.autoesl.autopilot.project" top="topHW" name="readBlocks">
     <includePaths/>
     <libraryPaths/>
     <Simulation>
