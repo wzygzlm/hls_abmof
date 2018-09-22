@@ -72,3 +72,7 @@ readBlocks/solution4/.autopilot
 readBlocks/solution5/impl
 readBlocks/solution5/syn
 readBlocks/solution5/.autopilot
+topParseEvents/solution1/syn
+topParseEvents/solution1/.autopilot
+topParseEvents/solution1/csim
+topParseEvents/solution1/sim
