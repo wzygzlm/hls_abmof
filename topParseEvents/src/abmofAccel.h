@@ -33,6 +33,6 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_
 void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx);
 pix_t readPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx);
 
-void topHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE]);
+void topHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, ap_int<16> *miniSumRet);
 
 #endif

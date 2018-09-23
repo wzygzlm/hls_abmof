@@ -3,7 +3,7 @@
         <value string="false"/>
     </checksum>
     <config>
-        <schedule model="miniSADSum"/>
+        <schedule model="topHW"/>
     </config>
     <UIConfigurations>
         <UIAutosynConf hideTrivialOp="true" isBasedOnBoard="false" isSolutionDirty="true" isStopAskAgain="false" showDetailDesignViewer="false">

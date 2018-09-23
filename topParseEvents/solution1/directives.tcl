@@ -13,7 +13,7 @@ set_directive_inline "writePixToCol"
 set_directive_inline "writePix"
 set_directive_array_partition -type complete -dim 0 "readBlockCols" refCol
 set_directive_inline -off "readPix"
-set_directive_inline -off "readBlockCols"
+set_directive_inline "readBlockCols"
 set_directive_unroll "readPixFromTwoCols/readTwoColsWiderBitsLoop"
 set_directive_inline "readPixFromTwoCols"
 set_directive_array_partition -type complete -dim 1 "writePix" glPLSlices
@@ -51,3 +51,8 @@ set_directive_array_partition -type complete -dim 0 "miniSADSum" localSumReg
 set_directive_array_partition -type complete -dim 0 "min" inArr
 set_directive_array_partition -type complete -dim 0 "miniSADSum" t1Block
 set_directive_array_partition -type complete -dim 0 "miniSADSum" t2Block
+set_directive_inline "miniSADSum"
+set_directive_pipeline "readBlockColsAndMiniSADSum"
+set_directive_inline -off "readBlockColsAndMiniSADSum"
+set_directive_pipeline -enable_flush -rewind "topHW/innerLoop_1"
+set_directive_pipeline "topHW"

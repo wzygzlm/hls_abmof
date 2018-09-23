@@ -45,9 +45,7 @@
             </pragma>
         </directive>
         <directive functionName="readBlockCols" label="" functionLabel="">
-            <pragma name="INLINE">
-                <option name="off" value="" positionalBoolean="1"/>
-            </pragma>
+            <pragma name="INLINE"/>
         </directive>
         <directive functionName="readPixFromTwoCols" label="readTwoColsWiderBitsLoop" functionLabel="">
             <pragma name="UNROLL"/>
@@ -246,6 +244,26 @@
                 <option name="complete" value="" positionalBoolean="type"/>
                 <option name="dim" value="0"/>
             </pragma>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="INLINE"/>
+        </directive>
+        <directive functionName="readBlockColsAndMiniSADSum" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="readBlockColsAndMiniSADSum" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="topHW" label="innerLoop_1" functionLabel="">
+            <pragma name="PIPELINE">
+                <option name="enable_flush" value="" positionalBoolean="1"/>
+                <option name="rewind" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="topHW" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>

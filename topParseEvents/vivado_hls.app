@@ -1,8 +1,8 @@
-<project xmlns="com.autoesl.autopilot.project" name="topParseEvents" top="miniSADSum">
+<project xmlns="com.autoesl.autopilot.project" name="topParseEvents" top="topHW">
     <includePaths/>
     <libraryPaths/>
     <Simulation>
-        <SimFlow name="csim"/>
+        <SimFlow name="csim" csimMode="0" lastCsimMode="0"/>
     </Simulation>
     <files xmlns="">
         <file name="topParseEvents/src/abmofAccel.cpp" sc="0" tb="false" cflags=""/>
