@@ -23,7 +23,7 @@
       "inline writePix {} {}",
       "array_partition readBlockCols {{partition positionBooleanCmd} {variable positionBooleanTextRequiredrefCol} {complete positionBoolean0type} {dim 0}} {}",
       "inline readPix {{off positionBoolean1}} {}",
-      "inline readBlockCols {} {}",
+      "inline readBlockCols {{off positionBoolean1}} {}",
       "unroll readPixFromTwoCols\/readTwoColsWiderBitsLoop {} {}",
       "inline readPixFromTwoCols {} {}",
       "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {complete positionBoolean0type} {dim 1}} {}",
@@ -41,7 +41,7 @@
       "unroll sadSum\/calOFLoop2 {{factor 1}} {}",
       "inline sad {{off positionBoolean1}} {}",
       "pipeline sad {} {}",
-      "inline colSADSum {} {}",
+      "inline colSADSum {{off positionBoolean1}} {}",
       "pipeline colSADSum {} {}",
       "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 0}} {}",
       "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredretVal} {complete positionBoolean0type} {dim 0}} {}",
@@ -63,7 +63,7 @@
       "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 0}} {}",
       "inline miniSADSum {} {}",
       "pipeline readBlockColsAndMiniSADSum {} {}",
-      "inline readBlockColsAndMiniSADSum {{off positionBoolean1}} {}",
+      "inline readBlockColsAndMiniSADSum {} {}",
       "pipeline topHW\/innerLoop_1 {{enable_flush positionBoolean1} {rewind positionBoolean1}} {}",
       "pipeline topHW {} {}"
     ]},
@@ -71,8 +71,8 @@
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
-    "II": "121",
-    "Latency": "120",
+    "II": "10",
+    "Latency": "14",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -89,8 +89,9 @@
   "Files": {
     "CSource": ["..\/src\/abmofAccel.cpp"],
     "Vhdl": [
+      "impl\/vhdl\/colSADSum.vhd",
       "impl\/vhdl\/min.vhd",
-      "impl\/vhdl\/readBlockColsAndMini.vhd",
+      "impl\/vhdl\/readBlockCols.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/sadSum.vhd",
       "impl\/vhdl\/topHW_glPLSlices_cud.vhd",
@@ -98,8 +99,9 @@
       "impl\/vhdl\/topHW.vhd"
     ],
     "Verilog": [
+      "impl\/verilog\/colSADSum.v",
       "impl\/verilog\/min.v",
-      "impl\/verilog\/readBlockColsAndMini.v",
+      "impl\/verilog\/readBlockCols.v",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/sadSum.v",
       "impl\/verilog\/topHW_glPLSlices_cud.v",
@@ -246,19 +248,20 @@
       "dir": "out",
       "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "120"
+      "firstOutLatency": "14"
     }
   },
   "ModuleInfo": {
     "Hierarchy": {
       "ModuleName": "topHW",
-      "Instances": [{
-          "ModuleName": "readBlockColsAndMini",
-          "InstanceName": "grp_readBlockColsAndMini_fu_313",
+      "Instances": [
+        {
+          "ModuleName": "colSADSum",
+          "InstanceName": "grp_colSADSum_fu_301",
           "Instances": [
             {
               "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_330",
+              "InstanceName": "grp_sad_fu_240",
               "Instances": [{
                   "ModuleName": "sadSum",
                   "InstanceName": "sadRet_write_assign_sadSum_fu_190"
@@ -266,7 +269,7 @@
             },
             {
               "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_356",
+              "InstanceName": "grp_sad_fu_288",
               "Instances": [{
                   "ModuleName": "sadSum",
                   "InstanceName": "sadRet_write_assign_sadSum_fu_190"
@@ -274,7 +277,7 @@
             },
             {
               "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_382",
+              "InstanceName": "grp_sad_fu_336",
               "Instances": [{
                   "ModuleName": "sadSum",
                   "InstanceName": "sadRet_write_assign_sadSum_fu_190"
@@ -282,7 +285,7 @@
             },
             {
               "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_408",
+              "InstanceName": "grp_sad_fu_384",
               "Instances": [{
                   "ModuleName": "sadSum",
                   "InstanceName": "sadRet_write_assign_sadSum_fu_190"
@@ -290,7 +293,7 @@
             },
             {
               "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_434",
+              "InstanceName": "grp_sad_fu_432",
               "Instances": [{
                   "ModuleName": "sadSum",
                   "InstanceName": "sadRet_write_assign_sadSum_fu_190"
@@ -298,7 +301,7 @@
             },
             {
               "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_460",
+              "InstanceName": "grp_sad_fu_480",
               "Instances": [{
                   "ModuleName": "sadSum",
                   "InstanceName": "sadRet_write_assign_sadSum_fu_190"
@@ -306,20 +309,46 @@
             },
             {
               "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_486",
+              "InstanceName": "grp_sad_fu_528",
               "Instances": [{
                   "ModuleName": "sadSum",
                   "InstanceName": "sadRet_write_assign_sadSum_fu_190"
                 }]
-            },
-            {
-              "ModuleName": "min",
-              "InstanceName": "grp_min_fu_512"
             }
           ]
-        }]
+        },
+        {
+          "ModuleName": "readBlockCols",
+          "InstanceName": "grp_readBlockCols_fu_333"
+        },
+        {
+          "ModuleName": "min",
+          "InstanceName": "grp_min_fu_349"
+        }
+      ]
     },
     "Metrics": {
+      "readBlockCols": {
+        "Latency": {
+          "LatencyBest": "1",
+          "LatencyAvg": "1",
+          "LatencyWorst": "1",
+          "PipelineII": "1",
+          "PipelineDepth": "2",
+          "PipelineType": "function"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "5.21"
+        },
+        "Area": {
+          "FF": "17",
+          "LUT": "349",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
+        }
+      },
       "sadSum": {
         "Latency": {
           "LatencyBest": "0",
@@ -362,6 +391,27 @@
           "DSP48E": "0"
         }
       },
+      "colSADSum": {
+        "Latency": {
+          "LatencyBest": "1",
+          "LatencyAvg": "1",
+          "LatencyWorst": "1",
+          "PipelineII": "1",
+          "PipelineDepth": "2",
+          "PipelineType": "function"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "8.95"
+        },
+        "Area": {
+          "FF": "385",
+          "LUT": "3514",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
+        }
+      },
       "min": {
         "Latency": {
           "LatencyBest": "1",
@@ -383,34 +433,13 @@
           "DSP48E": "0"
         }
       },
-      "readBlockColsAndMini": {
-        "Latency": {
-          "LatencyBest": "6",
-          "LatencyAvg": "6",
-          "LatencyWorst": "6",
-          "PipelineII": "1",
-          "PipelineDepth": "7",
-          "PipelineType": "function"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "9.70"
-        },
-        "Area": {
-          "FF": "1189",
-          "LUT": "4341",
-          "BRAM_18K": "0",
-          "DSP48E": "0"
-        }
-      },
       "topHW": {
         "Latency": {
-          "LatencyBest": "120",
-          "LatencyAvg": "120",
-          "LatencyWorst": "120",
-          "PipelineII": "121",
-          "PipelineDepth": "121",
+          "LatencyBest": "14",
+          "LatencyAvg": "14",
+          "LatencyWorst": "14",
+          "PipelineII": "10",
+          "PipelineDepth": "15",
           "PipelineType": "function"
         },
         "Timing": {
@@ -420,8 +449,8 @@
         },
         "Area": {
           "BRAM_18K": "60",
-          "FF": "1380",
-          "LUT": "5496",
+          "FF": "2903",
+          "LUT": "6945",
           "DSP48E": "0"
         }
       }
@@ -429,7 +458,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-23 20:31:05 +0200",
+    "Time": "2018-09-25 00:25:17 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

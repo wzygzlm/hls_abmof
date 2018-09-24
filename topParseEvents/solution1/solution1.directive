@@ -45,7 +45,9 @@
             </pragma>
         </directive>
         <directive functionName="readBlockCols" label="" functionLabel="">
-            <pragma name="INLINE"/>
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
         </directive>
         <directive functionName="readPixFromTwoCols" label="readTwoColsWiderBitsLoop" functionLabel="">
             <pragma name="UNROLL"/>
@@ -130,7 +132,9 @@
             <pragma name="PIPELINE"/>
         </directive>
         <directive functionName="colSADSum" label="" functionLabel="">
-            <pragma name="INLINE"/>
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
         </directive>
         <directive functionName="colSADSum" label="" functionLabel="">
             <pragma name="PIPELINE"/>
@@ -252,9 +256,7 @@
             <pragma name="PIPELINE"/>
         </directive>
         <directive functionName="readBlockColsAndMiniSADSum" label="" functionLabel="">
-            <pragma name="INLINE">
-                <option name="off" value="" positionalBoolean="1"/>
-            </pragma>
+            <pragma name="INLINE"/>
         </directive>
         <directive functionName="topHW" label="innerLoop_1" functionLabel="">
             <pragma name="PIPELINE">

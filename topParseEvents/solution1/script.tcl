@@ -5,8 +5,8 @@
 ############################################################
 open_project topParseEvents
 set_top topHW
-add_files topParseEvents/src/abmofAccel.h
 add_files topParseEvents/src/abmofAccel.cpp
+add_files topParseEvents/src/abmofAccel.h
 open_solution "solution1"
 set_part {xc7z007sclg225-1} -tool vivado
 create_clock -period 10 -name default

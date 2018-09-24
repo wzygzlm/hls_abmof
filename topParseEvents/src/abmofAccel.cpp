@@ -305,7 +305,7 @@ void topHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, ap_int<16> *miniSumRet)
 	writePix(x, y, idx);
 	resetPix(x, y, idx + 3);
 
-	innerLoop_1: for (int8_t k = 0; k < 17; k++)
+	innerLoop_1: for (int8_t k = 0; k <4; k++)
 	{
 		readBlockColsAndMiniSADSum(x + k, y, idx + 1, miniSumRet);
 	}
