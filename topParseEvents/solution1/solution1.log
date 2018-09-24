@@ -10,100 +10,101 @@ INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [HLS 200-10] Analyzing design file 'topParseEvents/src/abmofAccel.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
-WARNING: [HLS 200-40] Directive 'ARRAY_PARTITION' cannot be applied: Variable 'refCol' is not declared in 'topHW'.
-WARNING: [HLS 200-40] Directive 'ARRAY_PARTITION' cannot be applied: Variable 'tagCol' is not declared in 'topHW'.
 WARNING: [HLS 200-40] Directive 'PIPELINE' cannot be applied: Label 'readBlockLoop' does not exist in function 'topHW'.
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 106.176 ; gain = 48.066
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 106.219 ; gain = 48.109
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 105.523 ; gain = 47.992
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 105.559 ; gain = 48.027
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [XFORM 203-603] Inlining function 'readPixFromCol' into 'writePix' (topParseEvents/src/abmofAccel.cpp:195).
-INFO: [XFORM 203-603] Inlining function 'writePixToCol' into 'writePix' (topParseEvents/src/abmofAccel.cpp:199).
-INFO: [XFORM 203-603] Inlining function 'writePix' into 'topHW' (topParseEvents/src/abmofAccel.cpp:305).
-INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:290).
-INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:289).
-INFO: [XFORM 203-603] Inlining function 'readBlockCols' into 'readBlockColsAndMiniSADSum' (topParseEvents/src/abmofAccel.cpp:299).
-INFO: [XFORM 203-603] Inlining function 'colSADSum' into 'miniSADSum' (topParseEvents/src/abmofAccel.cpp:226).
-INFO: [XFORM 203-603] Inlining function 'miniSADSum' into 'readBlockColsAndMiniSADSum' (topParseEvents/src/abmofAccel.cpp:300).
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:19 . Memory (MB): peak = 131.746 ; gain = 73.637
+INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:296).
+INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:295).
+INFO: [XFORM 203-603] Inlining function 'colSADSum' into 'miniSADSum' (topParseEvents/src/abmofAccel.cpp:229).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:18 . Memory (MB): peak = 130.492 ; gain = 72.961
 INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [XFORM 203-602] Inlining function 'resetPix' into 'topHW' (topParseEvents/src/abmofAccel.cpp:306) automatically.
-WARNING: [SYNCHK 200-23] topParseEvents/src/abmofAccel.cpp:132: variable-indexed range selection may cause suboptimal QoR.
+WARNING: [SYNCHK 200-23] topParseEvents/src/abmofAccel.cpp:156: variable-indexed range selection may cause suboptimal QoR.
 INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:19 . Memory (MB): peak = 142.520 ; gain = 84.410
-INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'topHW' (topParseEvents/src/abmofAccel.cpp:303).
-WARNING: [XFORM 203-505] Ignored pipeline directive for loop 'innerLoop_1' (topParseEvents/src/abmofAccel.cpp:309) because its parent loop or function is pipelined.
-INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'readBlockColsAndMiniSADSum' (topParseEvents/src/abmofAccel.cpp:46:47).
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:19 . Memory (MB): peak = 140.520 ; gain = 82.988
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'miniSADSum' (topParseEvents/src/abmofAccel.cpp:206).
 INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'min' (topParseEvents/src/abmofAccel.cpp:100).
 INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sad' (topParseEvents/src/abmofAccel.cpp:22).
 INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sadSum' (topParseEvents/src/abmofAccel.cpp:9).
 WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (topParseEvents/src/abmofAccel.cpp:13) because its parent loop or function is pipelined.
-INFO: [XFORM 203-501] Unrolling loop 'readWiderBitsLoop' (topParseEvents/src/abmofAccel.cpp:125) in function 'topHW' completely.
-INFO: [XFORM 203-501] Unrolling loop 'writeWiderBitsLoop' (topParseEvents/src/abmofAccel.cpp:165) in function 'topHW' completely.
-INFO: [XFORM 203-501] Unrolling loop 'innerLoop_1' (topParseEvents/src/abmofAccel.cpp:309) in function 'topHW' completely.
-INFO: [XFORM 203-501] Unrolling loop 'readRefLoop' (topParseEvents/src/abmofAccel.cpp:288) in function 'readBlockColsAndMiniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'readTwoColsWiderBitsLoop' (topParseEvents/src/abmofAccel.cpp:149) in function 'readBlockColsAndMiniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'readColLoop' (topParseEvents/src/abmofAccel.cpp:221) in function 'readBlockColsAndMiniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'colSADSumLoop' (topParseEvents/src/abmofAccel.cpp:47) in function 'readBlockColsAndMiniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'colSADSumInnerLoop' (topParseEvents/src/abmofAccel.cpp:50) in function 'readBlockColsAndMiniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'addLoop' (topParseEvents/src/abmofAccel.cpp:229) in function 'readBlockColsAndMiniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'shiftMainLoop' (topParseEvents/src/abmofAccel.cpp:251) in function 'readBlockColsAndMiniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'shiftInnerLoop' (topParseEvents/src/abmofAccel.cpp:253) in function 'readBlockColsAndMiniSADSum' completely.
-INFO: [XFORM 203-501] Unrolling loop 'shiftLastLoop' (topParseEvents/src/abmofAccel.cpp:259) in function 'readBlockColsAndMiniSADSum' completely.
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:276).
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1' (topParseEvents/src/abmofAccel.cpp:220) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readColLoop' (topParseEvents/src/abmofAccel.cpp:223) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumLoop' (topParseEvents/src/abmofAccel.cpp:47) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumInnerLoop' (topParseEvents/src/abmofAccel.cpp:50) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'addLoop' (topParseEvents/src/abmofAccel.cpp:232) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftMainLoop' (topParseEvents/src/abmofAccel.cpp:254) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftInnerLoop' (topParseEvents/src/abmofAccel.cpp:256) in function 'miniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftLastLoop' (topParseEvents/src/abmofAccel.cpp:262) in function 'miniSADSum' completely.
 INFO: [XFORM 203-501] Unrolling loop 'minLoop' (topParseEvents/src/abmofAccel.cpp:104) in function 'min' completely.
 INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (topParseEvents/src/abmofAccel.cpp:31) in function 'sad' completely.
 INFO: [XFORM 203-501] Unrolling loop 'calOFLoop2' (topParseEvents/src/abmofAccel.cpp:13) in function 'sadSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1' (topParseEvents/src/abmofAccel.cpp:279) in function 'readBlockCols' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readRefLoop' (topParseEvents/src/abmofAccel.cpp:294) in function 'readBlockCols' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readTwoColsWiderBitsLoop' (topParseEvents/src/abmofAccel.cpp:149) in function 'readBlockCols' completely.
 INFO: [XFORM 203-102] Partitioning array 'sum.V' (topParseEvents/src/abmofAccel.cpp:25) automatically.
-INFO: [XFORM 203-101] Partitioning array 'glPLSlices.V'  in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'in2.V' (topParseEvents/src/abmofAccel.cpp:297) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'in1.V' (topParseEvents/src/abmofAccel.cpp:297) in dimension 1 completely.
+INFO: [XFORM 203-131] Reshaping array 'in2.V' (topParseEvents/src/abmofAccel.cpp:305) in dimension 2 completely.
+INFO: [XFORM 203-131] Reshaping array 'in1.V' (topParseEvents/src/abmofAccel.cpp:304) in dimension 2 completely.
 INFO: [XFORM 203-101] Partitioning array 'localSumReg.V'  in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'in2.V.1' (topParseEvents/src/abmofAccel.cpp:217) in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'out.i'  in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'in1.V.1' (topParseEvents/src/abmofAccel.cpp:217) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'in2.V' (topParseEvents/src/abmofAccel.cpp:217) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'out'  in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'in1.V' (topParseEvents/src/abmofAccel.cpp:217) in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'input2.V' (topParseEvents/src/abmofAccel.cpp:48) in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'input1.V' (topParseEvents/src/abmofAccel.cpp:48) in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'miniSumTmp.V'  in dimension 1 completely.
 INFO: [XFORM 203-101] Partitioning array 'localSumReg.V'  in dimension 2 completely.
-INFO: [XFORM 203-602] Inlining function 'resetPix' into 'topHW' (topParseEvents/src/abmofAccel.cpp:306) automatically.
-INFO: [XFORM 203-11] Balancing expressions in function 'sadSum' (topParseEvents/src/abmofAccel.cpp:9)...10 expression(s) balanced.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:05 ; elapsed = 00:00:22 . Memory (MB): peak = 176.582 ; gain = 118.473
-WARNING: [XFORM 203-631] Renaming function 'readBlockColsAndMiniSADSum' to 'readBlockColsAndMini' (topParseEvents/src/abmofAccel.cpp:54:1)
-WARNING: [XFORM 203-532] Ignored the rewind option for Function 'topHW' (topParseEvents/src/abmofAccel.cpp:303) as the option is not applicable to function pipelining.
-WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.2'.
-WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.3'.
-WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.1'.
-WARNING: [ANALYSIS 214-52] Found false 'RAW' inter dependency for variable 'glPLSlices.V.0'.
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:07 ; elapsed = 00:00:24 . Memory (MB): peak = 215.586 ; gain = 157.477
+INFO: [XFORM 203-102] Partitioning array 'in1.V' (topParseEvents/src/abmofAccel.cpp:304) automatically.
+INFO: [XFORM 203-102] Partitioning array 'in2.V' (topParseEvents/src/abmofAccel.cpp:305) automatically.
+INFO: [XFORM 203-712] Applying dataflow to function 'readBlockColsAndMiniSADSum', detected/extracted 2 process function(s): 
+	 'readBlockCols'
+	 'miniSADSum'.
+INFO: [XFORM 203-11] Balancing expressions in function 'sadSum' (topParseEvents/src/abmofAccel.cpp:9)...7 expression(s) balanced.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:18 ; elapsed = 00:00:35 . Memory (MB): peak = 183.949 ; gain = 126.418
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:19 ; elapsed = 00:00:36 . Memory (MB): peak = 223.262 ; gain = 165.730
 INFO: [HLS 200-10] Starting hardware synthesis ...
-INFO: [HLS 200-10] Synthesizing 'topHW' ...
+INFO: [HLS 200-10] Synthesizing 'readBlockColsAndMiniSADSum' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'readBlockCols'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'readBlockCols'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 1.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 36.624 seconds; current allocated memory: 173.887 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.166 seconds; current allocated memory: 174.596 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'sadSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'sadSum'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 1.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 24.37 seconds; current allocated memory: 166.750 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.144 seconds; current allocated memory: 174.885 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.128 seconds; current allocated memory: 167.001 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.124 seconds; current allocated memory: 175.097 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'sad'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'sad'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 3.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.1 seconds; current allocated memory: 167.205 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.119 seconds; current allocated memory: 175.308 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.126 seconds; current allocated memory: 167.380 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.119 seconds; current allocated memory: 175.488 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'min'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -111,82 +112,61 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'min'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.088 seconds; current allocated memory: 167.499 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.084 seconds; current allocated memory: 175.592 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.113 seconds; current allocated memory: 167.580 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.131 seconds; current allocated memory: 175.673 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'readBlockColsAndMini'
+INFO: [HLS 200-42] -- Implementing module 'miniSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-61] Pipelining function 'readBlockColsAndMini'.
+INFO: [SCHED 204-61] Pipelining function 'miniSADSum'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 7.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.187 seconds; current allocated memory: 168.785 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.101 seconds; current allocated memory: 176.164 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.326 seconds; current allocated memory: 170.440 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.239 seconds; current allocated memory: 177.203 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'topHW'
+INFO: [HLS 200-42] -- Implementing module 'readBlockColsAndMiniSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-61] Pipelining function 'topHW'.
-WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
-   between 'call' operation ('call_ret', topParseEvents/src/abmofAccel.cpp:310) to 'readBlockColsAndMini' and 'load' operation ('glPLSlices_V_0_load', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) on array 'glPLSlices_V_0'.
-WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 2, distance = 1, offset = 1)
-   between 'call' operation ('call_ret', topParseEvents/src/abmofAccel.cpp:310) to 'readBlockColsAndMini' and 'load' operation ('glPLSlices_V_0_load', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) on array 'glPLSlices_V_0'.
-WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 3, distance = 1, offset = 1)
-   between 'call' operation ('call_ret', topParseEvents/src/abmofAccel.cpp:310) to 'readBlockColsAndMini' and 'load' operation ('glPLSlices_V_0_load', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) on array 'glPLSlices_V_0'.
-WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 4, distance = 1, offset = 1)
-   between 'call' operation ('call_ret', topParseEvents/src/abmofAccel.cpp:310) to 'readBlockColsAndMini' and 'load' operation ('glPLSlices_V_0_load', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) on array 'glPLSlices_V_0'.
-WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 67, distance = 1, offset = 1)
-   between 'call' operation ('call_ret_9', topParseEvents/src/abmofAccel.cpp:310) to 'readBlockColsAndMini' and 'load' operation ('glPLSlices_V_0_load', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) on array 'glPLSlices_V_0'.
-WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 98, distance = 1, offset = 1)
-   between 'call' operation ('call_ret_12', topParseEvents/src/abmofAccel.cpp:310) to 'readBlockColsAndMini' and 'load' operation ('glPLSlices_V_0_load', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) on array 'glPLSlices_V_0'.
-WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 114, distance = 1, offset = 1)
-   between 'call' operation ('call_ret_15', topParseEvents/src/abmofAccel.cpp:310) to 'readBlockColsAndMini' and 'load' operation ('glPLSlices_V_0_load', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) on array 'glPLSlices_V_0'.
-WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 118, distance = 1, offset = 1)
-   between 'call' operation ('call_ret_15', topParseEvents/src/abmofAccel.cpp:310) to 'readBlockColsAndMini' and 'load' operation ('glPLSlices_V_0_load', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) on array 'glPLSlices_V_0'.
-WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 120, distance = 1, offset = 1)
-   between 'call' operation ('call_ret_15', topParseEvents/src/abmofAccel.cpp:310) to 'readBlockColsAndMini' and 'load' operation ('glPLSlices_V_0_load', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) on array 'glPLSlices_V_0'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 121, Depth = 121.
-WARNING: [SCHED 204-21] Estimated clock period (10.201ns) exceeds the target (target clock period: 10ns, clock uncertainty: 0.1ns, effective delay budget: 9.9ns).
-WARNING: [SCHED 204-21] The critical path consists of the following:
-	'load' operation ('glPLSlices_V_0_load', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) on array 'glPLSlices_V_0' (3.25 ns)
-	'mux' operation ('tmpData.V', topParseEvents/src/abmofAccel.cpp:193->topParseEvents/src/abmofAccel.cpp:305) (1.96 ns)
-	'add' operation ('tmpTmpData.V', topParseEvents/src/abmofAccel.cpp:197->topParseEvents/src/abmofAccel.cpp:305) (1.74 ns)
-	'store' operation (topParseEvents/src/abmofAccel.cpp:201->topParseEvents/src/abmofAccel.cpp:305) of variable 'tmp_18', topParseEvents/src/abmofAccel.cpp:172->topParseEvents/src/abmofAccel.cpp:199->topParseEvents/src/abmofAccel.cpp:305 on array 'glPLSlices_V_2' (3.25 ns)
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.543 seconds; current allocated memory: 171.688 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.319 seconds; current allocated memory: 177.577 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.374 seconds; current allocated memory: 174.404 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.263 seconds; current allocated memory: 177.974 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'readBlockCols'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'readBlockCols'.
+INFO: [HLS 200-111]  Elapsed time: 0.341 seconds; current allocated memory: 179.720 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'sadSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'sadSum'.
-INFO: [HLS 200-111]  Elapsed time: 0.468 seconds; current allocated memory: 175.208 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.516 seconds; current allocated memory: 180.246 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'sad'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'sad'.
-INFO: [HLS 200-111]  Elapsed time: 0.231 seconds; current allocated memory: 175.746 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.313 seconds; current allocated memory: 180.759 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'min'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'min'.
-INFO: [HLS 200-111]  Elapsed time: 0.225 seconds; current allocated memory: 176.015 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.186 seconds; current allocated memory: 181.058 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'readBlockColsAndMini'
+INFO: [HLS 200-10] -- Generating RTL for module 'miniSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_0' is power-on initialization.
 WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_0' is power-on initialization.
@@ -246,28 +226,26 @@ WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_3' is power-on initialization
 WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_4' is power-on initialization.
 WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_5' is power-on initialization.
 WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_6' is power-on initialization.
-INFO: [SYN 201-210] Renamed object name 'topHW_mux_42_128_1_1' to 'topHW_mux_42_128_bkb' due to the length limit 20
-INFO: [RTGEN 206-100] Generating core module 'topHW_mux_42_128_bkb': 4 instance(s).
-INFO: [RTGEN 206-100] Finished creating RTL model for 'readBlockColsAndMini'.
-INFO: [HLS 200-111]  Elapsed time: 0.529 seconds; current allocated memory: 178.936 MB.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'miniSADSum'.
+INFO: [HLS 200-111]  Elapsed time: 0.431 seconds; current allocated memory: 182.566 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'topHW'
+INFO: [HLS 200-10] -- Generating RTL for module 'readBlockColsAndMiniSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/x_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/y_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/idx_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'topHW/miniSumRet_V' to 'ap_vld'.
-INFO: [RTGEN 206-500] Setting interface mode on function 'topHW' to 'ap_ctrl_hs'.
-INFO: [SYN 201-210] Renamed object name 'topHW_glPLSlices_V_0' to 'topHW_glPLSlices_cud' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'topHW_glPLSlices_V_1' to 'topHW_glPLSlices_dEe' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'topHW_glPLSlices_V_2' to 'topHW_glPLSlices_eOg' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'topHW_glPLSlices_V_3' to 'topHW_glPLSlices_fYi' due to the length limit 20
-INFO: [RTGEN 206-100] Generating core module 'topHW_mux_42_128_bkb': 1 instance(s).
-INFO: [RTGEN 206-100] Finished creating RTL model for 'topHW'.
-INFO: [HLS 200-111]  Elapsed time: 1.431 seconds; current allocated memory: 181.590 MB.
-INFO: [RTMG 210-278] Implementing memory 'topHW_glPLSlices_cud_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:10 ; elapsed = 00:00:31 . Memory (MB): peak = 251.398 ; gain = 193.289
-INFO: [SYSC 207-301] Generating SystemC RTL for topHW.
-INFO: [VHDL 208-304] Generating VHDL RTL for topHW.
-INFO: [VLOG 209-307] Generating Verilog RTL for topHW.
-INFO: [HLS 200-112] Total elapsed time: 31.487 seconds; peak allocated memory: 181.590 MB.
+INFO: [RTGEN 206-500] Setting interface mode on port 'readBlockColsAndMiniSADSum/x_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'readBlockColsAndMiniSADSum/y_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'readBlockColsAndMiniSADSum/idx_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'readBlockColsAndMiniSADSum/miniSumRet_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'readBlockColsAndMiniSADSum' to 'ap_ctrl_hs'.
+WARNING: [RTGEN 206-101] Port 'readBlockColsAndMiniSADSum/x_V' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Port 'readBlockColsAndMiniSADSum/idx_V' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'readBlockColsAndMiniSADSum'.
+INFO: [HLS 200-111]  Elapsed time: 0.678 seconds; current allocated memory: 183.151 MB.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w68_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w68_d2_A' using Shift Registers.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:22 ; elapsed = 00:00:43 . Memory (MB): peak = 247.547 ; gain = 190.016
+INFO: [SYSC 207-301] Generating SystemC RTL for readBlockColsAndMiniSADSum.
+INFO: [VHDL 208-304] Generating VHDL RTL for readBlockColsAndMiniSADSum.
+INFO: [VLOG 209-307] Generating Verilog RTL for readBlockColsAndMiniSADSum.
+INFO: [HLS 200-112] Total elapsed time: 42.737 seconds; peak allocated memory: 183.151 MB.
