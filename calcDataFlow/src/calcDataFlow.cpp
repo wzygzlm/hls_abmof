@@ -132,9 +132,21 @@ void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	colSADSum(in1, in2, out);
 
+	static ap_int<16> tmpLocalSum[2*SEARCH_DISTANCE + 1];
+
+	// Notice here, it's ">" not ">=" and depth should be 2*SEARCH_DISTANC + 1 + 1
+	if (shiftCnt > 2 * SEARCH_DISTANCE)
+	{
+		readFIFOLoop: for(int8_t k = 0; k <= 2*SEARCH_DISTANCE; k++)
+		{
+//			tmpLocalSum[k] = localSumReg[2*SEARCH_DISTANCE][k];
+			tmpLocalSum[k] = (*localSumReg)[k];
+		}
+	}
+
 	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
-		miniSumTmp[i] = miniSumTmp[i] + out[i] - localSumReg[0][i];
+		miniSumTmp[i] = miniSumTmp[i] + out[i] - tmpLocalSum[i];
 //		miniRetVal = (miniRetValTmpIter < miniSumTmp[i]) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniSumTmp[i];
 //		else miniRetVal[i] = miniRetVal[i];
 	}
@@ -154,17 +166,18 @@ void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	std::cout << "New miniRetVal from HW is: " << miniRetVal << std::endl;
 
-	shiftMainLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE; i++)
-	{
-		shiftInnerLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
-		{
-			localSumReg[i][j] = localSumReg[i + 1][j];
-		}
-	}
+//	shiftMainLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE; i++)
+//	{
+//		shiftInnerLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
+//		{
+//			localSumReg[i][j] = localSumReg[i + 1][j];
+//		}
+//	}
 
-	shiftLastLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
+	writeFIFOLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
 	{
-		localSumReg[2*SEARCH_DISTANCE][j] = out[j];
+//		localSumReg[0][j] = out[j];
+		(*localSumReg)[j] = out[j];
 	}
 
 	shiftCnt++;

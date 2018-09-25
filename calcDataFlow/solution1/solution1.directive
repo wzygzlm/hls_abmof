@@ -114,10 +114,10 @@
             </pragma>
         </directive>
         <directive functionName="miniSADSum" label="" functionLabel="">
-            <pragma name="ARRAY_PARTITION">
+            <pragma name="ARRAY_RESHAPE">
                 <option name="variable" value="localSumReg" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
-                <option name="dim" value="0"/>
+                <option name="dim" value="2"/>
             </pragma>
         </directive>
         <directive functionName="miniSADSum" label="" functionLabel="">
@@ -148,6 +148,26 @@
         <directive functionName="sadSum" label="" functionLabel="">
             <pragma name="INLINE">
                 <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="STREAM">
+                <option name="variable" value="localSumReg" positionalBoolean="4"/>
+                <option name="depth" value="8"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="tmpLocalSum" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="localSumReg" positionalBoolean="4"/>
+                <option name="core" value="FIFO_SRL"/>
             </pragma>
         </directive>
     </sourceFile>

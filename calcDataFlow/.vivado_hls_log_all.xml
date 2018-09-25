@@ -11,7 +11,32 @@
   </errorLogs>
   <warningLogs>
     <logs>
-      <synLog/>
+      <synLog>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_16_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.151+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_15_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.139+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_14_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.135+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_13_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.130+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_12_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.127+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Port 'miniSADSum/t1Block_11_V' has no fanin or fanout and is left dangling.&#xD;&#xA;               Please use C simulation to confirm this function argument can be read from or written to." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.123+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniRetVal_V' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.118+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.100+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.096+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_4' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.092+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_3' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.089+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_2' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.085+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_1' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.082+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_0' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.078+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'tmpLocalSum_V_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.075+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'tmpLocalSum_V_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.070+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'tmpLocalSum_V_4' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.067+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'tmpLocalSum_V_3' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.064+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'tmpLocalSum_V_2' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.059+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'tmpLocalSum_V_1' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.056+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'tmpLocalSum_V_0' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.052+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'shiftCnt' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:19.049+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) because its parent loop or function is pipelined." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:15.037+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'colSADSumInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:47) because its parent loop or function is pipelined." projectName="calcDataFlow" solutionName="solution1" date="2018-09-25T20:38:15.027+0200" type="Warning"/>
+      </synLog>
       <simLog/>
       <mgLog/>
       <packageLog/>
