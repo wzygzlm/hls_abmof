@@ -11,7 +11,67 @@
   </errorLogs>
   <warningLogs>
     <logs>
-      <synLog/>
+      <synLog>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.430+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.425+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_4' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.420+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_3' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.414+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_2' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.408+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_1' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.403+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_0' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.398+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.393+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.387+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_4' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.382+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_3' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.376+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_2' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.371+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_1' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.366+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_0' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.362+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.357+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.353+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_4' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.348+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_3' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.344+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_2' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.340+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_1' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.335+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_0' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.331+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.327+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.323+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_4' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.319+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_3' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.316+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_2' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.311+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_1' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.306+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_0' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.301+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.296+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.292+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_4' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.287+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_3' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.283+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_2' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.278+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_1' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.274+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_0' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.270+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.266+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.263+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_4' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.259+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_3' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.255+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_2' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.252+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_1' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.247+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_0' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.243+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'shiftCnt' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.237+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniRetVal_V' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.232+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.229+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_6' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.225+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.221+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_5' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.216+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_4' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.212+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_4' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.209+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_3' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.206+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_3' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.203+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_2' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.200+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_2' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.197+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_1' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.194+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_1' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.191+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_0' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.188+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_0' is power-on initialization." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:38.185+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'colSADSumInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:47) because its parent loop or function is pipelined." projectName="calcDataFlow" solutionName="solution1" date="2018-09-27T19:51:33.274+0200" type="Warning"/>
+      </synLog>
       <simLog/>
       <mgLog/>
       <packageLog/>

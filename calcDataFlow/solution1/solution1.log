@@ -8,12 +8,174 @@ Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
 INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
-INFO: [COSIM 212-47] Using XSIM for RTL simulation.
-INFO: [COSIM 212-14] Instrumenting C test bench ...
-INFO: [COSIM 212-302] Starting C TB testing ... 
-INFO: [COSIM 212-333] Generating C post check test bench ...
-INFO: [COSIM 212-12] Generating RTL test bench ...
-INFO: [COSIM 212-323] Starting verilog simulation. 
-INFO: [COSIM 212-15] Starting XSIM ...
-INFO: [COSIM 212-316] Starting C post checking ...
-INFO: [COSIM 212-1000] *** C/RTL co-simulation finished: PASS ***
+INFO: [HLS 200-10] Analyzing design file 'calcDataFlow/src/calcDataFlow.cpp' ...
+INFO: [HLS 200-10] Validating synthesis directives ...
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 103.699 ; gain = 46.223
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:13 . Memory (MB): peak = 103.738 ; gain = 46.262
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [XFORM 203-603] Inlining function 'sadSum' into 'sad' (calcDataFlow/src/calcDataFlow.cpp:33).
+INFO: [XFORM 203-603] Inlining function 'min' into 'testPipelinedMiniSADSum' (calcDataFlow/src/calcDataFlow.cpp:212).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 114.613 ; gain = 57.137
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:14 . Memory (MB): peak = 121.559 ; gain = 64.082
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'testPipelinedMiniSADSum' (calcDataFlow/src/calcDataFlow.cpp:179).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'colSADSum' (calcDataFlow/src/calcDataFlow.cpp:39).
+WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'colSADSumInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:47) because its parent loop or function is pipelined.
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sad' (calcDataFlow/src/calcDataFlow.cpp:19).
+INFO: [XFORM 203-501] Unrolling loop 'Loop_1' (calcDataFlow/src/calcDataFlow.cpp:186) in function 'testPipelinedMiniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1' (calcDataFlow/src/calcDataFlow.cpp:187) in function 'testPipelinedMiniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'addLoop' (calcDataFlow/src/calcDataFlow.cpp:197) in function 'testPipelinedMiniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'minLoop' (calcDataFlow/src/calcDataFlow.cpp:101) in function 'testPipelinedMiniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftMainLoop' (calcDataFlow/src/calcDataFlow.cpp:219) in function 'testPipelinedMiniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:221) in function 'testPipelinedMiniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftLastLoop' (calcDataFlow/src/calcDataFlow.cpp:227) in function 'testPipelinedMiniSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumLoop' (calcDataFlow/src/calcDataFlow.cpp:44) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumInnerLoop' (calcDataFlow/src/calcDataFlow.cpp:47) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (calcDataFlow/src/calcDataFlow.cpp:28) in function 'sad' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop2' (calcDataFlow/src/calcDataFlow.cpp:10) in function 'sad' completely.
+INFO: [XFORM 203-102] Partitioning array 'sum.V' (calcDataFlow/src/calcDataFlow.cpp:22) automatically.
+INFO: [XFORM 203-102] Partitioning array 't2Block.V' (calcDataFlow/src/calcDataFlow.cpp:183) automatically.
+INFO: [XFORM 203-102] Partitioning array 'out' automatically.
+INFO: [XFORM 203-102] Partitioning array 'miniSumTmp.V' automatically.
+INFO: [XFORM 203-102] Partitioning array 'localSumReg.V' in dimension 1 automatically.
+INFO: [XFORM 203-102] Partitioning array 'localSumReg.V.0' automatically.
+INFO: [XFORM 203-102] Partitioning array 'localSumReg.V.1' automatically.
+INFO: [XFORM 203-102] Partitioning array 'localSumReg.V.2' automatically.
+INFO: [XFORM 203-102] Partitioning array 'localSumReg.V.3' automatically.
+INFO: [XFORM 203-102] Partitioning array 'localSumReg.V.4' automatically.
+INFO: [XFORM 203-102] Partitioning array 'localSumReg.V.5' automatically.
+INFO: [XFORM 203-102] Partitioning array 'localSumReg.V.6' automatically.
+INFO: [XFORM 203-131] Reshaping array 'in2.V' (calcDataFlow/src/calcDataFlow.cpp:180) in dimension 2 completely.
+INFO: [XFORM 203-131] Reshaping array 'in1.V' (calcDataFlow/src/calcDataFlow.cpp:179) in dimension 2 completely.
+INFO: [XFORM 203-101] Partitioning array 't1Block.V' (calcDataFlow/src/calcDataFlow.cpp:183) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'input2.V' (calcDataFlow/src/calcDataFlow.cpp:45) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'input1.V' (calcDataFlow/src/calcDataFlow.cpp:45) in dimension 1 completely.
+INFO: [XFORM 203-11] Balancing expressions in function 'sad' (calcDataFlow/src/calcDataFlow.cpp:19)...10 expression(s) balanced.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:16 . Memory (MB): peak = 149.305 ; gain = 91.828
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:17 . Memory (MB): peak = 164.887 ; gain = 107.410
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'testPipelinedMiniSADSum' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'sad'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'sad'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 16.856 seconds; current allocated memory: 119.835 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.132 seconds; current allocated memory: 120.211 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'colSADSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'colSADSum'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.104 seconds; current allocated memory: 120.430 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.198 seconds; current allocated memory: 120.782 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'testPipelinedMiniSADSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'testPipelinedMiniSADSum'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 17, Final II = 6, Depth = 6.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.506 seconds; current allocated memory: 121.981 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.284 seconds; current allocated memory: 122.992 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'sad'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'sad'.
+INFO: [HLS 200-111]  Elapsed time: 0.454 seconds; current allocated memory: 123.967 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'colSADSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'colSADSum'.
+INFO: [HLS 200-111]  Elapsed time: 0.379 seconds; current allocated memory: 124.971 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'testPipelinedMiniSADSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'testPipelinedMiniSADSum/in1_V' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'testPipelinedMiniSADSum/in2_V' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'testPipelinedMiniSADSum/miniSumRet_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'testPipelinedMiniSADSum' to 'ap_ctrl_hs'.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniRetVal_V' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'shiftCnt' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_6' is power-on initialization.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'testPipelinedMiniSADSum'.
+INFO: [HLS 200-111]  Elapsed time: 0.632 seconds; current allocated memory: 126.739 MB.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:06 ; elapsed = 00:00:22 . Memory (MB): peak = 187.117 ; gain = 129.641
+INFO: [SYSC 207-301] Generating SystemC RTL for testPipelinedMiniSADSum.
+INFO: [VHDL 208-304] Generating VHDL RTL for testPipelinedMiniSADSum.
+INFO: [VLOG 209-307] Generating Verilog RTL for testPipelinedMiniSADSum.
+INFO: [HLS 200-112] Total elapsed time: 21.903 seconds; peak allocated memory: 126.739 MB.
