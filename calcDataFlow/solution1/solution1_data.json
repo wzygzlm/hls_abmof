@@ -25,19 +25,25 @@
       "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 0}} {}",
       "inline sadSum {} {}",
       "pipeline sadSum {} {}",
-      "pipeline testPipelinedMiniSADSum {{II 17}} {}",
       "array_reshape testPipelinedMiniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredin1} {complete positionBoolean0type} {dim 2}} {}",
       "array_reshape testPipelinedMiniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredin2} {complete positionBoolean0type} {dim 2}} {}",
       "interface testPipelinedMiniSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredin1}} {}",
       "interface testPipelinedMiniSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredin2}} {}",
-      "inline min {} {}"
+      "inline min {{off positionBoolean1}} {}",
+      "pipeline updateMiniSumTmp {} {}",
+      "array_partition updateMiniSumTmp {{partition positionBooleanCmd} {variable positionBooleanTextRequiredout} {complete positionBoolean0type} {dim 0}} {}",
+      "inline updateMiniSumTmp {{off positionBoolean1}} {}",
+      "pipeline minStream {} {}",
+      "pipeline min {} {}",
+      "array_reshape min {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredinArr} {complete positionBoolean0type} {dim 1}} {}",
+      "pipeline testPipelinedMiniSADSum\/Loop_1 {} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
-    "II": "6",
-    "Latency": "5",
+    "II": "x",
+    "Latency": "23",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -55,11 +61,13 @@
     "CSource": ["..\/src\/calcDataFlow.cpp"],
     "Vhdl": [
       "impl\/vhdl\/colSADSum.vhd",
+      "impl\/vhdl\/min.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/testPipelinedMiniSADSum.vhd"
     ],
     "Verilog": [
       "impl\/verilog\/colSADSum.v",
+      "impl\/verilog\/min.v",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/testPipelinedMiniSADSum.v"
     ],
@@ -205,15 +213,16 @@
       "dir": "out",
       "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "5"
+      "firstOutLatency": "6"
     }
   },
   "ModuleInfo": {
     "Hierarchy": {
       "ModuleName": "testPipelinedMiniSADSum",
-      "Instances": [{
+      "Instances": [
+        {
           "ModuleName": "colSADSum",
-          "InstanceName": "grp_colSADSum_fu_241",
+          "InstanceName": "grp_colSADSum_fu_270",
           "Instances": [
             {
               "ModuleName": "sad",
@@ -244,7 +253,12 @@
               "InstanceName": "grp_sad_fu_528"
             }
           ]
-        }]
+        },
+        {
+          "ModuleName": "min",
+          "InstanceName": "grp_min_fu_302"
+        }
+      ]
     },
     "Metrics": {
       "sad": {
@@ -289,24 +303,52 @@
           "DSP48E": "0"
         }
       },
-      "testPipelinedMiniSADSum": {
+      "min": {
         "Latency": {
-          "LatencyBest": "5",
-          "LatencyAvg": "5",
-          "LatencyWorst": "5",
-          "PipelineII": "6",
-          "PipelineDepth": "6",
+          "LatencyBest": "1",
+          "LatencyAvg": "1",
+          "LatencyWorst": "1",
+          "PipelineII": "1",
+          "PipelineDepth": "2",
           "PipelineType": "function"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.88"
+          "Estimate": "9.70"
         },
         "Area": {
-          "FF": "1575",
-          "LUT": "5242",
+          "FF": "64",
+          "LUT": "174",
           "BRAM_18K": "0",
+          "DSP48E": "0"
+        }
+      },
+      "testPipelinedMiniSADSum": {
+        "Latency": {
+          "LatencyBest": "23",
+          "LatencyAvg": "23",
+          "LatencyWorst": "23",
+          "PipelineII": "24",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.70"
+        },
+        "Loops": [{
+            "Name": "Loop_1",
+            "TripCount": "17",
+            "Latency": "21",
+            "PipelineII": "1",
+            "PipelineDepth": "6"
+          }],
+        "Area": {
+          "BRAM_18K": "0",
+          "FF": "1311",
+          "LUT": "4342",
           "DSP48E": "0"
         }
       }
@@ -314,7 +356,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-27 19:51:40 +0200",
+    "Time": "2018-09-28 17:45:02 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

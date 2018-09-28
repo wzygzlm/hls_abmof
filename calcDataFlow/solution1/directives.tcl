@@ -15,9 +15,15 @@ set_directive_array_reshape -type complete -dim 1 "blockSADSum" t2Block
 set_directive_array_partition -type complete -dim 0 "colSADSum" t1Col
 set_directive_inline "sadSum"
 set_directive_pipeline "sadSum"
-set_directive_pipeline -II 17 "testPipelinedMiniSADSum"
 set_directive_array_reshape -type complete -dim 2 "testPipelinedMiniSADSum" in1
 set_directive_array_reshape -type complete -dim 2 "testPipelinedMiniSADSum" in2
 set_directive_interface -mode ap_fifo "testPipelinedMiniSADSum" in1
 set_directive_interface -mode ap_fifo "testPipelinedMiniSADSum" in2
-set_directive_inline "min"
+set_directive_inline -off "min"
+set_directive_pipeline "updateMiniSumTmp"
+set_directive_array_partition -type complete -dim 0 "updateMiniSumTmp" out
+set_directive_inline -off "updateMiniSumTmp"
+set_directive_pipeline "minStream"
+set_directive_pipeline "min"
+set_directive_array_reshape -type complete -dim 1 "min" inArr
+set_directive_pipeline "testPipelinedMiniSADSum/Loop_1"

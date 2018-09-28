@@ -1,7 +1,8 @@
 #include "calcDataFlow.h"
 #include <iostream>
 //#include "hls_video.h"
-
+#include <hls_stream.h>
+using namespace hls;
 
 void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
 {
@@ -109,6 +110,33 @@ ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1])
 	return tmp;
 }
 
+// Function Description: return the minimum value of an array, based on hls:stream
+typedef ap_int<16> apInt16;
+typedef ap_int<112> apInt112;
+void minStream(stream<apInt112> &strm_in, stream<apInt16> &strm_out)
+{
+	apInt112 strmData = strm_in.read();
+	ap_int<16> inArr[2*SEARCH_DISTANCE + 1];
+
+	expandLoop: for(int8_t i = 0; i < 7; i++)
+	{
+		inArr[i] = strmData(16 * i + 15, 16  * i);
+	}
+
+	ap_int<16> tmp = inArr[0];
+	minLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE + 1; i++)
+	{
+		// Here is a bug. Use the if-else statement,
+		// cannot use the question mark statement.
+		// Otherwise a lot of muxs will be generated,
+		// DON'T KNOW WHY. SHOULD BE A BUG.
+		if(inArr[i] < tmp) tmp = inArr[i];
+//		tmp = (inArr[i] < tmp) ? inArr[i] : tmp;
+	}
+	strm_out.write(tmp);
+}
+
+
 static ap_int<16> miniRetVal = 0x7fff;
 static ap_int<16> miniRetValTmpIter;
 static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1];
@@ -176,13 +204,23 @@ void miniSADSum(pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 //	}
 }
 
+void updateMiniSumTmp(int16_t out[2*SEARCH_DISTANCE + 1])
+{
+	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
+	{
+		miniSumTmp[i] = miniSumTmp[i] + out[i] - localSumReg[0][i];
+//		miniRetVal = (miniRetValTmpIter < miniSumTmp[i]) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniSumTmp[i];
+//		else miniRetVal[i] = miniRetVal[i];
+	}
+}
+
 void testPipelinedMiniSADSum(pixel_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pixel_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		ap_int<16> *miniSumRet)
 {
 	pixel_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],  t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-	Loop_1: for(int8_t i = 0; i < 3; i++)
+	Loop_1: for(int8_t i = 0; i < 17; i++)
 	{
 		for(int8_t j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
 		{
@@ -192,6 +230,8 @@ void testPipelinedMiniSADSum(pixel_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK
 
 		int16_t out[2*SEARCH_DISTANCE + 1];
 		colSADSum(t1Block, t2Block, out);
+
+//		updateMiniSumTmp(out);
 
 		addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
 		{

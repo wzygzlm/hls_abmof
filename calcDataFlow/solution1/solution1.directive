@@ -63,11 +63,6 @@
             <pragma name="PIPELINE"/>
         </directive>
         <directive functionName="testPipelinedMiniSADSum" label="" functionLabel="">
-            <pragma name="PIPELINE">
-                <option name="II" value="17"/>
-            </pragma>
-        </directive>
-        <directive functionName="testPipelinedMiniSADSum" label="" functionLabel="">
             <pragma name="ARRAY_RESHAPE">
                 <option name="variable" value="in1" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
@@ -94,7 +89,40 @@
             </pragma>
         </directive>
         <directive functionName="min" label="" functionLabel="">
-            <pragma name="INLINE"/>
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="updateMiniSumTmp" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="updateMiniSumTmp" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="out" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="updateMiniSumTmp" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="minStream" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="min" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="min" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="inArr" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="testPipelinedMiniSADSum" label="Loop_1" functionLabel="">
+            <pragma name="PIPELINE"/>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
