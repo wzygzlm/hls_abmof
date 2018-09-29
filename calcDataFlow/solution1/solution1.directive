@@ -76,18 +76,6 @@
                 <option name="dim" value="2"/>
             </pragma>
         </directive>
-        <directive functionName="testPipelinedMiniSADSum" label="" functionLabel="">
-            <pragma name="INTERFACE">
-                <option name="ap_fifo" value="" positionalBoolean="mode"/>
-                <option name="port" value="in1" positionalBoolean="4"/>
-            </pragma>
-        </directive>
-        <directive functionName="testPipelinedMiniSADSum" label="" functionLabel="">
-            <pragma name="INTERFACE">
-                <option name="ap_fifo" value="" positionalBoolean="mode"/>
-                <option name="port" value="in2" positionalBoolean="4"/>
-            </pragma>
-        </directive>
         <directive functionName="min" label="" functionLabel="">
             <pragma name="INLINE">
                 <option name="off" value="" positionalBoolean="1"/>
@@ -122,6 +110,33 @@
             </pragma>
         </directive>
         <directive functionName="testPipelinedMiniSADSum" label="Loop_1" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="t1Block" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="t2Block" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="localSumReg" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniSADSum" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="testPipelinedMiniSADSum" label="Loop_2" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
     </sourceFile>

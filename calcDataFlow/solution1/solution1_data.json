@@ -27,8 +27,6 @@
       "pipeline sadSum {} {}",
       "array_reshape testPipelinedMiniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredin1} {complete positionBoolean0type} {dim 2}} {}",
       "array_reshape testPipelinedMiniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredin2} {complete positionBoolean0type} {dim 2}} {}",
-      "interface testPipelinedMiniSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredin1}} {}",
-      "interface testPipelinedMiniSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredin2}} {}",
       "inline min {{off positionBoolean1}} {}",
       "pipeline updateMiniSumTmp {} {}",
       "array_partition updateMiniSumTmp {{partition positionBooleanCmd} {variable positionBooleanTextRequiredout} {complete positionBoolean0type} {dim 0}} {}",
@@ -36,14 +34,19 @@
       "pipeline minStream {} {}",
       "pipeline min {} {}",
       "array_reshape min {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredinArr} {complete positionBoolean0type} {dim 1}} {}",
-      "pipeline testPipelinedMiniSADSum\/Loop_1 {} {}"
+      "pipeline testPipelinedMiniSADSum\/Loop_1 {} {}",
+      "array_reshape miniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 1}} {}",
+      "array_reshape miniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 1}} {}",
+      "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredlocalSumReg} {complete positionBoolean0type} {dim 0}} {}",
+      "pipeline miniSADSum {} {}",
+      "pipeline testPipelinedMiniSADSum\/Loop_2 {} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "23",
+    "Latency": "57",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -62,12 +65,14 @@
     "Vhdl": [
       "impl\/vhdl\/colSADSum.vhd",
       "impl\/vhdl\/min.vhd",
+      "impl\/vhdl\/miniSADSum.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/testPipelinedMiniSADSum.vhd"
     ],
     "Verilog": [
       "impl\/verilog\/colSADSum.v",
       "impl\/verilog\/min.v",
+      "impl\/verilog\/miniSADSum.v",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/testPipelinedMiniSADSum.v"
     ],
@@ -99,33 +104,43 @@
       "polarity": "ACTIVE_HIGH",
       "ctype": {"RST": {"Type": "bool"}}
     },
-    "in1_V": {
-      "type": "ap_fifo",
-      "fifo_width": "68",
-      "fifo_type": "read",
-      "ctype": {
-        "RD_DATA": {
-          "Type": "integer signed",
-          "Width": "4",
-          "Bits": "68"
-        },
-        "EMPTY_N": {"Type": "bool"},
-        "RD_EN": {"Type": "bool"}
-      }
+    "in1_V_address0": {
+      "type": "data",
+      "dir": "out",
+      "width": "5",
+      "ctype": {"DATA": {
+          "Type": "null",
+          "Width": "5"
+        }}
     },
-    "in2_V": {
-      "type": "ap_fifo",
-      "fifo_width": "68",
-      "fifo_type": "read",
-      "ctype": {
-        "RD_DATA": {
+    "in1_V_q0": {
+      "type": "data",
+      "dir": "in",
+      "width": "68",
+      "ctype": {"DATA": {
           "Type": "integer signed",
           "Width": "4",
           "Bits": "68"
-        },
-        "EMPTY_N": {"Type": "bool"},
-        "RD_EN": {"Type": "bool"}
-      }
+        }}
+    },
+    "in2_V_address0": {
+      "type": "data",
+      "dir": "out",
+      "width": "5",
+      "ctype": {"DATA": {
+          "Type": "null",
+          "Width": "5"
+        }}
+    },
+    "in2_V_q0": {
+      "type": "data",
+      "dir": "in",
+      "width": "68",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4",
+          "Bits": "68"
+        }}
     },
     "miniSumRet_V": {
       "type": "data",
@@ -162,29 +177,29 @@
       "dir": "out",
       "width": "1"
     },
-    "in1_V_dout": {
-      "dir": "in",
-      "width": "68"
+    "in1_V_address0": {
+      "dir": "out",
+      "width": "5"
     },
-    "in1_V_empty_n": {
-      "dir": "in",
-      "width": "1"
-    },
-    "in1_V_read": {
+    "in1_V_ce0": {
       "dir": "out",
       "width": "1"
     },
-    "in2_V_dout": {
+    "in1_V_q0": {
       "dir": "in",
       "width": "68"
     },
-    "in2_V_empty_n": {
-      "dir": "in",
-      "width": "1"
+    "in2_V_address0": {
+      "dir": "out",
+      "width": "5"
     },
-    "in2_V_read": {
+    "in2_V_ce0": {
       "dir": "out",
       "width": "1"
+    },
+    "in2_V_q0": {
+      "dir": "in",
+      "width": "68"
     },
     "miniSumRet_V": {
       "dir": "out",
@@ -200,13 +215,21 @@
       "interfaceRef": "ap_ctrl",
       "dir": "out"
     },
-    "in1_V": {
-      "interfaceRef": "in1_V",
-      "dir": "in"
+    "in1_V_q0": {
+      "interfaceRef": "in1_V_q0",
+      "dir": "in",
+      "dataWidth": "68",
+      "busTypeRef": "ap_memory",
+      "arraySize": "17",
+      "handshakeRef": "ap_none"
     },
-    "in2_V": {
-      "interfaceRef": "in2_V",
-      "dir": "in"
+    "in2_V_q0": {
+      "interfaceRef": "in2_V_q0",
+      "dir": "in",
+      "dataWidth": "68",
+      "busTypeRef": "ap_memory",
+      "arraySize": "17",
+      "handshakeRef": "ap_none"
     },
     "miniSumRet_V": {
       "interfaceRef": "miniSumRet_V",
@@ -219,46 +242,50 @@
   "ModuleInfo": {
     "Hierarchy": {
       "ModuleName": "testPipelinedMiniSADSum",
-      "Instances": [
-        {
-          "ModuleName": "colSADSum",
-          "InstanceName": "grp_colSADSum_fu_270",
+      "Instances": [{
+          "ModuleName": "miniSADSum",
+          "InstanceName": "grp_miniSADSum_fu_207",
           "Instances": [
             {
-              "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_240"
+              "ModuleName": "colSADSum",
+              "InstanceName": "grp_colSADSum_fu_220",
+              "Instances": [
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_240"
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_288"
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_336"
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_384"
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_432"
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_480"
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_528"
+                }
+              ]
             },
             {
-              "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_288"
-            },
-            {
-              "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_336"
-            },
-            {
-              "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_384"
-            },
-            {
-              "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_432"
-            },
-            {
-              "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_480"
-            },
-            {
-              "ModuleName": "sad",
-              "InstanceName": "grp_sad_fu_528"
+              "ModuleName": "min",
+              "InstanceName": "grp_min_fu_252"
             }
           ]
-        },
-        {
-          "ModuleName": "min",
-          "InstanceName": "grp_min_fu_302"
-        }
-      ]
+        }]
     },
     "Metrics": {
       "sad": {
@@ -324,12 +351,33 @@
           "DSP48E": "0"
         }
       },
+      "miniSADSum": {
+        "Latency": {
+          "LatencyBest": "4",
+          "LatencyAvg": "4",
+          "LatencyWorst": "4",
+          "PipelineII": "1",
+          "PipelineDepth": "5",
+          "PipelineType": "function"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.70"
+        },
+        "Area": {
+          "FF": "1237",
+          "LUT": "4214",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
+        }
+      },
       "testPipelinedMiniSADSum": {
         "Latency": {
-          "LatencyBest": "23",
-          "LatencyAvg": "23",
-          "LatencyWorst": "23",
-          "PipelineII": "24",
+          "LatencyBest": "57",
+          "LatencyAvg": "57",
+          "LatencyWorst": "57",
+          "PipelineII": "58",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -339,16 +387,16 @@
           "Estimate": "9.70"
         },
         "Loops": [{
-            "Name": "Loop_1",
-            "TripCount": "17",
-            "Latency": "21",
+            "Name": "mainLoop_Loop_2",
+            "TripCount": "51",
+            "Latency": "55",
             "PipelineII": "1",
             "PipelineDepth": "6"
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "1311",
-          "LUT": "4342",
+          "FF": "1323",
+          "LUT": "4364",
           "DSP48E": "0"
         }
       }
@@ -356,7 +404,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-09-28 17:45:02 +0200",
+    "Time": "2018-09-29 17:36:57 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
