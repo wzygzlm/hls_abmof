@@ -5,6 +5,7 @@
 static col_pix_t glPLSlices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdx, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
 
+#define INPUT_COLS 4
 
 void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
 {
@@ -203,8 +204,8 @@ void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 
 
 
-void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-		pix_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+void miniSADSum(pix_t t1Block[INPUT_COLS][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pix_t t2Block[INPUT_COLS][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		ap_int<16> *miniSumRet)
 {
 	// Set the initial value as the max integer, cannot be 0x7fff, DON'T KNOW WHY.
@@ -217,14 +218,14 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 *
 	pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE], in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 	int16_t out[2*SEARCH_DISTANCE + 1];
 
-	for (int8_t i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+	miniSADSumLoop:for (int8_t i = 0; i < INPUT_COLS; i++)
 	{
 		readColLoop:for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
 		{
 			in1[j] = t1Block[i][j];
 			in2[j] = t2Block[i][j];
 		}
-	}
+
 
 	colSADSum(in1, in2, out);
 
@@ -269,14 +270,15 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 *
 //	{
 		*miniSumRet = miniRetVal;
 //	}
+	}
 }
 
 
 void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
-		pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-		pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE])
+		pix_t refCol[INPUT_COLS][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pix_t tagCol[INPUT_COLS][BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
-	for(int8_t j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+	for(int8_t j = 0; j < INPUT_COLS; j++)
 	{
 		two_cols_pix_t refColData;
 		// concatenate two columns together
@@ -301,8 +303,8 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_
 
 void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, ap_int<16> *miniSumRet)
 {
-	pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-	pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	pix_t in1[INPUT_COLS][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	pix_t in2[INPUT_COLS][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
 	readBlockCols(x, y , idx + 1, idx + 2, in1, in2);
 	miniSADSum(in1, in2, miniSumRet);

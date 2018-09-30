@@ -4,13 +4,14 @@
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
 open_project topParseEvents
-set_top miniSADSum
+set_top readBlockColsAndMiniSADSum
 add_files topParseEvents/src/abmofAccel.h
 add_files topParseEvents/src/abmofAccel.cpp
 open_solution "solution1"
 set_part {xc7z007sclg225-1} -tool vivado
 create_clock -period 10 -name default
 set_clock_uncertainty 0.1
+config_dataflow -default_channel fifo -fifo_depth 0
 source "./topParseEvents/solution1/directives.tcl"
 #csim_design
 csynth_design
