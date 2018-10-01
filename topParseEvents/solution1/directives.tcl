@@ -45,16 +45,15 @@ set_directive_array_reshape -type complete -dim 1 "readBlockCols" refCol
 set_directive_array_reshape -type complete -dim 1 "readBlockCols" tagCol
 set_directive_array_reshape -type complete -dim 1 "miniSADSum" t1Block
 set_directive_array_reshape -type complete -dim 1 "miniSADSum" t2Block
-set_directive_loop_tripcount -min 1 -max 100 "getXandY/getXandYLoop"
+set_directive_loop_tripcount -min 1 -max 10000 "getXandY/getXandYLoop"
 set_directive_inline -off "getXandY"
 set_directive_pipeline "getXandY/getXandYLoop"
 set_directive_inline -off "miniSADSumWrapper"
 set_directive_pipeline "miniSADSumWrapper/innerLoop_1"
 set_directive_pipeline "parseEvents/outputLoop"
 set_directive_loop_tripcount -min 1 -max 10000 "parseEvents/outputLoop"
-set_directive_loop_tripcount -min 1 -max 100 "miniSADSumWrapper/wrapperLoop"
+set_directive_loop_tripcount -min 1 -max 10000 "miniSADSumWrapper/wrapperLoop"
 set_directive_interface -mode ap_fifo -depth 100 "parseEvents" dataStream
 set_directive_dataflow "parseEvents/DFRegion"
 set_directive_stream -depth 300 -dim 1 "parseEvents/DFRegion" xStream
 set_directive_stream -depth 300 -dim 1 "parseEvents/DFRegion" yStream
-set_directive_dependence -variable shiftCnt -type inter -dependent false "miniSADSumWrapper"

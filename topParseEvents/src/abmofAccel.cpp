@@ -356,7 +356,7 @@ void miniSADSumWrapper(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStr
 		ap_uint<8> xRd;
 		ap_uint<8> yRd;
 		ap_int<16> miniRet;
-		innerLoop_1: for (int8_t k = 0; k < 2; k++)
+		innerLoop_1: for (int8_t k = 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE; k++)
 		{
 			if(k == 0)
 			{
@@ -367,15 +367,14 @@ void miniSADSumWrapper(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStr
 				shiftCnt = 0;
 			}
 			readBlockColsAndMiniSADSum(xRd + k, yRd, idx + 1, &miniRet);
-			*miniSumRet = miniRet;
 		}
+		*miniSumRet++ = miniRet;
 	}
 }
 
 
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, ap_int<16> *eventSlice)
 {
-
 	DFRegion:
 	{
 		hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
