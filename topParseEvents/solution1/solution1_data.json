@@ -28,8 +28,7 @@
       "unroll readPixFromTwoCols\/readTwoColsWiderBitsLoop {} {}",
       "inline readPixFromTwoCols {} {}",
       "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {complete positionBoolean0type} {dim 1}} {}",
-      "interface parseEvents {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequireddata}} {}",
-      "interface parseEvents {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredeventSlice}} {}",
+      "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 100} {port positionBooleanTextRequiredeventSlice}} {}",
       "pipeline readBlockCols {} {}",
       "inline sadSum {{off positionBoolean1}} {}",
       "unroll sadSum\/calOFLoop2 {{factor 1}} {}",
@@ -52,21 +51,25 @@
       "pipeline min {} {}",
       "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredlocalSumReg} {complete positionBoolean0type} {dim 0}} {}",
       "array_partition min {{partition positionBooleanCmd} {variable positionBooleanTextRequiredinArr} {complete positionBoolean0type} {dim 0}} {}",
-      "inline miniSADSum {{off positionBoolean1}} {}",
+      "inline miniSADSum {} {}",
       "inline readBlockColsAndMiniSADSum {} {}",
       "array_reshape readBlockCols {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredrefCol} {complete positionBoolean0type} {dim 1}} {}",
       "array_reshape readBlockCols {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredtagCol} {complete positionBoolean0type} {dim 1}} {}",
       "array_reshape miniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 1}} {}",
       "array_reshape miniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 1}} {}",
-      "loop_tripcount getXandY\/getXandYLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
+      "loop_tripcount getXandY\/getXandYLoop {{tripcount positionBooleanCmd} {min 1} {max 100}} {}",
       "inline getXandY {{off positionBoolean1}} {}",
       "pipeline getXandY\/getXandYLoop {} {}",
-      "inline miniSADSumWrapper {} {}",
+      "inline miniSADSumWrapper {{off positionBoolean1}} {}",
       "pipeline miniSADSumWrapper\/innerLoop_1 {} {}",
       "pipeline parseEvents\/outputLoop {} {}",
       "loop_tripcount parseEvents\/outputLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
-      "loop_tripcount miniSADSumWrapper\/wrapperLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
-      "dataflow parseEvents\/DFRegion {} {}"
+      "loop_tripcount miniSADSumWrapper\/wrapperLoop {{tripcount positionBooleanCmd} {min 1} {max 100}} {}",
+      "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 100} {port positionBooleanTextRequireddataStream}} {}",
+      "dataflow parseEvents\/DFRegion {} {}",
+      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredxStream} {depth 300} {dim 1}} {}",
+      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredyStream} {depth 300} {dim 1}} {}",
+      "dependence miniSADSumWrapper {{variable shiftCnt} {inter positionBoolean0type} {false positionBoolean0dependent}} {}"
     ]
   },
   "ClockInfo": {
@@ -74,7 +77,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "35",
+    "Latency": "14",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -91,28 +94,29 @@
   "Files": {
     "CSource": ["..\/src\/abmofAccel.cpp"],
     "Vhdl": [
-      "impl\/vhdl\/Block_proc66.vhd",
-      "impl\/vhdl\/Block_proc66_glPLcud.vhd",
+      "impl\/vhdl\/Block_proc.vhd",
       "impl\/vhdl\/colSADSum.vhd",
+      "impl\/vhdl\/fifo_w8_d300_A.vhd",
+      "impl\/vhdl\/fifo_w32_d2_A.vhd",
       "impl\/vhdl\/getXandY.vhd",
       "impl\/vhdl\/min.vhd",
-      "impl\/vhdl\/miniSADSum.vhd",
-      "impl\/vhdl\/parseEvents_mux_4bkb.vhd",
+      "impl\/vhdl\/miniSADSumWrapper.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/sadSum.vhd",
+      "impl\/vhdl\/start_for_miniSADbkb.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
-      "impl\/verilog\/Block_proc66.v",
-      "impl\/verilog\/Block_proc66_glPLcud.v",
-      "impl\/verilog\/Block_proc66_glPLcud_ram.dat",
+      "impl\/verilog\/Block_proc.v",
       "impl\/verilog\/colSADSum.v",
+      "impl\/verilog\/fifo_w8_d300_A.v",
+      "impl\/verilog\/fifo_w32_d2_A.v",
       "impl\/verilog\/getXandY.v",
       "impl\/verilog\/min.v",
-      "impl\/verilog\/miniSADSum.v",
-      "impl\/verilog\/parseEvents_mux_4bkb.v",
+      "impl\/verilog\/miniSADSumWrapper.v",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/sadSum.v",
+      "impl\/verilog\/start_for_miniSADbkb.v",
       "impl\/verilog\/parseEvents.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -143,7 +147,7 @@
       "polarity": "ACTIVE_HIGH",
       "ctype": {"RST": {"Type": "bool"}}
     },
-    "data": {
+    "dataStream": {
       "type": "ap_fifo",
       "fifo_width": "64",
       "fifo_type": "read",
@@ -156,14 +160,14 @@
         "RD_EN": {"Type": "bool"}
       }
     },
-    "eventSlice": {
+    "eventSlice_V": {
       "type": "ap_fifo",
-      "fifo_width": "32",
+      "fifo_width": "16",
       "fifo_type": "write",
       "ctype": {
         "WR_DATA": {
           "Type": "integer signed",
-          "Width": "32"
+          "Width": "16"
         },
         "FULL_N": {"Type": "bool"},
         "WR_EN": {"Type": "bool"}
@@ -180,15 +184,15 @@
     }
   },
   "RtlPorts": {
-    "data_dout": {
+    "dataStream_dout": {
       "dir": "in",
       "width": "64"
     },
-    "data_empty_n": {
+    "dataStream_empty_n": {
       "dir": "in",
       "width": "1"
     },
-    "data_read": {
+    "dataStream_read": {
       "dir": "out",
       "width": "1"
     },
@@ -196,15 +200,15 @@
       "dir": "in",
       "width": "32"
     },
-    "eventSlice_din": {
+    "eventSlice_V_din": {
       "dir": "out",
-      "width": "32"
+      "width": "16"
     },
-    "eventSlice_full_n": {
+    "eventSlice_V_full_n": {
       "dir": "in",
       "width": "1"
     },
-    "eventSlice_write": {
+    "eventSlice_V_write": {
       "dir": "out",
       "width": "1"
     },
@@ -234,8 +238,8 @@
     }
   },
   "CPorts": {
-    "data": {
-      "interfaceRef": "data",
+    "dataStream": {
+      "interfaceRef": "dataStream",
       "dir": "in"
     },
     "eventsArraySize": {
@@ -244,10 +248,10 @@
       "dataWidth": "32",
       "handshakeRef": "ap_none"
     },
-    "eventSlice": {
-      "interfaceRef": "eventSlice",
+    "eventSlice_V": {
+      "interfaceRef": "eventSlice_V",
       "dir": "out",
-      "firstOutLatency": "6"
+      "firstOutLatency": "10"
     },
     "ap_ctrl": {
       "interfaceRef": "ap_ctrl",
@@ -257,118 +261,139 @@
   "ModuleInfo": {
     "Hierarchy": {
       "ModuleName": "parseEvents",
-      "Instances": [{
-          "ModuleName": "Block_proc66",
-          "InstanceName": "Block_proc66_U0",
+      "Instances": [
+        {
+          "ModuleName": "miniSADSumWrapper",
+          "InstanceName": "miniSADSumWrapper_U0",
           "Instances": [
             {
-              "ModuleName": "miniSADSum",
-              "InstanceName": "grp_miniSADSum_fu_404",
+              "ModuleName": "colSADSum",
+              "InstanceName": "grp_colSADSum_fu_289",
               "Instances": [
                 {
-                  "ModuleName": "colSADSum",
-                  "InstanceName": "grp_colSADSum_fu_208",
-                  "Instances": [
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_240",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_190"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_288",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_190"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_336",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_190"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_384",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_190"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_432",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_190"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_480",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_190"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_528",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_190"
-                        }]
-                    }
-                  ]
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_240",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_190"
+                    }]
                 },
                 {
-                  "ModuleName": "min",
-                  "InstanceName": "grp_min_fu_240"
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_288",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_190"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_336",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_190"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_384",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_190"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_432",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_190"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_480",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_190"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_528",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_190"
+                    }]
                 }
               ]
             },
             {
-              "ModuleName": "getXandY",
-              "InstanceName": "grp_getXandY_fu_526"
+              "ModuleName": "min",
+              "InstanceName": "grp_min_fu_321"
             }
           ]
-        }]
+        },
+        {
+          "ModuleName": "getXandY",
+          "InstanceName": "getXandY_U0"
+        },
+        {
+          "ModuleName": "Block_proc",
+          "InstanceName": "Block_proc_U0"
+        }
+      ]
     },
     "Metrics": {
-      "getXandY": {
+      "Block_proc": {
         "Latency": {
-          "LatencyBest": "4",
-          "LatencyAvg": "10002",
-          "LatencyWorst": "20002",
-          "PipelineIIMin": "4",
-          "PipelineIIMax": "20002",
-          "PipelineII": "4 ~ 20002",
+          "LatencyBest": "0",
+          "LatencyAvg": "0",
+          "LatencyWorst": "0",
+          "PipelineII": "0",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "10.20"
+          "Estimate": "3.63"
+        },
+        "Area": {
+          "FF": "4",
+          "LUT": "30",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
+        }
+      },
+      "getXandY": {
+        "Latency": {
+          "LatencyBest": "3",
+          "LatencyAvg": "52",
+          "LatencyWorst": "102",
+          "PipelineIIMin": "3",
+          "PipelineIIMax": "102",
+          "PipelineII": "3 ~ 102",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "7.27"
         },
         "Loops": [{
             "Name": "getXandYLoop",
             "TripCount": "",
-            "LatencyMin": "2",
-            "LatencyMax": "20000",
-            "Latency": "2 ~ 20000",
-            "PipelineII": "2",
-            "PipelineDepth": "3"
+            "LatencyMin": "1",
+            "LatencyMax": "100",
+            "Latency": "1 ~ 100",
+            "PipelineII": "1",
+            "PipelineDepth": "2"
           }],
         "Area": {
-          "FF": "150",
-          "LUT": "289",
+          "FF": "71",
+          "LUT": "174",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -457,14 +482,48 @@
           "DSP48E": "0"
         }
       },
-      "miniSADSum": {
+      "miniSADSumWrapper": {
         "Latency": {
-          "LatencyBest": "7",
-          "LatencyAvg": "7",
-          "LatencyWorst": "7",
-          "PipelineII": "1",
-          "PipelineDepth": "8",
-          "PipelineType": "function"
+          "LatencyBest": "12",
+          "LatencyAvg": "110",
+          "LatencyWorst": "210",
+          "PipelineIIMin": "12",
+          "PipelineIIMax": "210",
+          "PipelineII": "12 ~ 210",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.70"
+        },
+        "Loops": [{
+            "Name": "wrapperLoop_innerLoop_1",
+            "TripCount": "",
+            "LatencyMin": "10",
+            "LatencyMax": "208",
+            "Latency": "10 ~ 208",
+            "PipelineII": "1",
+            "PipelineDepth": "10"
+          }],
+        "Area": {
+          "BRAM_18K": "0",
+          "FF": "2557",
+          "LUT": "4564",
+          "DSP48E": "0"
+        }
+      },
+      "parseEvents": {
+        "Latency": {
+          "LatencyBest": "14",
+          "LatencyAvg": "112",
+          "LatencyWorst": "212",
+          "PipelineIIMin": "13",
+          "PipelineIIMax": "211",
+          "PipelineII": "13 ~ 211",
+          "PipelineDepth": "",
+          "PipelineType": "dataflow"
         },
         "Timing": {
           "Target": "10.00",
@@ -472,75 +531,9 @@
           "Estimate": "9.70"
         },
         "Area": {
-          "FF": "2410",
-          "LUT": "4074",
-          "BRAM_18K": "0",
-          "DSP48E": "0"
-        }
-      },
-      "Block_proc66": {
-        "Latency": {
-          "LatencyBest": "35",
-          "LatencyAvg": "100015",
-          "LatencyWorst": "200015",
-          "PipelineIIMin": "35",
-          "PipelineIIMax": "200015",
-          "PipelineII": "35 ~ 200015",
-          "PipelineDepth": "",
-          "PipelineType": "none"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "10.20"
-        },
-        "Loops": [
-          {
-            "Name": "wrapperLoop_innerLoop_1",
-            "TripCount": "",
-            "LatencyMin": "24",
-            "LatencyMax": "170007",
-            "Latency": "24 ~ 170007",
-            "PipelineII": "1",
-            "PipelineDepth": "9"
-          },
-          {
-            "Name": "outputLoop",
-            "TripCount": "",
-            "LatencyMin": "1",
-            "LatencyMax": "10000",
-            "Latency": "1 ~ 10000",
-            "PipelineII": "1",
-            "PipelineDepth": "2"
-          }
-        ],
-        "Area": {
-          "BRAM_18K": "60",
-          "FF": "2822",
-          "LUT": "5238",
-          "DSP48E": "0"
-        }
-      },
-      "parseEvents": {
-        "Latency": {
-          "LatencyBest": "35",
-          "LatencyAvg": "100015",
-          "LatencyWorst": "200015",
-          "PipelineIIMin": "36",
-          "PipelineIIMax": "200016",
-          "PipelineII": "36 ~ 200016",
-          "PipelineDepth": "",
-          "PipelineType": "dataflow"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "10.20"
-        },
-        "Area": {
-          "BRAM_18K": "60",
-          "FF": "2822",
-          "LUT": "5238",
+          "BRAM_18K": "2",
+          "FF": "2720",
+          "LUT": "5036",
           "DSP48E": "0"
         }
       }
@@ -548,7 +541,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-01 16:33:16 +0200",
+    "Time": "2018-10-01 21:31:52 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

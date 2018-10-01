@@ -56,12 +56,7 @@
         <directive functionName="parseEvents" label="" functionLabel="">
             <pragma name="INTERFACE">
                 <option name="ap_fifo" value="" positionalBoolean="mode"/>
-                <option name="port" value="data" positionalBoolean="4"/>
-            </pragma>
-        </directive>
-        <directive functionName="parseEvents" label="" functionLabel="">
-            <pragma name="INTERFACE">
-                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="depth" value="100"/>
                 <option name="port" value="eventSlice" positionalBoolean="4"/>
             </pragma>
         </directive>
@@ -188,9 +183,7 @@
             </pragma>
         </directive>
         <directive functionName="miniSADSum" label="" functionLabel="">
-            <pragma name="INLINE">
-                <option name="off" value="" positionalBoolean="1"/>
-            </pragma>
+            <pragma name="INLINE"/>
         </directive>
         <directive functionName="readBlockColsAndMiniSADSum" label="" functionLabel="">
             <pragma name="INLINE"/>
@@ -226,7 +219,7 @@
         <directive functionName="getXandY" label="getXandYLoop" functionLabel="">
             <pragma name="LOOP_TRIPCOUNT">
                 <option name="min" value="1"/>
-                <option name="max" value="10000"/>
+                <option name="max" value="100"/>
             </pragma>
         </directive>
         <directive functionName="getXandY" label="" functionLabel="">
@@ -238,7 +231,9 @@
             <pragma name="PIPELINE"/>
         </directive>
         <directive functionName="miniSADSumWrapper" label="" functionLabel="">
-            <pragma name="INLINE"/>
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
         </directive>
         <directive functionName="miniSADSumWrapper" label="innerLoop_1" functionLabel="">
             <pragma name="PIPELINE"/>
@@ -255,11 +250,39 @@
         <directive functionName="miniSADSumWrapper" label="wrapperLoop" functionLabel="">
             <pragma name="LOOP_TRIPCOUNT">
                 <option name="min" value="1"/>
-                <option name="max" value="10000"/>
+                <option name="max" value="100"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="depth" value="100"/>
+                <option name="port" value="dataStream" positionalBoolean="4"/>
             </pragma>
         </directive>
         <directive functionName="parseEvents" label="DFRegion" functionLabel="">
             <pragma name="DATAFLOW"/>
+        </directive>
+        <directive functionName="parseEvents" label="DFRegion" functionLabel="">
+            <pragma name="STREAM">
+                <option name="variable" value="xStream" positionalBoolean="4"/>
+                <option name="depth" value="300"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="DFRegion" functionLabel="">
+            <pragma name="STREAM">
+                <option name="variable" value="yStream" positionalBoolean="4"/>
+                <option name="depth" value="300"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniSADSumWrapper" label="" functionLabel="">
+            <pragma name="DEPENDENCE">
+                <option name="variable" value="shiftCnt"/>
+                <option name="inter" value="" positionalBoolean="type"/>
+                <option name="false" value="" positionalBoolean="dependent"/>
+            </pragma>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>

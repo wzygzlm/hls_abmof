@@ -1,6 +1,7 @@
 #include <iostream>
 #include "ap_int.h"
 #include "abmofAccel.h"
+#include "hls_stream.h"
 
 static col_pix_t glPLSlices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdx, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
@@ -208,6 +209,8 @@ static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1];
 static ap_int<16> localSumReg[2*SEARCH_DISTANCE + 1][2*SEARCH_DISTANCE + 1];
 static int16_t shiftCnt = 0;
 
+static int32_t eventIterSize;
+
 void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		ap_int<16> *miniSumRet)
@@ -308,19 +311,21 @@ void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, ap_i
 }
 
 
-void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> * x, ap_uint<8> * y)
+void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream)
+//void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> *xStream, ap_uint<8> *yStream)
 {
 	// Every event always consists of 2 int32_t which is 8bytes.
-	getXandYLoop:for(int32_t i = 0; i < eventsArraySize; i++)
+	getXandYLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
 		uint64_t tmp = data[i];
-		*x = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
-		*y = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
+		ap_uint<8> xWr, yWr;
+		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
+		yWr = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
 		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
 		int64_t ts = tmp >> 32;
 
-		writePix(*x, *y, glPLActiveSliceIdx);
-		resetPix(*x, *y, glPLActiveSliceIdx + 3);
+//		writePix(xWr, yWr, glPLActiveSliceIdx);
+//		resetPix(xWr, yWr, glPLActiveSliceIdx + 3);
 
 //		shiftCnt = 0;
 //		miniRetVal = 0x7fff;
@@ -335,36 +340,57 @@ void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> * x, ap
 //				localSumReg[i][j] = 0;
 //			}
 //		}
+
+		xStream << xWr;
+		yStream << yWr;
+//		*xStream++ = xWr;
+//		*yStream++ = yWr;
 	}
 }
 
-void miniSADSumWrapper(ap_uint<8> *x, ap_uint<8> *y, sliceIdx_t idx, int32_t eventsArraySize, ap_int<16> *miniSumRet)
+void miniSADSumWrapper(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, sliceIdx_t idx, ap_int<16> *miniSumRet)
+//void miniSADSumWrapper(ap_uint<8> *xStream, ap_uint<8> *yStream, sliceIdx_t idx, int32_t eventsArraySize, ap_int<16> *miniSumRet)
 {
-	ap_uint<8> xRd = *x;
-	ap_uint<8> yRd = *y;
-	wrapperLoop:for(int32_t i = 0; i < eventsArraySize; i++)
+	wrapperLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
-		innerLoop_1: for (int8_t k = 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE; k++)
+		ap_uint<8> xRd;
+		ap_uint<8> yRd;
+		ap_int<16> miniRet;
+		innerLoop_1: for (int8_t k = 0; k < 2; k++)
 		{
-			readBlockColsAndMiniSADSum(xRd + k, yRd, idx + 1, miniSumRet);
+			if(k == 0)
+			{
+				xRd = xStream.read();
+				yRd = yStream.read();
+//				xRd = *xStream++;
+//				yRd = *yStream++;
+				shiftCnt = 0;
+			}
+			readBlockColsAndMiniSADSum(xRd + k, yRd, idx + 1, &miniRet);
+			*miniSumRet = miniRet;
 		}
 	}
 }
 
-void parseEvents(const uint64_t * data, int32_t eventsArraySize, int32_t *eventSlice)
+
+void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, ap_int<16> *eventSlice)
 {
-	ap_uint<8> x, y;
-	ap_int<16> miniSumRet;
-	glPLActiveSliceIdx++;
 
 	DFRegion:
 	{
-		getXandY(data, eventsArraySize, &x, &y);
-		miniSADSumWrapper(&x, &y, glPLActiveSliceIdx, eventsArraySize, &miniSumRet);
+		hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
+		hls::stream<int32_t>  iterSizeStream("eventArraySize");
+		ap_int<16> *miniSumRet;
 
-		outputLoop: for(int32_t i = 0; i < eventsArraySize; i++)
-		{
-			*eventSlice++ = x + (y << 8) + (miniSumRet << 16);
-		}
+		glPLActiveSliceIdx++;
+		eventIterSize = eventsArraySize;
+
+		getXandY(dataStream, xStream, yStream);
+		miniSADSumWrapper(xStream, yStream, glPLActiveSliceIdx, (ap_int<16> *)eventSlice);
+
+//		outputLoop: for(int32_t i = 0; i < eventsArraySize; i++)
+//		{
+//			*eventSlice++ = *miniSumRet++;
+//		}
 	}
 }
