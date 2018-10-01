@@ -12,17 +12,13 @@ set_directive_inline "readPixFromCol"
 set_directive_inline "writePixToCol"
 set_directive_inline "writePix"
 set_directive_inline -off "readPix"
-set_directive_inline -off "readBlockCols"
+set_directive_inline "readBlockCols"
 set_directive_unroll "readPixFromTwoCols/readTwoColsWiderBitsLoop"
 set_directive_inline "readPixFromTwoCols"
 set_directive_array_partition -type complete -dim 1 "writePix" glPLSlices
-set_directive_pipeline "parseEvents/loop_1"
 set_directive_interface -mode ap_fifo "parseEvents" data
 set_directive_interface -mode ap_fifo "parseEvents" eventSlice
-set_directive_loop_tripcount -min 1 -max 10000 "parseEvents/loop_1"
 set_directive_pipeline "readBlockCols"
-set_directive_inline "topHW"
-set_directive_pipeline "topHW/readBlockLoop"
 set_directive_inline -off "sadSum"
 set_directive_unroll -factor 1 "sadSum/calOFLoop2"
 set_directive_inline -off "sad"
@@ -44,13 +40,18 @@ set_directive_inline -off "min"
 set_directive_pipeline "min"
 set_directive_array_partition -type complete -dim 0 "miniSADSum" localSumReg
 set_directive_array_partition -type complete -dim 0 "min" inArr
-set_directive_inline "miniSADSum"
-set_directive_inline -off "readBlockColsAndMiniSADSum"
-set_directive_pipeline -enable_flush -rewind "topHW/innerLoop_1"
-set_directive_pipeline "topHW"
-set_directive_array_reshape -type complete -dim 2 "readBlockCols" refCol
-set_directive_array_reshape -type complete -dim 2 "readBlockCols" tagCol
-set_directive_array_reshape -type complete -dim 2 "miniSADSum" t1Block
-set_directive_array_reshape -type complete -dim 2 "miniSADSum" t2Block
-set_directive_dataflow "readBlockColsAndMiniSADSum"
-set_directive_pipeline "miniSADSum/miniSADSumLoop"
+set_directive_inline -off "miniSADSum"
+set_directive_inline "readBlockColsAndMiniSADSum"
+set_directive_array_reshape -type complete -dim 1 "readBlockCols" refCol
+set_directive_array_reshape -type complete -dim 1 "readBlockCols" tagCol
+set_directive_array_reshape -type complete -dim 1 "miniSADSum" t1Block
+set_directive_array_reshape -type complete -dim 1 "miniSADSum" t2Block
+set_directive_loop_tripcount -min 1 -max 10000 "getXandY/getXandYLoop"
+set_directive_inline -off "getXandY"
+set_directive_pipeline "getXandY/getXandYLoop"
+set_directive_inline "miniSADSumWrapper"
+set_directive_pipeline "miniSADSumWrapper/innerLoop_1"
+set_directive_pipeline "parseEvents/outputLoop"
+set_directive_loop_tripcount -min 1 -max 10000 "parseEvents/outputLoop"
+set_directive_loop_tripcount -min 1 -max 10000 "miniSADSumWrapper/wrapperLoop"
+set_directive_dataflow "parseEvents/DFRegion"

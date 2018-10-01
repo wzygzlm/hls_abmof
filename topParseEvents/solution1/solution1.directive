@@ -38,9 +38,7 @@
             </pragma>
         </directive>
         <directive functionName="readBlockCols" label="" functionLabel="">
-            <pragma name="INLINE">
-                <option name="off" value="" positionalBoolean="1"/>
-            </pragma>
+            <pragma name="INLINE"/>
         </directive>
         <directive functionName="readPixFromTwoCols" label="readTwoColsWiderBitsLoop" functionLabel="">
             <pragma name="UNROLL"/>
@@ -55,9 +53,6 @@
                 <option name="dim" value="1"/>
             </pragma>
         </directive>
-        <directive functionName="parseEvents" label="loop_1" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
         <directive functionName="parseEvents" label="" functionLabel="">
             <pragma name="INTERFACE">
                 <option name="ap_fifo" value="" positionalBoolean="mode"/>
@@ -70,19 +65,7 @@
                 <option name="port" value="eventSlice" positionalBoolean="4"/>
             </pragma>
         </directive>
-        <directive functionName="parseEvents" label="loop_1" functionLabel="">
-            <pragma name="LOOP_TRIPCOUNT">
-                <option name="min" value="1"/>
-                <option name="max" value="10000"/>
-            </pragma>
-        </directive>
         <directive functionName="readBlockCols" label="" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
-        <directive functionName="topHW" label="" functionLabel="">
-            <pragma name="INLINE"/>
-        </directive>
-        <directive functionName="topHW" label="readBlockLoop" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
         <directive functionName="sadSum" label="" functionLabel="">
@@ -205,55 +188,78 @@
             </pragma>
         </directive>
         <directive functionName="miniSADSum" label="" functionLabel="">
-            <pragma name="INLINE"/>
-        </directive>
-        <directive functionName="readBlockColsAndMiniSADSum" label="" functionLabel="">
             <pragma name="INLINE">
                 <option name="off" value="" positionalBoolean="1"/>
             </pragma>
         </directive>
-        <directive functionName="topHW" label="innerLoop_1" functionLabel="">
-            <pragma name="PIPELINE">
-                <option name="enable_flush" value="" positionalBoolean="1"/>
-                <option name="rewind" value="" positionalBoolean="1"/>
-            </pragma>
-        </directive>
-        <directive functionName="topHW" label="" functionLabel="">
-            <pragma name="PIPELINE"/>
+        <directive functionName="readBlockColsAndMiniSADSum" label="" functionLabel="">
+            <pragma name="INLINE"/>
         </directive>
         <directive functionName="readBlockCols" label="" functionLabel="">
             <pragma name="ARRAY_RESHAPE">
                 <option name="variable" value="refCol" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
-                <option name="dim" value="2"/>
+                <option name="dim" value="1"/>
             </pragma>
         </directive>
         <directive functionName="readBlockCols" label="" functionLabel="">
             <pragma name="ARRAY_RESHAPE">
                 <option name="variable" value="tagCol" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
-                <option name="dim" value="2"/>
+                <option name="dim" value="1"/>
             </pragma>
         </directive>
         <directive functionName="miniSADSum" label="" functionLabel="">
             <pragma name="ARRAY_RESHAPE">
                 <option name="variable" value="t1Block" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
-                <option name="dim" value="2"/>
+                <option name="dim" value="1"/>
             </pragma>
         </directive>
         <directive functionName="miniSADSum" label="" functionLabel="">
             <pragma name="ARRAY_RESHAPE">
                 <option name="variable" value="t2Block" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
-                <option name="dim" value="2"/>
+                <option name="dim" value="1"/>
             </pragma>
         </directive>
-        <directive functionName="readBlockColsAndMiniSADSum" label="" functionLabel="">
-            <pragma name="DATAFLOW"/>
+        <directive functionName="getXandY" label="getXandYLoop" functionLabel="">
+            <pragma name="LOOP_TRIPCOUNT">
+                <option name="min" value="1"/>
+                <option name="max" value="10000"/>
+            </pragma>
         </directive>
-        <directive functionName="miniSADSum" label="miniSADSumLoop" functionLabel="">
+        <directive functionName="getXandY" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="getXandY" label="getXandYLoop" functionLabel="">
             <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="miniSADSumWrapper" label="" functionLabel="">
+            <pragma name="INLINE"/>
+        </directive>
+        <directive functionName="miniSADSumWrapper" label="innerLoop_1" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="outputLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="outputLoop" functionLabel="">
+            <pragma name="LOOP_TRIPCOUNT">
+                <option name="min" value="1"/>
+                <option name="max" value="10000"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniSADSumWrapper" label="wrapperLoop" functionLabel="">
+            <pragma name="LOOP_TRIPCOUNT">
+                <option name="min" value="1"/>
+                <option name="max" value="10000"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="DFRegion" functionLabel="">
+            <pragma name="DATAFLOW"/>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
