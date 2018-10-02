@@ -9,14 +9,6 @@
         <directive functionName="writePix" label="" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
-        <directive functionName="writePix" label="" functionLabel="">
-            <pragma name="DEPENDENCE">
-                <option name="variable" value="glPLSlices"/>
-                <option name="inter" value="" positionalBoolean="type"/>
-                <option name="RAW" value="" positionalBoolean="direction"/>
-                <option name="false" value="" positionalBoolean="dependent"/>
-            </pragma>
-        </directive>
         <directive functionName="readPixFromCol" label="readWiderBitsLoop" functionLabel="">
             <pragma name="UNROLL"/>
         </directive>
@@ -319,6 +311,21 @@
         </directive>
         <directive functionName="rwSlices" label="rwSlicesLoop" functionLabel="">
             <pragma name="LOOP_MERGE"/>
+        </directive>
+        <directive functionName="writePix" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="glPLSlices" positionalBoolean="4"/>
+                <option name="cyclic" value="" positionalBoolean="type"/>
+                <option name="factor" value="2"/>
+                <option name="dim" value="3"/>
+            </pragma>
+        </directive>
+        <directive functionName="writePix" label="" functionLabel="">
+            <pragma name="DEPENDENCE">
+                <option name="variable" value="glPLSlices"/>
+                <option name="inter" value="" positionalBoolean="type"/>
+                <option name="false" value="" positionalBoolean="dependent"/>
+            </pragma>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>

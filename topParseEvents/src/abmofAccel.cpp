@@ -354,13 +354,14 @@ typedef ap_int<BLOCK_COL_PIXELS> apIntBlockCol_t;
 void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, sliceIdx_t idx,
 			  hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut)
 {
-	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
+	rwSlicesLoop:for(int32_t i = 0; i < 10; i++)
 	{
 		ap_uint<8> xRd;
 		ap_uint<8> yRd;
 
 		xRd = xStream.read();
 		yRd = yStream.read();
+		xRd = (xRd >> 1) * 2;
 
 		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
 		{
@@ -371,7 +372,11 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-			readBlockCols(xRd + xOffSet, yRd , idx + 1, idx + 2, out1, out2);
+			resetPix(xRd + xOffSet, yRd , (sliceIdx_t)(idx + 3));
+
+//			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
+
+			readBlockCols(xRd + xOffSet, 0 , idx + 1, idx + 2, out1, out2);
 
 			apIntBlockCol_t refBlockCol;
 			apIntBlockCol_t tagBlockCol;
@@ -385,10 +390,7 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 			refStreamOut << refBlockCol;
 			tagStreamOut << tagBlockCol;
 		}
-
-			writePix(xRd, yRd, idx);
-	//		resetPix(xRd, yRd, (sliceIdx_t)(idx + 3));
-
+		writePix(xRd, yRd, idx);
 	}
 
 }

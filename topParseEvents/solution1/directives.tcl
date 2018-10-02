@@ -5,7 +5,6 @@
 ############################################################
 set_directive_resource -core RAM_T2P_BRAM "writePix" glPLSlices
 set_directive_pipeline "writePix"
-set_directive_dependence -variable glPLSlices -type inter -direction RAW -dependent false "writePix"
 set_directive_unroll "readPixFromCol/readWiderBitsLoop"
 set_directive_unroll "writePixToCol/writeWiderBitsLoop"
 set_directive_inline "readPixFromCol"
@@ -66,3 +65,5 @@ set_directive_stream -depth 2 -dim 1 "parseEvents/DFRegion" tagStreamIn
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" refStream
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" tagStreamIn
 set_directive_loop_merge "rwSlices/rwSlicesLoop"
+set_directive_array_partition -type cyclic -factor 2 -dim 3 "writePix" glPLSlices
+set_directive_dependence -variable glPLSlices -type inter -dependent false "writePix"
