@@ -8,7 +8,7 @@ using namespace std;
 #include "abmofAccel.h"
 #include "time.h"
 
-#define TEST_TIMES 100
+#define TEST_TIMES 20
 int main(int argc, char *argv[])
 {
 	int testTimes = TEST_TIMES;

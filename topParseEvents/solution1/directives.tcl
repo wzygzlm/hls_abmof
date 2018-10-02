@@ -65,4 +65,4 @@ set_directive_stream -depth 2 -dim 1 "parseEvents/DFRegion" refStream
 set_directive_stream -depth 2 -dim 1 "parseEvents/DFRegion" tagStreamIn
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" refStream
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" tagStreamIn
-set_directive_pipeline "rwSlices/rwSlicesLoop"
+set_directive_loop_merge "rwSlices/rwSlicesLoop"

@@ -77,7 +77,7 @@
       "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {depth 2} {dim 1}} {}",
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredrefStream} {core FIFO_SRL}} {}",
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {core FIFO_SRL}} {}",
-      "pipeline rwSlices\/rwSlicesLoop {} {}"
+      "loop_merge rwSlices\/rwSlicesLoop {{merge positionBooleanCmd}} {}"
     ]
   },
   "ClockInfo": {
@@ -85,7 +85,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "33",
+    "Latency": "48",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -272,7 +272,7 @@
     "eventSlice_V": {
       "interfaceRef": "eventSlice_V",
       "dir": "out",
-      "firstOutLatency": "9"
+      "firstOutLatency": "10"
     },
     "ap_ctrl": {
       "interfaceRef": "ap_ctrl",
@@ -284,16 +284,12 @@
       "ModuleName": "parseEvents",
       "Instances": [
         {
-          "ModuleName": "rwSlices",
-          "InstanceName": "rwSlices_U0"
-        },
-        {
           "ModuleName": "miniSADSumWrapper",
           "InstanceName": "miniSADSumWrapper_U0",
           "Instances": [
             {
               "ModuleName": "colSADSum",
-              "InstanceName": "grp_colSADSum_fu_301",
+              "InstanceName": "grp_colSADSum_fu_338",
               "Instances": [
                 {
                   "ModuleName": "sad",
@@ -355,9 +351,13 @@
             },
             {
               "ModuleName": "min",
-              "InstanceName": "grp_min_fu_333"
+              "InstanceName": "grp_min_fu_370"
             }
           ]
+        },
+        {
+          "ModuleName": "rwSlices",
+          "InstanceName": "rwSlices_U0"
         },
         {
           "ModuleName": "getXandY",
@@ -426,11 +426,11 @@
       "rwSlices": {
         "Latency": {
           "LatencyBest": "23",
-          "LatencyAvg": "90005",
-          "LatencyWorst": "180005",
+          "LatencyAvg": "110001",
+          "LatencyWorst": "220001",
           "PipelineIIMin": "23",
-          "PipelineIIMax": "180005",
-          "PipelineII": "23 ~ 180005",
+          "PipelineIIMax": "220001",
+          "PipelineII": "23 ~ 220001",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -442,16 +442,23 @@
         "Loops": [{
             "Name": "rwSlicesLoop",
             "TripCount": "",
-            "LatencyMin": "21",
-            "LatencyMax": "180003",
-            "Latency": "21 ~ 180003",
-            "PipelineII": "18",
-            "PipelineDepth": "22"
+            "LatencyMin": "22",
+            "LatencyMax": "220000",
+            "Latency": "22 ~ 220000",
+            "PipelineII": "",
+            "PipelineDepth": "22",
+            "Loops": [{
+                "Name": "rwSlicesInnerLoop",
+                "TripCount": "17",
+                "Latency": "17",
+                "PipelineII": "1",
+                "PipelineDepth": "2"
+              }]
           }],
         "Area": {
           "BRAM_18K": "60",
-          "FF": "3943",
-          "LUT": "1843",
+          "FF": "408",
+          "LUT": "771",
           "DSP48E": "0"
         }
       },
@@ -471,7 +478,7 @@
         },
         "Area": {
           "FF": "16",
-          "LUT": "341",
+          "LUT": "309",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -492,7 +499,7 @@
         },
         "Area": {
           "FF": "159",
-          "LUT": "506",
+          "LUT": "474",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -513,7 +520,7 @@
         },
         "Area": {
           "FF": "1282",
-          "LUT": "3605",
+          "LUT": "3381",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -541,12 +548,12 @@
       },
       "miniSADSumWrapper": {
         "Latency": {
-          "LatencyBest": "26",
-          "LatencyAvg": "85009",
-          "LatencyWorst": "170009",
-          "PipelineIIMin": "26",
-          "PipelineIIMax": "170009",
-          "PipelineII": "26 ~ 170009",
+          "LatencyBest": "43",
+          "LatencyAvg": "170009",
+          "LatencyWorst": "340009",
+          "PipelineIIMin": "43",
+          "PipelineIIMax": "340009",
+          "PipelineII": "43 ~ 340009",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -558,27 +565,27 @@
         "Loops": [{
             "Name": "wrapperLoop_innerLoop_1",
             "TripCount": "",
-            "LatencyMin": "24",
-            "LatencyMax": "170007",
-            "Latency": "24 ~ 170007",
-            "PipelineII": "1",
-            "PipelineDepth": "9"
+            "LatencyMin": "41",
+            "LatencyMax": "340007",
+            "Latency": "41 ~ 340007",
+            "PipelineII": "2",
+            "PipelineDepth": "10"
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "2678",
-          "LUT": "4415",
+          "FF": "3038",
+          "LUT": "4569",
           "DSP48E": "0"
         }
       },
       "parseEvents": {
         "Latency": {
-          "LatencyBest": "33",
-          "LatencyAvg": "90007",
-          "LatencyWorst": "180007",
-          "PipelineIIMin": "27",
-          "PipelineIIMax": "180006",
-          "PipelineII": "27 ~ 180006",
+          "LatencyBest": "48",
+          "LatencyAvg": "170014",
+          "LatencyWorst": "340014",
+          "PipelineIIMin": "44",
+          "PipelineIIMax": "340010",
+          "PipelineII": "44 ~ 340010",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
         },
@@ -589,8 +596,8 @@
         },
         "Area": {
           "BRAM_18K": "60",
-          "FF": "6742",
-          "LUT": "6887",
+          "FF": "3567",
+          "LUT": "5969",
           "DSP48E": "0"
         }
       }
@@ -598,7 +605,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-02 20:02:24 +0200",
+    "Time": "2018-10-02 21:33:56 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

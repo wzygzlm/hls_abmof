@@ -215,19 +215,26 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE], in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 	int16_t out[2*SEARCH_DISTANCE + 1];
 
-
 	readColLoop:for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
 	{
 		in1[j] = t1Block[j];
 		in2[j] = t2Block[j];
 	}
 
+	miniRetVal = (shiftCnt == 0) ? ap_int<16>(0x7fff) : miniRetVal;
+
+	initMiniSumLoop : for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
+	{
+		miniSumTmp[i] = (shiftCnt == 0) ? ap_int<16>(0) : miniSumTmp[i];
+	}
 
 	colSADSum(in1, in2, out);
 
 	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
-		miniSumTmp[i] = miniSumTmp[i] + out[i] - localSumReg[0][i];
+		ap_int<16> tmpMiniSumTmp = miniSumTmp[i] + out[i];
+		ap_int<16> tmpMinius = tmpMiniSumTmp - localSumReg[0][i];
+		miniSumTmp[i] = (shiftCnt >= 2 * SEARCH_DISTANCE) ? tmpMinius : tmpMiniSumTmp;
 //		miniRetVal = (miniRetValTmpIter < miniSumTmp[i]) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniSumTmp[i];
 //		else miniRetVal[i] = miniRetVal[i];
 	}
@@ -355,11 +362,12 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 		xRd = xStream.read();
 		yRd = yStream.read();
 
-		writePix(xRd, yRd, idx);
-//		resetPix(xRd, yRd, (sliceIdx_t)(idx + 3));
-
 		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
 		{
+
+//			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
+//			yRd = (xOffSet == 0)? (ap_uint<8>)(yStream.read()): yRd;
+
 			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
@@ -377,6 +385,10 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 			refStreamOut << refBlockCol;
 			tagStreamOut << tagBlockCol;
 		}
+
+			writePix(xRd, yRd, idx);
+	//		resetPix(xRd, yRd, (sliceIdx_t)(idx + 3));
+
 	}
 
 }
@@ -406,7 +418,6 @@ void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<ap
 
 			miniSADSum(in1, in2, k, &miniRet);
 		}
-
 		*miniSumRet++ = miniRet;
 	}
 }

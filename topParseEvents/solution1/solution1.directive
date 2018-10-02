@@ -318,7 +318,7 @@
             </pragma>
         </directive>
         <directive functionName="rwSlices" label="rwSlicesLoop" functionLabel="">
-            <pragma name="PIPELINE"/>
+            <pragma name="LOOP_MERGE"/>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
