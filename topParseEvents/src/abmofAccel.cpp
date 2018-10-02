@@ -180,11 +180,6 @@ void resetPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 	glPLSlices[sliceIdx][x][y/COMBINED_PIXELS] = 0;
 }
 
-pix_t readPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
-{
-	return readPixFromCol(glPLSlices[sliceIdx][x][y/COMBINED_PIXELS], y%COMBINED_PIXELS);
-}
-
 void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 {
 	col_pix_t tmpData;
@@ -221,11 +216,11 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	int16_t out[2*SEARCH_DISTANCE + 1];
 
 
-		readColLoop:for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
-		{
-			in1[j] = t1Block[j];
-			in2[j] = t2Block[j];
-		}
+	readColLoop:for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+	{
+		in1[j] = t1Block[j];
+		in2[j] = t2Block[j];
+	}
 
 
 	colSADSum(in1, in2, out);
@@ -264,8 +259,6 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	{
 		localSumReg[2*SEARCH_DISTANCE][j] = out[j];
 	}
-
-	shiftCnt++;
 
 //	outputRetLoop:for (int j = 0; j <= 2 * SEARCH_DISTANCE; j++)
 //	{
@@ -314,6 +307,7 @@ void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int1
 void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream)
 //void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> *xStream, ap_uint<8> *yStream)
 {
+
 	// Every event always consists of 2 int32_t which is 8bytes.
 	getXandYLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
@@ -348,26 +342,71 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 	}
 }
 
-void miniSADSumWrapper(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, sliceIdx_t idx, ap_int<16> *miniSumRet)
+#define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
+typedef ap_int<BLOCK_COL_PIXELS> apIntBlockCol_t;
+void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, sliceIdx_t idx,
+			  hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut)
+{
+	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
+	{
+		ap_uint<8> xRd;
+		ap_uint<8> yRd;
+
+		xRd = xStream.read();
+		yRd = yStream.read();
+
+		writePix(xRd, yRd, idx);
+//		resetPix(xRd, yRd, (sliceIdx_t)(idx + 3));
+
+		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
+		{
+			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+			readBlockCols(xRd + xOffSet, yRd , idx + 1, idx + 2, out1, out2);
+
+			apIntBlockCol_t refBlockCol;
+			apIntBlockCol_t tagBlockCol;
+
+			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+			{
+				refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
+				tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
+			}
+
+			refStreamOut << refBlockCol;
+			tagStreamOut << tagBlockCol;
+		}
+	}
+
+}
+
+void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<apIntBlockCol_t> &tagStreamIn, ap_int<16> *miniSumRet)
 //void miniSADSumWrapper(ap_uint<8> *xStream, ap_uint<8> *yStream, sliceIdx_t idx, int32_t eventsArraySize, ap_int<16> *miniSumRet)
 {
 	wrapperLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
-		ap_uint<8> xRd;
-		ap_uint<8> yRd;
 		ap_int<16> miniRet;
 		innerLoop_1: for (int8_t k = 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE; k++)
 		{
-			if(k == 0)
+			pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+			pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+			apIntBlockCol_t refBlockCol = refStreamIn.read();
+			apIntBlockCol_t tagBlockCol = tagStreamIn.read();
+
+			// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
+			// to calculate the range function. However, unroll it completely will make all this operations
+			// are only wires connection and will not consume any resources.
+			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
 			{
-				xRd = xStream.read();
-				yRd = yStream.read();
-//				xRd = *xStream++;
-//				yRd = *yStream++;
-//				shiftCnt = 0;
+				in1[l] = refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+				in2[l] = tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
 			}
-			readBlockColsAndMiniSADSum(xRd + k, yRd, idx + 1, k, &miniRet);
+
+			miniSADSum(in1, in2, k, &miniRet);
 		}
+
 		*miniSumRet++ = miniRet;
 	}
 }
@@ -378,14 +417,16 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, ap_int<16> *eve
 	DFRegion:
 	{
 		hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
-		hls::stream<int32_t>  iterSizeStream("eventArraySize");
+		hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
 		ap_int<16> *miniSumRet;
 
 		glPLActiveSliceIdx++;
+
 		eventIterSize = eventsArraySize;
 
 		getXandY(dataStream, xStream, yStream);
-		miniSADSumWrapper(xStream, yStream, glPLActiveSliceIdx, (ap_int<16> *)eventSlice);
+		rwSlices(xStream, yStream, glPLActiveSliceIdx, refStream, tagStreamIn);
+		miniSADSumWrapper(refStream, tagStreamIn, (ap_int<16> *)eventSlice);
 
 //		outputLoop: for(int32_t i = 0; i < eventsArraySize; i++)
 //		{

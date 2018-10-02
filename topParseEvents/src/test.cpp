@@ -8,7 +8,7 @@ using namespace std;
 #include "abmofAccel.h"
 #include "time.h"
 
-#define TEST_TIMES 2
+#define TEST_TIMES 100
 int main(int argc, char *argv[])
 {
 	int testTimes = TEST_TIMES;
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 			cout << "y : " << y << endl;
 			cout << "idx : " << idx << endl;
 
-			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + 1;
+			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (1 << 1);
 		}
 
 		parseEvents(data, eventsArraySize, eventSlice);
