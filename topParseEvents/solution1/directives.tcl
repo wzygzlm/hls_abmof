@@ -55,5 +55,5 @@ set_directive_loop_tripcount -min 1 -max 10000 "parseEvents/outputLoop"
 set_directive_loop_tripcount -min 1 -max 10000 "miniSADSumWrapper/wrapperLoop"
 set_directive_interface -mode ap_fifo -depth 100 "parseEvents" dataStream
 set_directive_dataflow "parseEvents/DFRegion"
-set_directive_stream -depth 300 -dim 1 "parseEvents/DFRegion" xStream
-set_directive_stream -depth 300 -dim 1 "parseEvents/DFRegion" yStream
+set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" yStream
+set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" xStream

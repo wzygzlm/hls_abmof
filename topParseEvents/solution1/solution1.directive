@@ -264,17 +264,15 @@
             <pragma name="DATAFLOW"/>
         </directive>
         <directive functionName="parseEvents" label="DFRegion" functionLabel="">
-            <pragma name="STREAM">
-                <option name="variable" value="xStream" positionalBoolean="4"/>
-                <option name="depth" value="300"/>
-                <option name="dim" value="1"/>
+            <pragma name="RESOURCE">
+                <option name="variable" value="yStream" positionalBoolean="4"/>
+                <option name="core" value="FIFO_SRL"/>
             </pragma>
         </directive>
         <directive functionName="parseEvents" label="DFRegion" functionLabel="">
-            <pragma name="STREAM">
-                <option name="variable" value="yStream" positionalBoolean="4"/>
-                <option name="depth" value="300"/>
-                <option name="dim" value="1"/>
+            <pragma name="RESOURCE">
+                <option name="variable" value="xStream" positionalBoolean="4"/>
+                <option name="core" value="FIFO_SRL"/>
             </pragma>
         </directive>
     </sourceFile>

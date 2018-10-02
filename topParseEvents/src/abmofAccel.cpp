@@ -207,12 +207,12 @@ void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 static ap_int<16> miniRetVal = 0x7fff;
 static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1];
 static ap_int<16> localSumReg[2*SEARCH_DISTANCE + 1][2*SEARCH_DISTANCE + 1];
-static int16_t shiftCnt = 0;
 
 static int32_t eventIterSize;
 
 void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		int16_t shiftCnt,
 		ap_int<16> *miniSumRet)
 {
 	ap_int<16> miniRetValTmpIter;
@@ -301,13 +301,13 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_
 
 }
 
-void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, ap_int<16> *miniSumRet)
+void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int16_t shiftCnt, ap_int<16> *miniSumRet)
 {
 	pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 	pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
 	readBlockCols(x, y , idx + 1, idx + 2, in1, in2);
-	miniSADSum(in1, in2, miniSumRet);
+	miniSADSum(in1, in2, shiftCnt, miniSumRet);
 }
 
 
@@ -364,9 +364,9 @@ void miniSADSumWrapper(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStr
 				yRd = yStream.read();
 //				xRd = *xStream++;
 //				yRd = *yStream++;
-				shiftCnt = 0;
+//				shiftCnt = 0;
 			}
-			readBlockColsAndMiniSADSum(xRd + k, yRd, idx + 1, &miniRet);
+			readBlockColsAndMiniSADSum(xRd + k, yRd, idx + 1, k, &miniRet);
 		}
 		*miniSumRet++ = miniRet;
 	}
