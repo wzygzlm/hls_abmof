@@ -4,9 +4,9 @@
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
 open_project topParseEvents
-set_top rwSlices
-add_files topParseEvents/src/abmofAccel.cpp
+set_top miniSADSumWrapper
 add_files topParseEvents/src/abmofAccel.h
+add_files topParseEvents/src/abmofAccel.cpp
 add_files -tb topParseEvents/src/test.cpp
 open_solution "solution1"
 set_part {xc7z007sclg225-1} -tool vivado

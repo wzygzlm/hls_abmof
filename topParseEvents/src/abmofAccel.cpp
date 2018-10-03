@@ -350,47 +350,63 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 }
 
 #define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
+#define PIXS_PER_COL SLICE_HEIGHT/COMBINED_PIXELS
 typedef ap_int<BLOCK_COL_PIXELS> apIntBlockCol_t;
 void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, sliceIdx_t idx,
 			  hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut)
 {
-	rwSlicesLoop:for(int32_t i = 0; i < 10; i++)
+	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
 		ap_uint<8> xRd;
 		ap_uint<8> yRd;
 
-		xRd = xStream.read();
-		yRd = yStream.read();
-		xRd = (xRd >> 1) * 2;
-
-		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
+		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; xOffSet++)
 		{
-
 //			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
 //			yRd = (xOffSet == 0)? (ap_uint<8>)(yStream.read()): yRd;
-
-			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-
-			resetPix(xRd + xOffSet, yRd , (sliceIdx_t)(idx + 3));
-
-//			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
-
-			readBlockCols(xRd + xOffSet, 0 , idx + 1, idx + 2, out1, out2);
-
-			apIntBlockCol_t refBlockCol;
-			apIntBlockCol_t tagBlockCol;
-
-			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+			if (xOffSet == 0)
 			{
-				refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
-				tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
-			}
+				xRd = xStream.read();
+				yRd = yStream.read();
 
-			refStreamOut << refBlockCol;
-			tagStreamOut << tagBlockCol;
+				writePix(xRd, yRd, idx);
+
+				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 64, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 96, (sliceIdx_t)(idx + 3));
+
+//				resetPix(i, 128, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 160, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 192, (sliceIdx_t)(idx + 3));
+//				resetPix(i, 224, (sliceIdx_t)(idx + 3));
+			}
+			else
+			{
+				pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+				pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+//				resetPix(xRd + xOffSet, yRd , (sliceIdx_t)(idx + 3));
+
+	//			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
+
+				readBlockCols(xRd + xOffSet - 1, yRd , idx + 1, idx + 2, out1, out2);
+
+				apIntBlockCol_t refBlockCol;
+				apIntBlockCol_t tagBlockCol;
+
+				for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+				{
+					refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
+					tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
+				}
+
+				refStreamOut << refBlockCol;
+				tagStreamOut << tagBlockCol;
+			}
 		}
-		writePix(xRd, yRd, idx);
+
+
 	}
 
 }

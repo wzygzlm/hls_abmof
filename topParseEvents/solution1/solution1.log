@@ -14,88 +14,65 @@ INFO: [HLS 200-10] Analyzing design file 'topParseEvents/src/abmofAccel.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
 WARNING: [HLS 200-40] Directive 'PIPELINE' cannot be applied: Label 'outputLoop' does not exist in function 'parseEvents'.
 WARNING: [HLS 200-40] Directive 'LOOP_TRIPCOUNT' cannot be applied: Label 'outputLoop' does not exist in function 'parseEvents'.
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:03 ; elapsed = 00:00:47 . Memory (MB): peak = 106.883 ; gain = 48.906
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:03 ; elapsed = 00:01:59 . Memory (MB): peak = 106.918 ; gain = 48.941
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:15 . Memory (MB): peak = 106.793 ; gain = 48.504
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 106.828 ; gain = 48.539
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [XFORM 203-603] Inlining function 'resetPix' into 'rwSlices' (topParseEvents/src/abmofAccel.cpp:375).
-INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:298).
-INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:297).
-INFO: [XFORM 203-603] Inlining function 'readBlockCols' into 'rwSlices' (topParseEvents/src/abmofAccel.cpp:379).
-INFO: [XFORM 203-603] Inlining function 'readPixFromCol' into 'writePix' (topParseEvents/src/abmofAccel.cpp:192).
-INFO: [XFORM 203-603] Inlining function 'writePixToCol' into 'writePix' (topParseEvents/src/abmofAccel.cpp:196).
-INFO: [XFORM 203-603] Inlining function 'writePix' into 'rwSlices' (topParseEvents/src/abmofAccel.cpp:393).
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:05 ; elapsed = 00:02:12 . Memory (MB): peak = 131.652 ; gain = 73.676
+INFO: [XFORM 203-603] Inlining function 'miniSADSum' into 'miniSADSumWrapper' (topParseEvents/src/abmofAccel.cpp:437).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:18 . Memory (MB): peak = 131.035 ; gain = 72.746
 INFO: [HLS 200-10] Checking synthesizability ...
-WARNING: [SYNCHK 200-23] topParseEvents/src/abmofAccel.cpp:158: variable-indexed range selection may cause suboptimal QoR.
+WARNING: [SYNCHK 200-23] topParseEvents/src/abmofAccel.cpp:433: variable-indexed range selection may cause suboptimal QoR.
 INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:06 ; elapsed = 00:02:13 . Memory (MB): peak = 142.566 ; gain = 84.590
-INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'rwSlicesInnerLoop' (topParseEvents/src/abmofAccel.cpp:367) in function 'rwSlices' for pipelining.
-WARNING: [XFORM 203-561] Updating loop upper bound from 10000 to 10 for loop 'rwSlicesLoop' (topParseEvents/src/abmofAccel.cpp:359:1) in function 'rwSlices'.
-WARNING: [XFORM 203-561] Updating loop lower bound from 1 to 10 for loop 'rwSlicesLoop' (topParseEvents/src/abmofAccel.cpp:359:1) in function 'rwSlices'.
-INFO: [XFORM 203-501] Unrolling loop 'readRefLoop' (topParseEvents/src/abmofAccel.cpp:296) in function 'rwSlices' completely.
-INFO: [XFORM 203-501] Unrolling loop 'readTwoColsWiderBitsLoop' (topParseEvents/src/abmofAccel.cpp:151) in function 'rwSlices' completely.
-INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1.2' (topParseEvents/src/abmofAccel.cpp:384) in function 'rwSlices' completely.
-INFO: [XFORM 203-501] Unrolling loop 'readWiderBitsLoop' (topParseEvents/src/abmofAccel.cpp:127) in function 'rwSlices' completely.
-INFO: [XFORM 203-501] Unrolling loop 'writeWiderBitsLoop' (topParseEvents/src/abmofAccel.cpp:167) in function 'rwSlices' completely.
-INFO: [XFORM 203-131] Reshaping array 'out2'  in dimension 1 completely.
-INFO: [XFORM 203-131] Reshaping array 'out1'  in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'glPLSlices.V'  in dimension 1 completely.
-INFO: [XFORM 203-101] Partitioning array 'glPLSlices.V'  in dimension 3 with a cyclic factor 2.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:07 ; elapsed = 00:02:16 . Memory (MB): peak = 177.273 ; gain = 119.297
-                         Cannot flatten a loop nest 'rwSlicesLoop' (topParseEvents/src/abmofAccel.cpp:358:3) in function 'rwSlices' : 
-
-the outer loop is not a perfect loop because there is nontrivial logic before entering the inner loop.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.2.0'.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.1.0'.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.0.0'.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.3.1'.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.0.1'.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.3.0'.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.2.1'.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.1.1'.
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:08 ; elapsed = 00:02:17 . Memory (MB): peak = 179.676 ; gain = 121.699
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:18 . Memory (MB): peak = 140.891 ; gain = 82.602
+INFO: [XFORM 203-502] Unrolling small iteration loop 'Loop-1' (topParseEvents/src/abmofAccel.cpp:417) in function 'miniSADSumWrapper' automatically.
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'min' (topParseEvents/src/abmofAccel.cpp:102).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'colSADSum' (topParseEvents/src/abmofAccel.cpp:44).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sad' (topParseEvents/src/abmofAccel.cpp:24).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sadSum' (topParseEvents/src/abmofAccel.cpp:11).
+WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (topParseEvents/src/abmofAccel.cpp:15) because its parent loop or function is pipelined.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1' (topParseEvents/src/abmofAccel.cpp:417) in function 'miniSADSumWrapper' completely.
+INFO: [XFORM 203-501] Unrolling loop 'minLoop' (topParseEvents/src/abmofAccel.cpp:106) in function 'min' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumLoop' (topParseEvents/src/abmofAccel.cpp:49) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumInnerLoop' (topParseEvents/src/abmofAccel.cpp:52) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (topParseEvents/src/abmofAccel.cpp:33) in function 'sad' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop2' (topParseEvents/src/abmofAccel.cpp:15) in function 'sadSum' completely.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:19 . Memory (MB): peak = 173.422 ; gain = 115.133
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:02 ; elapsed = 00:00:20 . Memory (MB): peak = 176.484 ; gain = 118.195
 INFO: [HLS 200-10] Starting hardware synthesis ...
-INFO: [HLS 200-10] Synthesizing 'rwSlices' ...
+INFO: [HLS 200-10] Synthesizing 'miniSADSumWrapper' ...
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'rwSlices'
+INFO: [HLS 200-42] -- Implementing module 'miniSADSumWrapper'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
-INFO: [SCHED 204-61] Pipelining loop 'rwSlicesInnerLoop'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 3.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 139.998 seconds; current allocated memory: 123.492 MB.
+INFO: [HLS 200-111]  Elapsed time: 19.66 seconds; current allocated memory: 119.328 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 1.024 seconds; current allocated memory: 124.047 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.114 seconds; current allocated memory: 119.365 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-10] -- Generating RTL for module 'rwSlices'
+INFO: [HLS 200-10] -- Generating RTL for module 'miniSADSumWrapper'
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [RTGEN 206-500] Setting interface mode on port 'rwSlices/xStream_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'rwSlices/yStream_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'rwSlices/idx_V' to 'ap_none'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'rwSlices/refStreamOut_V_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'rwSlices/tagStreamOut_V_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on function 'rwSlices' to 'ap_ctrl_hs'.
-INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_0_1' to 'rwSlices_glPLSlicbkb' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_1_1' to 'rwSlices_glPLSliccud' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_2_1' to 'rwSlices_glPLSlicdEe' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_3_1' to 'rwSlices_glPLSliceOg' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_0_0' to 'rwSlices_glPLSlicfYi' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_1_0' to 'rwSlices_glPLSlicg8j' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_2_0' to 'rwSlices_glPLSlichbi' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_3_0' to 'rwSlices_glPLSlicibs' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'rwSlices_mux_42_128_1_1' to 'rwSlices_mux_42_1jbC' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'rwSlices_mux_84_128_1_1' to 'rwSlices_mux_84_1kbM' due to the length limit 20
-INFO: [RTGEN 206-100] Generating core module 'rwSlices_mux_42_1jbC': 4 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'rwSlices_mux_84_1kbM': 1 instance(s).
-INFO: [RTGEN 206-100] Finished creating RTL model for 'rwSlices'.
-INFO: [HLS 200-111]  Elapsed time: 0.856 seconds; current allocated memory: 125.175 MB.
-INFO: [RTMG 210-278] Implementing memory 'rwSlices_glPLSlicbkb_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:10 ; elapsed = 00:02:25 . Memory (MB): peak = 183.117 ; gain = 125.141
-INFO: [SYSC 207-301] Generating SystemC RTL for rwSlices.
-INFO: [VHDL 208-304] Generating VHDL RTL for rwSlices.
-INFO: [VLOG 209-307] Generating Verilog RTL for rwSlices.
-INFO: [HLS 200-112] Total elapsed time: 145.626 seconds; peak allocated memory: 125.175 MB.
+INFO: [RTGEN 206-500] Setting interface mode on port 'miniSADSumWrapper/refStreamIn_V_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'miniSADSumWrapper/tagStreamIn_V_V' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'miniSADSumWrapper/miniSumRet_V' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'miniSADSumWrapper' to 'ap_ctrl_hs'.
+WARNING: [RTGEN 206-101] Port 'miniSADSumWrapper/refStreamIn_V_V' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Port 'miniSADSumWrapper/tagStreamIn_V_V' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Port 'miniSADSumWrapper/miniSumRet_V_dout' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Port 'miniSADSumWrapper/miniSumRet_V_empty_n' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Port 'miniSADSumWrapper/miniSumRet_V_read' has no fanin or fanout and is left dangling.
+               Please use C simulation to confirm this function argument can be read from or written to.
+WARNING: [RTGEN 206-101] Setting dangling out port 'miniSADSumWrapper/miniSumRet_V_read' to 0.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'miniSADSumWrapper'.
+INFO: [HLS 200-111]  Elapsed time: 0.099 seconds; current allocated memory: 119.476 MB.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:03 ; elapsed = 00:00:21 . Memory (MB): peak = 176.484 ; gain = 118.195
+INFO: [SYSC 207-301] Generating SystemC RTL for miniSADSumWrapper.
+INFO: [VHDL 208-304] Generating VHDL RTL for miniSADSumWrapper.
+INFO: [VLOG 209-307] Generating Verilog RTL for miniSADSumWrapper.
+INFO: [HLS 200-112] Total elapsed time: 21.055 seconds; peak allocated memory: 119.476 MB.

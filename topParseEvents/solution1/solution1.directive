@@ -309,14 +309,11 @@
                 <option name="core" value="FIFO_SRL"/>
             </pragma>
         </directive>
-        <directive functionName="rwSlices" label="rwSlicesLoop" functionLabel="">
-            <pragma name="LOOP_MERGE"/>
-        </directive>
         <directive functionName="writePix" label="" functionLabel="">
             <pragma name="ARRAY_PARTITION">
                 <option name="variable" value="glPLSlices" positionalBoolean="4"/>
                 <option name="cyclic" value="" positionalBoolean="type"/>
-                <option name="factor" value="2"/>
+                <option name="factor" value="1"/>
                 <option name="dim" value="3"/>
             </pragma>
         </directive>
