@@ -3,7 +3,7 @@
         <value string="false"/>
     </checksum>
     <config>
-        <schedule model="miniSADSumWrapper"/>
+        <schedule model="parseEvents"/>
         <config_dataflow default_channel="fifo" fifo_depth="0"/>
     </config>
     <UIConfigurations>

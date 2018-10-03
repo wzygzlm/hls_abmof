@@ -201,7 +201,7 @@ void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 // Set the initial value as the max integer, cannot be 0x7fff, DON'T KNOW WHY.
 static ap_int<16> miniRetVal = 0x7fff;
 static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1];
-static ap_int<16> localSumReg[2*SEARCH_DISTANCE + 1][2*SEARCH_DISTANCE + 1];
+static ap_int<16> localSumReg[BLOCK_SIZE][2*SEARCH_DISTANCE + 1];
 
 static int32_t eventIterSize;
 
@@ -221,12 +221,12 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		in2[j] = t2Block[j];
 	}
 
-	miniRetVal = (shiftCnt == 0) ? ap_int<16>(0x7fff) : miniRetVal;
-
-	initMiniSumLoop : for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
-	{
-		miniSumTmp[i] = (shiftCnt == 0) ? ap_int<16>(0) : miniSumTmp[i];
-	}
+//	miniRetVal = (shiftCnt == 1) ? ap_int<16>(0x7fff) : miniRetVal;
+//
+//	initMiniSumLoop : for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
+//	{
+//		miniSumTmp[i] = (shiftCnt == 1) ? ap_int<16>(0) : miniSumTmp[i];
+//	}
 
 	colSADSum(in1, in2, out);
 
@@ -234,7 +234,7 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	{
 		ap_int<16> tmpMiniSumTmp = miniSumTmp[i] + out[i];
 		ap_int<16> tmpMinius = tmpMiniSumTmp - localSumReg[0][i];
-		miniSumTmp[i] = (shiftCnt >= 2 * SEARCH_DISTANCE) ? tmpMinius : tmpMiniSumTmp;
+		miniSumTmp[i] = (shiftCnt > BLOCK_SIZE - 1) ? tmpMinius : tmpMiniSumTmp;
 //		miniRetVal = (miniRetValTmpIter < miniSumTmp[i]) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniSumTmp[i];
 //		else miniRetVal[i] = miniRetVal[i];
 	}
@@ -250,11 +250,12 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	miniRetValTmpIter = min(miniSumTmp);
 	// Use a new register to store the old value and use the return value as the new value.
-	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniRetVal;
+//	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt > 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniRetVal;
+	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt > BLOCK_SIZE - 1) ? miniRetValTmpIter : miniRetVal;
 
 	std::cout << "New miniRetVal from HW is: " << miniRetVal << std::endl;
 
-	shiftMainLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE; i++)
+	shiftMainLoop: for(int8_t i = 0; i < BLOCK_SIZE - 1; i++)
 	{
 		shiftInnerLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
 		{
@@ -264,7 +265,7 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	shiftLastLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
 	{
-		localSumReg[2*SEARCH_DISTANCE][j] = out[j];
+		localSumReg[BLOCK_SIZE - 1][j] = out[j];
 	}
 
 //	outputRetLoop:for (int j = 0; j <= 2 * SEARCH_DISTANCE; j++)
@@ -417,24 +418,36 @@ void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<ap
 	wrapperLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
 		ap_int<16> miniRet;
-		innerLoop_1: for (int8_t k = 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE; k++)
+		innerLoop_1: for (int8_t k = 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; k++)
 		{
-			pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-			pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-
-			apIntBlockCol_t refBlockCol = refStreamIn.read();
-			apIntBlockCol_t tagBlockCol = tagStreamIn.read();
-
-			// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
-			// to calculate the range function. However, unroll it completely will make all this operations
-			// are only wires connection and will not consume any resources.
-			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+			if (k == 0)    // Initialization code
 			{
-				in1[l] = refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
-				in2[l] = tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
-			}
+				miniRetVal = ap_int<16>(0x7fff);
 
-			miniSADSum(in1, in2, k, &miniRet);
+				initMiniSumLoop : for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
+				{
+					miniSumTmp[i] = ap_int<16>(0);
+				}
+			}
+			else
+			{
+				pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+				pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+				apIntBlockCol_t refBlockCol = refStreamIn.read();
+				apIntBlockCol_t tagBlockCol = tagStreamIn.read();
+
+				// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
+				// to calculate the range function. However, unroll it completely will make all this operations
+				// are only wires connection and will not consume any resources.
+				for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+				{
+					in1[l] = refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+					in2[l] = tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+				}
+
+				miniSADSum(in1, in2, k, &miniRet);   // Here k starts from 1 not 0.
+			}
 		}
 		*miniSumRet++ = miniRet;
 	}
