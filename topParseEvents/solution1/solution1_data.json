@@ -77,7 +77,8 @@
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredrefStream} {core FIFO_SRL}} {}",
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {core FIFO_SRL}} {}",
       "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {cyclic positionBoolean0type} {factor 1} {dim 3}} {}",
-      "dependence writePix {{variable glPLSlices} {inter positionBoolean0type} {false positionBoolean0dependent}} {}"
+      "dependence writePix {{variable glPLSlices} {inter positionBoolean0type} {false positionBoolean0dependent}} {}",
+      "pipeline rwSlices\/resetLoop {} {}"
     ]
   },
   "ClockInfo": {
@@ -85,7 +86,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "35",
+    "Latency": "2075",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -425,12 +426,12 @@
       },
       "rwSlices": {
         "Latency": {
-          "LatencyBest": "23",
-          "LatencyAvg": "90005",
-          "LatencyWorst": "180005",
-          "PipelineIIMin": "23",
-          "PipelineIIMax": "180005",
-          "PipelineII": "23 ~ 180005",
+          "LatencyBest": "2073",
+          "LatencyAvg": "92055",
+          "LatencyWorst": "182055",
+          "PipelineIIMin": "2073",
+          "PipelineIIMax": "182055",
+          "PipelineII": "2073 ~ 182055",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -439,7 +440,8 @@
           "Uncertainty": "0.10",
           "Estimate": "8.85"
         },
-        "Loops": [{
+        "Loops": [
+          {
             "Name": "rwSlicesLoop_rwSlicesInnerLoop",
             "TripCount": "",
             "LatencyMin": "21",
@@ -447,11 +449,19 @@
             "Latency": "21 ~ 180003",
             "PipelineII": "1",
             "PipelineDepth": "5"
-          }],
+          },
+          {
+            "Name": "resetLoop",
+            "TripCount": "1024",
+            "Latency": "2048",
+            "PipelineII": "2",
+            "PipelineDepth": "2"
+          }
+        ],
         "Area": {
           "BRAM_18K": "60",
-          "FF": "1276",
-          "LUT": "1176",
+          "FF": "1304",
+          "LUT": "1275",
           "DSP48E": "0"
         }
       },
@@ -573,12 +583,12 @@
       },
       "parseEvents": {
         "Latency": {
-          "LatencyBest": "35",
-          "LatencyAvg": "90017",
-          "LatencyWorst": "180017",
-          "PipelineIIMin": "30",
-          "PipelineIIMax": "180012",
-          "PipelineII": "30 ~ 180012",
+          "LatencyBest": "2075",
+          "LatencyAvg": "92057",
+          "LatencyWorst": "182057",
+          "PipelineIIMin": "2074",
+          "PipelineIIMax": "182056",
+          "PipelineII": "2074 ~ 182056",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
         },
@@ -589,8 +599,8 @@
         },
         "Area": {
           "BRAM_18K": "60",
-          "FF": "4653",
-          "LUT": "6289",
+          "FF": "4681",
+          "LUT": "6388",
           "DSP48E": "0"
         }
       }
@@ -598,7 +608,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-03 20:33:46 +0200",
+    "Time": "2018-10-03 20:54:22 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

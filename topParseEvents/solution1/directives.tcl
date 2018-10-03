@@ -66,3 +66,4 @@ set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" refStream
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" tagStreamIn
 set_directive_array_partition -type cyclic -factor 1 -dim 3 "writePix" glPLSlices
 set_directive_dependence -variable glPLSlices -type inter -dependent false "writePix"
+set_directive_pipeline "rwSlices/resetLoop"

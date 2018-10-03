@@ -324,6 +324,9 @@
                 <option name="false" value="" positionalBoolean="dependent"/>
             </pragma>
         </directive>
+        <directive functionName="rwSlices" label="resetLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 
