@@ -8,7 +8,7 @@ using namespace std;
 #include "abmofAccel.h"
 #include "time.h"
 
-#define TEST_TIMES 20
+#define TEST_TIMES 10
 int main(int argc, char *argv[])
 {
 	int testTimes = TEST_TIMES;
@@ -17,9 +17,9 @@ int main(int argc, char *argv[])
     int err_cnt = 0;
 	int retval=0;
 
-	int32_t eventsArraySize = 100;
+	int32_t eventsArraySize = 500;
 	uint64_t data[eventsArraySize];
-	ap_int<16> eventSlice[eventsArraySize];
+	int32_t eventSlice[eventsArraySize];
 
 	ap_int<16> miniSumRet;
 	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];

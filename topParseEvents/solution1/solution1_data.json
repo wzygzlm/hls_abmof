@@ -15,70 +15,74 @@
   "HlsSolution": {
     "Config": ["config_dataflow -default_channel=fifo -fifo_depth=0"],
     "Directives": [
-      "resource writePix {{variable positionBooleanTextRequiredglPLSlices} {core RAM_T2P_BRAM}} {}",
-      "pipeline writePix {} {}",
-      "unroll readPixFromCol\/readWiderBitsLoop {} {}",
-      "unroll writePixToCol\/writeWiderBitsLoop {} {}",
-      "inline readPixFromCol {} {}",
-      "inline writePixToCol {} {}",
-      "inline writePix {} {}",
-      "inline readBlockCols {} {}",
-      "unroll readPixFromTwoCols\/readTwoColsWiderBitsLoop {} {}",
-      "inline readPixFromTwoCols {} {}",
-      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {complete positionBoolean0type} {dim 1}} {}",
-      "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 100} {port positionBooleanTextRequiredeventSlice}} {}",
-      "pipeline readBlockCols {} {}",
-      "inline sadSum {{off positionBoolean1}} {}",
-      "unroll sadSum\/calOFLoop2 {{factor 1}} {}",
-      "inline sad {{off positionBoolean1}} {}",
-      "pipeline sad {} {}",
-      "inline colSADSum {{off positionBoolean1}} {}",
-      "pipeline colSADSum {} {}",
-      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredretVal} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Col} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition colSADSum\/colSADSumLoop {{partition positionBooleanCmd} {variable positionBooleanTextRequiredinput1} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition colSADSum\/colSADSumLoop {{partition positionBooleanCmd} {variable positionBooleanTextRequiredinput2} {complete positionBoolean0type} {dim 0}} {}",
-      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredsumBlock} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 1}} {}",
-      "pipeline blockSADSum {} {}",
+      "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 500} {port positionBooleanTextRequiredeventSlice}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt1Block}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt2Block}} {}",
-      "inline min {{off positionBoolean1}} {}",
-      "pipeline min {} {}",
-      "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredlocalSumReg} {complete positionBoolean0type} {dim 0}} {}",
+      "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 500} {port positionBooleanTextRequireddataStream}} {}",
+      "inline sadSum {{off positionBoolean1}} {}",
+      "unroll sadSum\/calOFLoop2 {{factor 1}} {}",
+      "pipeline sad {} {}",
+      "inline sad {{off positionBoolean1}} {}",
+      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Col} {complete positionBoolean0type} {dim 0}} {}",
+      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredretVal} {complete positionBoolean0type} {dim 0}} {}",
+      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 0}} {}",
+      "pipeline colSADSum {} {}",
+      "inline colSADSum {{off positionBoolean1}} {}",
+      "array_partition colSADSum\/colSADSumLoop {{partition positionBooleanCmd} {variable positionBooleanTextRequiredinput1} {complete positionBoolean0type} {dim 0}} {}",
+      "array_partition colSADSum\/colSADSumLoop {{partition positionBooleanCmd} {variable positionBooleanTextRequiredinput2} {complete positionBoolean0type} {dim 0}} {}",
+      "pipeline blockSADSum {} {}",
+      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 1}} {}",
+      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 1}} {}",
+      "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredsumBlock} {complete positionBoolean0type} {dim 1}} {}",
       "array_partition min {{partition positionBooleanCmd} {variable positionBooleanTextRequiredinArr} {complete positionBoolean0type} {dim 0}} {}",
-      "inline miniSADSum {} {}",
-      "inline readBlockColsAndMiniSADSum {} {}",
-      "array_reshape readBlockCols {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredrefCol} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape readBlockCols {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredtagCol} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape miniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 1}} {}",
+      "pipeline min {} {}",
+      "inline min {{off positionBoolean1}} {}",
+      "inline readPixFromCol {} {}",
+      "unroll readPixFromCol\/readWiderBitsLoop {} {}",
+      "inline readPixFromTwoCols {} {}",
+      "unroll readPixFromTwoCols\/readTwoColsWiderBitsLoop {} {}",
+      "inline writePixToCol {} {}",
+      "unroll writePixToCol\/writeWiderBitsLoop {} {}",
+      "inline resetPix {} {}",
+      "dependence writePix {{variable glPLSlices} {inter positionBoolean0type} {false positionBoolean0dependent}} {}",
+      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {cyclic positionBoolean0type} {factor 1} {dim 3}} {}",
+      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {complete positionBoolean0type} {dim 1}} {}",
+      "inline writePix {} {}",
+      "pipeline writePix {} {}",
+      "resource writePix {{variable positionBooleanTextRequiredglPLSlices} {core RAM_T2P_BRAM}} {}",
+      "pipeline miniSADSum {} {}",
       "array_reshape miniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 1}} {}",
-      "loop_tripcount getXandY\/getXandYLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
+      "array_reshape miniSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 1}} {}",
+      "inline miniSADSum {} {}",
+      "array_partition miniSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredlocalSumReg} {complete positionBoolean0type} {dim 0}} {}",
+      "array_reshape readBlockCols {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredtagCol} {complete positionBoolean0type} {dim 1}} {}",
+      "array_reshape readBlockCols {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredrefCol} {complete positionBoolean0type} {dim 1}} {}",
+      "pipeline readBlockCols {} {}",
+      "inline readBlockCols {} {}",
+      "inline readBlockColsAndMiniSADSum {} {}",
       "inline getXandY {{off positionBoolean1}} {}",
       "pipeline getXandY\/getXandYLoop {} {}",
-      "inline miniSADSumWrapper {{off positionBoolean1}} {}",
-      "pipeline parseEvents\/outputLoop {} {}",
-      "loop_tripcount parseEvents\/outputLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
-      "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 100} {port positionBooleanTextRequireddataStream}} {}",
-      "dataflow parseEvents\/DFRegion {} {}",
-      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredyStream} {core FIFO_SRL}} {}",
-      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredxStream} {core FIFO_SRL}} {}",
-      "pipeline miniSADSum {} {}",
-      "interface miniSADSumWrapper {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredminiSumRet}} {}",
-      "loop_tripcount miniSADSumWrapper\/wrapperLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
-      "pipeline rwSlices\/rwSlicesInnerLoop {} {}",
-      "pipeline miniSADSumWrapper\/innerLoop_1 {} {}",
-      "inline resetPix {} {}",
+      "loop_tripcount getXandY\/getXandYLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
+      "inline rwSlices {{off positionBoolean1}} {}",
       "loop_tripcount rwSlices\/rwSlicesLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
-      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredrefStream} {depth 2} {dim 1}} {}",
-      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {depth 2} {dim 1}} {}",
+      "pipeline rwSlices\/rwSlicesInnerLoop {} {}",
+      "pipeline rwSlices\/resetLoop {} {}",
+      "inline miniSADSumWrapper {{off positionBoolean1}} {}",
+      "pipeline miniSADSumWrapper\/innerLoop_1 {} {}",
+      "loop_tripcount miniSADSumWrapper\/wrapperLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
+      "loop_tripcount outputResult\/outputLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
+      "pipeline outputResult\/outputLoop {} {}",
+      "dataflow parseEvents\/DFRegion {} {}",
+      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredxStream} {core FIFO_SRL}} {}",
+      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredyStream} {core FIFO_SRL}} {}",
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredrefStream} {core FIFO_SRL}} {}",
+      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredrefStream} {depth 2} {dim 1}} {}",
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {core FIFO_SRL}} {}",
-      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {cyclic positionBoolean0type} {factor 1} {dim 3}} {}",
-      "dependence writePix {{variable glPLSlices} {inter positionBoolean0type} {false positionBoolean0dependent}} {}",
-      "pipeline rwSlices\/resetLoop {} {}"
+      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {depth 2} {dim 1}} {}",
+      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredminiSumStream} {core FIFO_SRL}} {}",
+      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredminiSumStream} {depth 2} {dim 1}} {}",
+      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredpktEventDataStream} {core FIFO_SRL}} {}",
+      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredpktEventDataStream} {depth 2} {dim 1}} {}"
     ]
   },
   "ClockInfo": {
@@ -107,17 +111,21 @@
       "impl\/vhdl\/colSADSum.vhd",
       "impl\/vhdl\/fifo_w2_d3_A.vhd",
       "impl\/vhdl\/fifo_w8_d0_S.vhd",
-      "impl\/vhdl\/fifo_w32_d2_A.vhd",
+      "impl\/vhdl\/fifo_w15_d2_S.vhd",
+      "impl\/vhdl\/fifo_w16_d2_A.vhd",
+      "impl\/vhdl\/fifo_w17_d2_S.vhd",
       "impl\/vhdl\/fifo_w68_d2_S.vhd",
       "impl\/vhdl\/getXandY.vhd",
       "impl\/vhdl\/min.vhd",
       "impl\/vhdl\/miniSADSumWrapper.vhd",
+      "impl\/vhdl\/outputResult.vhd",
       "impl\/vhdl\/parseEvents_mux_4fYi.vhd",
       "impl\/vhdl\/rwSlices.vhd",
       "impl\/vhdl\/rwSlices_glPLSlicbkb.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/sadSum.vhd",
-      "impl\/vhdl\/start_for_miniSADhbi.vhd",
+      "impl\/vhdl\/start_for_miniSADibs.vhd",
+      "impl\/vhdl\/start_for_outputRhbi.vhd",
       "impl\/vhdl\/start_for_rwSliceg8j.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
@@ -126,18 +134,22 @@
       "impl\/verilog\/colSADSum.v",
       "impl\/verilog\/fifo_w2_d3_A.v",
       "impl\/verilog\/fifo_w8_d0_S.v",
-      "impl\/verilog\/fifo_w32_d2_A.v",
+      "impl\/verilog\/fifo_w15_d2_S.v",
+      "impl\/verilog\/fifo_w16_d2_A.v",
+      "impl\/verilog\/fifo_w17_d2_S.v",
       "impl\/verilog\/fifo_w68_d2_S.v",
       "impl\/verilog\/getXandY.v",
       "impl\/verilog\/min.v",
       "impl\/verilog\/miniSADSumWrapper.v",
+      "impl\/verilog\/outputResult.v",
       "impl\/verilog\/parseEvents_mux_4fYi.v",
       "impl\/verilog\/rwSlices.v",
       "impl\/verilog\/rwSlices_glPLSlicbkb.v",
       "impl\/verilog\/rwSlices_glPLSlicbkb_ram.dat",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/sadSum.v",
-      "impl\/verilog\/start_for_miniSADhbi.v",
+      "impl\/verilog\/start_for_miniSADibs.v",
+      "impl\/verilog\/start_for_outputRhbi.v",
       "impl\/verilog\/start_for_rwSliceg8j.v",
       "impl\/verilog\/parseEvents.v"
     ],
@@ -182,14 +194,14 @@
         "RD_EN": {"Type": "bool"}
       }
     },
-    "eventSlice_V": {
+    "eventSlice": {
       "type": "ap_fifo",
-      "fifo_width": "16",
+      "fifo_width": "32",
       "fifo_type": "write",
       "ctype": {
         "WR_DATA": {
           "Type": "integer signed",
-          "Width": "16"
+          "Width": "32"
         },
         "FULL_N": {"Type": "bool"},
         "WR_EN": {"Type": "bool"}
@@ -222,15 +234,15 @@
       "dir": "in",
       "width": "32"
     },
-    "eventSlice_V_din": {
+    "eventSlice_din": {
       "dir": "out",
-      "width": "16"
+      "width": "32"
     },
-    "eventSlice_V_full_n": {
+    "eventSlice_full_n": {
       "dir": "in",
       "width": "1"
     },
-    "eventSlice_V_write": {
+    "eventSlice_write": {
       "dir": "out",
       "width": "1"
     },
@@ -270,10 +282,10 @@
       "dataWidth": "32",
       "handshakeRef": "ap_none"
     },
-    "eventSlice_V": {
-      "interfaceRef": "eventSlice_V",
+    "eventSlice": {
+      "interfaceRef": "eventSlice",
       "dir": "out",
-      "firstOutLatency": "11"
+      "firstOutLatency": "2"
     },
     "ap_ctrl": {
       "interfaceRef": "ap_ctrl",
@@ -290,7 +302,7 @@
           "Instances": [
             {
               "ModuleName": "colSADSum",
-              "InstanceName": "grp_colSADSum_fu_369",
+              "InstanceName": "grp_colSADSum_fu_379",
               "Instances": [
                 {
                   "ModuleName": "sad",
@@ -352,13 +364,17 @@
             },
             {
               "ModuleName": "min",
-              "InstanceName": "grp_min_fu_401"
+              "InstanceName": "grp_min_fu_411"
             }
           ]
         },
         {
           "ModuleName": "rwSlices",
           "InstanceName": "rwSlices_U0"
+        },
+        {
+          "ModuleName": "outputResult",
+          "InstanceName": "outputResult_U0"
         },
         {
           "ModuleName": "getXandY",
@@ -418,8 +434,8 @@
             "PipelineDepth": "2"
           }],
         "Area": {
-          "FF": "70",
-          "LUT": "165",
+          "FF": "40",
+          "LUT": "163",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -460,8 +476,8 @@
         ],
         "Area": {
           "BRAM_18K": "60",
-          "FF": "1304",
-          "LUT": "1275",
+          "FF": "1237",
+          "LUT": "1210",
           "DSP48E": "0"
         }
       },
@@ -576,8 +592,40 @@
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "3256",
-          "LUT": "4484",
+          "FF": "3224",
+          "LUT": "4458",
+          "DSP48E": "0"
+        }
+      },
+      "outputResult": {
+        "Latency": {
+          "LatencyBest": "3",
+          "LatencyAvg": "5002",
+          "LatencyWorst": "10002",
+          "PipelineIIMin": "3",
+          "PipelineIIMax": "10002",
+          "PipelineII": "3 ~ 10002",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.21"
+        },
+        "Loops": [{
+            "Name": "outputLoop",
+            "TripCount": "",
+            "LatencyMin": "1",
+            "LatencyMax": "10000",
+            "Latency": "1 ~ 10000",
+            "PipelineII": "1",
+            "PipelineDepth": "2"
+          }],
+        "Area": {
+          "FF": "39",
+          "LUT": "157",
+          "BRAM_18K": "0",
           "DSP48E": "0"
         }
       },
@@ -599,8 +647,8 @@
         },
         "Area": {
           "BRAM_18K": "60",
-          "FF": "4681",
-          "LUT": "6388",
+          "FF": "4606",
+          "LUT": "6488",
           "DSP48E": "0"
         }
       }
@@ -608,7 +656,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-03 20:54:22 +0200",
+    "Time": "2018-10-04 16:42:53 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
