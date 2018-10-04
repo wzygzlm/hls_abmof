@@ -463,7 +463,14 @@ void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint17_t
 {
 	outputLoop: for(int32_t i = 0; i < eventIterSize; i++)
 	{
-		*eventSlice++ = packetEventDataStream.read() + (miniSumStream.read().to_int()) << 17;
+		apUint17_t tmp1 = packetEventDataStream.read();
+		apUint15_t tmp2 = miniSumStream.read();
+		ap_uint<32> output = tmp2.concat(tmp1);
+//		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
+//		std :: cout << "tmp2 is "  << std::hex << tmp2 << std :: endl;
+//		std :: cout << "output is "  << std::hex << output << std :: endl;
+//		std :: cout << "eventSlice is "  << std::hex << output.to_int() << std :: endl;
+		*eventSlice++ = output.to_int() ;
 	}
 }
 
