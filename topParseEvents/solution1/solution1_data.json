@@ -110,6 +110,7 @@
       "impl\/vhdl\/Block_proc.vhd",
       "impl\/vhdl\/colSADSum.vhd",
       "impl\/vhdl\/fifo_w2_d3_A.vhd",
+      "impl\/vhdl\/fifo_w6_d0_A.vhd",
       "impl\/vhdl\/fifo_w8_d0_S.vhd",
       "impl\/vhdl\/fifo_w15_d2_S.vhd",
       "impl\/vhdl\/fifo_w16_d2_A.vhd",
@@ -133,6 +134,7 @@
       "impl\/verilog\/Block_proc.v",
       "impl\/verilog\/colSADSum.v",
       "impl\/verilog\/fifo_w2_d3_A.v",
+      "impl\/verilog\/fifo_w6_d0_A.v",
       "impl\/verilog\/fifo_w8_d0_S.v",
       "impl\/verilog\/fifo_w15_d2_S.v",
       "impl\/verilog\/fifo_w16_d2_A.v",
@@ -302,7 +304,7 @@
           "Instances": [
             {
               "ModuleName": "colSADSum",
-              "InstanceName": "grp_colSADSum_fu_379",
+              "InstanceName": "grp_colSADSum_fu_400",
               "Instances": [
                 {
                   "ModuleName": "sad",
@@ -364,7 +366,7 @@
             },
             {
               "ModuleName": "min",
-              "InstanceName": "grp_min_fu_411"
+              "InstanceName": "grp_min_fu_432"
             }
           ]
         },
@@ -556,11 +558,11 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.70"
+          "Estimate": "9.89"
         },
         "Area": {
-          "FF": "64",
-          "LUT": "174",
+          "FF": "66",
+          "LUT": "193",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -579,7 +581,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.70"
+          "Estimate": "9.89"
         },
         "Loops": [{
             "Name": "wrapperLoop_innerLoop_1",
@@ -592,8 +594,8 @@
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "3224",
-          "LUT": "4458",
+          "FF": "3367",
+          "LUT": "4575",
           "DSP48E": "0"
         }
       },
@@ -624,7 +626,7 @@
           }],
         "Area": {
           "FF": "39",
-          "LUT": "136",
+          "LUT": "145",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -643,12 +645,12 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.70"
+          "Estimate": "9.89"
         },
         "Area": {
           "BRAM_18K": "60",
-          "FF": "4606",
-          "LUT": "6467",
+          "FF": "4754",
+          "LUT": "6611",
           "DSP48E": "0"
         }
       }
@@ -656,7 +658,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-04 17:54:10 +0200",
+    "Time": "2018-10-04 19:52:45 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

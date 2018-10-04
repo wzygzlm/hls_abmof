@@ -99,18 +99,21 @@ void blockSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 }
 
 // Function Description: return the minimum value of an array.
-ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1])
+ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1], int8_t *index)
 {
 	ap_int<16> tmp = inArr[0];
+	int8_t tmpIdx = 0;
 	minLoop: for(int8_t i = 0; i < 2*SEARCH_DISTANCE + 1; i++)
 	{
 		// Here is a bug. Use the if-else statement,
 		// cannot use the question mark statement.
 		// Otherwise a lot of muxs will be generated,
 		// DON'T KNOW WHY. SHOULD BE A BUG.
+		if(inArr[i] < tmp) tmpIdx = i;
 		if(inArr[i] < tmp) tmp = inArr[i];
 //		tmp = (inArr[i] < tmp) ? inArr[i] : tmp;
 	}
+	*index = tmpIdx;
 	return tmp;
 }
 
@@ -208,7 +211,9 @@ static uint16_t eventIterSize;
 void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		int16_t shiftCnt,
-		ap_int<16> *miniSumRet)
+		ap_int<16> *miniSumRet,
+		ap_uint<6> *OFRet
+		)
 {
 	ap_int<16> miniRetValTmpIter;
 
@@ -230,11 +235,13 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	colSADSum(in1, in2, out);
 
+	ap_uint<1> cond1 = (shiftCnt > BLOCK_SIZE - 1) ? 1 : 0;
+
 	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
 		ap_int<16> tmpMiniSumTmp = miniSumTmp[i] + out[i];
 		ap_int<16> tmpMinius = tmpMiniSumTmp - localSumReg[0][i];
-		miniSumTmp[i] = (shiftCnt > BLOCK_SIZE - 1) ? tmpMinius : tmpMiniSumTmp;
+		miniSumTmp[i] = (cond1) ? tmpMinius : tmpMiniSumTmp;
 //		miniRetVal = (miniRetValTmpIter < miniSumTmp[i]) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniSumTmp[i];
 //		else miniRetVal[i] = miniRetVal[i];
 	}
@@ -248,10 +255,13 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	std::cout << "Old miniRetVal from HW is: " << miniRetVal << std::endl;
 
-	miniRetValTmpIter = min(miniSumTmp);
+	int8_t retIdx;
+	miniRetValTmpIter = min(miniSumTmp, &retIdx);
+	ap_uint<1> cond2 = (miniRetValTmpIter < miniRetVal) ? 1 : 0;
+
 	// Use a new register to store the old value and use the return value as the new value.
 //	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt > 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniRetVal;
-	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt > BLOCK_SIZE - 1) ? miniRetValTmpIter : miniRetVal;
+	miniRetVal = (cond2) && (cond1) ? miniRetValTmpIter : miniRetVal;
 
 	std::cout << "New miniRetVal from HW is: " << miniRetVal << std::endl;
 
@@ -271,6 +281,10 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 //	outputRetLoop:for (int j = 0; j <= 2 * SEARCH_DISTANCE; j++)
 //	{
 		*miniSumRet = miniRetVal;
+		ap_uint<3> OFRet_x = shiftCnt - BLOCK_SIZE - 1;
+		ap_uint<3> OFRet_y = ap_uint<3>(retIdx);
+
+		*OFRet = (cond2) && (cond1) ? ap_uint<6>(OFRet_y.concat(OFRet_x)) : ap_uint<6>(0);     // TODO: add a flag to indicate the result valid or not. Use 0 to represent the invalid result.
 //	}
 
 }
@@ -306,9 +320,10 @@ void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int1
 {
 	pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 	pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	ap_uint<6> OFRet;
 
 	readBlockCols(x, y , idx + 1, idx + 2, in1, in2);
-	miniSADSum(in1, in2, shiftCnt, miniSumRet);
+	miniSADSum(in1, in2, shiftCnt, miniSumRet, &OFRet);
 }
 
 typedef ap_uint<17> apUint17_t;
@@ -418,12 +433,14 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 }
 
 typedef ap_uint<15> apUint15_t;
-void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<apIntBlockCol_t> &tagStreamIn, hls::stream<apUint15_t> &miniSumStream)
+typedef ap_uint<6> apUint6_t;
+void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<apIntBlockCol_t> &tagStreamIn, hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream)
 //void miniSADSumWrapper(ap_uint<8> *xStream, ap_uint<8> *yStream, sliceIdx_t idx, int32_t eventsArraySize, ap_int<16> *miniSumRet)
 {
 	wrapperLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
 		ap_int<16> miniRet;
+		ap_uint<6> OFRet = 0;    // TODO: maybe change the initial value.
 		innerLoop_1: for (int8_t k = 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; k++)
 		{
 			if (k == 0)    // Initialization code
@@ -452,25 +469,27 @@ void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<ap
 					in2[l] = tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
 				}
 
-				miniSADSum(in1, in2, k, &miniRet);   // Here k starts from 1 not 0.
+				miniSADSum(in1, in2, k, &miniRet, &OFRet);   // Here k starts from 1 not 0.
 			}
 		}
 		miniSumStream.write(apUint15_t(miniRet));
+		OFRetStream.write(apUint6_t(OFRet));
 	}
 }
 
-void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint17_t> &packetEventDataStream, int32_t *eventSlice)
+void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,  hls::stream<apUint17_t> &packetEventDataStream, int32_t *eventSlice)
 {
 	outputLoop: for(int32_t i = 0; i < eventIterSize; i++)
 	{
 		apUint17_t tmp1 = packetEventDataStream.read();
-		apUint15_t tmp2 = miniSumStream.read();
-		ap_uint<32> output = tmp2.concat(tmp1);
+		ap_int<9> tmp2 = miniSumStream.read().range(8, 0);
+		apUint6_t tmpOF = OFRetStream.read();
+		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
 //		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
 //		std :: cout << "tmp2 is "  << std::hex << tmp2 << std :: endl;
 //		std :: cout << "output is "  << std::hex << output << std :: endl;
 //		std :: cout << "eventSlice is "  << std::hex << output.to_int() << std :: endl;
-		*eventSlice++ = output.to_int() ;
+		*eventSlice++ = output.to_int();
 	}
 }
 
@@ -480,6 +499,7 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 	{
 		hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
 		hls::stream<apUint17_t> pktEventDataStream("EventStream");
+		hls::stream<apUint6_t> OFRetStream("OFStream");
 		hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
 		hls::stream<apUint15_t> miniSumStream("miniSumStream");
 
@@ -489,8 +509,8 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 
 		getXandY(dataStream, xStream, yStream, pktEventDataStream);
 		rwSlices(xStream, yStream, glPLActiveSliceIdx, refStream, tagStreamIn);
-		miniSADSumWrapper(refStream, tagStreamIn, miniSumStream);
-		outputResult(miniSumStream, pktEventDataStream, eventSlice);
+		miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
+		outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice);
 
 	}
 }
