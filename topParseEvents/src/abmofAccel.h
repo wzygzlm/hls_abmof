@@ -2,6 +2,7 @@
 #define ABMOFACCEl
 
 #include<stdint.h>
+#include "hls_stream.h"
 
 #define POLARITY_SHIFT 1
 #define POLARITY_MASK 0x00000001
@@ -36,6 +37,9 @@ typedef ap_uint<17> apUint17_t;
 typedef ap_uint<15> apUint15_t;
 typedef ap_uint<6> apUint6_t;
 
+#define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
+#define PIXS_PER_COL SLICE_HEIGHT/COMBINED_PIXELS
+
 void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE]);
 
 void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx);
@@ -50,6 +54,11 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		ap_int<16> *miniSumRet,
 		ap_uint<6> *OFRet
 		);
+
+void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<apIntBlockCol_t> &tagStreamIn,
+						hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream);
+
+void testMiniSADSumWrapper(apIntBlockCol_t *input1, apIntBlockCol_t *input2, int16_t eventCnt, apUint15_t *miniSum, apUint6_t *OF);
 
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice);
 

@@ -8,7 +8,7 @@ using namespace std;
 #include "abmofAccel.h"
 #include "time.h"
 
-#define TEST_TIMES 51
+#define TEST_TIMES 10
 
 static col_pix_t slices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdx;
@@ -155,9 +155,55 @@ void miniSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	*miniSumRet = miniRetVal;
 	*OFRet = minOFRet;
+
+	std::cout << "miniSumRetSW is: " << *miniSumRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
+	std::cout << std::dec;    // Restore dec mode
 }
 
 
+void testMiniSADSumWrapperSW(apIntBlockCol_t *input1, apIntBlockCol_t *input2, int16_t eventCnt, apUint15_t *miniSum, apUint6_t *OF)
+{
+	pix_t ref[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tag[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	apIntBlockCol_t inData1, inData2;
+	ap_int<16> miniSumSWRet;
+	ap_uint<6> OFRetSWRet;
+
+	for(int32_t i = 0; i < eventCnt; i++)
+	{
+		// Initialize the localSumReg
+		for(int idx1 = 0; idx1 < BLOCK_SIZE; idx1++)
+		{
+			for(int idx2 = 0; idx2 < BLOCK_SIZE; idx2++)
+			{
+				localSumReg[idx1][idx2] = 0;
+			}
+		}
+		miniRetVal = 0x7fff;
+		minOFRet = ap_uint<6>(0xff);
+
+		for(int shiftOffset = 0; shiftOffset < BLOCK_SIZE + 2 * SEARCH_DISTANCE; shiftOffset++)
+		{
+			cout << "current iteration index is: " << i * (BLOCK_SIZE + 2 * SEARCH_DISTANCE) + shiftOffset << endl;
+			inData1 = *input1++;
+			inData2 = *input2++;
+
+			for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+			{
+				ref[j] = pix_t(inData1.range(4*j + 3, 4*j));
+				tag[j] = pix_t(inData2.range(4*j + 3, 4*j));
+			}
+
+			miniSADSumSW(ref, tag, shiftOffset, &miniSumSWRet, &OFRetSWRet);
+		}
+
+		std::cout << "miniSumRetSW is: " << apUint15_t(miniSumSWRet) << "\t OFRetSW is: " << std::hex << OFRetSWRet << std::endl;
+		cout << dec;
+
+		miniSum[i] = apUint15_t(miniSumSWRet);
+		OF[i] = OFRetSWRet;
+	}
+}
 
 void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
 {
@@ -219,6 +265,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 	}
 }
 
+
 int main(int argc, char *argv[])
 {
 	int testTimes = TEST_TIMES;
@@ -269,42 +316,96 @@ int main(int argc, char *argv[])
 //		}
 //	}
 
-	/******************* Test miniSADSum module **************************/
-	pix_t input1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-			input2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-	ap_int<16> miniSum, miniSumSW;
-	ap_uint<6> OFRet, OFRetSW;
+	/******************* Test miniSADSumWrapper module **************************/
+//	srand((unsigned)time(NULL));
+	int16_t eventCnt = 2;
+
+	apIntBlockCol_t refBlockColData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+	apIntBlockCol_t tagBlockColData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+
+	apUint15_t miniSum[eventCnt], miniSumSW[eventCnt];
+	apUint6_t OFRet[eventCnt], OFRetSW[eventCnt];
 
 	for(int k = 0; k < TEST_TIMES; k++)
 	{
 		cout << "Test " << k << ":" << endl;
-
-		for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+//		cout << "Input data is: " << endl;
+		for (int i = 0; i < eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE); i++)
 		{
-			input1[j] = rand() % 16;
-			input2[j] = rand() % 16;
-		}
-		miniSADSumSW(input1, input2, k, &miniSumSW, &OFRetSW);
-		miniSADSum(input1, input2, k + 1, &miniSum, &OFRet);
+//			cout << "#" << i << ": " <<  endl;
 
-		// Compare the results file with the golden results
-		cout << "miniSumSW is: " << miniSumSW << "\t OFRetSW is: " << hex << OFRetSW << endl;
-		cout << dec;    // Restore dec mode
-
-		cout << "miniSumHW is: " << miniSum << "\t OFRetHW is: " << hex << OFRet << endl;
-		cout << dec;    // Restore dec mode
-
-		for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
-		{
-			if(miniSum != miniSumSW || OFRet != OFRetSW)
+			for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
 			{
+				pix_t tmp1 = pix_t(rand() % 16);
+				pix_t tmp2 = pix_t(rand() % 16);
+				refBlockColData[i].range(4 * j + 3, 4 * j) = tmp1;
+				tagBlockColData[i].range(4 * j + 3, 4 * j) = tmp2;
+
+//				cout << tmp1 << "  " << tmp2 << "  ";
+			}
+//			cout << endl;
+//			cout << "refBlockColData[eventCnt] is: " << refBlockColData[eventCnt] << "\t tagBlockColData[eventCnt] is: " << tagBlockColData[eventCnt] << endl;
+		}
+		testMiniSADSumWrapperSW(refBlockColData, tagBlockColData, eventCnt, miniSumSW, OFRetSW);
+		testMiniSADSumWrapper(refBlockColData, tagBlockColData, eventCnt, miniSum, OFRet);
+
+		for (int m = 0; m < eventCnt; m++)
+		{
+			if(miniSumSW[m] != miniSum[m] || OFRetSW[m] != OFRet[m])
+			{
+				std::cout << "miniSumRetSW is: " << miniSumSW[m] << "\t OFRetSW is: " << std::hex << OFRetSW[m] << std::endl;
+				std::cout << "miniSumRetHW is: " << miniSum[m] << "\t OFRetHW is: " << std::hex << OFRet[m] << std::endl;
+
 				err_cnt++;
-				cout<<"!!! ERROR: Mismatch detected at index" << i << "!!!" << endl;
+				cout<<"!!! ERROR: Mismatch detected at index" << m << "!!!" << endl;
 			}
 		}
 
 		cout << endl;
+		cout << endl;
+		cout << endl;
+		cout << endl;
 	}
+
+
+//	/******************* Test miniSADSum module **************************/
+//	srand((unsigned)time(NULL));
+//
+//	pix_t input1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+//			input2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//	ap_int<16> miniSum, miniSumSW;
+//	ap_uint<6> OFRet, OFRetSW;
+//
+//	for(int k = 0; k < TEST_TIMES; k++)
+//	{
+//		cout << "Test " << k << ":" << endl;
+//
+//		for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+//		{
+//			input1[j] = rand() % 16;
+//			input2[j] = rand() % 16;
+//		}
+//		miniSADSumSW(input1, input2, k, &miniSumSW, &OFRetSW);
+//		miniSADSum(input1, input2, k + 1, &miniSum, &OFRet);
+//
+//		// Compare the results file with the golden results
+//		cout << "miniSumSW is: " << miniSumSW << "\t OFRetSW is: " << hex << OFRetSW << endl;
+//		cout << dec;    // Restore dec mode
+//
+//		cout << "miniSumHW is: " << miniSum << "\t OFRetHW is: " << hex << OFRet << endl;
+//		cout << dec;    // Restore dec mode
+//
+//		for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+//		{
+//			if(miniSum != miniSumSW || OFRet != OFRetSW)
+//			{
+//				err_cnt++;
+//				cout<<"!!! ERROR: Mismatch detected at index" << i << "!!!" << endl;
+//			}
+//		}
+//
+//		cout << endl;
+//	}
 
 //		/******************* Test min module **************************/
 //		ap_int<16> testData[2*SEARCH_DISTANCE + 1];

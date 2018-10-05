@@ -352,6 +352,71 @@
                 <option name="dim" value="1"/>
             </pragma>
         </directive>
+        <directive functionName="testMiniSADSumWrapper" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="axis" value="" positionalBoolean="mode"/>
+                <option name="register" value="" positionalBoolean="1"/>
+                <option name="both" value="" positionalBoolean="register_mode"/>
+                <option name="depth" value="34"/>
+                <option name="port" value="input1" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="testMiniSADSumWrapper" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="axis" value="" positionalBoolean="mode"/>
+                <option name="register" value="" positionalBoolean="1"/>
+                <option name="both" value="" positionalBoolean="register_mode"/>
+                <option name="depth" value="34"/>
+                <option name="port" value="input2" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="testMiniSADSumWrapper" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="axis" value="" positionalBoolean="mode"/>
+                <option name="register" value="" positionalBoolean="1"/>
+                <option name="both" value="" positionalBoolean="register_mode"/>
+                <option name="depth" value="20"/>
+                <option name="port" value="miniSum" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="testMiniSADSumWrapper" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="axis" value="" positionalBoolean="mode"/>
+                <option name="register" value="" positionalBoolean="1"/>
+                <option name="both" value="" positionalBoolean="register_mode"/>
+                <option name="depth" value="20"/>
+                <option name="port" value="OF" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="testMiniSADSumWrapper" label="readToStream" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="testMiniSADSumWrapper" label="writeFromStream" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="testMiniSADSumWrapper" label="" functionLabel="">
+            <pragma name="DATAFLOW"/>
+        </directive>
+        <directive functionName="testMiniSADSumWrapper" label="readToStream" functionLabel="">
+            <pragma name="LOOP_TRIPCOUNT">
+                <option name="min" value="1"/>
+                <option name="max" value="170000"/>
+            </pragma>
+        </directive>
+        <directive functionName="testMiniSADSumWrapper" label="" functionLabel="">
+            <pragma name="STREAM">
+                <option name="variable" value="refStream" positionalBoolean="4"/>
+                <option name="depth" value="18"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="testMiniSADSumWrapper" label="" functionLabel="">
+            <pragma name="STREAM">
+                <option name="variable" value="tagStreamIn" positionalBoolean="4"/>
+                <option name="depth" value="18"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 

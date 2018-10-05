@@ -1,4 +1,4 @@
-<project xmlns="com.autoesl.autopilot.project" name="topParseEvents" top="miniSADSum">
+<project xmlns="com.autoesl.autopilot.project" name="topParseEvents" top="testMiniSADSumWrapper">
     <includePaths/>
     <libraryPaths/>
     <Simulation>

@@ -1,7 +1,6 @@
 #include <iostream>
 #include "ap_int.h"
 #include "abmofAccel.h"
-#include "hls_stream.h"
 
 static col_pix_t glPLSlices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdx, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
@@ -45,6 +44,20 @@ void colSADSum(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			pix_t t2Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			int16_t retVal[2*SEARCH_DISTANCE + 1])
 {
+	std::cout << "in1 is: " << std::endl;
+	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+	{
+		std::cout << t1Col[m] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "in2 is: " << std::endl;
+	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+	{
+		std::cout << t2Col[m] << " ";
+	}
+	std::cout << std::endl;
+
 	colSADSumLoop:for(ap_uint<4> i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
 		pix_t input1[BLOCK_SIZE], input2[BLOCK_SIZE];
@@ -207,7 +220,7 @@ static ap_uint<6> minOFRet = ap_uint<6>(0xff);
 static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1];
 static ap_int<16> localSumReg[BLOCK_SIZE][2*SEARCH_DISTANCE + 1];
 
-static uint16_t eventIterSize;
+static uint16_t eventIterSize = 100;
 
 void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
@@ -237,12 +250,21 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	colSADSum(in1, in2, out);
 
 	ap_uint<1> cond1 = (shiftCnt > BLOCK_SIZE - 1) ? 1 : 0;
+	std::cout << "shiftCnt is: " << shiftCnt << std::endl;
+	std::cout << "cond1 is: " << cond1 << std::endl;
+
+	std::cout << "localSumReg[0] from HW is: " << std::endl;
+	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+	{
+		std::cout << localSumReg[0][m] << " ";
+	}
+	std::cout << std::endl;
 
 	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
 		ap_int<16> tmpMiniSumTmp = miniSumTmp[i] + out[i];
 		ap_int<16> tmpMinius = tmpMiniSumTmp - localSumReg[0][i];
-		miniSumTmp[i] = (cond1) ? tmpMinius : tmpMiniSumTmp;
+		miniSumTmp[i] = (shiftCnt > BLOCK_SIZE) ? tmpMinius : tmpMiniSumTmp;  // Notice: this condition is not cond1.
 //		miniRetVal = (miniRetValTmpIter < miniSumTmp[i]) && (shiftCnt >= 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniSumTmp[i];
 //		else miniRetVal[i] = miniRetVal[i];
 	}
@@ -287,6 +309,9 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	minOFRet = (cond2) && (cond1) ? ap_uint<6>(OFRet_y.concat(OFRet_x)) : minOFRet;  // TODO: add a flag to indicate the result valid or not. Use 0 to represent the invalid result.
 	*OFRet = minOFRet;
+
+	std::cout << "miniSumRetHW is: " << *miniSumRet << "\t OFRetHW is: " << std::hex << *OFRet << std::endl;
+	std::cout << std::dec;    // Restore dec mode
 }
 
 
@@ -366,9 +391,6 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 	}
 }
 
-#define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
-#define PIXS_PER_COL SLICE_HEIGHT/COMBINED_PIXELS
-typedef ap_int<BLOCK_COL_PIXELS> apIntBlockCol_t;
 void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, sliceIdx_t idx,
 			  hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut)
 {
@@ -489,6 +511,34 @@ void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t>
 //		std :: cout << "output is "  << std::hex << output << std :: endl;
 //		std :: cout << "eventSlice is "  << std::hex << output.to_int() << std :: endl;
 		*eventSlice++ = output.to_int();
+	}
+}
+
+void testMiniSADSumWrapper(apIntBlockCol_t *input1, apIntBlockCol_t *input2, int16_t eventCnt, apUint15_t *miniSum, apUint6_t *OF)
+{
+	hls::stream<apUint6_t> OFRetStream("OFStream");
+	hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
+	hls::stream<apUint15_t> miniSumStream("miniSumStream");
+
+	eventIterSize = eventCnt;
+
+	apIntBlockCol_t inData1, inData2;
+
+	readToStream:for(int32_t i = 0; i < eventIterSize * (BLOCK_SIZE + 2 * SEARCH_DISTANCE); i++)
+	{
+		inData1 = *input1++;
+		inData2 = *input2++;
+
+		refStream.write(inData1);
+		tagStreamIn.write(inData2);
+	}
+
+	miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
+
+	writeFromStream:for(int32_t i = 0; i < eventIterSize; i++)
+	{
+		miniSumStream.read(*miniSum++);
+		OFRetStream.read(*OF++);
 	}
 }
 
