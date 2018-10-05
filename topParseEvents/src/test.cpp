@@ -8,7 +8,7 @@ using namespace std;
 #include "abmofAccel.h"
 #include "time.h"
 
-#define TEST_TIMES 10
+#define TEST_TIMES 100
 
 static col_pix_t slices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdx;
@@ -98,7 +98,7 @@ void miniSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	colSADSumSW(in1, in2, out);
 
-	ap_uint<1> cond1 = (shiftCnt > BLOCK_SIZE - 1) ? 1 : 0;
+	ap_uint<1> cond1 = (shiftCnt >= BLOCK_SIZE - 1) ? 1 : 0;
 	for(int8_t i = 0; i < BLOCK_SIZE - 1; i++)
 	{
 		shiftInnerLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
@@ -123,9 +123,9 @@ void miniSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 		if (miniSumTmp[i] < miniRetVal[i])
 		{
-			if((shiftCnt > BLOCK_SIZE - 1))
+			if((shiftCnt >= BLOCK_SIZE - 1))
 			{
-				OFRet_x = ap_uint<3>(shiftCnt - BLOCK_SIZE - 1);
+				OFRet_x = ap_uint<3>(shiftCnt - BLOCK_SIZE);
 				miniRetVal[i] = miniSumTmp[i];
 			}
 		}
@@ -182,15 +182,9 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		ap_int<16> miniRet;
 		ap_uint<6> OFRet = 0;    // TODO: maybe change the initial value.
 
-		for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; xOffSet++)
-		{
-//			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
-//			yRd = (xOffSet == 0)? (ap_uint<8>)(yStream.read()): yRd;
-			if (xOffSet == 0)
-			{
-				writePixSW(xWr, yWr, idx);
+		writePixSW(xWr, yWr, idx);
 
-				resetPixSW(i/PIXS_PER_COL, (i % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+		resetPixSW(i/PIXS_PER_COL, (i % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 //				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 64, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 96, (sliceIdx_t)(idx + 3));
@@ -200,26 +194,23 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 //				resetPix(i, 192, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 224, (sliceIdx_t)(idx + 3));
 
-				miniRetVal = ap_int<16>(0x7fff);
+		initMiniSumLoop : for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
+		{
+			miniSumTmp[j] = ap_int<16>(0);
+			miniRetVal[j] = ap_int<16>(0x7fff);
+		}
 
-				initMiniSumLoop : for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
-				{
-					miniSumTmp[i] = ap_int<16>(0);
-				}
-			}
-			else
-			{
-				pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-				pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+		for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
+		{
 
-//				resetPix(xRd + xOffSet, yRd , (sliceIdx_t)(idx + 3));
+			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-	//			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
 
-				readBlockColsSW(xWr + xOffSet - 1, yWr , idx + 1, idx + 2, out1, out2);
+			readBlockColsSW(xWr + xOffSet, yWr , idx + 1, idx + 2, out1, out2);
 
-				miniSADSumSW(out1, out2, xOffSet, &miniRet, &OFRet);   // Here k starts from 1 not 0.
-			}
+			miniSADSumSW(out1, out2, xOffSet, &miniRet, &OFRet);   // Here k starts from 1 not 0.
+
 		}
 		apUint17_t tmp1 = apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 		ap_int<9> tmp2 = miniRet.range(8, 0);
@@ -250,39 +241,77 @@ int main(int argc, char *argv[])
 	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-	for(int k = 0; k < testTimes; k++)
-	{
-		ap_uint<64> x, y;
-		ap_uint<2> idx;
+//	for(int k = 0; k < testTimes; k++)
+//	{
+//		ap_uint<64> x, y;
+//		ap_uint<2> idx;
+//
+//		for (int i = 0; i < eventsArraySize; i++)
+//		{
+//			cout << "Test " << k << ":" << endl;
+//			x = rand()%20;
+//			y = rand()%20;
+//			idx = rand()%3;
+//	//		x = 255;
+//	//		y = 240;
+//	//		idx++;
+//			cout << "x : " << x << endl;
+//			cout << "y : " << y << endl;
+//			cout << "idx : " << idx << endl;
+//
+//			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (1 << 1);
+//		}
+//
+//		parseEventsSW(data, eventsArraySize, eventSliceSW);
+//		parseEvents(data, eventsArraySize, eventSlice);
+//
+//		for (int j = 0; j < eventsArraySize; j++)
+//		{
+//			if (eventSlice[j] != eventSliceSW[j])
+//			{
+//				err_cnt++;
+//				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+//			}
+//		}
+//	}
 
-		for (int i = 0; i < eventsArraySize; i++)
+		/******************* Test min module **************************/
+		ap_int<16> testData[2*SEARCH_DISTANCE + 1];
+		ap_int<16> minSW, minHW;
+		int8_t indexSW, indexHW;
+
+		cout << "Start testing min module...... " << endl;
+
+		for(int k = 0; k < TEST_TIMES; k++)
 		{
 			cout << "Test " << k << ":" << endl;
-			x = rand()%20;
-			y = rand()%20;
-			idx = rand()%3;
-	//		x = 255;
-	//		y = 240;
-	//		idx++;
-			cout << "x : " << x << endl;
-			cout << "y : " << y << endl;
-			cout << "idx : " << idx << endl;
 
-			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (1 << 1);
-		}
+			for(int j = 0; j < 2*SEARCH_DISTANCE + 1; j++)
+			{
+				testData[j] = ap_int<16>(rand());
+			}
 
-		parseEventsSW(data, eventsArraySize, eventSliceSW);
-		parseEvents(data, eventsArraySize, eventSlice);
+			cout << "Test data is: " << endl;
+			for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+			{
+				cout << testData[m].to_short() << " ";
+			}
+			cout << endl;
 
-		for (int j = 0; j < eventsArraySize; j++)
-		{
-			if (eventSlice[j] != eventSliceSW[j])
+			minSW = *min_element(testData, testData + 2*SEARCH_DISTANCE + 1);
+			indexSW = distance(testData, min_element(testData, testData + 2*SEARCH_DISTANCE + 1));
+			minHW = min(testData, &indexHW);
+
+			cout << "minSW is: " << minSW.to_short() << "\t indexSW is: " << (short)indexSW << endl;
+			cout << "minHW is: " << minHW.to_short() << "\t indexHW is: " << (short)indexHW << endl;
+
+			if((minSW != minHW) || (indexSW != indexHW))
 			{
 				err_cnt++;
-				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+				cout<<"!!! ERROR: Mismatch detected at index" << k << "!!!" << endl;
 			}
+			cout << endl;
 		}
-	}
 
 	if (err_cnt == 0)
 	{
@@ -292,7 +321,7 @@ int main(int argc, char *argv[])
 	{
 			cout<<"!!! TEST FAILED - " << err_cnt << " mismatches detected !!!";
 			cout<< endl;
-			retval = 0;
+			retval = -1;
 	}
 
 	// Return 0 if the test passes

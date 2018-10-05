@@ -43,6 +43,8 @@ pix_t readPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx);
 
 void topHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, ap_int<16> *miniSumRet);
 
+ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1], int8_t *index);
+
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice);
 
 #endif
