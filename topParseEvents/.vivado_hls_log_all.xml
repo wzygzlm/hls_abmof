@@ -11,7 +11,95 @@
   </errorLogs>
   <warningLogs>
     <logs>
-      <synLog/>
+      <synLog>
+        <logs message="WARNING: [RTGEN 206-101] Register 'minOFRet_V' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.228+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.224+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.219+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.215+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.211+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.207+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.202+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.197+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.193+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.188+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.183+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.178+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.171+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.165+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.160+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.156+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.151+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.147+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.143+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.139+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.135+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.132+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.127+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.123+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.118+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.114+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.108+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.104+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.100+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.095+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.091+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.086+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.082+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.077+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.073+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.068+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.063+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.058+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.053+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.050+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.046+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.042+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.038+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.033+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.029+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.025+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.021+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.017+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.012+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.008+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.005+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:21.000+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.996+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.992+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.987+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.983+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.979+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.973+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.967+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.964+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.960+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.956+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.952+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.948+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.943+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.937+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.931+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.926+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.923+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.918+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.914+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniRetVal_V' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.910+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.907+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_6' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.902+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.898+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_5' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.894+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.889+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_4' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.885+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.881+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_3' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.877+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.873+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_2' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.869+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.865+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.861+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.858+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:20.854+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (topParseEvents/src/abmofAccel.cpp:15) because its parent loop or function is pipelined." projectName="topParseEvents" solutionName="solution1" date="2018-10-05T17:25:15.745+0200" type="Warning"/>
+      </synLog>
       <simLog/>
       <mgLog/>
       <packageLog/>

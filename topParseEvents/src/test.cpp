@@ -8,7 +8,7 @@ using namespace std;
 #include "abmofAccel.h"
 #include "time.h"
 
-#define TEST_TIMES 100
+#define TEST_TIMES 51
 
 static col_pix_t slices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdx;
@@ -83,7 +83,9 @@ void colSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 // Set the initial value as the max integer, cannot be 0x7fff, DON'T KNOW WHY.
 
-static ap_int<16> miniRetVal[2*SEARCH_DISTANCE + 1] = {0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff, 0x7fff};
+static ap_int<16> miniRetVal = 0x7fff;
+static ap_uint<6> minOFRet = ap_uint<6>(0xff);
+
 static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1] = {0, 0, 0, 0, 0, 0, 0};
 static ap_int<16> localSumReg[BLOCK_SIZE][2*SEARCH_DISTANCE + 1];
 
@@ -112,22 +114,16 @@ void miniSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		localSumReg[BLOCK_SIZE - 1][j] = out[j];
 	}
 
-	ap_uint<3> OFRet_x;
+
+	ap_uint<3> OFRet_x = minOFRet.range(2, 0);
+	ap_uint<3> OFRet_y = minOFRet.range(5, 3);
+
 	for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
 		miniSumTmp[i] = 0;
 		for(int8_t j = 0; j <= BLOCK_SIZE - 1; j++)
 		{
 			miniSumTmp[i] += localSumReg[j][i];
-		}
-
-		if (miniSumTmp[i] < miniRetVal[i])
-		{
-			if((shiftCnt >= BLOCK_SIZE - 1))
-			{
-				OFRet_x = ap_uint<3>(shiftCnt - BLOCK_SIZE);
-				miniRetVal[i] = miniSumTmp[i];
-			}
 		}
 	}
 
@@ -138,29 +134,27 @@ void miniSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	}
 	cout << endl;
 
-	cout << "miniRetVal is: " << endl;
-	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+	// Find the minimal of current column.
+	ap_int<16> miniRetValTmpIter = ap_int<16>(*min_element(miniSumTmp, miniSumTmp + 2*SEARCH_DISTANCE + 1));
+	int miniIdx = distance(miniSumTmp, min_element(miniSumTmp, miniSumTmp + 2*SEARCH_DISTANCE + 1));
+
+	// Compare with current global minimum value.
+	if (miniRetValTmpIter < miniRetVal)
 	{
-		cout << miniRetVal[m] << " ";
+		if((shiftCnt >= BLOCK_SIZE - 1))
+		{
+			miniRetVal = miniRetValTmpIter;     // Update the global value
+			OFRet_x = ap_uint<3>(shiftCnt - BLOCK_SIZE + 1);   // Record the shift value and store it in OFRet_x
+			OFRet_y = ap_uint<3>(miniIdx);
+			minOFRet = OFRet_y.concat(OFRet_x);     // Update the OF value.
+			cout << "OF and global minimum updated at index shiftCnt: " << shiftCnt << endl;
+		}
 	}
-	cout << endl;
-
-	// Convert it to standard c type, so min function could be used.
-	uint16_t intMiniRetVal[2*SEARCH_DISTANCE + 1];
-	for (int j = 0; j <= 2 * SEARCH_DISTANCE; j++)
-	{
-		intMiniRetVal[j] = miniRetVal[j].to_short();
-	}
-
-	ap_uint<3> OFRet_y;
-	testTmpSum = *min_element(intMiniRetVal, intMiniRetVal + 2*SEARCH_DISTANCE + 1);
-	OFRet_y = distance(intMiniRetVal, min_element(intMiniRetVal, intMiniRetVal + 2*SEARCH_DISTANCE + 1));
-	cout << "Minimal value in int16_t is: " << testTmpSum << endl;
-	*miniSumRet = ap_int<16>(*min_element(miniRetVal, miniRetVal + 2*SEARCH_DISTANCE + 1));
-
-	*OFRet = (cond1) ? ap_uint<6>(OFRet_y.concat(OFRet_x)) : ap_uint<6>(0);
 
 	cout << "OF_x is: " << OFRet_x << "\t OF_y is: " << OFRet_y << endl;
+
+	*miniSumRet = miniRetVal;
+	*OFRet = minOFRet;
 }
 
 
@@ -194,10 +188,10 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 //				resetPix(i, 192, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 224, (sliceIdx_t)(idx + 3));
 
+		miniRetVal = ap_int<16>(0x7fff);
 		initMiniSumLoop : for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
 		{
 			miniSumTmp[j] = ap_int<16>(0);
-			miniRetVal[j] = ap_int<16>(0x7fff);
 		}
 
 		for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
@@ -275,43 +269,80 @@ int main(int argc, char *argv[])
 //		}
 //	}
 
-		/******************* Test min module **************************/
-		ap_int<16> testData[2*SEARCH_DISTANCE + 1];
-		ap_int<16> minSW, minHW;
-		int8_t indexSW, indexHW;
+	/******************* Test miniSADSum module **************************/
+	pix_t input1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+			input2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	ap_int<16> miniSum, miniSumSW;
+	ap_uint<6> OFRet, OFRetSW;
 
-		cout << "Start testing min module...... " << endl;
+	for(int k = 0; k < TEST_TIMES; k++)
+	{
+		cout << "Test " << k << ":" << endl;
 
-		for(int k = 0; k < TEST_TIMES; k++)
+		for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
 		{
-			cout << "Test " << k << ":" << endl;
+			input1[j] = rand() % 16;
+			input2[j] = rand() % 16;
+		}
+		miniSADSumSW(input1, input2, k, &miniSumSW, &OFRetSW);
+		miniSADSum(input1, input2, k + 1, &miniSum, &OFRet);
 
-			for(int j = 0; j < 2*SEARCH_DISTANCE + 1; j++)
-			{
-				testData[j] = ap_int<16>(rand());
-			}
+		// Compare the results file with the golden results
+		cout << "miniSumSW is: " << miniSumSW << "\t OFRetSW is: " << hex << OFRetSW << endl;
+		cout << dec;    // Restore dec mode
 
-			cout << "Test data is: " << endl;
-			for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
-			{
-				cout << testData[m].to_short() << " ";
-			}
-			cout << endl;
+		cout << "miniSumHW is: " << miniSum << "\t OFRetHW is: " << hex << OFRet << endl;
+		cout << dec;    // Restore dec mode
 
-			minSW = *min_element(testData, testData + 2*SEARCH_DISTANCE + 1);
-			indexSW = distance(testData, min_element(testData, testData + 2*SEARCH_DISTANCE + 1));
-			minHW = min(testData, &indexHW);
-
-			cout << "minSW is: " << minSW.to_short() << "\t indexSW is: " << (short)indexSW << endl;
-			cout << "minHW is: " << minHW.to_short() << "\t indexHW is: " << (short)indexHW << endl;
-
-			if((minSW != minHW) || (indexSW != indexHW))
+		for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+		{
+			if(miniSum != miniSumSW || OFRet != OFRetSW)
 			{
 				err_cnt++;
-				cout<<"!!! ERROR: Mismatch detected at index" << k << "!!!" << endl;
+				cout<<"!!! ERROR: Mismatch detected at index" << i << "!!!" << endl;
 			}
-			cout << endl;
 		}
+
+		cout << endl;
+	}
+
+//		/******************* Test min module **************************/
+//		ap_int<16> testData[2*SEARCH_DISTANCE + 1];
+//		ap_int<16> minSW, minHW;
+//		int8_t indexSW, indexHW;
+//
+//		cout << "Start testing min module...... " << endl;
+//
+//		for(int k = 0; k < TEST_TIMES; k++)
+//		{
+//			cout << "Test " << k << ":" << endl;
+//
+//			for(int j = 0; j < 2*SEARCH_DISTANCE + 1; j++)
+//			{
+//				testData[j] = ap_int<16>(rand());
+//			}
+//
+//			cout << "Test data is: " << endl;
+//			for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+//			{
+//				cout << testData[m].to_short() << " ";
+//			}
+//			cout << endl;
+//
+//			minSW = *min_element(testData, testData + 2*SEARCH_DISTANCE + 1);
+//			indexSW = distance(testData, min_element(testData, testData + 2*SEARCH_DISTANCE + 1));
+//			minHW = min(testData, &indexHW);
+//
+//			cout << "minSW is: " << minSW.to_short() << "\t indexSW is: " << (short)indexSW << endl;
+//			cout << "minHW is: " << minHW.to_short() << "\t indexHW is: " << (short)indexHW << endl;
+//
+//			if((minSW != minHW) || (indexSW != indexHW))
+//			{
+//				err_cnt++;
+//				cout<<"!!! ERROR: Mismatch detected at index" << k << "!!!" << endl;
+//			}
+//			cout << endl;
+//		}
 
 	if (err_cnt == 0)
 	{

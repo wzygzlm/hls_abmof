@@ -4,7 +4,7 @@
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
 open_project topParseEvents
-set_top min
+set_top miniSADSum
 add_files topParseEvents/src/abmofAccel.cpp
 add_files topParseEvents/src/abmofAccel.h
 add_files -tb topParseEvents/src/test.cpp

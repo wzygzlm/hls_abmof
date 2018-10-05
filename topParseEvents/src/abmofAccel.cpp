@@ -203,6 +203,7 @@ void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 
 // Set the initial value as the max integer, cannot be 0x7fff, DON'T KNOW WHY.
 static ap_int<16> miniRetVal = 0x7fff;
+static ap_uint<6> minOFRet = ap_uint<6>(0xff);
 static ap_int<16> miniSumTmp[2*SEARCH_DISTANCE + 1];
 static ap_int<16> localSumReg[BLOCK_SIZE][2*SEARCH_DISTANCE + 1];
 
@@ -265,6 +266,7 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 	std::cout << "New miniRetVal from HW is: " << miniRetVal << std::endl;
 
+	// TODO: change the localSumReg to a hls stream with depth BLOCK_SIZE.
 	shiftMainLoop: for(int8_t i = 0; i < BLOCK_SIZE - 1; i++)
 	{
 		shiftInnerLoop: for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
@@ -278,15 +280,13 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		localSumReg[BLOCK_SIZE - 1][j] = out[j];
 	}
 
-//	outputRetLoop:for (int j = 0; j <= 2 * SEARCH_DISTANCE; j++)
-//	{
-		*miniSumRet = miniRetVal;
-		ap_uint<3> OFRet_x = shiftCnt - BLOCK_SIZE - 1;
-		ap_uint<3> OFRet_y = ap_uint<3>(retIdx);
+	*miniSumRet = miniRetVal;
 
-		*OFRet = (cond2) && (cond1) ? ap_uint<6>(OFRet_y.concat(OFRet_x)) : ap_uint<6>(0);     // TODO: add a flag to indicate the result valid or not. Use 0 to represent the invalid result.
-//	}
+	ap_uint<3> OFRet_x = shiftCnt - BLOCK_SIZE;
+	ap_uint<3> OFRet_y = ap_uint<3>(retIdx);
 
+	minOFRet = (cond2) && (cond1) ? ap_uint<6>(OFRet_y.concat(OFRet_x)) : minOFRet;  // TODO: add a flag to indicate the result valid or not. Use 0 to represent the invalid result.
+	*OFRet = minOFRet;
 }
 
 
@@ -444,6 +444,7 @@ void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<ap
 			if (k == 0)    // Initialization code
 			{
 				miniRetVal = ap_int<16>(0x7fff);
+				minOFRet = ap_uint<6>(0xff);
 
 				initMiniSumLoop : for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
 				{
