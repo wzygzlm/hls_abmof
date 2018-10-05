@@ -432,8 +432,6 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 
 }
 
-typedef ap_uint<15> apUint15_t;
-typedef ap_uint<6> apUint6_t;
 void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<apIntBlockCol_t> &tagStreamIn, hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream)
 //void miniSADSumWrapper(ap_uint<8> *xStream, ap_uint<8> *yStream, sliceIdx_t idx, int32_t eventsArraySize, ap_int<16> *miniSumRet)
 {
@@ -447,9 +445,9 @@ void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<ap
 			{
 				miniRetVal = ap_int<16>(0x7fff);
 
-				initMiniSumLoop : for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
+				initMiniSumLoop : for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
 				{
-					miniSumTmp[i] = ap_int<16>(0);
+					miniSumTmp[j] = ap_int<16>(0);
 				}
 			}
 			else
