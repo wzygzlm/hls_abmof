@@ -446,11 +446,11 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 		}
 	}
 
-	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
-	{
-		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-	}
+//	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+//	{
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//	}
 
 }
 
@@ -540,6 +540,38 @@ void testMiniSADSumWrapper(apIntBlockCol_t *input1, apIntBlockCol_t *input2, int
 		miniSumStream.read(*miniSum++);
 		OFRetStream.read(*OF++);
 	}
+}
+
+void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
+			  apIntBlockCol_t *refData, apIntBlockCol_t *tagData)
+{
+	hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
+	hls::stream<apUint17_t> pktEventDataStream("EventStream");
+	hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
+
+	eventIterSize = eventCnt;
+
+	getXandYLoop:for(int32_t i = 0; i < eventIterSize; i++)
+	{
+		uint64_t tmp = data[i];
+		ap_uint<8> xWr, yWr;
+		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
+		yWr = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
+		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
+		int64_t ts = tmp >> 32;
+
+		xStream << xWr;
+		yStream << yWr;
+	}
+
+	rwSlices(xStream, yStream, glPLActiveSliceIdx, refStream, tagStreamIn);
+
+	writeFromStream: for(int32_t i = 0; i < eventIterSize * (BLOCK_SIZE + 2 * SEARCH_DISTANCE); i++)
+	{
+		refStream >> *refData++;
+		tagStreamIn >> *tagData++;
+	}
+
 }
 
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)

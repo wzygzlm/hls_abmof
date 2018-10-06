@@ -205,6 +205,56 @@ void testMiniSADSumWrapperSW(apIntBlockCol_t *input1, apIntBlockCol_t *input2, i
 	}
 }
 
+void testRwslicesSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBlockCol_t *refData, apIntBlockCol_t *tagData)
+{
+	for(int32_t i = 0; i < eventCnt; i++)
+	{
+		uint64_t tmp = *data++;
+		ap_uint<8> xWr, yWr;
+		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
+		yWr = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
+		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
+		int64_t ts = tmp >> 32;
+
+		writePixSW(xWr, yWr, idx);
+
+		resetPixSW(i/PIXS_PER_COL, (i % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//		cout << "tmp is: " << hex << tmp << endl;
+		cout << "x is: " << xWr << "\t y is: " << yWr << "\t idx is: " << idx << endl;
+
+		for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
+		{
+			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+//				resetPix(xRd + xOffSet, yRd , (sliceIdx_t)(idx + 3));
+
+//			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
+
+			readBlockColsSW(xWr + xOffSet, yWr , idx + 1, idx + 2, out1, out2);
+
+			apIntBlockCol_t refBlockCol;
+			apIntBlockCol_t tagBlockCol;
+
+			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+			{
+				refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
+				tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
+			}
+
+			*refData++ = refBlockCol;
+			*tagData++ = tagBlockCol;
+		}
+	}
+
+
+//	for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+//	{
+//		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//	}
+}
+
 void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
 {
 	glPLActiveSliceIdx++;
@@ -274,14 +324,14 @@ int main(int argc, char *argv[])
     int err_cnt = 0;
 	int retval=0;
 
-	int32_t eventsArraySize = 500;
-	uint64_t data[eventsArraySize];
-	int32_t eventSlice[eventsArraySize], eventSliceSW[eventsArraySize];
-
-	ap_int<16> miniSumRet;
-	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-
+//	int32_t eventsArraySize = 500;
+//	uint64_t data[eventsArraySize];
+//	int32_t eventSlice[eventsArraySize], eventSliceSW[eventsArraySize];
+//
+//	ap_int<16> miniSumRet;
+//	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//
 //	for(int k = 0; k < testTimes; k++)
 //	{
 //		ap_uint<64> x, y;
@@ -316,45 +366,48 @@ int main(int argc, char *argv[])
 //		}
 //	}
 
-	/******************* Test miniSADSumWrapper module **************************/
+	/******************* Test rwSlices module **************************/
 //	srand((unsigned)time(NULL));
 	int16_t eventCnt = 20;
 
-	apIntBlockCol_t refBlockColData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
-	apIntBlockCol_t tagBlockColData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+	uint64_t data[eventCnt];
+	apIntBlockCol_t refData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+	apIntBlockCol_t refDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
 
-	apUint15_t miniSum[eventCnt], miniSumSW[eventCnt];
-	apUint6_t OFRet[eventCnt], OFRetSW[eventCnt];
+	ap_uint<64> x, y;
+	sliceIdx_t idx;
 
 	for(int k = 0; k < TEST_TIMES; k++)
 	{
 		cout << "Test " << k << ":" << endl;
-//		cout << "Input data is: " << endl;
-		for (int i = 0; i < eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE); i++)
+
+		idx = sliceIdx_t(idx + 1);
+
+		for (int i = 0; i < eventCnt; i++)
 		{
-//			cout << "#" << i << ": " <<  endl;
+			x = rand()%20;
+			y = rand()%20;
+//			idx = rand()%3;
+	//		x = 255;
+	//		y = 240;
+//			cout << "x : " << x << endl;
+//			cout << "y : " << y << endl;
+//			cout << "idx : " << idx << endl;
 
-			for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
-			{
-				pix_t tmp1 = pix_t(rand() % 16);
-				pix_t tmp2 = pix_t(rand() % 16);
-				refBlockColData[i].range(4 * j + 3, 4 * j) = tmp1;
-				tagBlockColData[i].range(4 * j + 3, 4 * j) = tmp2;
-
-//				cout << tmp1 << "  " << tmp2 << "  ";
-			}
-//			cout << endl;
-//			cout << "refBlockColData[eventCnt] is: " << refBlockColData[eventCnt] << "\t tagBlockColData[eventCnt] is: " << tagBlockColData[eventCnt] << endl;
+			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (1 << 1);
+//			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
 		}
-		testMiniSADSumWrapperSW(refBlockColData, tagBlockColData, eventCnt, miniSumSW, OFRetSW);
-		testMiniSADSumWrapper(refBlockColData, tagBlockColData, eventCnt, miniSum, OFRet);
+
+
+		testRwslicesSW(data, idx, eventCnt, refDataSW, tagDataSW);
+		testRwslices(data, idx, eventCnt, refData, tagData);
 
 		for (int m = 0; m < eventCnt; m++)
 		{
-			if(miniSumSW[m] != miniSum[m] || OFRetSW[m] != OFRet[m])
+			if(refDataSW[m] != refData[m] || tagDataSW[m] != tagData[m])
 			{
-				std::cout << "miniSumRetSW is: " << miniSumSW[m] << "\t OFRetSW is: " << std::hex << OFRetSW[m] << std::endl;
-				std::cout << "miniSumRetHW is: " << miniSum[m] << "\t OFRetHW is: " << std::hex << OFRet[m] << std::endl;
+				std::cout << "refDataSW is: " << refDataSW << "\t tagDataSW is: " << std::hex << tagDataSW << std::endl;
+				std::cout << "refData is: " << refData << "\t tagData is: " << std::hex << tagData << std::endl;
 
 				err_cnt++;
 				cout<<"!!! ERROR: Mismatch detected at index" << m << "!!!" << endl;
@@ -362,10 +415,57 @@ int main(int argc, char *argv[])
 		}
 
 		cout << endl;
-		cout << endl;
-		cout << endl;
-		cout << endl;
 	}
+	/******************* Test miniSADSumWrapper module **************************/
+//	srand((unsigned)time(NULL));
+//	int16_t eventCnt = 20;
+//
+//	apIntBlockCol_t refBlockColData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+//	apIntBlockCol_t tagBlockColData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+//
+//	apUint15_t miniSum[eventCnt], miniSumSW[eventCnt];
+//	apUint6_t OFRet[eventCnt], OFRetSW[eventCnt];
+//
+//	for(int k = 0; k < TEST_TIMES; k++)
+//	{
+//		cout << "Test " << k << ":" << endl;
+////		cout << "Input data is: " << endl;
+//		for (int i = 0; i < eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE); i++)
+//		{
+////			cout << "#" << i << ": " <<  endl;
+//
+//			for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+//			{
+//				pix_t tmp1 = pix_t(rand() % 16);
+//				pix_t tmp2 = pix_t(rand() % 16);
+//				refBlockColData[i].range(4 * j + 3, 4 * j) = tmp1;
+//				tagBlockColData[i].range(4 * j + 3, 4 * j) = tmp2;
+//
+////				cout << tmp1 << "  " << tmp2 << "  ";
+//			}
+////			cout << endl;
+////			cout << "refBlockColData[eventCnt] is: " << refBlockColData[eventCnt] << "\t tagBlockColData[eventCnt] is: " << tagBlockColData[eventCnt] << endl;
+//		}
+//		testMiniSADSumWrapperSW(refBlockColData, tagBlockColData, eventCnt, miniSumSW, OFRetSW);
+//		testMiniSADSumWrapper(refBlockColData, tagBlockColData, eventCnt, miniSum, OFRet);
+//
+//		for (int m = 0; m < eventCnt; m++)
+//		{
+//			if(miniSumSW[m] != miniSum[m] || OFRetSW[m] != OFRet[m])
+//			{
+//				std::cout << "miniSumRetSW is: " << miniSumSW[m] << "\t OFRetSW is: " << std::hex << OFRetSW[m] << std::endl;
+//				std::cout << "miniSumRetHW is: " << miniSum[m] << "\t OFRetHW is: " << std::hex << OFRet[m] << std::endl;
+//
+//				err_cnt++;
+//				cout<<"!!! ERROR: Mismatch detected at index" << m << "!!!" << endl;
+//			}
+//		}
+//
+//		cout << endl;
+//		cout << endl;
+//		cout << endl;
+//		cout << endl;
+//	}
 
 
 //	/******************* Test miniSADSum module **************************/

@@ -60,6 +60,8 @@ void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<ap
 
 void testMiniSADSumWrapper(apIntBlockCol_t *input1, apIntBlockCol_t *input2, int16_t eventCnt, apUint15_t *miniSum, apUint6_t *OF);
 
+void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBlockCol_t *refData, apIntBlockCol_t *tagData);
+
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice);
 
 #endif
