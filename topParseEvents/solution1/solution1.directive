@@ -354,19 +354,15 @@
         </directive>
         <directive functionName="testMiniSADSumWrapper" label="" functionLabel="">
             <pragma name="INTERFACE">
-                <option name="axis" value="" positionalBoolean="mode"/>
-                <option name="register" value="" positionalBoolean="1"/>
-                <option name="both" value="" positionalBoolean="register_mode"/>
-                <option name="depth" value="34"/>
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="depth" value="340"/>
                 <option name="port" value="input1" positionalBoolean="4"/>
             </pragma>
         </directive>
         <directive functionName="testMiniSADSumWrapper" label="" functionLabel="">
             <pragma name="INTERFACE">
-                <option name="axis" value="" positionalBoolean="mode"/>
-                <option name="register" value="" positionalBoolean="1"/>
-                <option name="both" value="" positionalBoolean="register_mode"/>
-                <option name="depth" value="34"/>
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="depth" value="340"/>
                 <option name="port" value="input2" positionalBoolean="4"/>
             </pragma>
         </directive>

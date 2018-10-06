@@ -83,8 +83,8 @@
       "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredminiSumStream} {depth 2} {dim 1}} {}",
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredpktEventDataStream} {core FIFO_SRL}} {}",
       "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredpktEventDataStream} {depth 2} {dim 1}} {}",
-      "interface testMiniSADSumWrapper {{axis positionBoolean0mode} {register positionBoolean1} {both positionBoolean0register_mode} {depth 34} {port positionBooleanTextRequiredinput1}} {}",
-      "interface testMiniSADSumWrapper {{axis positionBoolean0mode} {register positionBoolean1} {both positionBoolean0register_mode} {depth 34} {port positionBooleanTextRequiredinput2}} {}",
+      "interface testMiniSADSumWrapper {{ap_fifo positionBoolean0mode} {depth 340} {port positionBooleanTextRequiredinput1}} {}",
+      "interface testMiniSADSumWrapper {{ap_fifo positionBoolean0mode} {depth 340} {port positionBooleanTextRequiredinput2}} {}",
       "interface testMiniSADSumWrapper {{axis positionBoolean0mode} {register positionBoolean1} {both positionBoolean0register_mode} {depth 20} {port positionBooleanTextRequiredminiSum}} {}",
       "interface testMiniSADSumWrapper {{axis positionBoolean0mode} {register positionBoolean1} {both positionBoolean0register_mode} {depth 20} {port positionBooleanTextRequiredOF}} {}",
       "pipeline testMiniSADSumWrapper\/readToStream {} {}",
@@ -177,7 +177,7 @@
     "ap_clk": {
       "type": "clock",
       "ctype": {"CLK": {"Type": "bool"}},
-      "buses": "input1_V input2_V miniSum_V OF_V",
+      "buses": "miniSum_V OF_V",
       "reset": "ap_rst_n"
     },
     "ap_ctrl": {
@@ -205,36 +205,30 @@
         }}
     },
     "input1_V": {
-      "type": "axi4stream",
-      "mode": "slave",
-      "port_prefix": "input1_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "68",
+      "fifo_type": "read",
       "ctype": {
-        "TDATA": {
+        "RD_DATA": {
           "Type": "integer signed",
-          "Width": "68",
-          "Bits": "72"
+          "Width": "68"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "72"}
+        "EMPTY_N": {"Type": "bool"},
+        "RD_EN": {"Type": "bool"}
+      }
     },
     "input2_V": {
-      "type": "axi4stream",
-      "mode": "slave",
-      "port_prefix": "input2_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "68",
+      "fifo_type": "read",
       "ctype": {
-        "TDATA": {
+        "RD_DATA": {
           "Type": "integer signed",
-          "Width": "68",
-          "Bits": "72"
+          "Width": "68"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "72"}
+        "EMPTY_N": {"Type": "bool"},
+        "RD_EN": {"Type": "bool"}
+      }
     },
     "miniSum_V": {
       "type": "axi4stream",
@@ -254,27 +248,27 @@
     }
   },
   "RtlPorts": {
-    "input1_V_TDATA": {
+    "input1_V_dout": {
       "dir": "in",
-      "width": "72"
+      "width": "68"
     },
-    "input1_V_TVALID": {
+    "input1_V_empty_n": {
       "dir": "in",
       "width": "1"
     },
-    "input1_V_TREADY": {
+    "input1_V_read": {
       "dir": "out",
       "width": "1"
     },
-    "input2_V_TDATA": {
+    "input2_V_dout": {
       "dir": "in",
-      "width": "72"
+      "width": "68"
     },
-    "input2_V_TVALID": {
+    "input2_V_empty_n": {
       "dir": "in",
       "width": "1"
     },
-    "input2_V_TREADY": {
+    "input2_V_read": {
       "dir": "out",
       "width": "1"
     },
@@ -499,8 +493,8 @@
             "PipelineDepth": "2"
           }],
         "Area": {
-          "FF": "346",
-          "LUT": "273",
+          "FF": "50",
+          "LUT": "201",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -671,8 +665,8 @@
         },
         "Area": {
           "BRAM_18K": "8",
-          "FF": "4092",
-          "LUT": "5484",
+          "FF": "3796",
+          "LUT": "5412",
           "DSP48E": "0"
         }
       }
@@ -680,7 +674,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-05 23:40:14 +0200",
+    "Time": "2018-10-06 17:42:25 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

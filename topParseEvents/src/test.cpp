@@ -318,7 +318,7 @@ int main(int argc, char *argv[])
 
 	/******************* Test miniSADSumWrapper module **************************/
 //	srand((unsigned)time(NULL));
-	int16_t eventCnt = 2;
+	int16_t eventCnt = 20;
 
 	apIntBlockCol_t refBlockColData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
 	apIntBlockCol_t tagBlockColData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];

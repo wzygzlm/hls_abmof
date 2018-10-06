@@ -71,8 +71,8 @@ set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" miniSumStream
 set_directive_stream -depth 2 -dim 1 "parseEvents/DFRegion" miniSumStream
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" pktEventDataStream
 set_directive_stream -depth 2 -dim 1 "parseEvents/DFRegion" pktEventDataStream
-set_directive_interface -mode axis -register -register_mode both -depth 34 "testMiniSADSumWrapper" input1
-set_directive_interface -mode axis -register -register_mode both -depth 34 "testMiniSADSumWrapper" input2
+set_directive_interface -mode ap_fifo -depth 340 "testMiniSADSumWrapper" input1
+set_directive_interface -mode ap_fifo -depth 340 "testMiniSADSumWrapper" input2
 set_directive_interface -mode axis -register -register_mode both -depth 20 "testMiniSADSumWrapper" miniSum
 set_directive_interface -mode axis -register -register_mode both -depth 20 "testMiniSADSumWrapper" OF
 set_directive_pipeline "testMiniSADSumWrapper/readToStream"
