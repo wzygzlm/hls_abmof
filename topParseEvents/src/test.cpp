@@ -404,10 +404,52 @@ int main(int argc, char *argv[])
 
 		for (int m = 0; m < eventCnt; m++)
 		{
+
 			if(refDataSW[m] != refData[m] || tagDataSW[m] != tagData[m])
 			{
-				std::cout << "refDataSW is: " << refDataSW << "\t tagDataSW is: " << std::hex << tagDataSW << std::endl;
-				std::cout << "refData is: " << refData << "\t tagData is: " << std::hex << tagData << std::endl;
+				pix_t outSW1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+				pix_t outSW2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+				pix_t outHW1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+				pix_t outHW2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+				for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+				{
+					outSW1[i] = refDataSW[m][4 * i + 3, 4 * i];
+					outSW2[i] = tagDataSW[m][4 * i + 3, 4 * i];
+					outHW1[i] = refData[m][4 * i + 3, 4 * i];
+					outHW2[i] = tagData[m][4 * i + 3, 4 * i];
+				}
+
+				cout << "refDataSW is:  ";
+				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
+				{
+					cout << outSW1[n] << " ";
+				}
+				cout << "\t" ;
+
+				cout << "tagDataSW is:  ";
+				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
+				{
+					cout << outSW2[n] << " ";
+				}
+				cout << endl;
+
+				cout << "refData is:  ";
+				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
+				{
+					cout << outHW1[n] << " ";
+				}
+				cout << "\t" ;
+
+				cout << "tagData is:  ";
+				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
+				{
+					cout << outHW2[n] << " ";
+				}
+				cout << endl;
+
+//				std::cout << "refDataSW is: " << refDataSW[m].to_ulong() << "\t tagDataSW is: " << std::hex << tagDataSW[m].to_ulong() << std::endl;
+//				std::cout << "refData is: " << refData[m].to_ulong() << "\t tagData is: " << std::hex << tagData[m].to_ulong() << std::endl;
 
 				err_cnt++;
 				cout<<"!!! ERROR: Mismatch detected at index" << m << "!!!" << endl;
