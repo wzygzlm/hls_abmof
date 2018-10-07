@@ -21,11 +21,11 @@ void resetPixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 void writePixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 {
 	int8_t yNewIdx = y%COMBINED_PIXELS;
-	cout << "Data before write : " << slices[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
+//	cout << "Data before write : " << slices[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
 	pix_t tmp = slices[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx);
 	tmp += 1;
 	slices[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) = tmp;
-	cout << "Data after write : " << slices[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
+//	cout << "Data after write : " << slices[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
 }
 
 void readBlockColsSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
@@ -33,15 +33,16 @@ void readBlockColsSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceId
 {
 	two_cols_pix_t refColData;
 	// concatenate two columns together
-	refColData = (slices[sliceIdxRef][x][y/COMBINED_PIXELS + 1], slices[sliceIdxRef][x][y/COMBINED_PIXELS]);
+	refColData = (slices[sliceIdxRef][x][y/COMBINED_PIXELS], slices[sliceIdxRef][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
 //	cout << "refColData: " << refColData.range(255, 192) << endl;
 
 	// concatenate two columns together
 	two_cols_pix_t tagColData;
 	// Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-	tagColData = (slices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS + 1], slices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS]);
+	tagColData = (slices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slices[(sliceIdx_t)(sliceIdxTag + 0)][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
 
-	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS;
+	// find the bottom pixel of the column that centered on y.
+	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
 
 	readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
 	{
@@ -205,8 +206,28 @@ void testMiniSADSumWrapperSW(apIntBlockCol_t *input1, apIntBlockCol_t *input2, i
 	}
 }
 
+void testSingleRwslicesSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
+{
+	writePixSW(x, y, idx);
+	readBlockColsSW(x, y, idx + 1, idx + 2, refCol, tagCol);
+	resetPixSW(x, y, idx + 3);
+}
+
 void testRwslicesSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBlockCol_t *refData, apIntBlockCol_t *tagData)
 {
+	// Check the accumulation slice is clear or not
+	for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
+	{
+		for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
+		{
+			if (slices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+			{
+				cout << "Ha! I caught you, the pixel which is not reset!" << endl;
+				cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << endl;
+			}
+		}
+	}
+
 	for(int32_t i = 0; i < eventCnt; i++)
 	{
 		uint64_t tmp = *data++;
@@ -218,9 +239,9 @@ void testRwslicesSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBloc
 
 		writePixSW(xWr, yWr, idx);
 
-		resetPixSW(i/PIXS_PER_COL, (i % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+		resetPixSW(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 //		cout << "tmp is: " << hex << tmp << endl;
-		cout << "x is: " << xWr << "\t y is: " << yWr << "\t idx is: " << idx << endl;
+//		cout << "x is: " << xWr << "\t y is: " << yWr << "\t idx is: " << idx << endl;
 
 		for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
 		{
@@ -366,98 +387,103 @@ int main(int argc, char *argv[])
 //		}
 //	}
 
-	/******************* Test rwSlices module **************************/
-//	srand((unsigned)time(NULL));
-	int16_t eventCnt = 20;
-
-	uint64_t data[eventCnt];
-	apIntBlockCol_t refData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
-	apIntBlockCol_t refDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
-
-	ap_uint<64> x, y;
-	sliceIdx_t idx;
-
-	for(int k = 0; k < TEST_TIMES; k++)
-	{
-		cout << "Test " << k << ":" << endl;
-
-		idx = sliceIdx_t(idx + 1);
-
-		for (int i = 0; i < eventCnt; i++)
-		{
-			x = rand()%20;
-			y = rand()%20;
-//			idx = rand()%3;
-	//		x = 255;
-	//		y = 240;
-//			cout << "x : " << x << endl;
-//			cout << "y : " << y << endl;
-//			cout << "idx : " << idx << endl;
-
-			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (1 << 1);
-//			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
-		}
-
-
-		testRwslicesSW(data, idx, eventCnt, refDataSW, tagDataSW);
-		testRwslices(data, idx, eventCnt, refData, tagData);
-
-		for (int m = 0; m < eventCnt; m++)
-		{
-
-			if(refDataSW[m] != refData[m] || tagDataSW[m] != tagData[m])
-			{
-				pix_t outSW1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-				pix_t outSW2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-				pix_t outHW1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-				pix_t outHW2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-
-				for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
-				{
-					outSW1[i] = refDataSW[m][4 * i + 3, 4 * i];
-					outSW2[i] = tagDataSW[m][4 * i + 3, 4 * i];
-					outHW1[i] = refData[m][4 * i + 3, 4 * i];
-					outHW2[i] = tagData[m][4 * i + 3, 4 * i];
-				}
-
-				cout << "refDataSW is:  ";
-				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
-				{
-					cout << outSW1[n] << " ";
-				}
-				cout << "\t" ;
-
-				cout << "tagDataSW is:  ";
-				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
-				{
-					cout << outSW2[n] << " ";
-				}
-				cout << endl;
-
-				cout << "refData is:  ";
-				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
-				{
-					cout << outHW1[n] << " ";
-				}
-				cout << "\t" ;
-
-				cout << "tagData is:  ";
-				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
-				{
-					cout << outHW2[n] << " ";
-				}
-				cout << endl;
-
-//				std::cout << "refDataSW is: " << refDataSW[m].to_ulong() << "\t tagDataSW is: " << std::hex << tagDataSW[m].to_ulong() << std::endl;
-//				std::cout << "refData is: " << refData[m].to_ulong() << "\t tagData is: " << std::hex << tagData[m].to_ulong() << std::endl;
-
-				err_cnt++;
-				cout<<"!!! ERROR: Mismatch detected at index" << m << "!!!" << endl;
-			}
-		}
-
-		cout << endl;
-	}
+//	/******************* Test rwSlices module **************************/
+////	srand((unsigned)time(NULL));
+//	int16_t eventCnt = 1000;
+//
+//	uint64_t data[eventCnt];
+//	apIntBlockCol_t refData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+//	apIntBlockCol_t refDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+//
+//	ap_uint<64> x, y;
+//	sliceIdx_t idx;
+//
+//	for(int k = 0; k < TEST_TIMES; k++)
+//	{
+//		cout << "Test " << k << ":" << endl;
+//
+//		idx = sliceIdx_t(idx - 1);
+//
+//		for (int i = 0; i < eventCnt; i++)
+//		{
+//			x = rand()%20;
+//			y = rand()%20 + COMBINED_PIXELS;
+////			idx = rand()%3;
+//	//		x = 255;
+//	//		y = 240;
+////			cout << "x : " << x << endl;
+////			cout << "y : " << y << endl;
+////			cout << "idx : " << idx << endl;
+//
+//			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (1 << 1);
+////			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
+//		}
+//
+//
+//		testRwslicesSW(data, idx, eventCnt, refDataSW, tagDataSW);
+//		testRwslices(data, idx, eventCnt, refData, tagData);
+//
+//		for (int m = 0; m < eventCnt; m++)
+//		{
+//			cout  << "refDataSW is: " << hex <<  refDataSW[m] << endl;
+//			cout  << "tagDataSW is: " << hex <<  tagDataSW[m] << endl;
+//			cout  << "refDataHW is: " << hex <<  refData[m] << endl;
+//			cout  << "tagDataHW is: " << hex <<  tagData[m] << endl;
+//			cout << dec;
+//
+//			if(refDataSW[m] != refData[m] || tagDataSW[m] != tagData[m])
+//			{
+//				pix_t outSW1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//				pix_t outSW2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//				pix_t outHW1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//				pix_t outHW2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//
+//				for(int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+//				{
+//					outSW1[i] = refDataSW[m].range(4 * i + 3, 4 * i);
+//					outSW2[i] = tagDataSW[m].range(4 * i + 3, 4 * i);
+//					outHW1[i] = refData[m].range(4 * i + 3, 4 * i);
+//					outHW2[i] = tagData[m].range(4 * i + 3, 4 * i);
+//				}
+//
+//				cout << "refDataSW is:  ";
+//				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
+//				{
+//					cout << outSW1[n] << " ";
+//				}
+//				cout << "\t" ;
+//
+//				cout << "tagDataSW is:  ";
+//				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
+//				{
+//					cout << outSW2[n] << " ";
+//				}
+//				cout << endl;
+//
+//				cout << "refData is:  ";
+//				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
+//				{
+//					cout << outHW1[n] << " ";
+//				}
+//				cout << "\t" ;
+//
+//				cout << "tagData is:  ";
+//				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
+//				{
+//					cout << outHW2[n] << " ";
+//				}
+//				cout << endl;
+//
+////				std::cout << "refDataSW is: " << refDataSW[m].to_ulong() << "\t tagDataSW is: " << std::hex << tagDataSW[m].to_ulong() << std::endl;
+////				std::cout << "refData is: " << refData[m].to_ulong() << "\t tagData is: " << std::hex << tagData[m].to_ulong() << std::endl;
+//
+//				err_cnt++;
+//				cout<<"!!! ERROR: Mismatch detected at index" << m << "!!!" << endl;
+//			}
+//		}
+//
+//		cout << endl;
+//	}
 	/******************* Test miniSADSumWrapper module **************************/
 //	srand((unsigned)time(NULL));
 //	int16_t eventCnt = 20;
@@ -548,6 +574,72 @@ int main(int argc, char *argv[])
 //
 //		cout << endl;
 //	}
+
+	/******************* Test singleRwslices module **************************/
+	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	for(int k = 0; k < testTimes; k++)
+	{
+		ap_uint<8> x, y;
+		ap_uint<2> idx;
+
+		cout << "Test " << k << ":" << endl;
+		x = rand()%20;
+		y = rand()%20;
+		idx = rand()%3;
+//		x = 255;
+//		y = 240;
+//		idx++;
+		cout << "x : " << x << endl;
+		cout << "y : " << y << endl;
+		cout << "idx : " << idx << endl;
+
+		testSingleRwslicesSW(x, y, idx, refColSW, tagColSW);
+		testSingleRwslicesHW(x, y, idx, refColHW, tagColHW);
+
+		cout << "refColSW is: " << endl;
+		for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+		{
+			cout << refColSW[m] << " ";
+		}
+		cout << endl;
+
+		cout << "tagColSW is: " << endl;
+		for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+		{
+			cout << tagColSW[m] << " ";
+		}
+		cout << endl;
+
+		cout << "refColHW is: " << endl;
+		for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+		{
+			cout << refColHW[m] << " ";
+		}
+		cout << endl;
+
+		cout << "tagColHW is: " << endl;
+		for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+		{
+			cout << tagColHW[m] << " ";
+		}
+		cout << endl;
+
+		for (int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+		{
+			{
+				if((refColHW[i] != refColSW[i]) || (tagColHW[i] != tagColSW[i]))
+				{
+					err_cnt++;
+					cout<<"!!! ERROR: Mismatch detected at index" << i << " !!!" << endl;
+				}
+			}
+		}
+
+		cout << endl;
+	}
+
 
 //		/******************* Test min module **************************/
 //		ap_int<16> testData[2*SEARCH_DISTANCE + 1];

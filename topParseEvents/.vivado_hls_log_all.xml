@@ -7,6 +7,9 @@
       <mgLog/>
       <packageLog/>
       <csimLog>
+        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T17:00:17.589+0200"/>
+        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T15:47:44.931+0200"/>
+        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T15:17:31.128+0200"/>
         <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="topParseEvents" solutionName="solution1" date="2018-10-06T22:59:01.670+0200"/>
       </csimLog>
     </logs>

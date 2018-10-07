@@ -410,8 +410,8 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 
 				writePix(xRd, yRd, idx);
 
-				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-//				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+				resetPix(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//				resetPix(i/(PIXS_PER_COL), (i % (PIXS_PER_COL) + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 64, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 96, (sliceIdx_t)(idx + 3));
 
@@ -540,6 +540,13 @@ void testMiniSADSumWrapper(apIntBlockCol_t *input1, apIntBlockCol_t *input2, int
 		miniSumStream.read(*miniSum++);
 		OFRetStream.read(*OF++);
 	}
+}
+
+void testSingleRwslicesHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
+{
+	writePix(x, y, idx);
+	readBlockCols(x, y, idx + 1, idx + 2, refCol, tagCol);
+	resetPix(x, y, idx + 3);
 }
 
 void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
