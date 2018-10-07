@@ -1,8 +1,8 @@
-<project xmlns="com.autoesl.autopilot.project" name="topParseEvents" top="testRwslices">
+<project xmlns="com.autoesl.autopilot.project" name="topParseEvents" top="testMiniSADSumWrapper">
     <files>
+        <file name="../src/test.cpp" sc="0" tb="1" cflags=" "/>
         <file name="topParseEvents/src/abmofAccel.cpp" sc="0" tb="false" cflags=""/>
         <file name="topParseEvents/src/abmofAccel.h" sc="0" tb="false" cflags=""/>
-        <file name="../src/test.cpp" sc="0" tb="1" cflags=""/>
     </files>
     <includePaths/>
     <libraryPaths/>

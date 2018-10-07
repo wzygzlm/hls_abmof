@@ -429,7 +429,7 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 
 	//			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
 
-				readBlockCols(xRd + xOffSet - 1, yRd , idx + 1, idx + 2, out1, out2);
+				readBlockCols(xRd, yRd , idx + 1, idx + 2, out1, out2);
 
 				apIntBlockCol_t refBlockCol;
 				apIntBlockCol_t tagBlockCol;
@@ -571,7 +571,7 @@ void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 		yStream << yWr;
 	}
 
-	rwSlices(xStream, yStream, glPLActiveSliceIdx, refStream, tagStreamIn);
+	rwSlices(xStream, yStream, idx, refStream, tagStreamIn);
 
 	writeFromStream: for(int32_t i = 0; i < eventIterSize * (BLOCK_SIZE + 2 * SEARCH_DISTANCE); i++)
 	{
