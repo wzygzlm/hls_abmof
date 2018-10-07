@@ -75,7 +75,7 @@ void colSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		int16_t tmpOut = 0;
 		for(int j = 0; j < BLOCK_SIZE; j++)
 		{
-			tmpOut += abs(in1[j] - in2[i+j]);
+			tmpOut += abs(in1[j + SEARCH_DISTANCE] - in2[i+j]);  // in1 should get the col data centered on current event.
 		}
 //		cout << "tmpOut is " << tmpOut << endl;
 		out[i] = tmpOut;

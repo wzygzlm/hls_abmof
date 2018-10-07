@@ -12,15 +12,15 @@
   <warningLogs>
     <logs>
       <synLog>
-        <logs message="WARNING: [SYN 201-103] Legalizing function name 'Block__proc23' to 'Block_proc23'." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:43:34.652+0200" type="Warning"/>
-        <logs message="WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.0'." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:43:34.607+0200" type="Warning"/>
-        <logs message="WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.1'." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:43:34.385+0200" type="Warning"/>
-        <logs message="WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.2'." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:43:34.379+0200" type="Warning"/>
-        <logs message="WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.3'." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:43:34.374+0200" type="Warning"/>
-        <logs message="WARNING: [XFORM 203-631] Renaming function 'Loop_getXandYLoop_proc21' to 'Loop_getXandYLoop_pr' (topParseEvents/src/abmofAccel.cpp:561:53)" projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:43:34.370+0200" type="Warning"/>
-        <logs message="WARNING: [XFORM 203-631] Renaming function 'Loop_writeFromStream_proc22' to 'Loop_writeFromStream' (topParseEvents/src/abmofAccel.cpp:576:72)" projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:43:33.430+0200" type="Warning"/>
-        <logs message="WARNING: [XFORM 203-105] Cannot partition array 'glPLSlices.V' : incorrect partition factor 1." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:43:30.581+0200" type="Warning"/>
-        <logs message="WARNING: [SYNCHK 200-23] topParseEvents/src/abmofAccel.cpp:150: variable-indexed range selection may cause suboptimal QoR." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:43:30.068+0200" type="Warning"/>
+        <logs message="WARNING: [SYN 201-103] Legalizing function name 'Block__proc23' to 'Block_proc23'." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:58:39.930+0200" type="Warning"/>
+        <logs message="WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.1'." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:58:39.884+0200" type="Warning"/>
+        <logs message="WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.3'." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:58:39.653+0200" type="Warning"/>
+        <logs message="WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.2'." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:58:39.649+0200" type="Warning"/>
+        <logs message="WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.0'." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:58:39.645+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-631] Renaming function 'Loop_getXandYLoop_proc21' to 'Loop_getXandYLoop_pr' (topParseEvents/src/abmofAccel.cpp:561:53)" projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:58:39.641+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-631] Renaming function 'Loop_writeFromStream_proc22' to 'Loop_writeFromStream' (topParseEvents/src/abmofAccel.cpp:576:72)" projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:58:38.739+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-105] Cannot partition array 'glPLSlices.V' : incorrect partition factor 1." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:58:35.995+0200" type="Warning"/>
+        <logs message="WARNING: [SYNCHK 200-23] topParseEvents/src/abmofAccel.cpp:150: variable-indexed range selection may cause suboptimal QoR." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T18:58:35.501+0200" type="Warning"/>
       </synLog>
       <simLog/>
       <mgLog/>

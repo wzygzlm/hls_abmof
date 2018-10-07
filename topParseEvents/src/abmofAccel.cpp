@@ -63,7 +63,7 @@ void colSADSum(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t input1[BLOCK_SIZE], input2[BLOCK_SIZE];
 		colSADSumInnerLoop:for(ap_uint<4> j = 0; j < BLOCK_SIZE; j++)
 		{
-			input1[j] = t1Col[j];
+			input1[j] = t1Col[j + SEARCH_DISTANCE];   // Get the col data centered on current event.
 			input2[j] = t2Col[i+j];
 		}
 		sad(input1, input2, &retVal[i]);
