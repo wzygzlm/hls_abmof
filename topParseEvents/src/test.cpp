@@ -252,7 +252,7 @@ void testRwslicesSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBloc
 
 //			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
 
-			readBlockColsSW(xWr, yWr , idx + 1, idx + 2, out1, out2);
+			readBlockColsSW(xWr + xOffSet, yWr , idx + 1, idx + 2, out1, out2);
 
 			apIntBlockCol_t refBlockCol;
 			apIntBlockCol_t tagBlockCol;

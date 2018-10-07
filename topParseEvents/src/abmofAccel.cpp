@@ -429,7 +429,7 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 
 	//			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
 
-				readBlockCols(xRd, yRd , idx + 1, idx + 2, out1, out2);
+				readBlockCols(xRd + xOffSet - 1, yRd , idx + 1, idx + 2, out1, out2);
 
 				apIntBlockCol_t refBlockCol;
 				apIntBlockCol_t tagBlockCol;

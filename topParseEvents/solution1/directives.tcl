@@ -1,8 +1,8 @@
 ############################################################
-### This file is generated automatically by Vivado HLS.
-### Please DO NOT edit it.
-### Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
-#############################################################
+## This file is generated automatically by Vivado HLS.
+## Please DO NOT edit it.
+## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
+############################################################
 set_directive_interface -mode ap_fifo -depth 500 "parseEvents" eventSlice
 set_directive_interface -mode ap_fifo "blockSADSum" t1Block
 set_directive_interface -mode ap_fifo "blockSADSum" t2Block
@@ -81,15 +81,13 @@ set_directive_dataflow "testMiniSADSumWrapper"
 set_directive_loop_tripcount -min 1 -max 170000 "testMiniSADSumWrapper/readToStream"
 set_directive_stream -depth 18 -dim 1 "testMiniSADSumWrapper" refStream
 set_directive_stream -depth 18 -dim 1 "testMiniSADSumWrapper" tagStreamIn
-set_directive_pipeline "testGetXYAndRwslices/writeFromStream"
-set_directive_dataflow "testGetXYAndRwslices"
-set_directive_interface -mode ap_fifo "testRwslices" data
-set_directive_interface -mode ap_fifo "testRwslices" refData
-set_directive_interface -mode ap_fifo "testRwslices" tagData
+set_directive_interface -mode ap_fifo -depth 1000 "testRwslices" data
+set_directive_interface -mode ap_fifo -depth 17000 "testRwslices" refData
+set_directive_interface -mode ap_fifo -depth 17000 "testRwslices" tagData
 set_directive_stream -depth 2 -dim 1 "testRwslices" pktEventDataStream
 set_directive_stream -depth 2 -dim 1 "testRwslices" refStream
 set_directive_stream -depth 2 -dim 1 "testRwslices" tagStreamIn
 set_directive_dataflow "testRwslices"
-set_directive_pipeline "testRwslices/writeFromStream"
 set_directive_pipeline "testRwslices/getXandYLoop"
+set_directive_pipeline "testRwslices/writeFromStream"
 set_directive_loop_tripcount -min 1 -max 170000 "testRwslices/writeFromStream"
