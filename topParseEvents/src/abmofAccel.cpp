@@ -3,7 +3,7 @@
 #include "abmofAccel.h"
 
 static col_pix_t glPLSlices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
-static sliceIdx_t glPLActiveSliceIdx, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
+static sliceIdx_t glPLActiveSliceIdx = 0, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
 
 #define INPUT_COLS 4
 
@@ -44,14 +44,14 @@ void colSADSum(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			pix_t t2Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			int16_t retVal[2*SEARCH_DISTANCE + 1])
 {
-	std::cout << "in1 is: " << std::endl;
+	std::cout << "HW in1 is: " << std::endl;
 	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
 	{
 		std::cout << t1Col[m] << " ";
 	}
 	std::cout << std::endl;
 
-	std::cout << "in2 is: " << std::endl;
+	std::cout << "HW in2 is: " << std::endl;
 	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
 	{
 		std::cout << t2Col[m] << " ";
@@ -250,15 +250,15 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	colSADSum(in1, in2, out);
 
 	ap_uint<1> cond1 = (shiftCnt > BLOCK_SIZE - 1) ? 1 : 0;
-	std::cout << "shiftCnt is: " << shiftCnt << std::endl;
-	std::cout << "cond1 is: " << cond1 << std::endl;
-
-	std::cout << "localSumReg[0] from HW is: " << std::endl;
-	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
-	{
-		std::cout << localSumReg[0][m] << " ";
-	}
-	std::cout << std::endl;
+//	std::cout << "shiftCnt is: " << shiftCnt << std::endl;
+//	std::cout << "cond1 is: " << cond1 << std::endl;
+//
+//	std::cout << "localSumReg[0] from HW is: " << std::endl;
+//	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+//	{
+//		std::cout << localSumReg[0][m] << " ";
+//	}
+//	std::cout << std::endl;
 
 	addLoop: for(int8_t i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
@@ -269,14 +269,14 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 //		else miniRetVal[i] = miniRetVal[i];
 	}
 
-	std::cout << "miniSumTmp from HW is: " << std::endl;
-	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
-	{
-		std::cout << miniSumTmp[m] << " ";
-	}
-	std::cout << std::endl;
-
-	std::cout << "Old miniRetVal from HW is: " << miniRetVal << std::endl;
+//	std::cout << "miniSumTmp from HW is: " << std::endl;
+//	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+//	{
+//		std::cout << miniSumTmp[m] << " ";
+//	}
+//	std::cout << std::endl;
+//
+//	std::cout << "Old miniRetVal from HW is: " << miniRetVal << std::endl;
 
 	int8_t retIdx;
 	miniRetValTmpIter = min(miniSumTmp, &retIdx);
@@ -286,7 +286,7 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 //	miniRetVal = (miniRetValTmpIter < miniRetVal) && (shiftCnt > 2 * SEARCH_DISTANCE) ? miniRetValTmpIter : miniRetVal;
 	miniRetVal = (cond2) && (cond1) ? miniRetValTmpIter : miniRetVal;
 
-	std::cout << "New miniRetVal from HW is: " << miniRetVal << std::endl;
+//	std::cout << "New miniRetVal from HW is: " << miniRetVal << std::endl;
 
 	// TODO: change the localSumReg to a hls stream with depth BLOCK_SIZE.
 	shiftMainLoop: for(int8_t i = 0; i < BLOCK_SIZE - 1; i++)
@@ -310,8 +310,8 @@ void miniSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	minOFRet = (cond2) && (cond1) ? ap_uint<6>(OFRet_y.concat(OFRet_x)) : minOFRet;  // TODO: add a flag to indicate the result valid or not. Use 0 to represent the invalid result.
 	*OFRet = minOFRet;
 
-	std::cout << "miniSumRetHW is: " << *miniSumRet << "\t OFRetHW is: " << std::hex << *OFRet << std::endl;
-	std::cout << std::dec;    // Restore dec mode
+//	std::cout << "miniSumRetHW is: " << *miniSumRet << "\t OFRetHW is: " << std::hex << *OFRet << std::endl;
+//	std::cout << std::dec;    // Restore dec mode
 }
 
 
@@ -581,6 +581,37 @@ void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 
 }
 
+void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
+			  apIntBlockCol_t *refData, apIntBlockCol_t *tagData)
+{
+	hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
+	hls::stream<apUint17_t> pktEventDataStream("EventStream");
+	hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
+
+	eventIterSize = eventCnt;
+
+	getXandYLoop:for(int32_t i = 0; i < eventIterSize; i++)
+	{
+		uint64_t tmp = data[i];
+		ap_uint<8> xWr, yWr;
+		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
+		yWr = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
+		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
+		int64_t ts = tmp >> 32;
+
+		xStream << xWr;
+		yStream << yWr;
+	}
+
+	rwSlices(xStream, yStream, idx, refStream, tagStreamIn);
+
+	writeFromStream: for(int32_t i = 0; i < eventIterSize * (BLOCK_SIZE + 2 * SEARCH_DISTANCE); i++)
+	{
+		refStream >> *refData++;
+		tagStreamIn >> *tagData++;
+	}
+}
+
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
 {
 	DFRegion:
@@ -591,7 +622,7 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 		hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
 		hls::stream<apUint15_t> miniSumStream("miniSumStream");
 
-		glPLActiveSliceIdx++;
+		glPLActiveSliceIdx--;
 
 		eventIterSize = eventsArraySize;
 
