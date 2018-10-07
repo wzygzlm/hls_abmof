@@ -44,19 +44,19 @@ void colSADSum(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			pix_t t2Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			int16_t retVal[2*SEARCH_DISTANCE + 1])
 {
-	std::cout << "HW in1 is: " << std::endl;
-	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
-	{
-		std::cout << t1Col[m] << " ";
-	}
-	std::cout << std::endl;
-
-	std::cout << "HW in2 is: " << std::endl;
-	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
-	{
-		std::cout << t2Col[m] << " ";
-	}
-	std::cout << std::endl;
+//	std::cout << "HW in1 is: " << std::endl;
+//	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+//	{
+//		std::cout << t1Col[m] << " ";
+//	}
+//	std::cout << std::endl;
+//
+//	std::cout << "HW in2 is: " << std::endl;
+//	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+//	{
+//		std::cout << t2Col[m] << " ";
+//	}
+//	std::cout << std::endl;
 
 	colSADSumLoop:for(ap_uint<4> i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
@@ -582,11 +582,13 @@ void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 }
 
 void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
-			  apIntBlockCol_t *refData, apIntBlockCol_t *tagData)
+				apUint15_t *miniSum, apUint6_t *OF)
 {
 	hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
 	hls::stream<apUint17_t> pktEventDataStream("EventStream");
 	hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
+	hls::stream<apUint15_t> miniSumStream("miniSumStream");
+	hls::stream<apUint6_t> OFRetStream("OFStream");
 
 	eventIterSize = eventCnt;
 
@@ -604,11 +606,12 @@ void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 	}
 
 	rwSlices(xStream, yStream, idx, refStream, tagStreamIn);
+	miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
 
-	writeFromStream: for(int32_t i = 0; i < eventIterSize * (BLOCK_SIZE + 2 * SEARCH_DISTANCE); i++)
+	writeFromStream: for(int32_t i = 0; i < eventIterSize; i++)
 	{
-		refStream >> *refData++;
-		tagStreamIn >> *tagData++;
+		miniSumStream >> *miniSum++;
+		OFRetStream >> *OF++;
 	}
 }
 

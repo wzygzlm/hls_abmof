@@ -276,7 +276,7 @@ void testRwslicesSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBloc
 	}
 }
 
-void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBlockCol_t *refData, apIntBlockCol_t *tagData)
+void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apUint15_t *miniSum, apUint6_t *OF)
 {
 	// Check the accumulation slice is clear or not
 	for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
@@ -309,6 +309,17 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBlockCol
 //		cout << "tmp is: " << hex << tmp << endl;
 //		cout << "x is: " << xWr << "\t y is: " << yWr << "\t idx is: " << idx << endl;
 
+		// Initialize the localSumReg
+		for(int idx1 = 0; idx1 < BLOCK_SIZE; idx1++)
+		{
+			for(int idx2 = 0; idx2 < BLOCK_SIZE; idx2++)
+			{
+				localSumReg[idx1][idx2] = 0;
+			}
+		}
+		miniRetVal = 0x7fff;
+		minOFRet = ap_uint<6>(0xff);
+
 		for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
 		{
 			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
@@ -332,9 +343,11 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBlockCol
 			miniSADSumSW(out1, out2, xOffSet, &miniSumSWRet, &OFRetSWRet);
 			//		testMiniSADSumWrapperSW(refBlockColData, tagBlockColData, eventCnt, miniSumSW, OFRetSW);
 
-			*refData++ = refBlockCol;
-			*tagData++ = tagBlockCol;
+//			*refData++ = refBlockCol;
+//			*tagData++ = tagBlockCol;
 		}
+		miniSum[i] = apUint15_t(miniSumSWRet);
+		OF[i] = OFRetSWRet;
 	}
 
 
@@ -488,11 +501,14 @@ int main(int argc, char *argv[])
 
 	/******************* Test testTemp module **************************/
 //	srand((unsigned)time(NULL));
-	int16_t eventCnt = 1000;
+	int16_t eventCnt = 500;
 
 	uint64_t data[eventCnt];
 	apIntBlockCol_t refData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
 	apIntBlockCol_t refDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+
+	apUint15_t miniSum[eventCnt], miniSumSW[eventCnt];
+	apUint6_t OFRet[eventCnt], OFRetSW[eventCnt];
 
 	ap_uint<64> x, y;
 	sliceIdx_t idx;
@@ -507,7 +523,7 @@ int main(int argc, char *argv[])
 		{
 			x = rand()%20;
 			y = rand()%20 + COMBINED_PIXELS;
-//			idx = rand()%3;
+			idx = rand()%3;
 	//		x = 255;
 	//		y = 240;
 //			cout << "x : " << x << endl;
@@ -519,62 +535,15 @@ int main(int argc, char *argv[])
 		}
 
 
-		testTempSW(data, idx, eventCnt, refDataSW, tagDataSW);
-		testTemp(data, idx, eventCnt, refData, tagData);
+		testTempSW(data, idx, eventCnt, miniSumSW, OFRetSW);
+		testTemp(data, idx, eventCnt, miniSum, OFRet);
 
 		for (int m = 0; m < eventCnt; m++)
 		{
-//			cout  << "refDataSW is: " << hex <<  refDataSW[m] << endl;
-//			cout  << "tagDataSW is: " << hex <<  tagDataSW[m] << endl;
-//			cout  << "refDataHW is: " << hex <<  refData[m] << endl;
-//			cout  << "tagDataHW is: " << hex <<  tagData[m] << endl;
-//			cout << dec;
-
-			if(refDataSW[m] != refData[m] || tagDataSW[m] != tagData[m])
+			if(miniSumSW[m] != miniSum[m] || OFRetSW[m] != OFRet[m])
 			{
-				pix_t outSW1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-				pix_t outSW2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-				pix_t outHW1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-				pix_t outHW2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-
-				for(int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
-				{
-					outSW1[i] = refDataSW[m].range(4 * i + 3, 4 * i);
-					outSW2[i] = tagDataSW[m].range(4 * i + 3, 4 * i);
-					outHW1[i] = refData[m].range(4 * i + 3, 4 * i);
-					outHW2[i] = tagData[m].range(4 * i + 3, 4 * i);
-				}
-
-				cout << "refDataSW is:  ";
-				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
-				{
-					cout << outSW1[n] << " ";
-				}
-				cout << "\t" ;
-
-				cout << "tagDataSW is:  ";
-				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
-				{
-					cout << outSW2[n] << " ";
-				}
-				cout << endl;
-
-				cout << "refData is:  ";
-				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
-				{
-					cout << outHW1[n] << " ";
-				}
-				cout << "\t" ;
-
-				cout << "tagData is:  ";
-				for (int n = 0; n < BLOCK_SIZE + 2 * SEARCH_DISTANCE; n++)
-				{
-					cout << outHW2[n] << " ";
-				}
-				cout << endl;
-
-//				std::cout << "refDataSW is: " << refDataSW[m].to_ulong() << "\t tagDataSW is: " << std::hex << tagDataSW[m].to_ulong() << std::endl;
-//				std::cout << "refData is: " << refData[m].to_ulong() << "\t tagData is: " << std::hex << tagData[m].to_ulong() << std::endl;
+				std::cout << "miniSumRetSW is: " << miniSumSW[m] << "\t OFRetSW is: " << std::hex << OFRetSW[m] << std::endl;
+				std::cout << "miniSumRetHW is: " << miniSum[m] << "\t OFRetHW is: " << std::hex << OFRet[m] << std::endl;
 
 				err_cnt++;
 				cout<<"!!! ERROR: Mismatch detected at index" << m << "!!!" << endl;

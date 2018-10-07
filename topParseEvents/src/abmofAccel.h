@@ -64,7 +64,7 @@ void testSingleRwslicesHW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, pix_t refC
 void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBlockCol_t *refData, apIntBlockCol_t *tagData);
 
 void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
-			  apIntBlockCol_t *refData, apIntBlockCol_t *tagData);
+				apUint15_t *miniSum, apUint6_t *OF);
 
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice);
 

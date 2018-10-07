@@ -3,6 +3,9 @@
   <errorLogs>
     <logs>
       <synLog/>
+      <csimLog>
+        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T22:16:25.401+0200"/>
+      </csimLog>
     </logs>
   </errorLogs>
   <warningLogs>
@@ -23,6 +26,7 @@
         <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_1' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T20:19:24.215+0200" type="Warning"/>
         <logs message="WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_0' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-07T20:19:24.211+0200" type="Warning"/>
       </synLog>
+      <csimLog/>
     </logs>
   </warningLogs>
 </vivadoHLSLog:LogRoot>
