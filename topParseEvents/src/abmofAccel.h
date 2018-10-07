@@ -25,7 +25,6 @@
 #define SEARCH_DISTANCE 3
 
 #define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
-#define PIXS_PER_COL SLICE_HEIGHT/COMBINED_PIXELS
 
 typedef ap_int<BITS_PER_PIXEL> pix_t;
 typedef ap_int<COMBINED_PIXELS * BITS_PER_PIXEL> col_pix_t;
@@ -38,7 +37,7 @@ typedef ap_uint<15> apUint15_t;
 typedef ap_uint<6> apUint6_t;
 
 #define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
-#define PIXS_PER_COL SLICE_HEIGHT/COMBINED_PIXELS
+#define PIXS_PER_COL (SLICE_HEIGHT/COMBINED_PIXELS)
 
 void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE]);
 

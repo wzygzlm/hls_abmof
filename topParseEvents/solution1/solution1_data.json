@@ -110,7 +110,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "26",
+    "Latency": "1051",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -423,12 +423,12 @@
       },
       "rwSlices": {
         "Latency": {
-          "LatencyBest": "23",
-          "LatencyAvg": "90005",
-          "LatencyWorst": "180005",
-          "PipelineIIMin": "23",
-          "PipelineIIMax": "180005",
-          "PipelineII": "23 ~ 180005",
+          "LatencyBest": "1049",
+          "LatencyAvg": "91031",
+          "LatencyWorst": "181031",
+          "PipelineIIMin": "1049",
+          "PipelineIIMax": "181031",
+          "PipelineII": "1049 ~ 181031",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -437,7 +437,8 @@
           "Uncertainty": "0.10",
           "Estimate": "8.85"
         },
-        "Loops": [{
+        "Loops": [
+          {
             "Name": "rwSlicesLoop_rwSlicesInnerLoop",
             "TripCount": "",
             "LatencyMin": "21",
@@ -445,11 +446,19 @@
             "Latency": "21 ~ 180003",
             "PipelineII": "1",
             "PipelineDepth": "5"
-          }],
+          },
+          {
+            "Name": "resetLoop",
+            "TripCount": "1024",
+            "Latency": "1024",
+            "PipelineII": "1",
+            "PipelineDepth": "1"
+          }
+        ],
         "Area": {
           "BRAM_18K": "60",
-          "FF": "1150",
-          "LUT": "1079",
+          "FF": "1164",
+          "LUT": "1159",
           "DSP48E": "0"
         }
       },
@@ -487,12 +496,12 @@
       },
       "testRwslices": {
         "Latency": {
-          "LatencyBest": "26",
+          "LatencyBest": "1051",
           "LatencyAvg": "",
-          "LatencyWorst": "180007",
-          "PipelineIIMin": "24",
-          "PipelineIIMax": "180006",
-          "PipelineII": "24 ~ 180006",
+          "LatencyWorst": "181033",
+          "PipelineIIMin": "1050",
+          "PipelineIIMax": "181032",
+          "PipelineII": "1050 ~ 181032",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
         },
@@ -503,8 +512,8 @@
         },
         "Area": {
           "BRAM_18K": "60",
-          "FF": "1287",
-          "LUT": "1813",
+          "FF": "1301",
+          "LUT": "1893",
           "DSP48E": "0"
         }
       }
@@ -512,7 +521,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-07 18:29:18 +0200",
+    "Time": "2018-10-07 18:43:40 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
