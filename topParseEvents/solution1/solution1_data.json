@@ -15,10 +15,10 @@
   "HlsSolution": {
     "Config": ["config_dataflow -default_channel=fifo -fifo_depth=0"],
     "Directives": [
-      "interface parseEvents {{axis positionBoolean0mode} {register positionBoolean1} {both positionBoolean0register_mode} {depth 500} {port positionBooleanTextRequiredeventSlice}} {}",
+      "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 500} {port positionBooleanTextRequiredeventSlice}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt1Block}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt2Block}} {}",
-      "interface parseEvents {{axis positionBoolean0mode} {register positionBoolean1} {both positionBoolean0register_mode} {depth 500} {port positionBooleanTextRequireddataStream}} {}",
+      "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 500} {port positionBooleanTextRequireddataStream}} {}",
       "inline sadSum {{off positionBoolean1}} {}",
       "unroll sadSum\/calOFLoop2 {{factor 1}} {}",
       "pipeline sad {} {}",
@@ -104,10 +104,11 @@
       "pipeline testRwslices\/writeFromStream {} {}",
       "loop_tripcount testRwslices\/writeFromStream {{tripcount positionBooleanCmd} {min 1} {max 170000}} {}",
       "interface parseEvents {{s_axilite positionBoolean0mode} {port positionBooleanTextRequiredreturn} {bundle control}} {}",
-      "array_partition rotateSlice {{partition positionBooleanCmd} {variable positionBooleanTextRequiredareaEventRegs} {block positionBoolean0type} {factor 4} {dim 2}} {}",
-      "pipeline rotateSlice\/rotateSliceLoop {} {}",
       "inline rotateSlice {{off positionBoolean1}} {}",
-      "interface getXandY {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequireddata}} {}"
+      "interface getXandY {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequireddata}} {}",
+      "loop_tripcount rotateSlice\/rotateSliceOutLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
+      "pipeline rotateSlice\/rotateSliceOutLoop {} {}",
+      "resource rotateSlice {{variable positionBooleanTextRequiredareaEventRegs} {core RAM_2P_LUTRAM}} {}"
     ]
   },
   "ClockInfo": {
@@ -115,7 +116,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "1301",
+    "Latency": "203",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -133,13 +134,11 @@
     "CSource": ["..\/src\/abmofAccel.cpp"],
     "Vhdl": [
       "impl\/vhdl\/rotateSlice_areaEbkb.vhd",
-      "impl\/vhdl\/rotateSlice_mux_4fYi.vhd",
       "impl\/vhdl\/rotateSlice.vhd"
     ],
     "Verilog": [
       "impl\/verilog\/rotateSlice_areaEbkb.v",
       "impl\/verilog\/rotateSlice_areaEbkb_ram.dat",
-      "impl\/verilog\/rotateSlice_mux_4fYi.v",
       "impl\/verilog\/rotateSlice.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -338,60 +337,53 @@
     "xOutStream_V": {
       "interfaceRef": "xOutStream_V",
       "dir": "out",
-      "firstOutLatency": "5"
+      "firstOutLatency": "4"
     },
     "yOutStream_V": {
       "interfaceRef": "yOutStream_V",
       "dir": "out",
-      "firstOutLatency": "5"
+      "firstOutLatency": "4"
     },
     "idxStream_V_V": {
       "interfaceRef": "idxStream_V_V",
       "dir": "out",
-      "firstOutLatency": "5"
+      "firstOutLatency": "4"
     }
   },
   "ModuleInfo": {
     "Hierarchy": {"ModuleName": "rotateSlice"},
     "Metrics": {"rotateSlice": {
         "Latency": {
-          "LatencyBest": "1301",
-          "LatencyAvg": "1301",
-          "LatencyWorst": "1301",
-          "PipelineII": "1302",
+          "LatencyBest": "203",
+          "LatencyAvg": "203",
+          "LatencyWorst": "203",
+          "PipelineII": "204",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "8.68"
+          "Estimate": "7.87"
         },
         "Loops": [{
-            "Name": "Loop 1",
+            "Name": "rotateSliceOutLoop",
             "TripCount": "100",
-            "Latency": "1300",
-            "PipelineII": "",
-            "PipelineDepth": "13",
-            "Loops": [{
-                "Name": "rotateSliceLoop",
-                "TripCount": "8",
-                "Latency": "9",
-                "PipelineII": "1",
-                "PipelineDepth": "3"
-              }]
+            "Latency": "201",
+            "PipelineII": "2",
+            "PipelineDepth": "4"
           }],
         "Area": {
+          "FF": "79",
+          "LUT": "220",
           "BRAM_18K": "0",
-          "FF": "203",
-          "LUT": "484",
           "DSP48E": "0"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-08 19:42:46 +0200",
+    "Time": "2018-10-08 20:11:01 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

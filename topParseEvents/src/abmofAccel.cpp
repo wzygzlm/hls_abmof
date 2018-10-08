@@ -360,24 +360,17 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 	ap_uint<(AREA_NUMBER * AREA_NUMBER)> compArray[AREA_NUMBER][AREA_NUMBER];
 	ap_uint<1> compRet = 0;
 
-	for(int32_t i = 0; i < eventIterSize; i++)
+	rotateSliceOutLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
 		ap_uint<8> x, y;
 		x = xInStream.read();
 		y = yInStream.read();
 
-		areaEventRegs[x/AREA_SIZE][y/areaEventRegs] += 1;
+		uint16_t c = areaEventRegs[x/AREA_SIZE][y/areaEventRegs];
+		c = c + 1;
+		areaEventRegs[x/AREA_SIZE][y/areaEventRegs] = c;
 
-		rotateSliceLoop:for (uint8_t areaX = 0; areaX < AREA_NUMBER; areaX++)
-		{
-			rotateSliceInnerLoop:for (uint8_t areaY = 0; areaY < AREA_NUMBER; areaY++)
-			{
-				compArray[areaX][areaY] = (areaEventRegs[areaX][areaY] > areaEventThr) ? 1 : 0;
-				compRet = compRet | compArray[areaX][areaY];
-			}
-		}
-
-		glPLActiveSliceIdx = (compRet == 1) ? sliceIdx_t(glPLActiveSliceIdx - 1) : glPLActiveSliceIdx;
+		glPLActiveSliceIdx = (c >=  areaEventThr) ? sliceIdx_t(glPLActiveSliceIdx - 1) : glPLActiveSliceIdx;
 
 		xOutStream.write(x);
 		yOutStream.write(y);

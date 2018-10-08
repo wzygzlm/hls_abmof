@@ -2,9 +2,7 @@
     <sourceFile name="">
         <directive functionName="parseEvents" label="" functionLabel="">
             <pragma name="INTERFACE">
-                <option name="axis" value="" positionalBoolean="mode"/>
-                <option name="register" value="" positionalBoolean="1"/>
-                <option name="both" value="" positionalBoolean="register_mode"/>
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
                 <option name="depth" value="500"/>
                 <option name="port" value="eventSlice" positionalBoolean="4"/>
             </pragma>
@@ -23,9 +21,7 @@
         </directive>
         <directive functionName="parseEvents" label="" functionLabel="">
             <pragma name="INTERFACE">
-                <option name="axis" value="" positionalBoolean="mode"/>
-                <option name="register" value="" positionalBoolean="1"/>
-                <option name="both" value="" positionalBoolean="register_mode"/>
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
                 <option name="depth" value="500"/>
                 <option name="port" value="dataStream" positionalBoolean="4"/>
             </pragma>
@@ -482,17 +478,6 @@
             </pragma>
         </directive>
         <directive functionName="rotateSlice" label="" functionLabel="">
-            <pragma name="ARRAY_PARTITION">
-                <option name="variable" value="areaEventRegs" positionalBoolean="4"/>
-                <option name="block" value="" positionalBoolean="type"/>
-                <option name="factor" value="4"/>
-                <option name="dim" value="2"/>
-            </pragma>
-        </directive>
-        <directive functionName="rotateSlice" label="rotateSliceLoop" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
-        <directive functionName="rotateSlice" label="" functionLabel="">
             <pragma name="INLINE">
                 <option name="off" value="" positionalBoolean="1"/>
             </pragma>
@@ -501,6 +486,21 @@
             <pragma name="INTERFACE">
                 <option name="ap_fifo" value="" positionalBoolean="mode"/>
                 <option name="port" value="data" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="rotateSlice" label="rotateSliceOutLoop" functionLabel="">
+            <pragma name="LOOP_TRIPCOUNT">
+                <option name="min" value="1"/>
+                <option name="max" value="10000"/>
+            </pragma>
+        </directive>
+        <directive functionName="rotateSlice" label="rotateSliceOutLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="rotateSlice" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="areaEventRegs" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_LUTRAM"/>
             </pragma>
         </directive>
     </sourceFile>

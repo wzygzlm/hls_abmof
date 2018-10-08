@@ -375,12 +375,13 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 	}
 }
 
-
+uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
+uint16_t areaEventThrSW = 2000;
 
 void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
 {
-	glPLActiveSliceIdx--;
-	sliceIdx_t idx = glPLActiveSliceIdx;
+//	glPLActiveSliceIdx--;
+//	sliceIdx_t idx = glPLActiveSliceIdx;
 
 	// Check the accumulation slice is clear or not
 	for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
@@ -410,9 +411,19 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		ap_int<16> miniRet;
 		ap_uint<6> OFRet;
 
-		writePixSW(xWr, yWr, idx);
 
-		resetPixSW(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+		uint16_t c = areaEventRegs[xWr/AREA_SIZE][xWr/areaEventRegs];
+		c = c + 1;
+		areaEventRegs[xWr/AREA_SIZE][xWr/areaEventRegs] = c;
+
+		if (c > areaEventThrSW)
+		{
+			glPLActiveSliceIdx--;
+		}
+
+		writePixSW(xWr, yWr, glPLActiveSliceIdx);
+
+		resetPixSW(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
 //				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 64, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 96, (sliceIdx_t)(idx + 3));
@@ -459,8 +470,8 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 
 	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
 	{
-		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
+		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
 	}
 }
 

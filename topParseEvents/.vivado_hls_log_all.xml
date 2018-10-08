@@ -12,16 +12,15 @@
   <warningLogs>
     <logs>
       <synLog>
-        <logs message="WARNING: [RTGEN 206-101] Register 'glPLActiveSliceIdx_V' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T19:42:45.173+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Global scalar 'areaEventThr' will not be exposed as RTL port." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T19:42:45.164+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'areaEventThr' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T19:42:45.160+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Global array 'areaEventRegs_3' will not be exposed as RTL port." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T19:42:45.157+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Global array 'areaEventRegs_2' will not be exposed as RTL port." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T19:42:45.152+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Global array 'areaEventRegs_1' will not be exposed as RTL port." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T19:42:45.147+0200" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Global array 'areaEventRegs_0' will not be exposed as RTL port." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T19:42:45.140+0200" type="Warning"/>
-        <logs message="WARNING: [XFORM 203-542] Cannot flatten a loop nest 'Loop-1' (topParseEvents/src/abmofAccel.cpp:363:19) in function 'rotateSlice' : &#xD;&#xA;&#xD;&#xA;the outer loop is not a perfect loop because there is nontrivial logic before entering the inner loop." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T19:42:44.548+0200" type="Warning"/>
-        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'FIFO_SRL' cannot be applied: Variable 'yStream' is not declared in 'parseEvents/DFRegion'." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T19:42:38.521+0200" type="Warning"/>
-        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'FIFO_SRL' cannot be applied: Variable 'xStream' is not declared in 'parseEvents/DFRegion'." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T19:42:38.517+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'glPLActiveSliceIdx_V' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T20:11:00.776+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Global scalar 'areaEventThr' will not be exposed as RTL port." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T20:11:00.765+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'areaEventThr' is power-on initialization." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T20:11:00.761+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Global array 'areaEventRegs' will not be exposed as RTL port." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T20:11:00.758+0200" type="Warning"/>
+        <logs message="WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)&#xD;&#xA;   between 'store' operation (topParseEvents/src/abmofAccel.cpp:371) of variable 'c', topParseEvents/src/abmofAccel.cpp:370 on array 'areaEventRegs' and 'load' operation ('c', topParseEvents/src/abmofAccel.cpp:369) on array 'areaEventRegs'." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T20:11:00.518+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-561] Updating loop lower bound from 1 to 100 for loop 'rotateSliceOutLoop' (topParseEvents/src/abmofAccel.cpp:365:1) in function 'rotateSlice'." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T20:11:00.102+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-561] Updating loop upper bound from 10000 to 100 for loop 'rotateSliceOutLoop' (topParseEvents/src/abmofAccel.cpp:365:1) in function 'rotateSlice'." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T20:10:59.582+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'FIFO_SRL' cannot be applied: Variable 'yStream' is not declared in 'parseEvents/DFRegion'." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T20:10:56.140+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'FIFO_SRL' cannot be applied: Variable 'xStream' is not declared in 'parseEvents/DFRegion'." projectName="topParseEvents" solutionName="solution1" date="2018-10-08T20:10:56.137+0200" type="Warning"/>
       </synLog>
       <simLog/>
       <mgLog/>

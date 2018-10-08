@@ -9,7 +9,58 @@ INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
 INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
 INFO: [XFORM 203-701] Set the default channel type in dataflow to FIFO.
-INFO: [SIM 211-2] *************** CSIM start ***************
-INFO: [SIM 211-4] CSIM will launch GCC as the compiler.
-INFO: [SIM 211-1] CSim file generation done with 0 errors.
-INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [XFORM 203-701] Set the default channel type in dataflow to FIFO.
+INFO: [HLS 200-10] Analyzing design file 'topParseEvents/src/abmofAccel.cpp' ...
+INFO: [HLS 200-10] Validating synthesis directives ...
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'FIFO_SRL' cannot be applied: Variable 'xStream' is not declared in 'parseEvents/DFRegion'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'FIFO_SRL' cannot be applied: Variable 'yStream' is not declared in 'parseEvents/DFRegion'.
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 111.793 ; gain = 53.609
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:19 . Memory (MB): peak = 111.832 ; gain = 53.648
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:20 . Memory (MB): peak = 137.461 ; gain = 79.277
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:20 . Memory (MB): peak = 150.219 ; gain = 92.035
+WARNING: [XFORM 203-561] Updating loop upper bound from 10000 to 100 for loop 'rotateSliceOutLoop' (topParseEvents/src/abmofAccel.cpp:365:1) in function 'rotateSlice'.
+WARNING: [XFORM 203-561] Updating loop lower bound from 1 to 100 for loop 'rotateSliceOutLoop' (topParseEvents/src/abmofAccel.cpp:365:1) in function 'rotateSlice'.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:21 . Memory (MB): peak = 184.387 ; gain = 126.203
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:21 . Memory (MB): peak = 189.848 ; gain = 131.664
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'rotateSlice' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'rotateSlice'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'rotateSliceOutLoop'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 1)
+   between 'store' operation (topParseEvents/src/abmofAccel.cpp:371) of variable 'c', topParseEvents/src/abmofAccel.cpp:370 on array 'areaEventRegs' and 'load' operation ('c', topParseEvents/src/abmofAccel.cpp:369) on array 'areaEventRegs'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 2, Depth = 4.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 21.465 seconds; current allocated memory: 131.923 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.132 seconds; current allocated memory: 132.114 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'rotateSlice'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'rotateSlice/xInStream_V' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'rotateSlice/yInStream_V' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'rotateSlice/xOutStream_V' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'rotateSlice/yOutStream_V' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'rotateSlice/idxStream_V_V' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'rotateSlice' to 'ap_ctrl_hs'.
+WARNING: [RTGEN 206-101] Global array 'areaEventRegs' will not be exposed as RTL port.
+INFO: [SYN 201-210] Renamed object name 'rotateSlice_areaEventRegs' to 'rotateSlice_areaEbkb' due to the length limit 20
+WARNING: [RTGEN 206-101] Register 'areaEventThr' is power-on initialization.
+WARNING: [RTGEN 206-101] Global scalar 'areaEventThr' will not be exposed as RTL port.
+WARNING: [RTGEN 206-101] Register 'glPLActiveSliceIdx_V' is power-on initialization.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'rotateSlice'.
+INFO: [HLS 200-111]  Elapsed time: 0.119 seconds; current allocated memory: 132.527 MB.
+INFO: [RTMG 210-278] Implementing memory 'rotateSlice_areaEbkb_ram (RAM_2P_LUTRAM)' using distributed RAMs with power-on initialization.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:03 ; elapsed = 00:00:23 . Memory (MB): peak = 189.848 ; gain = 131.664
+INFO: [SYSC 207-301] Generating SystemC RTL for rotateSlice.
+INFO: [VHDL 208-304] Generating VHDL RTL for rotateSlice.
+INFO: [VLOG 209-307] Generating Verilog RTL for rotateSlice.
+INFO: [HLS 200-112] Total elapsed time: 22.938 seconds; peak allocated memory: 132.527 MB.

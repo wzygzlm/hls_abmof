@@ -3,10 +3,10 @@
 ## Please DO NOT edit it.
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
-set_directive_interface -mode axis -register -register_mode both -depth 500 "parseEvents" eventSlice
+set_directive_interface -mode ap_fifo -depth 500 "parseEvents" eventSlice
 set_directive_interface -mode ap_fifo "blockSADSum" t1Block
 set_directive_interface -mode ap_fifo "blockSADSum" t2Block
-set_directive_interface -mode axis -register -register_mode both -depth 500 "parseEvents" dataStream
+set_directive_interface -mode ap_fifo -depth 500 "parseEvents" dataStream
 set_directive_inline -off "sadSum"
 set_directive_unroll -factor 1 "sadSum/calOFLoop2"
 set_directive_pipeline "sad"
@@ -92,7 +92,8 @@ set_directive_pipeline "testRwslices/getXandYLoop"
 set_directive_pipeline "testRwslices/writeFromStream"
 set_directive_loop_tripcount -min 1 -max 170000 "testRwslices/writeFromStream"
 set_directive_interface -mode s_axilite -bundle control "parseEvents"
-set_directive_array_partition -type block -factor 4 -dim 2 "rotateSlice" areaEventRegs
-set_directive_pipeline "rotateSlice/rotateSliceLoop"
 set_directive_inline -off "rotateSlice"
 set_directive_interface -mode ap_fifo "getXandY" data
+set_directive_loop_tripcount -min 1 -max 10000 "rotateSlice/rotateSliceOutLoop"
+set_directive_pipeline "rotateSlice/rotateSliceOutLoop"
+set_directive_resource -core RAM_2P_LUTRAM "rotateSlice" areaEventRegs
