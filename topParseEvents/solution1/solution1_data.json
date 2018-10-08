@@ -678,7 +678,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-07 20:19:29 +0200",
+    "Time": "2018-10-08 15:01:26 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

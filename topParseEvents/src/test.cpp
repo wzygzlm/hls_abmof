@@ -389,8 +389,11 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		{
 			if (slices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
 			{
-				cout << "Ha! I caught you, the pixel which is not clear!" << endl;
-				cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << endl;
+				for(int r = 0; r < 1000; r++)
+				{
+					cout << "Ha! I caught you, the pixel which is not clear!" << endl;
+					cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << endl;
+				}
 			}
 		}
 	}
@@ -451,6 +454,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		ap_int<9> tmp2 = miniRet.range(8, 0);
 		apUint6_t tmpOF = OFRet;
 		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
+		*eventSlice++ = output.to_int();
 	}
 
 	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
@@ -470,73 +474,16 @@ int main(int argc, char *argv[])
 	int retval=0;
 
 	/******************* Test parseEvents module **************************/
-//	int32_t eventCnt = 500;
-//	uint64_t data[eventCnt];
-//	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
-//
-//	ap_int<16> miniSumRet;
-//	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-//	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-//
-//	ap_uint<64> x, y;
-//	sliceIdx_t idx;
-//
-//	for(int k = 0; k < TEST_TIMES; k++)
-//	{
-//		cout << "Test " << k << ":" << endl;
-//
-//		idx = sliceIdx_t(idx - 1);
-//
-//		for (int i = 0; i < eventCnt; i++)
-//		{
-//			x = rand()%20;
-//			y = rand()%20 + COMBINED_PIXELS;
-////			idx = rand()%3;
-//	//		x = 255;
-//	//		y = 240;
-////			cout << "x : " << x << endl;
-////			cout << "y : " << y << endl;
-////			cout << "idx : " << idx << endl;
-//
-//			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (1 << 1);
-////			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
-//		}
-//
-//
-//		parseEventsSW(data, eventCnt, eventSliceSW);
-//		parseEvents(data, eventCnt, eventSlice);
-//
-//		for (int j = 0; j < eventCnt; j++)
-//		{
-//			if (eventSlice[j] != eventSliceSW[j])
-//			{
-//				err_cnt++;
-//				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
-//			}
-//		}
-//
-//		if(err_cnt == 0)
-//		{
-//			cout << "Test " << k << " passed." << endl;
-//		}
-//		cout << endl;
-//	}
-
-
-	/******************* Test testTemp module **************************/
-//	srand((unsigned)time(NULL));
-	int16_t eventCnt = 1000;
-
+	int32_t eventCnt = 500;
 	uint64_t data[eventCnt];
-	apIntBlockCol_t refData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
-	apIntBlockCol_t refDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
-
-	apUint15_t miniSum[eventCnt], miniSumSW[eventCnt];
-	apUint6_t OFRet[eventCnt], OFRetSW[eventCnt];
-
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
 
+	ap_int<16> miniSumRet;
+	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
 	ap_uint<64> x, y;
+	ap_uint<1> pol;
 	sliceIdx_t idx;
 
 	for(int k = 0; k < TEST_TIMES; k++)
@@ -549,6 +496,7 @@ int main(int argc, char *argv[])
 		{
 			x = rand()%50;
 			y = rand()%50 + COMBINED_PIXELS;
+			pol = rand()%2;
 //			idx = rand()%3;
 	//		x = 255;
 	//		y = 240;
@@ -556,23 +504,23 @@ int main(int argc, char *argv[])
 //			cout << "y : " << y << endl;
 //			cout << "idx : " << idx << endl;
 
-			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (1 << 1);
+			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
 //			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
 		}
 
 
-		testTempSW(data, idx, eventCnt, eventSliceSW);
-		testTemp(data, idx, eventCnt, eventSlice);
+		parseEventsSW(data, eventCnt, eventSliceSW);
+		parseEvents(data, eventCnt, eventSlice);
 
-		for (int m = 0; m < eventCnt; m++)
+		for (int j = 0; j < eventCnt; j++)
 		{
-			if(eventSliceSW[m] != eventSlice[m])
+			if (eventSlice[j] != eventSliceSW[j])
 			{
-				std::cout << "miniSumRetSW is: " << miniSumSW[m] << "\t OFRetSW is: " << std::hex << OFRetSW[m] << std::endl;
-				std::cout << "miniSumRetHW is: " << miniSum[m] << "\t OFRetHW is: " << std::hex << OFRet[m] << std::endl;
+				std::cout << "eventSliceSW is: " << eventSliceSW[j] << std::endl;
+				std::cout << "eventSlice is: " << eventSlice[j] << std::endl;
 
 				err_cnt++;
-				cout<<"!!! ERROR: Mismatch detected at index" << m << "!!!" << endl;
+				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
 			}
 		}
 
@@ -582,6 +530,67 @@ int main(int argc, char *argv[])
 		}
 		cout << endl;
 	}
+
+
+	/******************* Test testTemp module **************************/
+//	srand((unsigned)time(NULL));
+//	int16_t eventCnt = 1000;
+//
+//	uint64_t data[eventCnt];
+//	apIntBlockCol_t refData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+//	apIntBlockCol_t refDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagDataSW[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
+//
+//	apUint15_t miniSum[eventCnt], miniSumSW[eventCnt];
+//	apUint6_t OFRet[eventCnt], OFRetSW[eventCnt];
+//
+//	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
+//
+//	ap_uint<64> x, y;
+//	sliceIdx_t idx;
+//
+//	for(int k = 0; k < TEST_TIMES; k++)
+//	{
+//		cout << "Test " << k << ":" << endl;
+//
+//		idx = sliceIdx_t(idx - 1);
+//
+//		for (int i = 0; i < eventCnt; i++)
+//		{
+//			x = rand()%50;
+//			y = rand()%50 + COMBINED_PIXELS;
+////			idx = rand()%3;
+//	//		x = 255;
+//	//		y = 240;
+////			cout << "x : " << x << endl;
+////			cout << "y : " << y << endl;
+////			cout << "idx : " << idx << endl;
+//
+//			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (1 << 1);
+////			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
+//		}
+//
+//
+//		testTempSW(data, idx, eventCnt, eventSliceSW);
+//		testTemp(data, idx, eventCnt, eventSlice);
+//
+//		for (int m = 0; m < eventCnt; m++)
+//		{
+//			if(eventSliceSW[m] != eventSlice[m])
+//			{
+//				std::cout << "eventSliceSW is: " << eventSliceSW[m] << std::endl;
+//				std::cout << "eventSlice is: " << eventSlice[m] << std::endl;
+//
+//				err_cnt++;
+//				cout<<"!!! ERROR: Mismatch detected at index" << m << "!!!" << endl;
+//			}
+//		}
+//
+//		if(err_cnt == 0)
+//		{
+//			cout << "Test " << k << " passed." << endl;
+//		}
+//		cout << endl;
+//	}
 
 
 
