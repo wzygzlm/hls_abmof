@@ -375,8 +375,8 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 	}
 }
 
-uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
-uint16_t areaEventThrSW = 2000;
+static uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
+static uint16_t areaEventThrSW = 2000;
 
 void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
 {

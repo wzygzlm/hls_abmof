@@ -95,5 +95,7 @@ set_directive_interface -mode s_axilite -bundle control "parseEvents"
 set_directive_inline -off "rotateSlice"
 set_directive_interface -mode ap_fifo "getXandY" data
 set_directive_loop_tripcount -min 1 -max 10000 "rotateSlice/rotateSliceOutLoop"
-set_directive_pipeline "rotateSlice/rotateSliceOutLoop"
+set_directive_array_partition -type complete -dim 2 "rotateSlice" areaEventRegs
+set_directive_pipeline "rotateSlice/rotateSliceResetLoop"
+set_directive_inline -off "rotateSlice/rotateSliceResetLoop"
 set_directive_resource -core RAM_2P_LUTRAM "rotateSlice" areaEventRegs

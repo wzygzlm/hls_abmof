@@ -494,8 +494,20 @@
                 <option name="max" value="10000"/>
             </pragma>
         </directive>
-        <directive functionName="rotateSlice" label="rotateSliceOutLoop" functionLabel="">
+        <directive functionName="rotateSlice" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="areaEventRegs" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="rotateSlice" label="rotateSliceResetLoop" functionLabel="">
             <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="rotateSlice" label="rotateSliceResetLoop" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
         </directive>
         <directive functionName="rotateSlice" label="" functionLabel="">
             <pragma name="RESOURCE">

@@ -370,7 +370,20 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 		c = c + 1;
 		areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
 
-		glPLActiveSliceIdx = (c >=  areaEventThr) ? sliceIdx_t(glPLActiveSliceIdx - 1) : glPLActiveSliceIdx;
+
+		// The area threshold reached, rotate the slice index and clear the areaEventRegs.
+		if (c > areaEventThr)
+		{
+			glPLActiveSliceIdx--;
+
+			rotateSliceResetLoop:for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
+			{
+				for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
+				{
+					areaEventRegs[areaX][areaY] = 0;
+				}
+			}
+		}
 
 		xOutStream.write(x);
 		yOutStream.write(y);

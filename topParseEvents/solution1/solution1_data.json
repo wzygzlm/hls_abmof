@@ -107,7 +107,9 @@
       "inline rotateSlice {{off positionBoolean1}} {}",
       "interface getXandY {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequireddata}} {}",
       "loop_tripcount rotateSlice\/rotateSliceOutLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
-      "pipeline rotateSlice\/rotateSliceOutLoop {} {}",
+      "array_partition rotateSlice {{partition positionBooleanCmd} {variable positionBooleanTextRequiredareaEventRegs} {complete positionBoolean0type} {dim 2}} {}",
+      "pipeline rotateSlice\/rotateSliceResetLoop {} {}",
+      "inline rotateSlice\/rotateSliceResetLoop {{off positionBoolean1}} {}",
       "resource rotateSlice {{variable positionBooleanTextRequiredareaEventRegs} {core RAM_2P_LUTRAM}} {}"
     ]
   },
@@ -116,7 +118,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "1054",
+    "Latency": "1055",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -147,17 +149,18 @@
       "impl\/vhdl\/miniSADSumWrapper.vhd",
       "impl\/vhdl\/outputResult.vhd",
       "impl\/vhdl\/parseEvents_control_s_axi.vhd",
-      "impl\/vhdl\/parseEvents_mux_4g8j.vhd",
+      "impl\/vhdl\/parseEvents_mux_4ocq.vhd",
+      "impl\/vhdl\/parseEvents_mux_8jbC.vhd",
       "impl\/vhdl\/rotateSlice.vhd",
       "impl\/vhdl\/rotateSlice_areaEbkb.vhd",
       "impl\/vhdl\/rwSlices.vhd",
-      "impl\/vhdl\/rwSlices_glPLSliccud.vhd",
+      "impl\/vhdl\/rwSlices_glPLSlickbM.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/sadSum.vhd",
-      "impl\/vhdl\/start_for_miniSADkbM.vhd",
-      "impl\/vhdl\/start_for_outputRibs.vhd",
-      "impl\/vhdl\/start_for_rotateShbi.vhd",
-      "impl\/vhdl\/start_for_rwSlicejbC.vhd",
+      "impl\/vhdl\/start_for_miniSADsc4.vhd",
+      "impl\/vhdl\/start_for_outputRqcK.vhd",
+      "impl\/vhdl\/start_for_rotateSpcA.vhd",
+      "impl\/vhdl\/start_for_rwSlicercU.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
@@ -175,19 +178,20 @@
       "impl\/verilog\/miniSADSumWrapper.v",
       "impl\/verilog\/outputResult.v",
       "impl\/verilog\/parseEvents_control_s_axi.v",
-      "impl\/verilog\/parseEvents_mux_4g8j.v",
+      "impl\/verilog\/parseEvents_mux_4ocq.v",
+      "impl\/verilog\/parseEvents_mux_8jbC.v",
       "impl\/verilog\/rotateSlice.v",
       "impl\/verilog\/rotateSlice_areaEbkb.v",
       "impl\/verilog\/rotateSlice_areaEbkb_ram.dat",
       "impl\/verilog\/rwSlices.v",
-      "impl\/verilog\/rwSlices_glPLSliccud.v",
-      "impl\/verilog\/rwSlices_glPLSliccud_ram.dat",
+      "impl\/verilog\/rwSlices_glPLSlickbM.v",
+      "impl\/verilog\/rwSlices_glPLSlickbM_ram.dat",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/sadSum.v",
-      "impl\/verilog\/start_for_miniSADkbM.v",
-      "impl\/verilog\/start_for_outputRibs.v",
-      "impl\/verilog\/start_for_rotateShbi.v",
-      "impl\/verilog\/start_for_rwSlicejbC.v",
+      "impl\/verilog\/start_for_miniSADsc4.v",
+      "impl\/verilog\/start_for_outputRqcK.v",
+      "impl\/verilog\/start_for_rotateSpcA.v",
+      "impl\/verilog\/start_for_rwSlicercU.v",
       "impl\/verilog\/parseEvents.v"
     ],
     "SwDriver": [
@@ -761,32 +765,41 @@
       },
       "rotateSlice": {
         "Latency": {
-          "LatencyBest": "5",
-          "LatencyAvg": "10003",
-          "LatencyWorst": "20003",
-          "PipelineIIMin": "5",
-          "PipelineIIMax": "20003",
-          "PipelineII": "5 ~ 20003",
+          "LatencyBest": "4",
+          "LatencyAvg": "40001",
+          "LatencyWorst": "120001",
+          "PipelineIIMin": "4",
+          "PipelineIIMax": "120001",
+          "PipelineII": "4 ~ 120001",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "7.27"
+          "Estimate": "10.29"
         },
         "Loops": [{
             "Name": "rotateSliceOutLoop",
             "TripCount": "",
             "LatencyMin": "3",
-            "LatencyMax": "20001",
-            "Latency": "3 ~ 20001",
-            "PipelineII": "2",
-            "PipelineDepth": "4"
+            "LatencyMax": "120000",
+            "Latency": "3 ~ 120000",
+            "PipelineII": "",
+            "PipelineDepthMin": "3",
+            "PipelineDepthMax": "12",
+            "PipelineDepth": "3 ~ 12",
+            "Loops": [{
+                "Name": "rotateSliceResetLoop",
+                "TripCount": "8",
+                "Latency": "8",
+                "PipelineII": "1",
+                "PipelineDepth": "1"
+              }]
           }],
         "Area": {
-          "FF": "115",
-          "LUT": "253",
+          "FF": "360",
+          "LUT": "521",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -982,9 +995,9 @@
       },
       "parseEvents": {
         "Latency": {
-          "LatencyBest": "1054",
-          "LatencyAvg": "91036",
-          "LatencyWorst": "181036",
+          "LatencyBest": "1055",
+          "LatencyAvg": "91037",
+          "LatencyWorst": "181037",
           "PipelineIIMin": "1050",
           "PipelineIIMax": "181032",
           "PipelineII": "1050 ~ 181032",
@@ -994,12 +1007,12 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.89"
+          "Estimate": "10.29"
         },
         "Area": {
           "BRAM_18K": "60",
-          "FF": "4932",
-          "LUT": "6961",
+          "FF": "5177",
+          "LUT": "7229",
           "DSP48E": "0"
         }
       }
@@ -1007,7 +1020,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-08 21:57:27 +0200",
+    "Time": "2018-10-09 00:26:00 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
