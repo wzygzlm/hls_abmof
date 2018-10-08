@@ -276,7 +276,7 @@ void testRwslicesSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBloc
 	}
 }
 
-void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apUint15_t *miniSum, apUint6_t *OF)
+void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *eventSlice)
 {
 	// Check the accumulation slice is clear or not
 	for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
@@ -342,12 +342,21 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apUint15_t *m
 
 			miniSADSumSW(out1, out2, xOffSet, &miniSumSWRet, &OFRetSWRet);
 			//		testMiniSADSumWrapperSW(refBlockColData, tagBlockColData, eventCnt, miniSumSW, OFRetSW);
-
+			cout  << "refBlockColSW is: " << hex <<  refBlockCol << endl;
+			cout  << "tagBlockColSW is: " << hex <<  tagBlockCol << endl;
 //			*refData++ = refBlockCol;
 //			*tagData++ = tagBlockCol;
 		}
-		miniSum[i] = apUint15_t(miniSumSWRet);
-		OF[i] = OFRetSWRet;
+
+		apUint17_t tmp1 = apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (1 << 16));
+		ap_int<9> tmp2 = miniSumSWRet.range(8, 0);
+		apUint6_t tmpOF = OFRetSWRet;
+		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
+//		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
+//		std :: cout << "tmp2 is "  << std::hex << tmp2 << std :: endl;
+//		std :: cout << "output is "  << std::hex << output << std :: endl;
+//		std :: cout << "eventSlice is "  << std::hex << output.to_int() << std :: endl;
+		*eventSlice++ = output.to_int();
 	}
 
 
@@ -452,8 +461,8 @@ int main(int argc, char *argv[])
     int err_cnt = 0;
 	int retval=0;
 
-//	/******************* Test parseEvents module **************************/
-//	int32_t eventCnt = 20;
+	/******************* Test parseEvents module **************************/
+//	int32_t eventCnt = 500;
 //	uint64_t data[eventCnt];
 //	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
 //
@@ -462,22 +471,29 @@ int main(int argc, char *argv[])
 //	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 //
 //	ap_uint<64> x, y;
+//	sliceIdx_t idx;
 //
-//	for(int k = 0; k < testTimes; k++)
+//	for(int k = 0; k < TEST_TIMES; k++)
 //	{
 //		cout << "Test " << k << ":" << endl;
+//
+//		idx = sliceIdx_t(idx - 1);
 //
 //		for (int i = 0; i < eventCnt; i++)
 //		{
 //			x = rand()%20;
 //			y = rand()%20 + COMBINED_PIXELS;
+////			idx = rand()%3;
 //	//		x = 255;
 //	//		y = 240;
 ////			cout << "x : " << x << endl;
 ////			cout << "y : " << y << endl;
+////			cout << "idx : " << idx << endl;
 //
 //			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (1 << 1);
+////			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
 //		}
+//
 //
 //		parseEventsSW(data, eventCnt, eventSliceSW);
 //		parseEvents(data, eventCnt, eventSlice);
@@ -500,8 +516,8 @@ int main(int argc, char *argv[])
 
 
 	/******************* Test testTemp module **************************/
-//	srand((unsigned)time(NULL));
-	int16_t eventCnt = 500;
+	srand((unsigned)time(NULL));
+	int16_t eventCnt = 1000;
 
 	uint64_t data[eventCnt];
 	apIntBlockCol_t refData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
@@ -509,6 +525,8 @@ int main(int argc, char *argv[])
 
 	apUint15_t miniSum[eventCnt], miniSumSW[eventCnt];
 	apUint6_t OFRet[eventCnt], OFRetSW[eventCnt];
+
+	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
 
 	ap_uint<64> x, y;
 	sliceIdx_t idx;
@@ -523,7 +541,7 @@ int main(int argc, char *argv[])
 		{
 			x = rand()%20;
 			y = rand()%20 + COMBINED_PIXELS;
-			idx = rand()%3;
+//			idx = rand()%3;
 	//		x = 255;
 	//		y = 240;
 //			cout << "x : " << x << endl;
@@ -535,12 +553,12 @@ int main(int argc, char *argv[])
 		}
 
 
-		testTempSW(data, idx, eventCnt, miniSumSW, OFRetSW);
-		testTemp(data, idx, eventCnt, miniSum, OFRet);
+		testTempSW(data, idx, eventCnt, eventSliceSW);
+		testTemp(data, idx, eventCnt, eventSlice);
 
 		for (int m = 0; m < eventCnt; m++)
 		{
-			if(miniSumSW[m] != miniSum[m] || OFRetSW[m] != OFRet[m])
+			if(eventSliceSW[m] != eventSlice[m])
 			{
 				std::cout << "miniSumRetSW is: " << miniSumSW[m] << "\t OFRetSW is: " << std::hex << OFRetSW[m] << std::endl;
 				std::cout << "miniSumRetHW is: " << miniSum[m] << "\t OFRetHW is: " << std::hex << OFRet[m] << std::endl;
@@ -562,7 +580,7 @@ int main(int argc, char *argv[])
 
 	/******************* Test rwSlices module **************************/
 //	srand((unsigned)time(NULL));
-//	int16_t eventCnt = 1000;
+//	int16_t eventCnt = 500;
 //
 //	uint64_t data[eventCnt];
 //	apIntBlockCol_t refData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)], tagData[eventCnt * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)];
@@ -598,11 +616,11 @@ int main(int argc, char *argv[])
 //
 //		for (int m = 0; m < eventCnt; m++)
 //		{
-////			cout  << "refDataSW is: " << hex <<  refDataSW[m] << endl;
-////			cout  << "tagDataSW is: " << hex <<  tagDataSW[m] << endl;
-////			cout  << "refDataHW is: " << hex <<  refData[m] << endl;
-////			cout  << "tagDataHW is: " << hex <<  tagData[m] << endl;
-////			cout << dec;
+//			cout  << "refDataSW is: " << hex <<  refDataSW[m] << endl;
+//			cout  << "tagDataSW is: " << hex <<  tagDataSW[m] << endl;
+//			cout  << "refDataHW is: " << hex <<  refData[m] << endl;
+//			cout  << "tagDataHW is: " << hex <<  tagData[m] << endl;
+//			cout << dec;
 //
 //			if(refDataSW[m] != refData[m] || tagDataSW[m] != tagData[m])
 //			{

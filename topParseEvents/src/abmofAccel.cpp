@@ -582,7 +582,7 @@ void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 }
 
 void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
-				apUint15_t *miniSum, apUint6_t *OF)
+		int32_t *eventSlice)
 {
 	hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
 	hls::stream<apUint17_t> pktEventDataStream("EventStream");
@@ -603,16 +603,12 @@ void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 
 		xStream << xWr;
 		yStream << yWr;
+		pktEventDataStream << apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 	}
 
 	rwSlices(xStream, yStream, idx, refStream, tagStreamIn);
 	miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
-
-	writeFromStream: for(int32_t i = 0; i < eventIterSize; i++)
-	{
-		miniSumStream >> *miniSum++;
-		OFRetStream >> *OF++;
-	}
+	outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice);
 }
 
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
