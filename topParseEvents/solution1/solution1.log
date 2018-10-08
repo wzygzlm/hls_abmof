@@ -14,18 +14,109 @@ INFO: [HLS 200-10] Analyzing design file 'topParseEvents/src/abmofAccel.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'FIFO_SRL' cannot be applied: Variable 'xStream' is not declared in 'parseEvents/DFRegion'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'FIFO_SRL' cannot be applied: Variable 'yStream' is not declared in 'parseEvents/DFRegion'.
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 111.793 ; gain = 53.609
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:19 . Memory (MB): peak = 111.832 ; gain = 53.648
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:20 . Memory (MB): peak = 111.688 ; gain = 53.684
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:24 . Memory (MB): peak = 111.723 ; gain = 53.719
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:20 . Memory (MB): peak = 137.461 ; gain = 79.277
+INFO: [XFORM 203-603] Inlining function 'readPixFromCol' into 'writePix' (topParseEvents/src/abmofAccel.cpp:208).
+INFO: [XFORM 203-603] Inlining function 'writePixToCol' into 'writePix' (topParseEvents/src/abmofAccel.cpp:212).
+INFO: [XFORM 203-603] Inlining function 'writePix' into 'rwSlices' (topParseEvents/src/abmofAccel.cpp:439).
+INFO: [XFORM 203-603] Inlining function 'resetPix' into 'rwSlices' (topParseEvents/src/abmofAccel.cpp:480).
+INFO: [XFORM 203-603] Inlining function 'resetPix' into 'rwSlices' (topParseEvents/src/abmofAccel.cpp:479).
+INFO: [XFORM 203-603] Inlining function 'resetPix' into 'rwSlices' (topParseEvents/src/abmofAccel.cpp:441).
+INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:338).
+INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:337).
+INFO: [XFORM 203-603] Inlining function 'readBlockCols' into 'rwSlices' (topParseEvents/src/abmofAccel.cpp:460).
+INFO: [XFORM 203-603] Inlining function 'miniSADSum' into 'miniSADSumWrapper' (topParseEvents/src/abmofAccel.cpp:521).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:03 ; elapsed = 00:00:25 . Memory (MB): peak = 144.563 ; gain = 86.559
 INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:02 ; elapsed = 00:00:20 . Memory (MB): peak = 150.219 ; gain = 92.035
-WARNING: [XFORM 203-561] Updating loop upper bound from 10000 to 100 for loop 'rotateSliceOutLoop' (topParseEvents/src/abmofAccel.cpp:365:1) in function 'rotateSlice'.
-WARNING: [XFORM 203-561] Updating loop lower bound from 1 to 100 for loop 'rotateSliceOutLoop' (topParseEvents/src/abmofAccel.cpp:365:1) in function 'rotateSlice'.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:21 . Memory (MB): peak = 184.387 ; gain = 126.203
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:03 ; elapsed = 00:00:21 . Memory (MB): peak = 189.848 ; gain = 131.664
+WARNING: [SYNCHK 200-23] topParseEvents/src/abmofAccel.cpp:150: variable-indexed range selection may cause suboptimal QoR.
+INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:03 ; elapsed = 00:00:26 . Memory (MB): peak = 159.082 ; gain = 101.078
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'rwSlicesInnerLoop' (topParseEvents/src/abmofAccel.cpp:430) in function 'rwSlices' for pipelining.
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'innerLoop_1' (topParseEvents/src/abmofAccel.cpp:493) in function 'miniSADSumWrapper' for pipelining.
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'min' (topParseEvents/src/abmofAccel.cpp:115).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'colSADSum' (topParseEvents/src/abmofAccel.cpp:43).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sad' (topParseEvents/src/abmofAccel.cpp:23).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sadSum' (topParseEvents/src/abmofAccel.cpp:10).
+WARNING: [XFORM 203-503] Ignored partial unroll directive for loop 'calOFLoop2' (topParseEvents/src/abmofAccel.cpp:14) because its parent loop or function is pipelined.
+INFO: [XFORM 203-501] Unrolling loop 'readWiderBitsLoop' (topParseEvents/src/abmofAccel.cpp:143) in function 'rwSlices' completely.
+INFO: [XFORM 203-501] Unrolling loop 'writeWiderBitsLoop' (topParseEvents/src/abmofAccel.cpp:183) in function 'rwSlices' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readRefLoop' (topParseEvents/src/abmofAccel.cpp:336) in function 'rwSlices' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readTwoColsWiderBitsLoop' (topParseEvents/src/abmofAccel.cpp:167) in function 'rwSlices' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1.4' (topParseEvents/src/abmofAccel.cpp:465) in function 'rwSlices' completely.
+INFO: [XFORM 203-501] Unrolling loop 'initMiniSumLoop' (topParseEvents/src/abmofAccel.cpp:500) in function 'miniSADSumWrapper' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1.2' (topParseEvents/src/abmofAccel.cpp:515) in function 'miniSADSumWrapper' completely.
+INFO: [XFORM 203-501] Unrolling loop 'readColLoop' (topParseEvents/src/abmofAccel.cpp:238) in function 'miniSADSumWrapper' completely.
+INFO: [XFORM 203-501] Unrolling loop 'addLoop' (topParseEvents/src/abmofAccel.cpp:264) in function 'miniSADSumWrapper' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftMainLoop' (topParseEvents/src/abmofAccel.cpp:293) in function 'miniSADSumWrapper' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftInnerLoop' (topParseEvents/src/abmofAccel.cpp:295) in function 'miniSADSumWrapper' completely.
+INFO: [XFORM 203-501] Unrolling loop 'shiftLastLoop' (topParseEvents/src/abmofAccel.cpp:301) in function 'miniSADSumWrapper' completely.
+INFO: [XFORM 203-501] Unrolling loop 'minLoop' (topParseEvents/src/abmofAccel.cpp:120) in function 'min' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumLoop' (topParseEvents/src/abmofAccel.cpp:62) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumInnerLoop' (topParseEvents/src/abmofAccel.cpp:65) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop1' (topParseEvents/src/abmofAccel.cpp:32) in function 'sad' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop2' (topParseEvents/src/abmofAccel.cpp:14) in function 'sadSum' completely.
+INFO: [XFORM 203-102] Partitioning array 'sum.V' (topParseEvents/src/abmofAccel.cpp:26) automatically.
+WARNING: [XFORM 203-105] Cannot partition array 'glPLSlices.V' : incorrect partition factor 1.
+INFO: [XFORM 203-131] Reshaping array 'out1'  in dimension 1 completely.
+INFO: [XFORM 203-131] Reshaping array 'out2'  in dimension 1 completely.
+INFO: [XFORM 203-131] Reshaping array 'in1.V' (topParseEvents/src/abmofAccel.cpp:506) in dimension 1 completely.
+INFO: [XFORM 203-131] Reshaping array 'in2.V' (topParseEvents/src/abmofAccel.cpp:507) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'glPLSlices.V'  in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'localSumReg.V'  in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'miniSumTmp.V'  in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'in1.V.1' (topParseEvents/src/abmofAccel.cpp:234) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'out.i'  in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'in2.V.1' (topParseEvents/src/abmofAccel.cpp:234) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'input2.V' (topParseEvents/src/abmofAccel.cpp:63) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'input1.V' (topParseEvents/src/abmofAccel.cpp:63) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'localSumReg.V'  in dimension 2 completely.
+INFO: [XFORM 203-712] Applying dataflow to function 'parseEvents', detected/extracted 6 process function(s): 
+	 'Block__proc'
+	 'getXandY'
+	 'rotateSlice'
+	 'rwSlices'
+	 'miniSADSumWrapper'
+	 'outputResult'.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (topParseEvents/src/abmofAccel.cpp:509:35) in function 'miniSADSumWrapper'... converting 4 basic blocks.
+INFO: [XFORM 203-11] Balancing expressions in function 'sadSum' (topParseEvents/src/abmofAccel.cpp:10)...7 expression(s) balanced.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:07 ; elapsed = 00:00:31 . Memory (MB): peak = 199.316 ; gain = 141.313
+INFO: [XFORM 203-541] Flattening a loop nest 'rwSlicesLoop' (topParseEvents/src/abmofAccel.cpp:428:3) in function 'rwSlices'.
+INFO: [XFORM 203-541] Flattening a loop nest 'wrapperLoop' (topParseEvents/src/abmofAccel.cpp:489:3) in function 'miniSADSumWrapper'.
+WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.2'.
+WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.3'.
+WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.1'.
+WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.0'.
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:10 ; elapsed = 00:00:34 . Memory (MB): peak = 305.727 ; gain = 247.723
 INFO: [HLS 200-10] Starting hardware synthesis ...
-INFO: [HLS 200-10] Synthesizing 'rotateSlice' ...
+INFO: [HLS 200-10] Synthesizing 'parseEvents' ...
+WARNING: [SYN 201-103] Legalizing function name 'Block__proc' to 'Block_proc'.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'Block_proc'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 33.831 seconds; current allocated memory: 248.924 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.157 seconds; current allocated memory: 248.982 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'getXandY'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'getXandYLoop'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.236 seconds; current allocated memory: 249.103 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.156 seconds; current allocated memory: 249.238 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'rotateSlice'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -35,32 +126,301 @@ WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 
    between 'store' operation (topParseEvents/src/abmofAccel.cpp:371) of variable 'c', topParseEvents/src/abmofAccel.cpp:370 on array 'areaEventRegs' and 'load' operation ('c', topParseEvents/src/abmofAccel.cpp:369) on array 'areaEventRegs'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 2, Depth = 4.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 21.465 seconds; current allocated memory: 131.923 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.365 seconds; current allocated memory: 249.412 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.132 seconds; current allocated memory: 132.114 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.161 seconds; current allocated memory: 249.614 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'rwSlices'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'rwSlicesLoop_rwSlicesInnerLoop'.
+INFO: [SCHED 204-61] Discarding stage scheduling solution.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 5.
+INFO: [SCHED 204-61] Pipelining loop 'resetLoop'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 1.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.444 seconds; current allocated memory: 250.820 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.413 seconds; current allocated memory: 252.275 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'sadSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'sadSum'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.376 seconds; current allocated memory: 252.568 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.194 seconds; current allocated memory: 252.817 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'sad'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'sad'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 3.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.147 seconds; current allocated memory: 252.992 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.134 seconds; current allocated memory: 253.208 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'colSADSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'colSADSum'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 4.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.118 seconds; current allocated memory: 253.359 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.205 seconds; current allocated memory: 253.991 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'min'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'min'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.285 seconds; current allocated memory: 254.428 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.449 seconds; current allocated memory: 254.541 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'miniSADSumWrapper'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'wrapperLoop_innerLoop_1'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 11.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.292 seconds; current allocated memory: 255.374 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.437 seconds; current allocated memory: 256.732 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'outputResult'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'outputLoop'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.481 seconds; current allocated memory: 257.190 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.135 seconds; current allocated memory: 257.306 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'parseEvents'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.093 seconds; current allocated memory: 257.452 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.412 seconds; current allocated memory: 258.330 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'Block_proc'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'Block_proc'.
+INFO: [HLS 200-111]  Elapsed time: 0.38 seconds; current allocated memory: 258.811 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'getXandY'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'getXandY'.
+INFO: [HLS 200-111]  Elapsed time: 0.091 seconds; current allocated memory: 259.119 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'rotateSlice'
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [RTGEN 206-500] Setting interface mode on port 'rotateSlice/xInStream_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'rotateSlice/yInStream_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'rotateSlice/xOutStream_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'rotateSlice/yOutStream_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on port 'rotateSlice/idxStream_V_V' to 'ap_fifo'.
-INFO: [RTGEN 206-500] Setting interface mode on function 'rotateSlice' to 'ap_ctrl_hs'.
-WARNING: [RTGEN 206-101] Global array 'areaEventRegs' will not be exposed as RTL port.
 INFO: [SYN 201-210] Renamed object name 'rotateSlice_areaEventRegs' to 'rotateSlice_areaEbkb' due to the length limit 20
-WARNING: [RTGEN 206-101] Register 'areaEventThr' is power-on initialization.
-WARNING: [RTGEN 206-101] Global scalar 'areaEventThr' will not be exposed as RTL port.
 WARNING: [RTGEN 206-101] Register 'glPLActiveSliceIdx_V' is power-on initialization.
 INFO: [RTGEN 206-100] Finished creating RTL model for 'rotateSlice'.
-INFO: [HLS 200-111]  Elapsed time: 0.119 seconds; current allocated memory: 132.527 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.367 seconds; current allocated memory: 259.574 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'rwSlices'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_0' to 'rwSlices_glPLSliccud' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_1' to 'rwSlices_glPLSlicdEe' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_2' to 'rwSlices_glPLSliceOg' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'rwSlices_glPLSlices_V_3' to 'rwSlices_glPLSlicfYi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'parseEvents_mux_42_128_1_1' to 'parseEvents_mux_4g8j' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_4g8j': 5 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'rwSlices'.
+INFO: [HLS 200-111]  Elapsed time: 0.335 seconds; current allocated memory: 262.597 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'sadSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'sadSum'.
+INFO: [HLS 200-111]  Elapsed time: 1.008 seconds; current allocated memory: 263.224 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'sad'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'sad'.
+INFO: [HLS 200-111]  Elapsed time: 0.69 seconds; current allocated memory: 263.736 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'colSADSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'colSADSum'.
+INFO: [HLS 200-111]  Elapsed time: 0.27 seconds; current allocated memory: 264.777 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'min'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'min'.
+INFO: [HLS 200-111]  Elapsed time: 0.622 seconds; current allocated memory: 265.394 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'miniSADSumWrapper'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Register 'miniRetVal_V' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'minOFRet_V' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'miniSumTmp_V_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_0_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_1_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_2_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_3_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_4_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_5_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_6_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_7_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_8_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_9_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'localSumReg_V_10_6' is power-on initialization.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'miniSADSumWrapper'.
+INFO: [HLS 200-111]  Elapsed time: 0.738 seconds; current allocated memory: 267.276 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'outputResult'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'outputResult'.
+INFO: [HLS 200-111]  Elapsed time: 1.503 seconds; current allocated memory: 268.136 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'parseEvents'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/dataStream' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventsArraySize' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'parseEvents/eventSlice' to 'ap_fifo'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'parseEvents' to 's_axilite & ap_ctrl_hs'.
+INFO: [RTGEN 206-100] Bundling port 'return' to AXI-Lite port control.
+INFO: [SYN 201-210] Renamed object name 'start_for_rotateSlice_U0' to 'start_for_rotateShbi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'start_for_outputResult_U0' to 'start_for_outputRibs' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'start_for_rwSlices_U0' to 'start_for_rwSlicejbC' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'start_for_miniSADSumWrapper_U0' to 'start_for_miniSADkbM' due to the length limit 20
+INFO: [RTGEN 206-100] Finished creating RTL model for 'parseEvents'.
+INFO: [HLS 200-111]  Elapsed time: 0.24 seconds; current allocated memory: 269.141 MB.
 INFO: [RTMG 210-278] Implementing memory 'rotateSlice_areaEbkb_ram (RAM_2P_LUTRAM)' using distributed RAMs with power-on initialization.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:03 ; elapsed = 00:00:23 . Memory (MB): peak = 189.848 ; gain = 131.664
-INFO: [SYSC 207-301] Generating SystemC RTL for rotateSlice.
-INFO: [VHDL 208-304] Generating VHDL RTL for rotateSlice.
-INFO: [VLOG 209-307] Generating Verilog RTL for rotateSlice.
-INFO: [HLS 200-112] Total elapsed time: 22.938 seconds; peak allocated memory: 132.527 MB.
+INFO: [RTMG 210-278] Implementing memory 'rwSlices_glPLSliccud_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w16_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w17_d2_S' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w16_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w16_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w68_d2_S' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w68_d2_S' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w16_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w15_d2_S' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w16_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_rotateShbi' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_outputRibs' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_rwSlicejbC' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_miniSADkbM' using Shift Registers.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:19 ; elapsed = 00:00:52 . Memory (MB): peak = 349.598 ; gain = 291.594
+INFO: [SYSC 207-301] Generating SystemC RTL for parseEvents.
+INFO: [VHDL 208-304] Generating VHDL RTL for parseEvents.
+INFO: [VLOG 209-307] Generating Verilog RTL for parseEvents.
+INFO: [HLS 200-112] Total elapsed time: 51.727 seconds; peak allocated memory: 269.141 MB.

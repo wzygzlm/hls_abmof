@@ -412,13 +412,22 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		ap_uint<6> OFRet;
 
 
-		uint16_t c = areaEventRegs[xWr/AREA_SIZE][xWr/areaEventRegs];
+		uint16_t c = areaEventRegsSW[xWr/AREA_SIZE][xWr/AREA_SIZE];
 		c = c + 1;
-		areaEventRegs[xWr/AREA_SIZE][xWr/areaEventRegs] = c;
+		areaEventRegsSW[xWr/AREA_SIZE][xWr/AREA_SIZE] = c;
 
+		// The area threshold reached, rotate the slice index and clear the areaEventRegs.
 		if (c > areaEventThrSW)
 		{
 			glPLActiveSliceIdx--;
+
+			for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
+			{
+				for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
+				{
+					areaEventRegsSW[areaX][areaY] = 0;
+				}
+			}
 		}
 
 		writePixSW(xWr, yWr, glPLActiveSliceIdx);

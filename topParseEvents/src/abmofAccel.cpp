@@ -351,8 +351,8 @@ void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int1
 	miniSADSum(in1, in2, shiftCnt, miniSumRet, &OFRet);
 }
 
-uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
-uint16_t areaEventThr = 2000;
+static uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
+static uint16_t areaEventThr = 2000;
 
 void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream,
 				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream)
@@ -366,9 +366,9 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 		x = xInStream.read();
 		y = yInStream.read();
 
-		uint16_t c = areaEventRegs[x/AREA_SIZE][y/areaEventRegs];
+		uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
 		c = c + 1;
-		areaEventRegs[x/AREA_SIZE][y/areaEventRegs] = c;
+		areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
 
 		glPLActiveSliceIdx = (c >=  areaEventThr) ? sliceIdx_t(glPLActiveSliceIdx - 1) : glPLActiveSliceIdx;
 
