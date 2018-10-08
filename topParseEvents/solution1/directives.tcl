@@ -92,5 +92,7 @@ set_directive_pipeline "testRwslices/getXandYLoop"
 set_directive_pipeline "testRwslices/writeFromStream"
 set_directive_loop_tripcount -min 1 -max 170000 "testRwslices/writeFromStream"
 set_directive_interface -mode s_axilite -bundle control "parseEvents"
-set_directive_array_partition -type complete -dim 2 "rotateSlice" areaEventRegs
+set_directive_array_partition -type block -factor 4 -dim 2 "rotateSlice" areaEventRegs
 set_directive_pipeline "rotateSlice/rotateSliceLoop"
+set_directive_inline -off "rotateSlice"
+set_directive_interface -mode ap_fifo "getXandY" data

@@ -484,12 +484,24 @@
         <directive functionName="rotateSlice" label="" functionLabel="">
             <pragma name="ARRAY_PARTITION">
                 <option name="variable" value="areaEventRegs" positionalBoolean="4"/>
-                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="block" value="" positionalBoolean="type"/>
+                <option name="factor" value="4"/>
                 <option name="dim" value="2"/>
             </pragma>
         </directive>
         <directive functionName="rotateSlice" label="rotateSliceLoop" functionLabel="">
             <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="rotateSlice" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="getXandY" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="data" positionalBoolean="4"/>
+            </pragma>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>

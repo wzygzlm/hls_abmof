@@ -354,21 +354,35 @@ void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int1
 uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
 uint16_t areaEventThr = 2000;
 
-
-void rotateSlice(ap_uint<8> x, ap_uint<8> y)
+void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream,
+				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream)
 {
-	ap_uint<(AREA_NUMBER * AREA_NUMBER)> compRet[AREA_NUMBER][AREA_NUMBER];
+	ap_uint<(AREA_NUMBER * AREA_NUMBER)> compArray[AREA_NUMBER][AREA_NUMBER];
+	ap_uint<1> compRet = 0;
 
-	areaEventRegs[x/AREA_SIZE][y/areaEventRegs] += 1;
-	rotateSliceLoop:for (uint8_t areaX = 0; areaX < AREA_NUMBER; areaX++)
+	for(int32_t i = 0; i < eventIterSize; i++)
 	{
-		rotateSliceInnerLoop:for (uint8_t areaY = 0; areaY < AREA_NUMBER; areaY++)
-		{
-			compRet[areaX][areaY] = (areaEventRegs[areaX][areaY] > areaEventThr) ? 1 : 0;
-		}
-	}
+		ap_uint<8> x, y;
+		x = xInStream.read();
+		y = yInStream.read();
 
-	glPLActiveSliceIdx = (compRet != 0) ? sliceIdx_t(glPLActiveSliceIdx - 1) : glPLActiveSliceIdx;
+		areaEventRegs[x/AREA_SIZE][y/areaEventRegs] += 1;
+
+		rotateSliceLoop:for (uint8_t areaX = 0; areaX < AREA_NUMBER; areaX++)
+		{
+			rotateSliceInnerLoop:for (uint8_t areaY = 0; areaY < AREA_NUMBER; areaY++)
+			{
+				compArray[areaX][areaY] = (areaEventRegs[areaX][areaY] > areaEventThr) ? 1 : 0;
+				compRet = compRet | compArray[areaX][areaY];
+			}
+		}
+
+		glPLActiveSliceIdx = (compRet == 1) ? sliceIdx_t(glPLActiveSliceIdx - 1) : glPLActiveSliceIdx;
+
+		xOutStream.write(x);
+		yOutStream.write(y);
+		idxStream.write(glPLActiveSliceIdx);
+	}
 }
 
 void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream, hls::stream<apUint17_t> &packetEventDataStream)
@@ -410,14 +424,15 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 	}
 }
 
-void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, sliceIdx_t idx,
+void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls::stream<sliceIdx_t> &idxStream,
 			  hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut)
 {
+	ap_uint<8> xRd;
+	ap_uint<8> yRd;
+	sliceIdx_t idx;
+
 	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
-		ap_uint<8> xRd;
-		ap_uint<8> yRd;
-
 		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; xOffSet++)
 		{
 //			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
@@ -426,6 +441,7 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, slic
 			{
 				xRd = xStream.read();
 				yRd = yStream.read();
+				idx = idxStream.read();
 
 				writePix(xRd, yRd, idx);
 
@@ -572,6 +588,7 @@ void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 			  apIntBlockCol_t *refData, apIntBlockCol_t *tagData)
 {
 	hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
+	hls::stream<sliceIdx_t> idxStream("idxStream");
 	hls::stream<apUint17_t> pktEventDataStream("EventStream");
 	hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
 
@@ -588,9 +605,10 @@ void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 
 		xStream << xWr;
 		yStream << yWr;
+		idxStream << idx;
 	}
 
-	rwSlices(xStream, yStream, idx, refStream, tagStreamIn);
+	rwSlices(xStream, yStream, idxStream, refStream, tagStreamIn);
 
 	writeFromStream: for(int32_t i = 0; i < eventIterSize * (BLOCK_SIZE + 2 * SEARCH_DISTANCE); i++)
 	{
@@ -604,6 +622,7 @@ void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 		int32_t *eventSlice)
 {
 	hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
+	hls::stream<sliceIdx_t> idxStream("idxStream");
 	hls::stream<apUint17_t> pktEventDataStream("EventStream");
 	hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
 	hls::stream<apUint15_t> miniSumStream("miniSumStream");
@@ -622,10 +641,11 @@ void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 
 		xStream << xWr;
 		yStream << yWr;
+		idxStream << idx;
 		pktEventDataStream << apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 	}
 
-	rwSlices(xStream, yStream, idx, refStream, tagStreamIn);
+	rwSlices(xStream, yStream, idxStream, refStream, tagStreamIn);
 	miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
 	outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice);
 }
@@ -634,18 +654,21 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 {
 	DFRegion:
 	{
-		hls::stream<uint8_t>  xStream("xStream"), yStream("yStream");
+		hls::stream<uint8_t>  xInStream("xInStream"), yInStream("yInStream");
+		hls::stream<uint8_t>  xOutStream("xOutStream"), yOutStream("yOutStream");
+		hls::stream<sliceIdx_t> idxStream("idxStream");
 		hls::stream<apUint17_t> pktEventDataStream("EventStream");
 		hls::stream<apUint6_t> OFRetStream("OFStream");
 		hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
 		hls::stream<apUint15_t> miniSumStream("miniSumStream");
 
-		glPLActiveSliceIdx--;
+//		glPLActiveSliceIdx--;
 
 		eventIterSize = eventsArraySize;
 
-		getXandY(dataStream, xStream, yStream, pktEventDataStream);
-		rwSlices(xStream, yStream, glPLActiveSliceIdx, refStream, tagStreamIn);
+		getXandY(dataStream, xInStream, yInStream, pktEventDataStream);
+		rotateSlice(xInStream, yInStream, xOutStream, yOutStream, idxStream);
+		rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
 		miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
 		outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice);
 
