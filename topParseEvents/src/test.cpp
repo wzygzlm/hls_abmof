@@ -148,7 +148,7 @@ void miniSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			OFRet_x = ap_uint<3>(shiftCnt - BLOCK_SIZE + 1);   // Record the shift value and store it in OFRet_x
 			OFRet_y = ap_uint<3>(miniIdx);
 			minOFRet = OFRet_y.concat(OFRet_x);     // Update the OF value.
-			cout << "OF and global minimum updated at index shiftCnt: " << shiftCnt << endl;
+//			cout << "OF and global minimum updated at index shiftCnt: " << shiftCnt << endl;
 		}
 	}
 
@@ -285,8 +285,11 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 		{
 			if (slices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
 			{
-				cout << "Ha! I caught you, the pixel which is not clear!" << endl;
-				cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << endl;
+				for(int r = 0; r < 1000; r++)
+				{
+					cout << "Ha! I caught you, the pixel which is not clear!" << endl;
+					cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << endl;
+				}
 			}
 		}
 	}
@@ -342,6 +345,11 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 
 			miniSADSumSW(out1, out2, xOffSet, &miniSumSWRet, &OFRetSWRet);
 			//		testMiniSADSumWrapperSW(refBlockColData, tagBlockColData, eventCnt, miniSumSW, OFRetSW);
+
+			if (refBlockCol != 0 && tagBlockCol == 0)
+			{
+				cout << "Should not stop here, it is only a debug breakpoint." << endl;
+			}
 			cout  << "refBlockColSW is: " << hex <<  refBlockCol << endl;
 			cout  << "tagBlockColSW is: " << hex <<  tagBlockCol << endl;
 //			*refData++ = refBlockCol;
@@ -516,7 +524,7 @@ int main(int argc, char *argv[])
 
 
 	/******************* Test testTemp module **************************/
-	srand((unsigned)time(NULL));
+//	srand((unsigned)time(NULL));
 	int16_t eventCnt = 1000;
 
 	uint64_t data[eventCnt];
@@ -539,8 +547,8 @@ int main(int argc, char *argv[])
 
 		for (int i = 0; i < eventCnt; i++)
 		{
-			x = rand()%20;
-			y = rand()%20 + COMBINED_PIXELS;
+			x = rand()%50;
+			y = rand()%50 + COMBINED_PIXELS;
 //			idx = rand()%3;
 	//		x = 255;
 	//		y = 240;
@@ -621,6 +629,11 @@ int main(int argc, char *argv[])
 //			cout  << "refDataHW is: " << hex <<  refData[m] << endl;
 //			cout  << "tagDataHW is: " << hex <<  tagData[m] << endl;
 //			cout << dec;
+//
+//			if (refDataSW[m] != 0 && tagDataSW[m] == 0)
+//			{
+//				cout << "Should not stop here, it is only a debug breakpoint." << endl;
+//			}
 //
 //			if(refDataSW[m] != refData[m] || tagDataSW[m] != tagData[m])
 //			{
