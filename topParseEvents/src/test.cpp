@@ -524,6 +524,12 @@ int main(int argc, char *argv[])
 			}
 		}
 
+//		if(memcmp(eventSliceSW, eventSlice, eventCnt) != 0)
+//		{
+//			err_cnt++;
+//			cout << "Mismatch detected on TEST " << endl;
+//		}
+
 		if(err_cnt == 0)
 		{
 			cout << "Test " << k << " passed." << endl;

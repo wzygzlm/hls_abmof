@@ -2,7 +2,9 @@
     <sourceFile name="">
         <directive functionName="parseEvents" label="" functionLabel="">
             <pragma name="INTERFACE">
-                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="axis" value="" positionalBoolean="mode"/>
+                <option name="register" value="" positionalBoolean="1"/>
+                <option name="both" value="" positionalBoolean="register_mode"/>
                 <option name="depth" value="500"/>
                 <option name="port" value="eventSlice" positionalBoolean="4"/>
             </pragma>
@@ -21,7 +23,9 @@
         </directive>
         <directive functionName="parseEvents" label="" functionLabel="">
             <pragma name="INTERFACE">
-                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="axis" value="" positionalBoolean="mode"/>
+                <option name="register" value="" positionalBoolean="1"/>
+                <option name="both" value="" positionalBoolean="register_mode"/>
                 <option name="depth" value="500"/>
                 <option name="port" value="dataStream" positionalBoolean="4"/>
             </pragma>
@@ -469,6 +473,23 @@
                 <option name="min" value="1"/>
                 <option name="max" value="170000"/>
             </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="s_axilite" value="" positionalBoolean="mode"/>
+                <option name="port" value="return" positionalBoolean="4"/>
+                <option name="bundle" value="control"/>
+            </pragma>
+        </directive>
+        <directive functionName="rotateSlice" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="areaEventRegs" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="rotateSlice" label="rotateSliceLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>

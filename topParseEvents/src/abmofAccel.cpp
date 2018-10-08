@@ -351,7 +351,26 @@ void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int1
 	miniSADSum(in1, in2, shiftCnt, miniSumRet, &OFRet);
 }
 
-typedef ap_uint<17> apUint17_t;
+uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
+uint16_t areaEventThr = 2000;
+
+
+void rotateSlice(ap_uint<8> x, ap_uint<8> y)
+{
+	ap_uint<(AREA_NUMBER * AREA_NUMBER)> compRet[AREA_NUMBER][AREA_NUMBER];
+
+	areaEventRegs[x/AREA_SIZE][y/areaEventRegs] += 1;
+	rotateSliceLoop:for (uint8_t areaX = 0; areaX < AREA_NUMBER; areaX++)
+	{
+		rotateSliceInnerLoop:for (uint8_t areaY = 0; areaY < AREA_NUMBER; areaY++)
+		{
+			compRet[areaX][areaY] = (areaEventRegs[areaX][areaY] > areaEventThr) ? 1 : 0;
+		}
+	}
+
+	glPLActiveSliceIdx = (compRet != 0) ? sliceIdx_t(glPLActiveSliceIdx - 1) : glPLActiveSliceIdx;
+}
+
 void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream, hls::stream<apUint17_t> &packetEventDataStream)
 //void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> *xStream, ap_uint<8> *yStream)
 {
