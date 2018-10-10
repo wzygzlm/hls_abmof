@@ -422,21 +422,6 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
                 std::cout << "x is: " << x << "\t y is: " << y << "\t idx is: " << glPLActiveSliceIdx << std::endl;
             }
 
-            // Check the accumulation slice is clear or not
-            for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
-            {
-                for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
-                {
-                    if (glPLSlices[glPLActiveSliceIdx][xAddr][yAddr/COMBINED_PIXELS] != 0)
-                    {
-                        for(int r = 0; r < 1000; r++)
-                        {
-                            std::cout << "Ha! I caught you, the pixel which is not clear!" << std::endl;
-                            std::cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << glPLActiveSliceIdx << std::endl;
-                        }
-                    }
-                }
-            }
 
 			rotateSliceResetLoop:for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
 			{
@@ -446,11 +431,11 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 				}
 			}
 
-		   for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
-		   {
-			   resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
-			   resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
-		   }
+//		   for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+//		   {
+//			   resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
+//			   resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
+//		   }
 		}
 
 		xOutStream.write(x);
@@ -465,6 +450,7 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 	ap_uint<8> xRd;
 	ap_uint<8> yRd;
 	sliceIdx_t idx;
+	sliceIdx_t oldIdx;
 
 	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
@@ -477,6 +463,28 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 				xRd = xStream.read();
 				yRd = yStream.read();
 				idx = idxStream.read();
+
+				/* This is only for C-simulation and debugging. */
+//				if (i == 0) oldIdx = idx;
+//				if (oldIdx != idx)
+//				{
+//					oldIdx = idx;
+//					// Check the accumulation slice is clear or not
+//					for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
+//					{
+//						for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
+//						{
+//							if (glPLSlices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+//							{
+//								for(int r = 0; r < 1000; r++)
+//								{
+//									std::cout << "Ha! I caught you, the pixel which is not clear!" << std::endl;
+//									std::cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << std::endl;
+//								}
+//							}
+//						}
+//					}
+//				}
 
 				writePix(xRd, yRd, idx);
 

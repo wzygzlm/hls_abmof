@@ -8,7 +8,7 @@ using namespace std;
 #include "abmofAccel.h"
 #include "time.h"
 
-#define TEST_TIMES 10
+#define TEST_TIMES 20
 
 static col_pix_t slicesSW[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdxSW = 0;
@@ -524,7 +524,7 @@ int main(int argc, char *argv[])
 	int testTimes = TEST_TIMES;
     if (argc == 2) testTimes = atoi(argv[1]);
 
-    int err_cnt = 0;
+    int total_err_cnt = 0;
 	int retval=0;
 
 	/******************* Test parseEvents module **************************/
@@ -544,12 +544,14 @@ int main(int argc, char *argv[])
 	{
 		cout << "Test " << k << ":" << endl;
 
+	    int err_cnt = 0;
+
 		idx = sliceIdx_t(idx - 1);
 
 		for (int i = 0; i < eventCnt; i++)
 		{
-			x = rand()%50;
-			y = rand()%50 + COMBINED_PIXELS;
+			x = rand()%50 + 10;
+			y = rand()%50 + 10;
 			pol = rand()%2;
 //			idx = rand()%3;
 	//		x = 255;
@@ -582,6 +584,7 @@ int main(int argc, char *argv[])
 		{
 			cout << "Test " << k << " passed." << endl;
 		}
+		total_err_cnt += err_cnt;
 		cout << endl;
 	}
 
@@ -951,13 +954,13 @@ int main(int argc, char *argv[])
 //			cout << endl;
 //		}
 
-	if (err_cnt == 0)
+	if (total_err_cnt == 0)
 	{
 			cout<<"*** TEST PASSED ***" << endl;
 			retval = 0;
 	} else
 	{
-			cout<<"!!! TEST FAILED - " << err_cnt << " mismatches detected !!!";
+			cout<<"!!! TEST FAILED - " << total_err_cnt << " mismatches detected !!!";
 			cout<< endl;
 			retval = -1;
 	}
