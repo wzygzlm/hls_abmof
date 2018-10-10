@@ -10,22 +10,22 @@ using namespace std;
 
 #define TEST_TIMES 10
 
-static col_pix_t slices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
-static sliceIdx_t glPLActiveSliceIdx = 0;
+static col_pix_t slicesSW[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
+static sliceIdx_t glPLActiveSliceIdxSW = 0;
 
 void resetPixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 {
-	slices[sliceIdx][x][y/COMBINED_PIXELS] = 0;
+	slicesSW[sliceIdx][x][y/COMBINED_PIXELS] = 0;
 }
 
 void writePixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 {
 	int8_t yNewIdx = y%COMBINED_PIXELS;
-//	cout << "Data before write : " << slices[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
-	pix_t tmp = slices[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx);
+	cout << "Data before write : " << slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
+	pix_t tmp = slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx);
 	tmp += 1;
-	slices[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) = tmp;
-//	cout << "Data after write : " << slices[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
+	slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) = tmp;
+	cout << "Data after write : " << slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
 }
 
 void readBlockColsSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
@@ -33,13 +33,13 @@ void readBlockColsSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceId
 {
 	two_cols_pix_t refColData;
 	// concatenate two columns together
-	refColData = (slices[sliceIdxRef][x][y/COMBINED_PIXELS], slices[sliceIdxRef][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
+	refColData = (slicesSW[sliceIdxRef][x][y/COMBINED_PIXELS], slicesSW[sliceIdxRef][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
 //	cout << "refColData: " << refColData.range(255, 192) << endl;
 
 	// concatenate two columns together
 	two_cols_pix_t tagColData;
 	// Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-	tagColData = (slices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slices[(sliceIdx_t)(sliceIdxTag + 0)][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
+	tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
 
 	// find the bottom pixel of the column that centered on y.
 	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
@@ -55,20 +55,18 @@ void readBlockColsSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceId
 void colSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		int16_t out[2 * SEARCH_DISTANCE + 1])
-{
-	cout << "in1 is: " << endl;
-	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
-	{
-		cout << in1[m] << " ";
-	}
-	cout << endl;
-
-	cout << "in2 is: " << endl;
-	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
-	{
-		cout << in2[m] << " ";
-	}
-	cout << endl;
+{ //	cout << "in1 is: " << endl; //	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+//	{
+//		cout << in1[m] << " ";
+//	}
+//	cout << endl;
+//
+//	cout << "in2 is: " << endl;
+//	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+//	{
+//		cout << in2[m] << " ";
+//	}
+//	cout << endl;
 
 	for(int i = 0; i <= 2 * SEARCH_DISTANCE; i++)
 	{
@@ -83,7 +81,6 @@ void colSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 }
 
 // Set the initial value as the max integer, cannot be 0x7fff, DON'T KNOW WHY.
-
 static ap_int<16> miniRetVal = 0x7fff;
 static ap_uint<6> minOFRet = ap_uint<6>(0xff);
 
@@ -128,12 +125,12 @@ void miniSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		}
 	}
 
-	cout << "miniSumTmp is: " << endl;
-	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
-	{
-		cout << miniSumTmp[m] << " ";
-	}
-	cout << endl;
+//	cout << "miniSumTmp is: " << endl;
+//	for (int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+//	{
+//		cout << miniSumTmp[m] << " ";
+//	}
+//	cout << endl;
 
 	// Find the minimal of current column.
 	ap_int<16> miniRetValTmpIter = ap_int<16>(*min_element(miniSumTmp, miniSumTmp + 2*SEARCH_DISTANCE + 1));
@@ -160,7 +157,6 @@ void miniSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	std::cout << "miniSumRetSW is: " << *miniSumRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
 	std::cout << std::dec;    // Restore dec mode
 }
-
 
 void testMiniSADSumWrapperSW(apIntBlockCol_t *input1, apIntBlockCol_t *input2, int16_t eventCnt, apUint15_t *miniSum, apUint6_t *OF)
 {
@@ -220,7 +216,7 @@ void testRwslicesSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBloc
 	{
 		for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
 		{
-			if (slices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+			if (slicesSW[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
 			{
 				cout << "Ha! I caught you, the pixel which is not clear!" << endl;
 				cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << endl;
@@ -283,7 +279,7 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 	{
 		for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
 		{
-			if (slices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+			if (slicesSW[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
 			{
 				for(int r = 0; r < 1000; r++)
 				{
@@ -376,19 +372,21 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 }
 
 static uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
-static uint16_t areaEventThrSW = 2000;
+static uint16_t areaEventThrSW = 1000;
+static uint16_t OFRetRegsSW[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
+
 
 void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
 {
-//	glPLActiveSliceIdx--;
-//	sliceIdx_t idx = glPLActiveSliceIdx;
+	glPLActiveSliceIdxSW--;
+	sliceIdx_t idx = glPLActiveSliceIdxSW;
 
 	// Check the accumulation slice is clear or not
 	for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
 	{
 		for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
 		{
-			if (slices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+			if (slicesSW[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
 			{
 				for(int r = 0; r < 1000; r++)
 				{
@@ -411,28 +409,9 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		ap_int<16> miniRet;
 		ap_uint<6> OFRet;
 
+		writePixSW(xWr, yWr, idx);
 
-		uint16_t c = areaEventRegsSW[xWr/AREA_SIZE][xWr/AREA_SIZE];
-		c = c + 1;
-		areaEventRegsSW[xWr/AREA_SIZE][xWr/AREA_SIZE] = c;
-
-		// The area threshold reached, rotate the slice index and clear the areaEventRegs.
-		if (c > areaEventThrSW)
-		{
-			glPLActiveSliceIdx--;
-
-			for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
-			{
-				for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
-				{
-					areaEventRegsSW[areaX][areaY] = 0;
-				}
-			}
-		}
-
-		writePixSW(xWr, yWr, glPLActiveSliceIdx);
-
-		resetPixSW(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
+		resetPixSW(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 //				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 64, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 96, (sliceIdx_t)(idx + 3));
@@ -479,8 +458,8 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 
 	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
 	{
-		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
-		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
+		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 	}
 }
 
@@ -543,12 +522,6 @@ int main(int argc, char *argv[])
 				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
 			}
 		}
-
-//		if(memcmp(eventSliceSW, eventSlice, eventCnt) != 0)
-//		{
-//			err_cnt++;
-//			cout << "Mismatch detected on TEST " << endl;
-//		}
 
 		if(err_cnt == 0)
 		{

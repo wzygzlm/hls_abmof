@@ -2,6 +2,12 @@
     <checksum>
         <value string="false"/>
     </checksum>
+    <downStreamTool>
+        <DownStreamTool name="vivado"/>
+    </downStreamTool>
+    <clockList>
+        <clock default="false" name="default" period="10" uncertainty="0.1"/>
+    </clockList>
     <config>
         <schedule model="parseEvents"/>
         <config_dataflow default_channel="fifo" fifo_depth="0"/>
@@ -65,11 +71,5 @@
         <library name="DefaultPlatform" value="xilinx/zynq/zynq"/>
         <library name="DefaultPlatform" value="xilinx/zynq/zynq_fpv6"/>
     </libraryList>
-    <downStreamTool>
-        <DownStreamTool name="vivado"/>
-    </downStreamTool>
-    <clockList>
-        <clock default="false" name="default" uncertainty="0.1" period="10"/>
-    </clockList>
 </solution>
 

@@ -360,30 +360,32 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 	ap_uint<(AREA_NUMBER * AREA_NUMBER)> compArray[AREA_NUMBER][AREA_NUMBER];
 	ap_uint<1> compRet = 0;
 
+	glPLActiveSliceIdx--;
+
 	rotateSliceOutLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
 		ap_uint<8> x, y;
 		x = xInStream.read();
 		y = yInStream.read();
 
-		uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
-		c = c + 1;
-		areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
-
-
-		// The area threshold reached, rotate the slice index and clear the areaEventRegs.
-		if (c > areaEventThr)
-		{
-			glPLActiveSliceIdx--;
-
-			rotateSliceResetLoop:for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
-			{
-				for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
-				{
-					areaEventRegs[areaX][areaY] = 0;
-				}
-			}
-		}
+//		uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
+//		c = c + 1;
+//		areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
+//
+//
+//		// The area threshold reached, rotate the slice index and clear the areaEventRegs.
+//		if (c > areaEventThr)
+//		{
+//			glPLActiveSliceIdx--;
+//
+//			rotateSliceResetLoop:for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
+//			{
+//				for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
+//				{
+//					areaEventRegs[areaX][areaY] = 0;
+//				}
+//			}
+//		}
 
 		xOutStream.write(x);
 		yOutStream.write(y);
@@ -668,7 +670,6 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 		hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
 		hls::stream<apUint15_t> miniSumStream("miniSumStream");
 
-//		glPLActiveSliceIdx--;
 
 		eventIterSize = eventsArraySize;
 
