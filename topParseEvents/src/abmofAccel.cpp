@@ -1,6 +1,7 @@
 #include <iostream>
 #include "ap_int.h"
 #include "abmofAccel.h"
+#include "hls_math.h"
 
 static col_pix_t glPLSlices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdx = 0, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
@@ -574,6 +575,51 @@ void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<ap
 		miniSumStream.write(apUint15_t(miniRet));
 		OFRetStream.write(apUint6_t(OFRet));
 	}
+}
+
+static uint16_t OFRetRegs[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
+
+void feedback(apUint15_t miniSumRet, apUint6_t OFRet)
+{
+    if(miniSumRet <= 0x1ff && miniSumRet > 0 && OFRet != 0x3f)
+    {
+        uint16_t OFRetHistCnt = OFRetRegs[OFRet.range(2, 0)][OFRet.range(3, 0)];
+        OFRetHistCnt = OFRetHistCnt + 1;
+        OFRetRegs[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
+
+        uint16_t countSum = 0;
+        uint16_t histCountSum = 0;
+        float radiusSum =  0;
+        float radiusCountSum =  0;
+        for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
+        {
+            for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
+            {
+                uint16_t count = OFRetRegs[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
+                float radius = hls::sqrtf(OFRetHistX * OFRetHistX + OFRetHistY *  OFRetHistY);
+                countSum += count;
+                radiusCountSum += radius * count;
+
+                histCountSum += 1;
+                radiusSum += radius;
+            }
+        }
+
+        if (countSum >= 10)
+        {
+            float avgMatchDistance =  hls::divide(radiusCountSum, countSum);
+            float avgTargetDistance = hls::divide(radiusSum, histCountSum);
+
+            if(avgMatchDistance > avgTargetDistance )
+            {
+                areaEventThr -= areaEventThr * 0.05;
+            }
+            else if (avgMatchDistance < avgTargetDistance)
+            {
+                areaEventThr += areaEventThr * 0.05;
+            }
+        }
+    }
 }
 
 void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,  hls::stream<apUint17_t> &packetEventDataStream, int32_t *eventSlice)
