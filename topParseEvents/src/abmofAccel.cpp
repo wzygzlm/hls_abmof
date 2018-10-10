@@ -589,14 +589,14 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet)
 
         uint16_t countSum = 0;
         uint16_t histCountSum = 0;
-        float radiusSum =  0;
-        float radiusCountSum =  0;
-        for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
+        half radiusSum =  0;
+        half radiusCountSum =  0;
+        feedbackReadOFLoop:for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
         {
             for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
             {
                 uint16_t count = OFRetRegs[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
-                float radius = hls::sqrtf(OFRetHistX * OFRetHistX + OFRetHistY *  OFRetHistY);
+                half radius = hls::sqrt(OFRetHistX * OFRetHistX + OFRetHistY *  OFRetHistY);
                 countSum += count;
                 radiusCountSum += radius * count;
 
@@ -607,16 +607,20 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet)
 
         if (countSum >= 10)
         {
-            float avgMatchDistance =  hls::divide(radiusCountSum, countSum);
-            float avgTargetDistance = hls::divide(radiusSum, histCountSum);
+        	half avgMatchDistance =  hls::divide(radiusCountSum, half(countSum));
+        	half avgTargetDistance = hls::divide(radiusSum, half(histCountSum));
 
+        	// 3/64 = 0.046875~ 0.05
+        	uint16_t deltaThr = areaEventThr * 3 / 64;
             if(avgMatchDistance > avgTargetDistance )
             {
-                areaEventThr -= areaEventThr * 0.05;
+                areaEventThr -= deltaThr;
+//            	areaEventThr -= 50;
             }
             else if (avgMatchDistance < avgTargetDistance)
             {
-                areaEventThr += areaEventThr * 0.05;
+                areaEventThr += deltaThr;
+//            	areaEventThr += 50;
             }
         }
     }

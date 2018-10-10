@@ -110,7 +110,8 @@
       "array_partition rotateSlice {{partition positionBooleanCmd} {variable positionBooleanTextRequiredareaEventRegs} {complete positionBoolean0type} {dim 2}} {}",
       "pipeline rotateSlice\/rotateSliceResetLoop {} {}",
       "inline rotateSlice\/rotateSliceResetLoop {{off positionBoolean1}} {}",
-      "resource rotateSlice {{variable positionBooleanTextRequiredareaEventRegs} {core RAM_2P_LUTRAM}} {}"
+      "resource rotateSlice {{variable positionBooleanTextRequiredareaEventRegs} {core RAM_2P_LUTRAM}} {}",
+      "pipeline feedback\/feedbackReadOFLoop {} {}"
     ]
   },
   "ClockInfo": {
@@ -135,50 +136,38 @@
   "Files": {
     "CSource": ["..\/src\/abmofAccel.cpp"],
     "Vhdl": [
-      "impl\/vhdl\/feedback_dadddsubibs.vhd",
-      "impl\/vhdl\/feedback_dmul_64njbC.vhd",
-      "impl\/vhdl\/feedback_fadd_32nbkb.vhd",
-      "impl\/vhdl\/feedback_fcmp_32ng8j.vhd",
-      "impl\/vhdl\/feedback_fdiv_32ndEe.vhd",
-      "impl\/vhdl\/feedback_fmul_32ncud.vhd",
-      "impl\/vhdl\/feedback_fsqrt_32hbi.vhd",
-      "impl\/vhdl\/feedback_mac_mulamb6.vhd",
+      "impl\/vhdl\/feedback_hadd_16neOg.vhd",
+      "impl\/vhdl\/feedback_hcmp_16nhbi.vhd",
+      "impl\/vhdl\/feedback_hdiv_16ng8j.vhd",
+      "impl\/vhdl\/feedback_hmul_16nfYi.vhd",
       "impl\/vhdl\/feedback_OFRetRegs.vhd",
-      "impl\/vhdl\/feedback_sitodp_3lbW.vhd",
-      "impl\/vhdl\/feedback_sitofp_3fYi.vhd",
-      "impl\/vhdl\/feedback_uitodp_3kbM.vhd",
-      "impl\/vhdl\/feedback_uitofp_3eOg.vhd",
+      "impl\/vhdl\/feedback_sitofp_3cud.vhd",
+      "impl\/vhdl\/feedback_sptohp_3dEe.vhd",
+      "impl\/vhdl\/feedback_uitofp_3bkb.vhd",
+      "impl\/vhdl\/sqrt_fixed_32_32_s.vhd",
       "impl\/vhdl\/feedback.vhd"
     ],
     "Verilog": [
-      "impl\/verilog\/feedback_dadddsubibs.v",
-      "impl\/verilog\/feedback_dmul_64njbC.v",
-      "impl\/verilog\/feedback_fadd_32nbkb.v",
-      "impl\/verilog\/feedback_fcmp_32ng8j.v",
-      "impl\/verilog\/feedback_fdiv_32ndEe.v",
-      "impl\/verilog\/feedback_fmul_32ncud.v",
-      "impl\/verilog\/feedback_fsqrt_32hbi.v",
-      "impl\/verilog\/feedback_mac_mulamb6.v",
+      "impl\/verilog\/feedback_hadd_16neOg.v",
+      "impl\/verilog\/feedback_hcmp_16nhbi.v",
+      "impl\/verilog\/feedback_hdiv_16ng8j.v",
+      "impl\/verilog\/feedback_hmul_16nfYi.v",
       "impl\/verilog\/feedback_OFRetRegs.v",
       "impl\/verilog\/feedback_OFRetRegs_ram.dat",
-      "impl\/verilog\/feedback_sitodp_3lbW.v",
-      "impl\/verilog\/feedback_sitofp_3fYi.v",
-      "impl\/verilog\/feedback_uitodp_3kbM.v",
-      "impl\/verilog\/feedback_uitofp_3eOg.v",
+      "impl\/verilog\/feedback_sitofp_3cud.v",
+      "impl\/verilog\/feedback_sptohp_3dEe.v",
+      "impl\/verilog\/feedback_uitofp_3bkb.v",
+      "impl\/verilog\/sqrt_fixed_32_32_s.v",
       "impl\/verilog\/feedback.v"
     ],
     "Misc": ["impl\/misc\/logo.png"],
     "Subcore": [
-      "impl\/misc\/feedback_ap_dadddsub_3_full_dsp_64_ip.tcl",
-      "impl\/misc\/feedback_ap_dmul_4_max_dsp_64_ip.tcl",
-      "impl\/misc\/feedback_ap_fadd_3_full_dsp_32_ip.tcl",
-      "impl\/misc\/feedback_ap_fcmp_0_no_dsp_32_ip.tcl",
-      "impl\/misc\/feedback_ap_fdiv_10_no_dsp_32_ip.tcl",
-      "impl\/misc\/feedback_ap_fmul_2_max_dsp_32_ip.tcl",
-      "impl\/misc\/feedback_ap_fsqrt_10_no_dsp_32_ip.tcl",
-      "impl\/misc\/feedback_ap_sitodp_3_no_dsp_32_ip.tcl",
+      "impl\/misc\/feedback_ap_hadd_3_full_dsp_16_ip.tcl",
+      "impl\/misc\/feedback_ap_hcmp_1_no_dsp_16_ip.tcl",
+      "impl\/misc\/feedback_ap_hdiv_5_no_dsp_16_ip.tcl",
+      "impl\/misc\/feedback_ap_hmul_2_max_dsp_16_ip.tcl",
       "impl\/misc\/feedback_ap_sitofp_3_no_dsp_32_ip.tcl",
-      "impl\/misc\/feedback_ap_uitodp_3_no_dsp_32_ip.tcl",
+      "impl\/misc\/feedback_ap_sptohp_1_no_dsp_32_ip.tcl",
       "impl\/misc\/feedback_ap_uitofp_3_no_dsp_32_ip.tcl"
     ]
   },
@@ -187,44 +176,24 @@
     "HasClockedDsp": false,
     "IP": [
       {
-        "name": "feedback_ap_dadddsub_3_full_dsp_64",
+        "name": "feedback_ap_hadd_3_full_dsp_16",
         "vlnv": "xilinx.com:ip:floating_point:7.1",
-        "params": "CONFIG.a_precision_type Double CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 11 CONFIG.c_a_fraction_width 53 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 3 CONFIG.c_mult_usage Full_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 11 CONFIG.c_result_fraction_width 53 CONFIG.component_name feedback_ap_dadddsub_3_full_dsp_64 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Add_Subtract CONFIG.result_precision_type Double CONFIG.result_tlast_behv Null"
+        "params": "CONFIG.a_precision_type Half CONFIG.a_tuser_width 1 CONFIG.add_sub_value Add CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 5 CONFIG.c_a_fraction_width 11 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 3 CONFIG.c_mult_usage Full_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 5 CONFIG.c_result_fraction_width 11 CONFIG.component_name feedback_ap_hadd_3_full_dsp_16 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Add_Subtract CONFIG.result_precision_type Half CONFIG.result_tlast_behv Null"
       },
       {
-        "name": "feedback_ap_dmul_4_max_dsp_64",
+        "name": "feedback_ap_hcmp_1_no_dsp_16",
         "vlnv": "xilinx.com:ip:floating_point:7.1",
-        "params": "CONFIG.a_precision_type Double CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 11 CONFIG.c_a_fraction_width 53 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 4 CONFIG.c_mult_usage Max_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 11 CONFIG.c_result_fraction_width 53 CONFIG.component_name feedback_ap_dmul_4_max_dsp_64 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Multiply CONFIG.result_precision_type Double CONFIG.result_tlast_behv Null"
+        "params": "CONFIG.a_precision_type Half CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 5 CONFIG.c_a_fraction_width 11 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 1 CONFIG.c_mult_usage No_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 1 CONFIG.c_result_fraction_width 0 CONFIG.component_name feedback_ap_hcmp_1_no_dsp_16 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Compare CONFIG.result_precision_type Custom CONFIG.result_tlast_behv Null"
       },
       {
-        "name": "feedback_ap_fadd_3_full_dsp_32",
+        "name": "feedback_ap_hdiv_5_no_dsp_16",
         "vlnv": "xilinx.com:ip:floating_point:7.1",
-        "params": "CONFIG.a_precision_type Single CONFIG.a_tuser_width 1 CONFIG.add_sub_value Add CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 8 CONFIG.c_a_fraction_width 24 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 3 CONFIG.c_mult_usage Full_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 8 CONFIG.c_result_fraction_width 24 CONFIG.component_name feedback_ap_fadd_3_full_dsp_32 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Add_Subtract CONFIG.result_precision_type Single CONFIG.result_tlast_behv Null"
+        "params": "CONFIG.a_precision_type Half CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 5 CONFIG.c_a_fraction_width 11 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 5 CONFIG.c_mult_usage No_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 5 CONFIG.c_result_fraction_width 11 CONFIG.component_name feedback_ap_hdiv_5_no_dsp_16 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Divide CONFIG.result_precision_type Half CONFIG.result_tlast_behv Null"
       },
       {
-        "name": "feedback_ap_fcmp_0_no_dsp_32",
+        "name": "feedback_ap_hmul_2_max_dsp_16",
         "vlnv": "xilinx.com:ip:floating_point:7.1",
-        "params": "CONFIG.a_precision_type Single CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 8 CONFIG.c_a_fraction_width 24 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 0 CONFIG.c_mult_usage No_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 1 CONFIG.c_result_fraction_width 0 CONFIG.component_name feedback_ap_fcmp_0_no_dsp_32 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken false CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Compare CONFIG.result_precision_type Custom CONFIG.result_tlast_behv Null"
-      },
-      {
-        "name": "feedback_ap_fdiv_10_no_dsp_32",
-        "vlnv": "xilinx.com:ip:floating_point:7.1",
-        "params": "CONFIG.a_precision_type Single CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 8 CONFIG.c_a_fraction_width 24 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 10 CONFIG.c_mult_usage No_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 8 CONFIG.c_result_fraction_width 24 CONFIG.component_name feedback_ap_fdiv_10_no_dsp_32 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Divide CONFIG.result_precision_type Single CONFIG.result_tlast_behv Null"
-      },
-      {
-        "name": "feedback_ap_fmul_2_max_dsp_32",
-        "vlnv": "xilinx.com:ip:floating_point:7.1",
-        "params": "CONFIG.a_precision_type Single CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 8 CONFIG.c_a_fraction_width 24 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 2 CONFIG.c_mult_usage Max_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 8 CONFIG.c_result_fraction_width 24 CONFIG.component_name feedback_ap_fmul_2_max_dsp_32 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Multiply CONFIG.result_precision_type Single CONFIG.result_tlast_behv Null"
-      },
-      {
-        "name": "feedback_ap_fsqrt_10_no_dsp_32",
-        "vlnv": "xilinx.com:ip:floating_point:7.1",
-        "params": "CONFIG.a_precision_type Single CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 8 CONFIG.c_a_fraction_width 24 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 10 CONFIG.c_mult_usage No_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 8 CONFIG.c_result_fraction_width 24 CONFIG.component_name feedback_ap_fsqrt_10_no_dsp_32 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Square_Root CONFIG.result_precision_type Single CONFIG.result_tlast_behv Null"
-      },
-      {
-        "name": "feedback_ap_sitodp_3_no_dsp_32",
-        "vlnv": "xilinx.com:ip:floating_point:7.1",
-        "params": "CONFIG.a_precision_type Custom CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 32 CONFIG.c_a_fraction_width 0 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 3 CONFIG.c_mult_usage No_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 11 CONFIG.c_result_fraction_width 53 CONFIG.component_name feedback_ap_sitodp_3_no_dsp_32 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Fixed_to_Float CONFIG.result_precision_type Double CONFIG.result_tlast_behv Null"
+        "params": "CONFIG.a_precision_type Half CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 5 CONFIG.c_a_fraction_width 11 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 2 CONFIG.c_mult_usage Max_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 5 CONFIG.c_result_fraction_width 11 CONFIG.component_name feedback_ap_hmul_2_max_dsp_16 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Multiply CONFIG.result_precision_type Half CONFIG.result_tlast_behv Null"
       },
       {
         "name": "feedback_ap_sitofp_3_no_dsp_32",
@@ -232,9 +201,9 @@
         "params": "CONFIG.a_precision_type Custom CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 32 CONFIG.c_a_fraction_width 0 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 3 CONFIG.c_mult_usage No_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 8 CONFIG.c_result_fraction_width 24 CONFIG.component_name feedback_ap_sitofp_3_no_dsp_32 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Fixed_to_Float CONFIG.result_precision_type Single CONFIG.result_tlast_behv Null"
       },
       {
-        "name": "feedback_ap_uitodp_3_no_dsp_32",
+        "name": "feedback_ap_sptohp_1_no_dsp_32",
         "vlnv": "xilinx.com:ip:floating_point:7.1",
-        "params": "CONFIG.a_precision_type Custom CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 64 CONFIG.c_a_fraction_width 0 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 3 CONFIG.c_mult_usage No_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 11 CONFIG.c_result_fraction_width 53 CONFIG.component_name feedback_ap_uitodp_3_no_dsp_32 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Fixed_to_Float CONFIG.result_precision_type Double CONFIG.result_tlast_behv Null"
+        "params": "CONFIG.a_precision_type Single CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 8 CONFIG.c_a_fraction_width 24 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 1 CONFIG.c_mult_usage No_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 5 CONFIG.c_result_fraction_width 11 CONFIG.component_name feedback_ap_sptohp_1_no_dsp_32 CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken true CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Float_to_Float CONFIG.result_precision_type Half CONFIG.result_tlast_behv Null"
       },
       {
         "name": "feedback_ap_uitofp_3_no_dsp_32",
@@ -336,48 +305,70 @@
     }
   },
   "ModuleInfo": {
-    "Hierarchy": {"ModuleName": "feedback"},
-    "Metrics": {"feedback": {
+    "Hierarchy": {
+      "ModuleName": "feedback",
+      "Instances": [{
+          "ModuleName": "sqrt_fixed_32_32_s",
+          "InstanceName": "grp_sqrt_fixed_32_32_s_fu_247"
+        }]
+    },
+    "Metrics": {
+      "sqrt_fixed_32_32_s": {
+        "Latency": {
+          "LatencyBest": "5",
+          "LatencyAvg": "5",
+          "LatencyWorst": "5",
+          "PipelineII": "1",
+          "PipelineDepth": "6",
+          "PipelineType": "function"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.69"
+        },
+        "Area": {
+          "BRAM_18K": "0",
+          "FF": "409",
+          "LUT": "1385",
+          "DSP48E": "0"
+        }
+      },
+      "feedback": {
         "Latency": {
           "LatencyBest": "1",
-          "LatencyAvg": "678",
-          "LatencyWorst": "1372",
+          "LatencyAvg": "115",
+          "LatencyWorst": "238",
           "PipelineIIMin": "2",
-          "PipelineIIMax": "1373",
-          "PipelineII": "2 ~ 1373",
+          "PipelineIIMax": "239",
+          "PipelineII": "2 ~ 239",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.03"
+          "Estimate": "15.23"
         },
         "Loops": [{
-            "Name": "Loop 1",
+            "Name": "feedbackReadOFLoop",
             "TripCount": "7",
-            "Latency": "1337",
-            "PipelineII": "",
-            "PipelineDepth": "191",
-            "Loops": [{
-                "Name": "Loop 1.1",
-                "TripCount": "7",
-                "Latency": "189",
-                "PipelineII": "",
-                "PipelineDepth": "27"
-              }]
+            "Latency": "216",
+            "PipelineII": "28",
+            "PipelineDepth": "49"
           }],
         "Area": {
           "BRAM_18K": "0",
-          "DSP48E": "20",
-          "FF": "4714",
-          "LUT": "9966"
+          "DSP48E": "6",
+          "FF": "2372",
+          "LUT": "4431"
         }
-      }}
+      }
+    }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-10 21:48:58 +0200",
+    "Time": "2018-10-10 22:13:24 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

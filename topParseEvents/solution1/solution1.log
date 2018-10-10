@@ -14,74 +14,111 @@ INFO: [HLS 200-10] Analyzing design file 'topParseEvents/src/abmofAccel.cpp' ...
 INFO: [HLS 200-10] Validating synthesis directives ...
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'FIFO_SRL' cannot be applied: Variable 'xStream' is not declared in 'parseEvents/DFRegion'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'FIFO_SRL' cannot be applied: Variable 'yStream' is not declared in 'parseEvents/DFRegion'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K4' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K4' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'first_order_fixed_16::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K3' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'first_order_fixed_16::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K3' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K4' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K4' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'first_order_fixed_16::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
-WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K3' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:24 . Memory (MB): peak = 112.105 ; gain = 53.992
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:27 . Memory (MB): peak = 112.141 ; gain = 54.027
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K3' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K3' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K4' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:24 . Memory (MB): peak = 112.309 ; gain = 53.934
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:28 . Memory (MB): peak = 112.344 ; gain = 53.969
 INFO: [HLS 200-10] Starting code transformations ...
-INFO: [XFORM 203-603] Inlining function 'ap_fixed_base<121, 68, false, (ap_q_mode)5, (ap_o_mode)3, 0>::operator<<' into 'generic_cast_IEEE754<unsigned short, (ap_q_mode)6, double>' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/../include/internal/hls_round.h:330).
-INFO: [XFORM 203-603] Inlining function 'ap_fixed_base<1, 17, false, (ap_q_mode)5, (ap_o_mode)0, 0>::overflow_adjust' into 'ap_fixed_base<1, 17, false, (ap_q_mode)5, (ap_o_mode)0, 0>::ap_fixed_base<121, 68, false, (ap_q_mode)5, (ap_o_mode)3, 0>' ().
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:03 ; elapsed = 00:00:29 . Memory (MB): peak = 194.539 ; gain = 136.426
+INFO: [XFORM 203-603] Inlining function 'ap_fixed_base<1, 0, false, (ap_q_mode)5, (ap_o_mode)3, 0>::operator>>' into 'sqrt_fixed<32, 32>' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/include\hls_sqrt_apfixed.h:334).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:03 ; elapsed = 00:00:29 . Memory (MB): peak = 179.082 ; gain = 120.707
 INFO: [HLS 200-10] Checking synthesizability ...
-INFO: [XFORM 203-602] Inlining function 'generic_divide<float>' into 'hls::divide' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/c++/dividefloat.cpp:6) automatically.
-INFO: [XFORM 203-602] Inlining function 'fp_struct<double>::mantissa' into 'generic_cast_IEEE754<unsigned short, (ap_q_mode)6, double>' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/../include/internal/hls_round.h:327) automatically.
-INFO: [XFORM 203-602] Inlining function 'fp_struct<double>::expv' into 'generic_cast_IEEE754<unsigned short, (ap_q_mode)6, double>' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/../include/internal/hls_round.h:330) automatically.
-INFO: [XFORM 203-602] Inlining function 'fp_struct<double>::__signbit' into 'generic_cast_IEEE754<unsigned short, (ap_q_mode)6, double>' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/../include/internal/hls_round.h:350) automatically.
-INFO: [XFORM 203-602] Inlining function 'generic_cast_IEEE754<unsigned short, (ap_q_mode)6, double>' into 'generic_cast_IEEE754<unsigned short, double>' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/../include/internal/hls_round.h:368) automatically.
-INFO: [XFORM 203-602] Inlining function 'generic_cast_IEEE754<unsigned short, double>' into '__hls_fptoui_double_i16' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/lib_floatconversion.cpp:66) automatically.
-INFO: [XFORM 203-602] Inlining function 'hls::sqrtf' into 'feedback' (topParseEvents/src/abmofAccel.cpp:599) automatically.
+INFO: [XFORM 203-602] Inlining function 'sqrt_fixed<32>' into 'hls::sqrt' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/c++/sqrtint32.cpp:8) automatically.
+INFO: [XFORM 203-602] Inlining function '_Z14generic_divideIDhET_S0_S0_' into 'hls::divide' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/c++/dividehalf.cpp:7) automatically.
+INFO: [XFORM 203-602] Inlining function 'hls::sqrt' into 'feedback' (topParseEvents/src/abmofAccel.cpp:599) automatically.
 INFO: [XFORM 203-602] Inlining function 'hls::divide' into 'feedback' (topParseEvents/src/abmofAccel.cpp:610) automatically.
+WARNING: [SYNCHK 200-23] r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/include\hls_sqrt_apfixed.h:264: variable-indexed range selection may cause suboptimal QoR.
 WARNING: [SYNCHK 200-77] The top function 'feedback' (topParseEvents/src/abmofAccel.cpp:582) has no outputs. Possible cause(s) are: (1) Output parameters are passed by value; (2) intended outputs (parameters or global variables) are never written; (3) there are infinite loops.
-INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:04 ; elapsed = 00:00:30 . Memory (MB): peak = 234.594 ; gain = 176.480
-INFO: [XFORM 203-602] Inlining function 'generic_divide<float>' into 'hls::divide' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/c++/dividefloat.cpp:6) automatically.
-INFO: [XFORM 203-602] Inlining function 'fp_struct<double>::mantissa' into 'generic_cast_IEEE754<unsigned short, (ap_q_mode)6, double>' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/../include/internal/hls_round.h:327) automatically.
-INFO: [XFORM 203-602] Inlining function 'fp_struct<double>::expv' into 'generic_cast_IEEE754<unsigned short, (ap_q_mode)6, double>' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/../include/internal/hls_round.h:330) automatically.
-INFO: [XFORM 203-602] Inlining function 'generic_cast_IEEE754<unsigned short, (ap_q_mode)6, double>' into 'generic_cast_IEEE754<unsigned short, double>' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/../include/internal/hls_round.h:368) automatically.
-INFO: [XFORM 203-602] Inlining function 'generic_cast_IEEE754<unsigned short, double>' into '__hls_fptoui_double_i16' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/lib_floatconversion.cpp:66) automatically.
-INFO: [XFORM 203-602] Inlining function 'hls::sqrtf' into 'feedback' (topParseEvents/src/abmofAccel.cpp:599) automatically.
+INFO: [SYNCHK 200-10] 0 error(s), 2 warning(s).
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:03 ; elapsed = 00:00:30 . Memory (MB): peak = 212.805 ; gain = 154.430
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sqrt_fixed<32, 32>' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/include\hls_sqrt_apfixed.h:39:13).
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'feedbackReadOFLoop' (topParseEvents/src/abmofAccel.cpp:595) in function 'feedback' for pipelining.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/include\hls_sqrt_apfixed.h:262) in function 'sqrt_fixed<32, 32>' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-2' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/include\hls_sqrt_apfixed.h:280) in function 'sqrt_fixed<32, 32>' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1' (topParseEvents/src/abmofAccel.cpp:596) in function 'feedback' completely.
+INFO: [XFORM 203-602] Inlining function 'sqrt_fixed<32>' into 'hls::sqrt' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/c++/sqrtint32.cpp:8) automatically.
+INFO: [XFORM 203-602] Inlining function '_Z14generic_divideIDhET_S0_S0_' into 'hls::divide' (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/src/c++/dividehalf.cpp:7) automatically.
+INFO: [XFORM 203-602] Inlining function 'hls::sqrt' into 'feedback' (topParseEvents/src/abmofAccel.cpp:599) automatically.
 INFO: [XFORM 203-602] Inlining function 'hls::divide' into 'feedback' (topParseEvents/src/abmofAccel.cpp:610) automatically.
-INFO: [XFORM 203-602] Inlining function '__hls_fptoui_double_i16' into 'feedback' (topParseEvents/src/abmofAccel.cpp:615) automatically.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:04 ; elapsed = 00:00:32 . Memory (MB): peak = 301.535 ; gain = 243.422
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:05 ; elapsed = 00:00:32 . Memory (MB): peak = 314.863 ; gain = 256.750
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (r:/builds/2018.1/nightly/2018_04_04_2188600/src/products/hls/hls_lib/hlsmath/include\hls_sqrt_apfixed.h:345:1) in function 'sqrt_fixed<32, 32>'... converting 35 basic blocks.
+INFO: [XFORM 203-11] Balancing expressions in function 'feedback' (topParseEvents/src/abmofAccel.cpp:354:13)...7 expression(s) balanced.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:04 ; elapsed = 00:00:32 . Memory (MB): peak = 269.863 ; gain = 211.488
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:05 ; elapsed = 00:00:33 . Memory (MB): peak = 286.797 ; gain = 228.422
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'feedback' ...
+WARNING: [SYN 201-103] Legalizing function name 'sqrt_fixed<32, 32>' to 'sqrt_fixed_32_32_s'.
 INFO: [HLS 200-10] ----------------------------------------------------------------
-INFO: [HLS 200-42] -- Implementing module 'feedback'
+INFO: [HLS 200-42] -- Implementing module 'sqrt_fixed_32_32_s'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'sqrt_fixed<32, 32>'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 6.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 32.506 seconds; current allocated memory: 247.201 MB.
+INFO: [HLS 200-111]  Elapsed time: 32.804 seconds; current allocated memory: 226.785 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.247 seconds; current allocated memory: 248.049 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.19 seconds; current allocated memory: 227.420 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'feedback'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'feedbackReadOFLoop'.
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 0)
+   between 'hadd' operation ('radiusSum_2_6', topParseEvents/src/abmofAccel.cpp:604) and 'hadd' operation ('radiusSum_2', topParseEvents/src/abmofAccel.cpp:604).
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 2, distance = 1, offset = 0)
+   between 'hadd' operation ('radiusSum_2_6', topParseEvents/src/abmofAccel.cpp:604) and 'hadd' operation ('radiusSum_2', topParseEvents/src/abmofAccel.cpp:604).
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 3, distance = 1, offset = 0)
+   between 'hadd' operation ('radiusSum_2_6', topParseEvents/src/abmofAccel.cpp:604) and 'hadd' operation ('radiusSum_2', topParseEvents/src/abmofAccel.cpp:604).
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 4, distance = 1, offset = 0)
+   between 'hadd' operation ('radiusSum_2_6', topParseEvents/src/abmofAccel.cpp:604) and 'hadd' operation ('radiusSum_2', topParseEvents/src/abmofAccel.cpp:604).
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 19, distance = 1, offset = 0)
+   between 'hadd' operation ('radiusSum_2_6', topParseEvents/src/abmofAccel.cpp:604) and 'hadd' operation ('radiusSum_2', topParseEvents/src/abmofAccel.cpp:604).
+WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 27, distance = 1, offset = 0)
+   between 'hadd' operation ('radiusSum_2_6', topParseEvents/src/abmofAccel.cpp:604) and 'hadd' operation ('radiusSum_2', topParseEvents/src/abmofAccel.cpp:604).
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 28, Depth = 49.
+WARNING: [SCHED 204-21] Estimated clock period (15.228ns) exceeds the target (target clock period: 10ns, clock uncertainty: 0.1ns, effective delay budget: 9.9ns).
+WARNING: [SCHED 204-21] The critical path consists of the following:
+	'hadd' operation ('radiusSum_2', topParseEvents/src/abmofAccel.cpp:604) (7.61 ns)
+	'hadd' operation ('radiusSum_2_1', topParseEvents/src/abmofAccel.cpp:604) (7.61 ns)
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.376 seconds; current allocated memory: 228.709 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.657 seconds; current allocated memory: 229.654 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'sqrt_fixed_32_32_s'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'sqrt_fixed_32_32_s'.
+INFO: [HLS 200-111]  Elapsed time: 0.342 seconds; current allocated memory: 230.980 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'feedback'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -89,35 +126,25 @@ INFO: [RTGEN 206-500] Setting interface mode on port 'feedback/miniSumRet_V' to 
 INFO: [RTGEN 206-500] Setting interface mode on port 'feedback/OFRet_V' to 'ap_none'.
 INFO: [RTGEN 206-500] Setting interface mode on function 'feedback' to 'ap_ctrl_hs'.
 WARNING: [RTGEN 206-101] Register 'areaEventThr' is power-on initialization.
-INFO: [SYN 201-210] Renamed object name 'feedback_fadd_32ns_32ns_32_5_full_dsp_1' to 'feedback_fadd_32nbkb' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_fmul_32ns_32ns_32_4_max_dsp_1' to 'feedback_fmul_32ncud' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_fdiv_32ns_32ns_32_12_1' to 'feedback_fdiv_32ndEe' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_uitofp_32ns_32_5_1' to 'feedback_uitofp_3eOg' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_sitofp_32s_32_5_1' to 'feedback_sitofp_3fYi' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_fcmp_32ns_32ns_1_1_1' to 'feedback_fcmp_32ng8j' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_fsqrt_32ns_32ns_32_12_1' to 'feedback_fsqrt_32hbi' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_dadddsub_64ns_64ns_64_5_full_dsp_1' to 'feedback_dadddsubibs' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_dmul_64ns_64ns_64_6_max_dsp_1' to 'feedback_dmul_64njbC' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_uitodp_32ns_64_5_1' to 'feedback_uitodp_3kbM' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_sitodp_32ns_64_5_1' to 'feedback_sitodp_3lbW' due to the length limit 20
-INFO: [SYN 201-210] Renamed object name 'feedback_mac_muladd_4s_4s_6ns_6_1_1' to 'feedback_mac_mulamb6' due to the length limit 20
-INFO: [RTGEN 206-100] Generating core module 'feedback_dadddsubibs': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_dmul_64njbC': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_fadd_32nbkb': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_fcmp_32ng8j': 2 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_fdiv_32ndEe': 2 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_fmul_32ncud': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_fsqrt_32hbi': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_mac_mulamb6': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_sitodp_3lbW': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_sitofp_3fYi': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_uitodp_3kbM': 1 instance(s).
-INFO: [RTGEN 206-100] Generating core module 'feedback_uitofp_3eOg': 1 instance(s).
+INFO: [SYN 201-210] Renamed object name 'feedback_uitofp_32ns_32_5_1' to 'feedback_uitofp_3bkb' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'feedback_sitofp_32ns_32_5_1' to 'feedback_sitofp_3cud' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'feedback_sptohp_32ns_16_3_1' to 'feedback_sptohp_3dEe' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'feedback_hadd_16ns_16ns_16_5_full_dsp_1' to 'feedback_hadd_16neOg' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'feedback_hmul_16ns_16ns_16_4_max_dsp_1' to 'feedback_hmul_16nfYi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'feedback_hdiv_16ns_16ns_16_7_1' to 'feedback_hdiv_16ng8j' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'feedback_hcmp_16ns_16ns_1_3_1' to 'feedback_hcmp_16nhbi' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'feedback_hadd_16neOg': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'feedback_hcmp_16nhbi': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'feedback_hdiv_16ng8j': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'feedback_hmul_16nfYi': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'feedback_sitofp_3cud': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'feedback_sptohp_3dEe': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'feedback_uitofp_3bkb': 1 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'feedback'.
-INFO: [HLS 200-111]  Elapsed time: 0.394 seconds; current allocated memory: 249.686 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.43 seconds; current allocated memory: 233.068 MB.
 INFO: [RTMG 210-278] Implementing memory 'feedback_OFRetRegs_ram (RAM)' using distributed RAMs with power-on initialization.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:06 ; elapsed = 00:00:37 . Memory (MB): peak = 316.672 ; gain = 258.559
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:07 ; elapsed = 00:00:38 . Memory (MB): peak = 301.406 ; gain = 243.031
 INFO: [SYSC 207-301] Generating SystemC RTL for feedback.
 INFO: [VHDL 208-304] Generating VHDL RTL for feedback.
 INFO: [VLOG 209-307] Generating Verilog RTL for feedback.
-INFO: [HLS 200-112] Total elapsed time: 36.89 seconds; peak allocated memory: 249.686 MB.
+INFO: [HLS 200-112] Total elapsed time: 38.118 seconds; peak allocated memory: 233.068 MB.

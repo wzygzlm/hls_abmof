@@ -515,6 +515,9 @@
                 <option name="core" value="RAM_2P_LUTRAM"/>
             </pragma>
         </directive>
+        <directive functionName="feedback" label="feedbackReadOFLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 

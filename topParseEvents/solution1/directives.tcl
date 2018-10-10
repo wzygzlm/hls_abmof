@@ -99,3 +99,4 @@ set_directive_array_partition -type complete -dim 2 "rotateSlice" areaEventRegs
 set_directive_pipeline "rotateSlice/rotateSliceResetLoop"
 set_directive_inline -off "rotateSlice/rotateSliceResetLoop"
 set_directive_resource -core RAM_2P_LUTRAM "rotateSlice" areaEventRegs
+set_directive_pipeline "feedback/feedbackReadOFLoop"
