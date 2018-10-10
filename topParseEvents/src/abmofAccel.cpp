@@ -351,47 +351,6 @@ void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int1
 	miniSADSum(in1, in2, shiftCnt, miniSumRet, &OFRet);
 }
 
-static uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
-static uint16_t areaEventThr = 2000;
-
-void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream,
-				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream)
-{
-	ap_uint<(AREA_NUMBER * AREA_NUMBER)> compArray[AREA_NUMBER][AREA_NUMBER];
-	ap_uint<1> compRet = 0;
-
-	glPLActiveSliceIdx--;
-
-	rotateSliceOutLoop:for(int32_t i = 0; i < eventIterSize; i++)
-	{
-		ap_uint<8> x, y;
-		x = xInStream.read();
-		y = yInStream.read();
-
-//		uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
-//		c = c + 1;
-//		areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
-//
-//
-//		// The area threshold reached, rotate the slice index and clear the areaEventRegs.
-//		if (c > areaEventThr)
-//		{
-//			glPLActiveSliceIdx--;
-//
-//			rotateSliceResetLoop:for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
-//			{
-//				for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
-//				{
-//					areaEventRegs[areaX][areaY] = 0;
-//				}
-//			}
-//		}
-
-		xOutStream.write(x);
-		yOutStream.write(y);
-		idxStream.write(glPLActiveSliceIdx);
-	}
-}
 
 void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream, hls::stream<apUint17_t> &packetEventDataStream)
 //void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> *xStream, ap_uint<8> *yStream)
@@ -429,6 +388,74 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 		packetEventDataStream << apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 //		*xStream++ = xWr;
 //		*yStream++ = yWr;
+	}
+}
+
+
+static uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
+static uint16_t areaEventThr = 1000;
+
+void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream,
+				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream)
+{
+//	glPLActiveSliceIdx--;
+
+	rotateSliceOutLoop:for(int32_t i = 0; i < eventIterSize; i++)
+	{
+		ap_uint<8> x, y;
+		x = xInStream.read();
+		y = yInStream.read();
+
+		uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
+		c = c + 1;
+		areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
+
+
+		// The area threshold reached, rotate the slice index and clear the areaEventRegs.
+		if (c > areaEventThr)
+		{
+			glPLActiveSliceIdx--;
+
+            for(int r = 0; r < 1000; r++)
+            {
+                std::cout << "Rotated successfully!!!!" << std::endl;
+                std::cout << "x is: " << x << "\t y is: " << y << "\t idx is: " << glPLActiveSliceIdx << std::endl;
+            }
+
+            // Check the accumulation slice is clear or not
+            for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
+            {
+                for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
+                {
+                    if (glPLSlices[glPLActiveSliceIdx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+                    {
+                        for(int r = 0; r < 1000; r++)
+                        {
+                            std::cout << "Ha! I caught you, the pixel which is not clear!" << std::endl;
+                            std::cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << glPLActiveSliceIdx << std::endl;
+                        }
+                    }
+                }
+            }
+
+			rotateSliceResetLoop:for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
+			{
+				for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
+				{
+					areaEventRegs[areaX][areaY] = 0;
+				}
+			}
+
+		   for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+		   {
+			   resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
+			   resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
+		   }
+		}
+
+		xOutStream.write(x);
+		yOutStream.write(y);
+		idxStream.write(glPLActiveSliceIdx);
 	}
 }
 

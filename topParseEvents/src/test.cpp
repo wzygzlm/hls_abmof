@@ -55,18 +55,20 @@ void readBlockColsSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceId
 void colSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		int16_t out[2 * SEARCH_DISTANCE + 1])
-{ //	cout << "in1 is: " << endl; //	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
-//	{
-//		cout << in1[m] << " ";
-//	}
-//	cout << endl;
-//
-//	cout << "in2 is: " << endl;
-//	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
-//	{
-//		cout << in2[m] << " ";
-//	}
-//	cout << endl;
+{
+	cout << "in1 is: " << endl;
+	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+	{
+		cout << in1[m] << " ";
+	}
+	cout << endl;
+
+	cout << "in2 is: " << endl;
+	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+	{
+		cout << in2[m] << " ";
+	}
+	cout << endl;
 
 	for(int i = 0; i <= 2 * SEARCH_DISTANCE; i++)
 	{
@@ -375,30 +377,14 @@ static uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
 static uint16_t areaEventThrSW = 1000;
 static uint16_t OFRetRegsSW[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
 
-
 void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
 {
-	glPLActiveSliceIdxSW--;
-	sliceIdx_t idx = glPLActiveSliceIdxSW;
-
-	// Check the accumulation slice is clear or not
-	for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
-	{
-		for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
-		{
-			if (slicesSW[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
-			{
-				for(int r = 0; r < 1000; r++)
-				{
-					cout << "Ha! I caught you, the pixel which is not clear!" << endl;
-					cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << endl;
-				}
-			}
-		}
-	}
+//	glPLActiveSliceIdxSW--;
+//	sliceIdx_t idx = glPLActiveSliceIdxSW;
 
 	for(int32_t i = 0; i < eventsArraySize; i++)
 	{
+        cout << "Current Event packet's event number is: " << eventsArraySize << endl;
 		uint64_t tmp = *dataStream++;
 		ap_uint<8> xWr, yWr;
 		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
@@ -409,9 +395,57 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		ap_int<16> miniRet;
 		ap_uint<6> OFRet;
 
-		writePixSW(xWr, yWr, idx);
+        uint16_t c = areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE];
+        c = c + 1;
+        areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE] = c;
 
-		resetPixSW(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+        // The area threshold reached, rotate the slice index and clear the areaEventRegs.
+        if (c > areaEventThrSW)
+        {
+            glPLActiveSliceIdxSW--;
+//            idx = glPLActiveSliceIdxSW;
+
+            for(int r = 0; r < 1000; r++)
+            {
+                cout << "Rotated successfully!!!!" << endl;
+                cout << "x is: " << xWr << "\t y is: " << yWr << "\t idx is: " << glPLActiveSliceIdxSW << endl;
+            }
+
+            // Check the accumulation slice is clear or not
+            for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
+            {
+                for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
+                {
+                    if (slicesSW[glPLActiveSliceIdxSW][xAddr][yAddr/COMBINED_PIXELS] != 0)
+                    {
+                        for(int r = 0; r < 1000; r++)
+                        {
+                            cout << "Ha! I caught you, the pixel which is not clear!" << endl;
+                            cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << glPLActiveSliceIdxSW << endl;
+                        }
+                    }
+                }
+            }
+
+            for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
+            {
+                for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
+                {
+                    areaEventRegsSW[areaX][areaY] = 0;
+                }
+            }
+
+           for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+           {
+               resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
+               resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
+           }
+        }
+
+
+		writePixSW(xWr, yWr, glPLActiveSliceIdxSW);
+
+		resetPixSW(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
 //				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 64, (sliceIdx_t)(idx + 3));
 //				resetPix(i, 96, (sliceIdx_t)(idx + 3));
@@ -444,24 +478,45 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
 
-			readBlockColsSW(xWr + xOffSet, yWr , idx + 1, idx + 2, out1, out2);
+			readBlockColsSW(xWr + xOffSet, yWr , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
 
 			miniSADSumSW(out1, out2, xOffSet, &miniRet, &OFRet);   // Here k starts from 1 not 0.
 
 		}
+
 		apUint17_t tmp1 = apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 		ap_int<9> tmp2 = miniRet.range(8, 0);
 		apUint6_t tmpOF = OFRet;
 		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
 		*eventSlice++ = output.to_int();
+
+        /* -----------------Feedback part------------------------ */
+        uint16_t OFRetHistCnt = OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(3, 0)];
+        OFRetHistCnt = OFRetHistCnt + 1;
+        OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
+
+        uint16_t countSum = 0;
+        uint32_t radiusSum =  0;
+        for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
+        {
+            for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
+            {
+                uint16_t count = OFRetRegsSW[OFRetHistX][OFRetHistY];
+                uint16_t radius = pow(OFRetHistX,  2) + pow(OFRetHistY,  2);
+                countSum += count;
+                radiusSum += radius * count;
+            }
+        }
+
 	}
 
 	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
 	{
-		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
+		resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
 	}
 }
+
 
 
 int main(int argc, char *argv[])
