@@ -3,6 +3,7 @@
 
 #include<stdint.h>
 #include "hls_stream.h"
+#include "ap_axi_sdata.h"
 
 #define POLARITY_SHIFT 1
 #define POLARITY_MASK 0x00000001
@@ -27,6 +28,9 @@
 #define AREA_SIZE (SLICE_WIDTH/AREA_NUMBER)
 
 #define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
+
+typedef ap_axiu<64,1,1,1> inputDataElement;
+typedef ap_axiu<32,1,1,1> outputDataElement_t;
 
 typedef ap_int<BITS_PER_PIXEL> pix_t;
 typedef ap_int<COMBINED_PIXELS * BITS_PER_PIXEL> col_pix_t;
