@@ -100,3 +100,5 @@ set_directive_pipeline "rotateSlice/rotateSliceResetLoop"
 set_directive_inline -off "rotateSlice/rotateSliceResetLoop"
 set_directive_resource -core RAM_2P_LUTRAM "rotateSlice" areaEventRegs
 set_directive_pipeline "feedback/feedbackReadOFLoop"
+set_directive_pipeline "feedbackWrapper/feedbackWrapperLoop"
+set_directive_resource -core AddSub_DSP "sad/calOFDSPLoop" tmpSum

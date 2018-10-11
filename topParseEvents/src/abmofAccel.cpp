@@ -29,7 +29,19 @@ void sad(pix_t refBlock[BLOCK_SIZE], pix_t targetBlocks[BLOCK_SIZE], int16_t *sa
 
 	DFRegion:
 	{
-		calOFLoop1:for(int16_t m = 0; m < BLOCK_SIZE; m++)
+//		calOFLoop1:for(int16_t m = 0; m < BLOCK_SIZE; m++)
+//		{
+//			ap_int<5> tmpSum = refBlock[m] - targetBlocks[m];
+//			sum[m] = tmpSum;
+//		}
+
+		calOFDSPLoop: for(uint8_t m = 0; m < 5; m++)
+		{
+			ap_int<5> tmpSum = refBlock[m] - targetBlocks[m];
+			sum[m] = tmpSum;
+		}
+
+		calOFNoDSPLoop: for(uint8_t m = 5; m < BLOCK_SIZE; m++)
 		{
 			ap_int<5> tmpSum = refBlock[m] - targetBlocks[m];
 			sum[m] = tmpSum;
@@ -587,16 +599,17 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet)
         OFRetHistCnt = OFRetHistCnt + 1;
         OFRetRegs[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
 
-        uint16_t countSum = 0;
-        uint16_t histCountSum = 0;
-        half radiusSum =  0;
-        half radiusCountSum =  0;
-        feedbackReadOFLoop:for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
+        ap_uint<16> countSum = 0;
+        ap_uint<16> histCountSum = 0;
+        ap_uint<16> radiusSum =  0;
+        ap_uint<16> radiusCountSum =  0;
+        feedbackReadOFLoop:for(int8_t OFRetHistX = 0; OFRetHistX <= 2 * SEARCH_DISTANCE; OFRetHistX++)
         {
-            for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
+            feedbackReadOFInnerLoop:for(int8_t OFRetHistY = 0; OFRetHistY <= 2 * SEARCH_DISTANCE; OFRetHistY++)
             {
-                uint16_t count = OFRetRegs[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
-                half radius = hls::sqrt(OFRetHistX * OFRetHistX + OFRetHistY *  OFRetHistY);
+            	ap_uint<16> count = OFRetRegs[OFRetHistX][OFRetHistY];
+            	ap_uint<16> tmpRadius = OFRetHistX * OFRetHistX + OFRetHistY *  OFRetHistY;
+            	ap_uint<16> radius = tmpRadius;
                 countSum += count;
                 radiusCountSum += radius * count;
 
@@ -607,17 +620,17 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet)
 
         if (countSum >= 10)
         {
-        	half avgMatchDistance =  hls::divide(radiusCountSum, half(countSum));
-        	half avgTargetDistance = hls::divide(radiusSum, half(histCountSum));
+        	uint32_t avgMatchMul =  radiusCountSum * histCountSum;
+        	uint32_t avgTargetMul = radiusSum * countSum;
 
         	// 3/64 = 0.046875~ 0.05
         	uint16_t deltaThr = areaEventThr * 3 / 64;
-            if(avgMatchDistance > avgTargetDistance )
+            if(avgMatchMul > avgTargetMul )
             {
                 areaEventThr -= deltaThr;
 //            	areaEventThr -= 50;
             }
-            else if (avgMatchDistance < avgTargetDistance)
+            else if (avgMatchMul < avgTargetMul)
             {
                 areaEventThr += deltaThr;
 //            	areaEventThr += 50;
@@ -626,19 +639,42 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet)
     }
 }
 
+void feedbackWrapper(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream)
+{
+	feedbackWrapperLoop:for(int32_t i = 0; i < eventIterSize; i++)
+	{
+		apUint15_t tmpMiniSumRet = miniSumStream.read();
+		apUint6_t tmpOF = OFRetStream.read();
+
+		feedback(tmpMiniSumRet, tmpOF);
+
+	}
+}
+
 void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,  hls::stream<apUint17_t> &packetEventDataStream, int32_t *eventSlice)
 {
 	outputLoop: for(int32_t i = 0; i < eventIterSize; i++)
 	{
 		apUint17_t tmp1 = packetEventDataStream.read();
-		ap_int<9> tmp2 = miniSumStream.read().range(8, 0);
+		apUint15_t miniSumRet = miniSumStream.read();
+		ap_int<9> tmp2 = miniSumRet.range(8, 0);
 		apUint6_t tmpOF = OFRetStream.read();
+
+
+	    if(miniSumRet <= 0x1ff && miniSumRet > 0 && tmpOF != 0x3f)
+	    {
+	        uint16_t OFRetHistCnt = OFRetRegs[tmpOF.range(2, 0)][tmpOF.range(3, 0)];
+	        OFRetHistCnt = OFRetHistCnt + 1;
+	        OFRetRegs[tmpOF.range(2, 0)][tmpOF.range(5, 3)] = OFRetHistCnt;
+	    }
+
 		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
 //		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
 //		std :: cout << "tmp2 is "  << std::hex << tmp2 << std :: endl;
 //		std :: cout << "output is "  << std::hex << output << std :: endl;
 //		std :: cout << "eventSlice is "  << std::hex << output.to_int() << std :: endl;
 		*eventSlice++ = output.to_int();
+
 	}
 }
 

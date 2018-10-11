@@ -518,6 +518,15 @@
         <directive functionName="feedback" label="feedbackReadOFLoop" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
+        <directive functionName="feedbackWrapper" label="feedbackWrapperLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="sad" label="calOFDSPLoop" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="tmpSum" positionalBoolean="4"/>
+                <option name="core" value="AddSub_DSP"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 
