@@ -408,8 +408,9 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 static uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
 static uint16_t areaEventThr = 1000;
 
-void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream,
-				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream)
+void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream, hls::stream<uint16_t> &thrStream,
+				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream,
+				 hls::stream<sliceIdx_t> &idxStream, hls::stream<apUint1_t> &rotatFlgStream)
 {
 //	glPLActiveSliceIdx--;
 
@@ -423,11 +424,14 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 		c = c + 1;
 		areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
 
+		uint16_t tmpThr = thrStream.read();
 
+		rotatFlgStream.write(0);
 		// The area threshold reached, rotate the slice index and clear the areaEventRegs.
-		if (c > areaEventThr)
+		if (c > tmpThr)
 		{
 			glPLActiveSliceIdx--;
+			rotatFlgStream.write(1);
 
             for(int r = 0; r < 1000; r++)
             {
@@ -644,15 +648,31 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
     *thrRet = areaEventThr;
 }
 
-void feedbackWrapper(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream)
+void feedbackWrapperAndOutputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,
+						hls::stream<apUint17_t> &packetEventDataStream,
+					 hls::stream<apUint1_t> &rotateFlgStream, hls::stream<uint16_t> &thrStream, int32_t *eventSlice)
 {
 	feedbackWrapperLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
+		apUint17_t tmp1 = packetEventDataStream.read();
 		apUint15_t tmpMiniSumRet = miniSumStream.read();
+		ap_int<9> tmp2 = tmpMiniSumRet.range(8, 0);
 		apUint6_t tmpOF = OFRetStream.read();
 
-		feedback(tmpMiniSumRet, tmpOF, apUint1_t(1), &areaEventThr);
+		apUint1_t tmpFlg = rotateFlgStream.read();
 
+		uint16_t tmpThr;
+
+		feedback(tmpMiniSumRet, tmpOF, apUint1_t(1), &tmpThr);
+
+		thrStream.write(tmpThr);
+
+		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
+//		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
+//		std :: cout << "tmp2 is "  << std::hex << tmp2 << std :: endl;
+//		std :: cout << "output is "  << std::hex << output << std :: endl;
+//		std :: cout << "eventSlice is "  << std::hex << output.to_int() << std :: endl;
+		*eventSlice++ = output.to_uint();
 	}
 }
 
@@ -664,14 +684,6 @@ void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t>
 		apUint15_t miniSumRet = miniSumStream.read();
 		ap_int<9> tmp2 = miniSumRet.range(8, 0);
 		apUint6_t tmpOF = OFRetStream.read();
-
-
-	    if(miniSumRet <= 0x1ff && miniSumRet > 0 && tmpOF != 0x3f)
-	    {
-	        uint16_t OFRetHistCnt = OFRetRegs[tmpOF.range(2, 0)][tmpOF.range(3, 0)];
-	        OFRetHistCnt = OFRetHistCnt + 1;
-	        OFRetRegs[tmpOF.range(2, 0)][tmpOF.range(5, 3)] = OFRetHistCnt;
-	    }
 
 		ap_uint<32> output = (tmp2, (tmpOF, tmp1));
 //		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
@@ -796,14 +808,16 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 		hls::stream<apIntBlockCol_t> refStream("refStream"), tagStreamIn("tagStream");
 		hls::stream<apUint15_t> miniSumStream("miniSumStream");
 
+		hls::stream<uint16_t> thrStream("thresholdStream");
+		hls::stream<apUint1_t> rotatFlgStream("rotationFlgStream");
 
 		eventIterSize = eventsArraySize;
 
 		getXandY(dataStream, xInStream, yInStream, pktEventDataStream);
-		rotateSlice(xInStream, yInStream, xOutStream, yOutStream, idxStream);
+		rotateSlice(xInStream, yInStream, thrStream, xOutStream, yOutStream, idxStream, rotatFlgStream);
 		rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
 		miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
-		outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice);
-
+//		outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice);
+		feedbackWrapperAndOutputResult(miniSumStream, OFRetStream, pktEventDataStream, rotatFlgStream, thrStream, eventSlice);
 	}
 }

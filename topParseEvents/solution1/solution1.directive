@@ -533,6 +533,18 @@
                 <option name="core" value="RAM_2P_LUTRAM"/>
             </pragma>
         </directive>
+        <directive functionName="feedbackWrapperAndOutputResult" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="eventSlice" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="feedbackWrapperAndOutputResult" label="feedbackWrapperLoop" functionLabel="">
+            <pragma name="LOOP_TRIPCOUNT">
+                <option name="min" value="1"/>
+                <option name="max" value="10000"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 

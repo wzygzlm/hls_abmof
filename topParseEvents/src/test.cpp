@@ -450,11 +450,14 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
         c = c + 1;
         areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE] = c;
 
+        apUint1_t rotateFlg = 0;
+
         // The area threshold reached, rotate the slice index and clear the areaEventRegs.
         if (c > areaEventThrSW)
         {
             glPLActiveSliceIdxSW--;
 //            idx = glPLActiveSliceIdxSW;
+            rotateFlg = 1;
 
             for(int r = 0; r < 1000; r++)
             {
@@ -552,7 +555,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		*eventSlice++ = output.to_int();
 
         /* -----------------Feedback part------------------------ */
-		feedbackSW(miniRet, OFRet, apUint1_t(1), &areaEventThrSW);
+		feedbackSW(miniRet, OFRet, rotateFlg, &areaEventThrSW);
 	}
 
 	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
@@ -573,100 +576,52 @@ int main(int argc, char *argv[])
 	int retval=0;
 
 	/******************* Test parseEvents module **************************/
-//	int32_t eventCnt = 500;
-//	uint64_t data[eventCnt];
-//	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
-//
-//	ap_int<16> miniSumRet;
-//	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-//	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-//
-//	ap_uint<64> x, y;
-//	ap_uint<1> pol;
-//	sliceIdx_t idx;
-//
-//	for(int k = 0; k < TEST_TIMES; k++)
-//	{
-//		cout << "Test " << k << ":" << endl;
-//
-//	    int err_cnt = 0;
-//
-//		idx = sliceIdx_t(idx - 1);
-//
-//		for (int i = 0; i < eventCnt; i++)
-//		{
-//			x = rand()%50 + 10;
-//			y = rand()%50 + 10;
-//			pol = rand()%2;
-////			idx = rand()%3;
-//	//		x = 255;
-//	//		y = 240;
-////			cout << "x : " << x << endl;
-////			cout << "y : " << y << endl;
-////			cout << "idx : " << idx << endl;
-//
-//			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
-////			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
-//		}
-//
-//
-//		parseEventsSW(data, eventCnt, eventSliceSW);
-//		parseEvents(data, eventCnt, eventSlice);
-//
-//		for (int j = 0; j < eventCnt; j++)
-//		{
-//			if (eventSlice[j] != eventSliceSW[j])
-//			{
-//				std::cout << "eventSliceSW is: " << eventSliceSW[j] << std::endl;
-//				std::cout << "eventSlice is: " << eventSlice[j] << std::endl;
-//
-//				err_cnt++;
-//				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
-//			}
-//		}
-//
-//		if(err_cnt == 0)
-//		{
-//			cout << "Test " << k << " passed." << endl;
-//		}
-//		total_err_cnt += err_cnt;
-//		cout << endl;
-//	}
-
-
-		/******************* Test feedback module **************************/
 	int32_t eventCnt = 500;
-	apUint15_t miniSumRet;
-	apUint6_t OFRet;
-	apUint1_t rotateFlg;
-	uint16_t thrRetSW[eventCnt], thrRet[eventCnt];
+	uint64_t data[eventCnt];
+	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
+
+	ap_int<16> miniSumRet;
+	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	ap_uint<64> x, y;
+	ap_uint<1> pol;
+	sliceIdx_t idx;
 
 	for(int k = 0; k < TEST_TIMES; k++)
 	{
 		cout << "Test " << k << ":" << endl;
-		int err_cnt = 0;
+
+	    int err_cnt = 0;
+
+		idx = sliceIdx_t(idx - 1);
 
 		for (int i = 0; i < eventCnt; i++)
 		{
-			miniSumRet = apUint15_t(rand()%0xffff);
-			OFRet = apUint6_t(rand()%7 + (rand()%7 << 3));
-			rotateFlg = rand()%2;
+			x = rand()%50 + 10;
+			y = rand()%50 + 10;
+			pol = rand()%2;
+//			idx = rand()%3;
+	//		x = 255;
+	//		y = 240;
+//			cout << "x : " << x << endl;
+//			cout << "y : " << y << endl;
+//			cout << "idx : " << idx << endl;
 
-			cout << "miniSumRet is: "  << hex << miniSumRet << endl;
-			cout << "OFRet is: "  << hex << OFRet << endl;
-			cout << "rotateFlg is: "  << hex << rotateFlg << endl;
-			cout << "areaEventThrSW is: "<< dec << areaEventThrSW << endl;
-
-			feedbackSW(miniSumRet, OFRet, rotateFlg, &thrRetSW[i]);
-			feedback(miniSumRet, OFRet, rotateFlg, &thrRet[i]);
+			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
+//			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
 		}
+
+
+		parseEventsSW(data, eventCnt, eventSliceSW);
+		parseEvents(data, eventCnt, eventSlice);
 
 		for (int j = 0; j < eventCnt; j++)
 		{
-			if (thrRet[j] != thrRetSW[j])
+			if (eventSlice[j] != eventSliceSW[j])
 			{
-				std::cout << "thrRetSW is: " << thrRetSW[j] << std::endl;
-				std::cout << "thrRet is: " << thrRet[j] << std::endl;
+				std::cout << "eventSliceSW is: " << eventSliceSW[j] << std::endl;
+				std::cout << "eventSlice is: " << eventSlice[j] << std::endl;
 
 				err_cnt++;
 				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
@@ -680,6 +635,54 @@ int main(int argc, char *argv[])
 		total_err_cnt += err_cnt;
 		cout << endl;
 	}
+
+
+//		/******************* Test feedback module **************************/
+//	int32_t eventCnt = 500;
+//	apUint15_t miniSumRet;
+//	apUint6_t OFRet;
+//	apUint1_t rotateFlg;
+//	uint16_t thrRetSW[eventCnt], thrRet[eventCnt];
+//
+//	for(int k = 0; k < TEST_TIMES; k++)
+//	{
+//		cout << "Test " << k << ":" << endl;
+//		int err_cnt = 0;
+//
+//		for (int i = 0; i < eventCnt; i++)
+//		{
+//			miniSumRet = apUint15_t(rand()%0xffff);
+//			OFRet = apUint6_t(rand()%7 + (rand()%7 << 3));
+//			rotateFlg = rand()%2;
+//
+//			cout << "miniSumRet is: "  << hex << miniSumRet << endl;
+//			cout << "OFRet is: "  << hex << OFRet << endl;
+//			cout << "rotateFlg is: "  << hex << rotateFlg << endl;
+//			cout << "areaEventThrSW is: "<< dec << areaEventThrSW << endl;
+//
+//			feedbackSW(miniSumRet, OFRet, rotateFlg, &thrRetSW[i]);
+//			feedback(miniSumRet, OFRet, rotateFlg, &thrRet[i]);
+//		}
+//
+//		for (int j = 0; j < eventCnt; j++)
+//		{
+//			if (thrRet[j] != thrRetSW[j])
+//			{
+//				std::cout << "thrRetSW is: " << thrRetSW[j] << std::endl;
+//				std::cout << "thrRet is: " << thrRet[j] << std::endl;
+//
+//				err_cnt++;
+//				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+//			}
+//		}
+//
+//		if(err_cnt == 0)
+//		{
+//			cout << "Test " << k << " passed." << endl;
+//		}
+//		total_err_cnt += err_cnt;
+//		cout << endl;
+//	}
 
 	/******************* Test testTemp module **************************/
 //	srand((unsigned)time(NULL));

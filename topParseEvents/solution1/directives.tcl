@@ -103,3 +103,5 @@ set_directive_pipeline "feedback/feedbackReadOFLoop"
 set_directive_pipeline "feedbackWrapper/feedbackWrapperLoop"
 set_directive_resource -core AddSub_DSP "sad/calOFDSPLoop" tmpSum
 set_directive_resource -core RAM_2P_LUTRAM "feedback" OFRetRegs
+set_directive_interface -mode ap_fifo "feedbackWrapperAndOutputResult" eventSlice
+set_directive_loop_tripcount -min 1 -max 10000 "feedbackWrapperAndOutputResult/feedbackWrapperLoop"
