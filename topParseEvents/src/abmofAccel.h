@@ -41,6 +41,7 @@ typedef ap_int<BLOCK_COL_PIXELS> apIntBlockCol_t;
 typedef ap_uint<17> apUint17_t;
 typedef ap_uint<15> apUint15_t;
 typedef ap_uint<6> apUint6_t;
+typedef ap_uint<1> apUint1_t;
 
 #define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
 #define PIXS_PER_COL (SLICE_HEIGHT/COMBINED_PIXELS)
@@ -71,6 +72,8 @@ void testRwslices(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBlockC
 
 void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 		int32_t *eventSlice);
+
+void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint16_t *thrRet);
 
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice);
 

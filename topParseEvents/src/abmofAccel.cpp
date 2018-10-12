@@ -589,13 +589,13 @@ void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<ap
 	}
 }
 
-static uint16_t OFRetRegs[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
+static uint16_t OFRetRegs[8][8]; // Increase the size to power of 2 to save some resources.
 
-void feedback(apUint15_t miniSumRet, apUint6_t OFRet)
+void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint16_t *thrRet)
 {
     if(miniSumRet <= 0x1ff && miniSumRet > 0 && OFRet != 0x3f)
     {
-        uint16_t OFRetHistCnt = OFRetRegs[OFRet.range(2, 0)][OFRet.range(3, 0)];
+        uint16_t OFRetHistCnt = OFRetRegs[OFRet.range(2, 0)][OFRet.range(5, 3)];
         OFRetHistCnt = OFRetHistCnt + 1;
         OFRetRegs[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
 
@@ -603,11 +603,11 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet)
         ap_uint<16> histCountSum = 0;
         ap_uint<16> radiusSum =  0;
         ap_uint<16> radiusCountSum =  0;
-        feedbackReadOFLoop:for(int8_t OFRetHistX = 0; OFRetHistX <= 2 * SEARCH_DISTANCE; OFRetHistX++)
+        feedbackReadOFLoop:for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
         {
-            feedbackReadOFInnerLoop:for(int8_t OFRetHistY = 0; OFRetHistY <= 2 * SEARCH_DISTANCE; OFRetHistY++)
+            feedbackReadOFInnerLoop:for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
             {
-            	ap_uint<16> count = OFRetRegs[OFRetHistX][OFRetHistY];
+            	ap_uint<16> count = OFRetRegs[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
             	ap_uint<16> tmpRadius = OFRetHistX * OFRetHistX + OFRetHistY *  OFRetHistY;
             	ap_uint<16> radius = tmpRadius;
                 countSum += count;
@@ -637,6 +637,7 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet)
             }
         }
     }
+    *thrRet = areaEventThr;
 }
 
 void feedbackWrapper(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream)
@@ -646,7 +647,7 @@ void feedbackWrapper(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6
 		apUint15_t tmpMiniSumRet = miniSumStream.read();
 		apUint6_t tmpOF = OFRetStream.read();
 
-		feedback(tmpMiniSumRet, tmpOF);
+		feedback(tmpMiniSumRet, tmpOF, apUint1_t(1), &areaEventThr);
 
 	}
 }

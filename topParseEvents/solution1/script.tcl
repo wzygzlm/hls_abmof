@@ -4,9 +4,9 @@
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
 open_project topParseEvents
-set_top parseEvents
-add_files topParseEvents/src/abmofAccel.cpp
+set_top feedback
 add_files topParseEvents/src/abmofAccel.h
+add_files topParseEvents/src/abmofAccel.cpp
 add_files -tb topParseEvents/src/test.cpp
 open_solution "solution1"
 set_part {xc7z007sclg225-1} -tool vivado
@@ -17,4 +17,4 @@ source "./topParseEvents/solution1/directives.tcl"
 csim_design -setup
 csynth_design
 cosim_design -trace_level all
-export_design -format ip_catalog
+export_design -rtl verilog -format ip_catalog

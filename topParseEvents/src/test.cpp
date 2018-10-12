@@ -8,7 +8,7 @@ using namespace std;
 #include "abmofAccel.h"
 #include "time.h"
 
-#define TEST_TIMES 20
+#define TEST_TIMES 1
 
 static col_pix_t slicesSW[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdxSW = 0;
@@ -374,8 +374,54 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 }
 
 static uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
-static float areaEventThrSW = 1000;
+static uint16_t areaEventThrSW = 1000;
 static uint16_t OFRetRegsSW[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
+
+
+static void feedbackSW(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint16_t *thrRet)
+{
+    if(miniSumRet <= 0x1ff && miniSumRet > 0 && OFRet != 0x3f)
+    {
+        uint16_t OFRetHistCnt = OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(5, 3)];
+        OFRetHistCnt = OFRetHistCnt + 1;
+        OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
+
+        uint16_t countSum = 0;
+        uint16_t histCountSum = 0;
+        uint16_t radiusSum =  0;
+        uint16_t radiusCountSum =  0;
+        for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
+        {
+            for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
+            {
+                uint16_t count = OFRetRegsSW[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
+                float radius = pow(OFRetHistX,  2) + pow(OFRetHistY,  2);
+                countSum += count;
+                radiusCountSum += radius * count;
+
+                histCountSum += 1;
+                radiusSum += radius;
+            }
+        }
+
+        if (countSum >= 10)
+        {
+            float avgMatchDistance = (float)radiusCountSum / countSum;
+            float avgTargetDistance = (float)radiusSum / histCountSum;
+
+            if(avgMatchDistance > avgTargetDistance )
+            {
+                areaEventThrSW -= areaEventThrSW * 3/64;
+            }
+            else if (avgMatchDistance < avgTargetDistance)
+            {
+                areaEventThrSW += areaEventThrSW *3/64;
+            }
+        }
+    }
+    *thrRet = areaEventThrSW;
+
+}
 
 void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
 {
@@ -501,45 +547,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		*eventSlice++ = output.to_int();
 
         /* -----------------Feedback part------------------------ */
-        if(miniRet <= tmp2 && miniRet > 0 && OFRet != 0x3f)
-        {
-            uint16_t OFRetHistCnt = OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(3, 0)];
-            OFRetHistCnt = OFRetHistCnt + 1;
-            OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
-
-            uint16_t countSum = 0;
-            uint16_t histCountSum = 0;
-            float radiusSum =  0;
-            float radiusCountSum =  0;
-            for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
-            {
-                for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
-                {
-                    uint16_t count = OFRetRegsSW[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
-                    float radius = sqrt(pow(OFRetHistX,  2) + pow(OFRetHistY,  2));
-                    countSum += count;
-                    radiusCountSum += radius * count;
-
-                    histCountSum += 1;
-                    radiusSum += radius;
-                }
-            }
-
-            if (countSum >= 10)
-            {
-                float avgMatchDistance = radiusCountSum / countSum;
-                float avgTargetDistance = radiusSum / histCountSum;
-
-                if(avgMatchDistance > avgTargetDistance )
-                {
-                    areaEventThrSW -= areaEventThrSW * 0.05;
-                }
-                else if (avgMatchDistance < avgTargetDistance)
-                {
-                    areaEventThrSW += areaEventThrSW * 0.05;
-                }
-            }
-        }
+		feedbackSW(miniRet, OFRet, apUint1_t(1), &areaEventThrSW);
 	}
 
 	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
@@ -560,52 +568,100 @@ int main(int argc, char *argv[])
 	int retval=0;
 
 	/******************* Test parseEvents module **************************/
+//	int32_t eventCnt = 500;
+//	uint64_t data[eventCnt];
+//	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
+//
+//	ap_int<16> miniSumRet;
+//	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//
+//	ap_uint<64> x, y;
+//	ap_uint<1> pol;
+//	sliceIdx_t idx;
+//
+//	for(int k = 0; k < TEST_TIMES; k++)
+//	{
+//		cout << "Test " << k << ":" << endl;
+//
+//	    int err_cnt = 0;
+//
+//		idx = sliceIdx_t(idx - 1);
+//
+//		for (int i = 0; i < eventCnt; i++)
+//		{
+//			x = rand()%50 + 10;
+//			y = rand()%50 + 10;
+//			pol = rand()%2;
+////			idx = rand()%3;
+//	//		x = 255;
+//	//		y = 240;
+////			cout << "x : " << x << endl;
+////			cout << "y : " << y << endl;
+////			cout << "idx : " << idx << endl;
+//
+//			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
+////			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
+//		}
+//
+//
+//		parseEventsSW(data, eventCnt, eventSliceSW);
+//		parseEvents(data, eventCnt, eventSlice);
+//
+//		for (int j = 0; j < eventCnt; j++)
+//		{
+//			if (eventSlice[j] != eventSliceSW[j])
+//			{
+//				std::cout << "eventSliceSW is: " << eventSliceSW[j] << std::endl;
+//				std::cout << "eventSlice is: " << eventSlice[j] << std::endl;
+//
+//				err_cnt++;
+//				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+//			}
+//		}
+//
+//		if(err_cnt == 0)
+//		{
+//			cout << "Test " << k << " passed." << endl;
+//		}
+//		total_err_cnt += err_cnt;
+//		cout << endl;
+//	}
+
+
+		/******************* Test feedback module **************************/
 	int32_t eventCnt = 500;
-	uint64_t data[eventCnt];
-	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
-
-	ap_int<16> miniSumRet;
-	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-
-	ap_uint<64> x, y;
-	ap_uint<1> pol;
-	sliceIdx_t idx;
+	apUint15_t miniSumRet;
+	apUint6_t OFRet;
+	apUint1_t rotateFlg;
+	uint16_t thrRetSW[eventCnt], thrRet[eventCnt];
 
 	for(int k = 0; k < TEST_TIMES; k++)
 	{
 		cout << "Test " << k << ":" << endl;
-
-	    int err_cnt = 0;
-
-		idx = sliceIdx_t(idx - 1);
+		int err_cnt = 0;
 
 		for (int i = 0; i < eventCnt; i++)
 		{
-			x = rand()%50 + 10;
-			y = rand()%50 + 10;
-			pol = rand()%2;
-//			idx = rand()%3;
-	//		x = 255;
-	//		y = 240;
-//			cout << "x : " << x << endl;
-//			cout << "y : " << y << endl;
-//			cout << "idx : " << idx << endl;
+			miniSumRet = apUint15_t(rand()%0xffff);
+			OFRet = apUint6_t(rand()%7 + (rand()%7 << 3));
+			rotateFlg = rand()%2;
 
-			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
-//			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
+			cout << "miniSumRet is: "  << hex << miniSumRet << endl;
+			cout << "OFRet is: "  << hex << OFRet << endl;
+			cout << "rotateFlg is: "  << hex << rotateFlg << endl;
+			cout << "areaEventThrSW is: "<< dec << areaEventThrSW << endl;
+
+			feedbackSW(miniSumRet, OFRet, rotateFlg, &thrRetSW[i]);
+			feedback(miniSumRet, OFRet, rotateFlg, &thrRet[i]);
 		}
-
-
-		parseEventsSW(data, eventCnt, eventSliceSW);
-		parseEvents(data, eventCnt, eventSlice);
 
 		for (int j = 0; j < eventCnt; j++)
 		{
-			if (eventSlice[j] != eventSliceSW[j])
+			if (thrRet[j] != thrRetSW[j])
 			{
-				std::cout << "eventSliceSW is: " << eventSliceSW[j] << std::endl;
-				std::cout << "eventSlice is: " << eventSlice[j] << std::endl;
+				std::cout << "thrRetSW is: " << thrRetSW[j] << std::endl;
+				std::cout << "thrRet is: " << thrRet[j] << std::endl;
 
 				err_cnt++;
 				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
@@ -619,7 +675,6 @@ int main(int argc, char *argv[])
 		total_err_cnt += err_cnt;
 		cout << endl;
 	}
-
 
 	/******************* Test testTemp module **************************/
 //	srand((unsigned)time(NULL));

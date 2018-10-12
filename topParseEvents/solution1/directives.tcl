@@ -91,7 +91,7 @@ set_directive_dataflow "testRwslices"
 set_directive_pipeline "testRwslices/getXandYLoop"
 set_directive_pipeline "testRwslices/writeFromStream"
 set_directive_loop_tripcount -min 1 -max 170000 "testRwslices/writeFromStream"
-set_directive_interface -mode s_axilite -bundle control "parseEvents"
+set_directive_interface -mode s_axilite -register "parseEvents"
 set_directive_inline -off "rotateSlice"
 set_directive_interface -mode ap_fifo "getXandY" data
 set_directive_loop_tripcount -min 1 -max 10000 "rotateSlice/rotateSliceOutLoop"
@@ -102,3 +102,4 @@ set_directive_resource -core RAM_2P_LUTRAM "rotateSlice" areaEventRegs
 set_directive_pipeline "feedback/feedbackReadOFLoop"
 set_directive_pipeline "feedbackWrapper/feedbackWrapperLoop"
 set_directive_resource -core AddSub_DSP "sad/calOFDSPLoop" tmpSum
+set_directive_resource -core RAM_2P_LUTRAM "feedback" OFRetRegs

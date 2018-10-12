@@ -473,8 +473,8 @@
         <directive functionName="parseEvents" label="" functionLabel="">
             <pragma name="INTERFACE">
                 <option name="s_axilite" value="" positionalBoolean="mode"/>
+                <option name="register" value="" positionalBoolean="1"/>
                 <option name="port" value="return" positionalBoolean="4"/>
-                <option name="bundle" value="control"/>
             </pragma>
         </directive>
         <directive functionName="rotateSlice" label="" functionLabel="">
@@ -525,6 +525,12 @@
             <pragma name="RESOURCE">
                 <option name="variable" value="tmpSum" positionalBoolean="4"/>
                 <option name="core" value="AddSub_DSP"/>
+            </pragma>
+        </directive>
+        <directive functionName="feedback" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="OFRetRegs" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_LUTRAM"/>
             </pragma>
         </directive>
     </sourceFile>
