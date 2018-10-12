@@ -364,7 +364,7 @@ void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int1
 	miniSADSum(in1, in2, shiftCnt, miniSumRet, &OFRet);
 }
 
-
+// TODO: add a 1-bit stream last bit flag to replace the global variable eventIterSize to save some resouces.
 void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream, hls::stream<apUint17_t> &packetEventDataStream)
 //void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> *xStream, ap_uint<8> *yStream)
 {
@@ -599,41 +599,45 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
         OFRetHistCnt = OFRetHistCnt + 1;
         OFRetRegs[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
 
-        ap_uint<16> countSum = 0;
-        ap_uint<16> histCountSum = 0;
-        ap_uint<16> radiusSum =  0;
-        ap_uint<16> radiusCountSum =  0;
-        feedbackReadOFLoop:for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
+        if(rotateFlg)
         {
-            feedbackReadOFInnerLoop:for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
-            {
-            	ap_uint<16> count = OFRetRegs[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
-            	ap_uint<16> tmpRadius = OFRetHistX * OFRetHistX + OFRetHistY *  OFRetHistY;
-            	ap_uint<16> radius = tmpRadius;
-                countSum += count;
-                radiusCountSum += radius * count;
+            ap_uint<16> countSum = 0;
+            ap_uint<16> histCountSum = 0;
+            ap_uint<16> radiusSum =  0;
+            ap_uint<16> radiusCountSum =  0;
 
-                histCountSum += 1;
-                radiusSum += radius;
+            feedbackReadOFLoop:for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
+            {
+                feedbackReadOFInnerLoop:for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
+                {
+                	ap_uint<16> count = OFRetRegs[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
+                	ap_uint<16> tmpRadius = OFRetHistX * OFRetHistX + OFRetHistY *  OFRetHistY;
+                	ap_uint<16> radius = tmpRadius;
+                    countSum += count;
+                    radiusCountSum += radius * count;
+
+                    histCountSum += 1;
+                    radiusSum += radius;
+                }
             }
-        }
 
-        if (countSum >= 10)
-        {
-        	uint32_t avgMatchMul =  radiusCountSum * histCountSum;
-        	uint32_t avgTargetMul = radiusSum * countSum;
+            if (countSum >= 10)
+            {
+            	uint32_t avgMatchMul =  radiusCountSum * histCountSum;
+            	uint32_t avgTargetMul = radiusSum * countSum;
 
-        	// 3/64 = 0.046875~ 0.05
-        	uint16_t deltaThr = areaEventThr * 3 / 64;
-            if(avgMatchMul > avgTargetMul )
-            {
-                areaEventThr -= deltaThr;
-//            	areaEventThr -= 50;
-            }
-            else if (avgMatchMul < avgTargetMul)
-            {
-                areaEventThr += deltaThr;
-//            	areaEventThr += 50;
+            	// 3/64 = 0.046875~ 0.05
+            	uint16_t deltaThr = areaEventThr * 3 / 64;
+                if(avgMatchMul > avgTargetMul )
+                {
+                    areaEventThr -= deltaThr;
+    //            	areaEventThr -= 50;
+                }
+                else if (avgMatchMul < avgTargetMul)
+                {
+                    areaEventThr += deltaThr;
+    //            	areaEventThr += 50;
+                }
             }
         }
     }

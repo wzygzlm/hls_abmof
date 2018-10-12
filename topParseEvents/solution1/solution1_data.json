@@ -309,7 +309,7 @@
     "Metrics": {"feedback": {
         "Latency": {
           "LatencyBest": "1",
-          "LatencyAvg": "27",
+          "LatencyAvg": "23",
           "LatencyWorst": "34",
           "PipelineIIMin": "2",
           "PipelineIIMax": "35",
@@ -339,7 +339,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-12 16:44:39 +0200",
+    "Time": "2018-10-12 17:56:28 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
