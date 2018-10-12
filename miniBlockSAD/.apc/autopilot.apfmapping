@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
+  <source>
+    <originFiles name="ambofAccel.h" path="E:\workspace\hls_abmof\miniBlockSAD\src\ambofAccel.h"/>
+  </source>
+  <testbench>
+    <originFiles name="test.cpp" path="E:\workspace\hls_abmof\miniBlockSAD\src\test.cpp"/>
+  </testbench>
+</autopilotfilemapping:AutoPilotFileMapping>
