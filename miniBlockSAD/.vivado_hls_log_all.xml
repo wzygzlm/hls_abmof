@@ -2,15 +2,47 @@
 <vivadoHLSLog:LogRoot xmlns:vivadoHLSLog="www.xilinx.com/vivadoHLSLog">
   <errorLogs>
     <logs>
-      <csimLog>
-        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-13T00:21:34.128+0200"/>
-        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-13T00:20:43.746+0200"/>
-        <logs message="ERROR: [SIM 211-100] CSim file generation failed: compilation error(s)." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-12T22:21:02.537+0200"/>
-      </csimLog>
+      <synLog/>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
     </logs>
   </errorLogs>
   <warningLogs>
     <logs>
+      <synLog>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.065+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.062+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.060+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.057+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.054+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.051+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.049+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.046+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K4' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.044+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.041+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.039+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.036+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.033+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.031+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.028+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.025+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'first_order_fixed_16::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.022+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K3' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.019+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.016+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K3' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.014+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K4' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.011+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K4' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.008+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.006+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K3' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.003+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'first_order_fixed_16::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:20.002+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:19.999+0200" type="Warning"/>
+        <logs message="WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'AddSub_DSP' cannot be applied: Variable 'tmpSum' has no assigment in 'sad/calOFDSPLoop'." projectName="miniBlockSAD" solutionName="solution1" date="2018-10-14T17:22:19.996+0200" type="Warning"/>
+      </synLog>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
       <csimLog/>
     </logs>
   </warningLogs>
