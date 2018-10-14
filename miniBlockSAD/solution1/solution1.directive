@@ -39,23 +39,6 @@
         <directive functionName="sadStream" label="sadStreamLoop2" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
-        <directive functionName="miniBlockSADHW" label="miniBlockSADHW_label4" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
-        <directive functionName="miniBlockSADHW" label="" functionLabel="">
-            <pragma name="ARRAY_PARTITION">
-                <option name="variable" value="refBlock" positionalBoolean="4"/>
-                <option name="complete" value="" positionalBoolean="type"/>
-                <option name="dim" value="2"/>
-            </pragma>
-        </directive>
-        <directive functionName="miniBlockSADHW" label="" functionLabel="">
-            <pragma name="ARRAY_PARTITION">
-                <option name="variable" value="tagBlock" positionalBoolean="4"/>
-                <option name="complete" value="" positionalBoolean="type"/>
-                <option name="dim" value="2"/>
-            </pragma>
-        </directive>
         <directive functionName="blockSADHW" label="" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
@@ -72,6 +55,29 @@
                 <option name="complete" value="" positionalBoolean="type"/>
                 <option name="dim" value="0"/>
             </pragma>
+        </directive>
+        <directive functionName="blockWindowSADHW" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="blockIn1" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockWindowSADHW" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="blockIn2" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="0"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockWindowSADHW" label="blockWindowSADHW_label5" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="blockWindowSADHW" label="blockWindowSADHW_label6" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="blockWindowSADHW" label="blockWindowSADHW_label7" functionLabel="">
+            <pragma name="UNROLL"/>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>

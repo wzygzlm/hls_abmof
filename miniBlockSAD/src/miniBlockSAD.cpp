@@ -125,6 +125,31 @@ void colsToStream(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t t2Col[BLO
 }
 
 
+void streamMiniBlockSAD(apIntBlockCol_t *refBlockCol, apIntBlockCol_t *tagBlockCol,
+						hls::stream<apUint1_t> lastFlgStream,  hls::stream<int16_t> &sadRet)
+{
+	pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE], in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	apIntBlockCol_t refData, tagData;
+	refData = *refBlockCol++;
+	tagData = *tagBlockCol++;
+
+	// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
+	// to calculate the range function. However, unroll it completely will make all this operations
+	// are only wires connection and will not consume any resources.
+	for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+	{
+		in1[l] = refData.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+		in2[l] = tagData.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+	}
+
+	int16_t ret;
+	sad(in1, in2, &ret);
+
+	sadRet.write(ret);
+}
+
+
 
 void blockSADHW(pix_t blockIn1[BLOCK_SIZE][BLOCK_SIZE], pix_t blockIn2[BLOCK_SIZE][BLOCK_SIZE], uint16_t *sumRet)
 {
@@ -149,6 +174,40 @@ void blockSADHW(pix_t blockIn1[BLOCK_SIZE][BLOCK_SIZE], pix_t blockIn2[BLOCK_SIZ
 	*sumRet = tmpSum;
 }
 
+
+void blockWindowSADHW(pix_t blockIn1[BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1][BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1],
+		pix_t blockIn2[BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1][BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1], uint16_t *sumRet)
+{
+	hls::Window<BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1, BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1, pix_t> refWin;
+	hls::Window<BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1, BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1, pix_t> tagWin;
+
+	blockWindowSADHW_label6:for(int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; i++)
+	{
+		blockWindowSADHW_label7:for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1; j++)
+		{
+			refWin.val[i][j] = blockIn1[i][j];
+			tagWin.val[i][j] = blockIn2[i][j];
+		}
+	}
+
+	pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE], tagBlock[BLOCK_SIZE][BLOCK_SIZE];
+
+	blockWindowSADHW_label5:for (int xOffset = 0; xOffset < 2* SEARCH_DISTANCE + 1; xOffset++)
+	{
+		tagWin.shift_pixels_left();
+		for(int i = 0; i < BLOCK_SIZE; i++)
+		{
+			for(int j = 0; j < BLOCK_SIZE; j++)
+			{
+				refBlock[i][j] = refWin.val[i][j];
+				tagBlock[i][j] = tagWin.val[i][j];
+			}
+		}
+
+		blockSADHW(refBlock, tagBlock, sumRet);
+	}
+
+}
 
 void testTop(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
 		pix_t tagBlock[BLOCK_SIZE][BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1],
@@ -210,7 +269,7 @@ void sadStream(hls::stream<apIntColBits_t> &colStream0, hls::stream<apIntColBits
 
 void miniBlockSADHW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
 		pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1][BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1],
-		hls::stream<apIntColBits_t> &colStream0, hls::stream<apIntColBits_t> &colStream1)
+		ap_int<16> *miniRet, ap_uint<6> *OFRet)
 {
 	uint16_t tmpSum = 0x7fff;
 	ap_uint<3> tmpOF_x = ap_uint<3>(7);
@@ -218,22 +277,27 @@ void miniBlockSADHW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
 
 	for(uint8_t xOffset = 0; xOffset < 2 * SEARCH_DISTANCE + 1; xOffset++)
 	{
-		miniBlockSADHWInnerLoop:for(uint8_t yOffset = 0; yOffset < 2 * SEARCH_DISTANCE + 1; yOffset++)
+		for(uint8_t yOffset = 0; yOffset < 2 * SEARCH_DISTANCE + 1; yOffset++)
 		{
-			miniBlockSADHW_label4:for(uint8_t i = 0; i < BLOCK_SIZE; i++)
+			pix_t tagBlockIn[BLOCK_SIZE][BLOCK_SIZE];
+			uint16_t tmpBlockSum;
+			for(uint8_t i = 0; i < BLOCK_SIZE; i++)
 			{
-				apIntBlockCol_t refBlockCol;
-				apIntBlockCol_t tagBlockCol;
-
-				for (int8_t l = 0; l < BLOCK_SIZE; l++)
+				for(uint8_t j = 0; j < BLOCK_SIZE; j++)
 				{
-					refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = refBlock[i][l];
-					tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = tagBlock[i + xOffset][l + yOffset];
+					tagBlockIn[i][j] = tagBlock[i + xOffset][j + yOffset];
 				}
+			}
+			blockSADHW(refBlock, tagBlockIn, &tmpBlockSum);
 
-				colStream0 << refBlockCol;
-				colStream1 << tagBlockCol;
+			if(tmpBlockSum < tmpSum)
+			{
+				tmpSum = tmpBlockSum;
+				tmpOF_x = ap_uint<3>(xOffset);
+				tmpOF_y = ap_uint<3>(yOffset);
 			}
 		}
 	}
+	*miniRet = tmpSum;
+	*OFRet = tmpOF_y.concat(tmpOF_x);
 }

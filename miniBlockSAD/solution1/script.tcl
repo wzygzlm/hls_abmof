@@ -4,7 +4,7 @@
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
 open_project miniBlockSAD
-set_top colSADSum
+set_top blockSADHW
 add_files miniBlockSAD/src/ambofAccel.h
 add_files miniBlockSAD/src/miniBlockSAD.cpp
 add_files miniBlockSAD/src/xf_config_params.h

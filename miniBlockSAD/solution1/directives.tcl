@@ -11,9 +11,11 @@ set_directive_array_partition -type complete -dim 0 "sad" targetBlocks
 set_directive_inline -off "sad"
 set_directive_unroll "sadStream/sadStreamUnrollLoop"
 set_directive_pipeline "sadStream/sadStreamLoop2"
-set_directive_pipeline "miniBlockSADHW/miniBlockSADHW_label4"
-set_directive_array_partition -type complete -dim 2 "miniBlockSADHW" refBlock
-set_directive_array_partition -type complete -dim 2 "miniBlockSADHW" tagBlock
 set_directive_pipeline "blockSADHW"
 set_directive_array_partition -type complete -dim 0 "blockSADHW" blockIn1
 set_directive_array_partition -type complete -dim 0 "blockSADHW" blockIn2
+set_directive_array_partition -type complete -dim 0 "blockWindowSADHW" blockIn1
+set_directive_array_partition -type complete -dim 0 "blockWindowSADHW" blockIn2
+set_directive_pipeline "blockWindowSADHW/blockWindowSADHW_label5"
+set_directive_unroll "blockWindowSADHW/blockWindowSADHW_label6"
+set_directive_unroll "blockWindowSADHW/blockWindowSADHW_label7"

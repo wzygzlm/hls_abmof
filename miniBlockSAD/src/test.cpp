@@ -24,7 +24,7 @@ void blockSAD(pix_t blockIn1[BLOCK_SIZE][BLOCK_SIZE], pix_t blockIn2[BLOCK_SIZE]
 }
 
 void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
-		pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1][BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1],
+		pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		ap_int<16> *miniRet, ap_uint<6> *OFRet)
 {
 	uint16_t tmpSum = 0x7fff;
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 	int retval=0;
 
 	pix_t blockInRef[BLOCK_SIZE][BLOCK_SIZE];
-	pix_t blockInTag[BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1][BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1];
+	pix_t blockInTag[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
 	for(int k = 0; k < TEST_TIMES; k++)
 	{
