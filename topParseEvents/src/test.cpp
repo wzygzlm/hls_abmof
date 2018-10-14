@@ -542,7 +542,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
 
-			readBlockColsSW(xWr + xOffSet, yWr , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
+			readBlockColsSW(xWr - BLOCK_SIZE/2 - SEARCH_DISTANCE  + xOffSet, yWr , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
 
 			miniSADSumSW(out1, out2, xOffSet, &miniRet, &OFRet);   // Here k starts from 1 not 0.
 
@@ -555,7 +555,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		*eventSlice++ = output.to_int();
 
         /* -----------------Feedback part------------------------ */
-		feedbackSW(miniRet, OFRet, rotateFlg, &areaEventThrSW);
+//		feedbackSW(miniRet, OFRet, rotateFlg, &areaEventThrSW);
 	}
 
 	resetLoop: for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
