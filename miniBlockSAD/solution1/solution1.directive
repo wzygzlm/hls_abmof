@@ -79,6 +79,127 @@
         <directive functionName="blockWindowSADHW" label="blockWindowSADHW_label7" functionLabel="">
             <pragma name="UNROLL"/>
         </directive>
+        <directive functionName="blockToColStreams" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="refBlock" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockToColStreams" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="tagBlock" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="blockToColStreams" label="blockToColStreams_label1" functionLabel="">
+            <pragma name="PIPELINE">
+                <option name="rewind" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="reOrderColStreams" label="reOrderColStreams_label3" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="reOrderColStreams" label="reOrderColStreams_label4" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="reOrderColStreams" label="" functionLabel="">
+            <pragma name="DATAFLOW"/>
+        </directive>
+        <directive functionName="sadParaUnits" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="sadParaUnits" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="t1Col" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="sadParaUnits" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="t2Col" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="sadParaUnits" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="retVal" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="t1Col" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="t2Col" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="colSADSum" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="retVal" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="readPixFromBigColData" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="readSmallColDataFromBigColData" label="" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colStreamToMinStream2" label="" functionLabel="">
+            <pragma name="DATAFLOW"/>
+        </directive>
+        <directive functionName="colStreamToMinStream2" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="colData0" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="colStreamToMinStream2" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="colData1" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="colStreamToMinStream2" label="reOrderColStreams2_label7" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colStreamToMinStream2" label="reOrderColStreams2_label0" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colStreamToColSum" label="colStreamToColSum_label2" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colStreamToColSum" label="" functionLabel="">
+            <pragma name="DATAFLOW"/>
+        </directive>
+        <directive functionName="accumulateStream" label="accumulateStream_label3" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="accumulateStream" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="lastSumData" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 
