@@ -50,5 +50,9 @@ set_directive_array_reshape -type complete -dim 2 "convertBlockToStream" tagBloc
 set_directive_array_reshape -type complete -dim 2 "miniBlockSADHW" refBlock
 set_directive_array_reshape -type complete -dim 2 "miniBlockSADHW" tagBlock
 set_directive_pipeline "colStreamToColSum/colStreamToColSum_label2"
-set_directive_pipeline "colStreamToColSum/colStreamToColSum_label3"
-set_directive_dataflow "colStreamToColSum"
+set_directive_resource -core RAM_2P_LUTRAM "copyStreamToOrderStream" colData0
+set_directive_resource -core RAM_2P_LUTRAM "copyStreamToOrderStream" colData1
+set_directive_dependence -variable colData1 -type inter -dependent false "copyStreamToOrderStream/copyStreamToOrderStream_label3"
+set_directive_pipeline "copyStreamToOrderStream/copyStreamToOrderStreamInnerLoop"
+set_directive_resource -core RAM_2P_LUTRAM "colStreamToColSum" colData0
+set_directive_resource -core RAM_2P_LUTRAM "colStreamToColSum" colData1

@@ -238,11 +238,39 @@
         <directive functionName="colStreamToColSum" label="colStreamToColSum_label2" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
-        <directive functionName="colStreamToColSum" label="colStreamToColSum_label3" functionLabel="">
+        <directive functionName="copyStreamToOrderStream" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="colData0" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_LUTRAM"/>
+            </pragma>
+        </directive>
+        <directive functionName="copyStreamToOrderStream" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="colData1" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_LUTRAM"/>
+            </pragma>
+        </directive>
+        <directive functionName="copyStreamToOrderStream" label="copyStreamToOrderStream_label3" functionLabel="">
+            <pragma name="DEPENDENCE">
+                <option name="variable" value="colData1"/>
+                <option name="inter" value="" positionalBoolean="type"/>
+                <option name="false" value="" positionalBoolean="dependent"/>
+            </pragma>
+        </directive>
+        <directive functionName="copyStreamToOrderStream" label="copyStreamToOrderStreamInnerLoop" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
         <directive functionName="colStreamToColSum" label="" functionLabel="">
-            <pragma name="DATAFLOW"/>
+            <pragma name="RESOURCE">
+                <option name="variable" value="colData0" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_LUTRAM"/>
+            </pragma>
+        </directive>
+        <directive functionName="colStreamToColSum" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="colData1" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_LUTRAM"/>
+            </pragma>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>

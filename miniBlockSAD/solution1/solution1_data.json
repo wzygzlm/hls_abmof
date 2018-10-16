@@ -60,15 +60,19 @@
       "array_reshape miniBlockSADHW {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredrefBlock} {complete positionBoolean0type} {dim 2}} {}",
       "array_reshape miniBlockSADHW {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredtagBlock} {complete positionBoolean0type} {dim 2}} {}",
       "pipeline colStreamToColSum\/colStreamToColSum_label2 {} {}",
-      "pipeline colStreamToColSum\/colStreamToColSum_label3 {} {}",
-      "dataflow colStreamToColSum {} {}"
+      "resource copyStreamToOrderStream {{variable positionBooleanTextRequiredcolData0} {core RAM_2P_LUTRAM}} {}",
+      "resource copyStreamToOrderStream {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}",
+      "dependence copyStreamToOrderStream\/copyStreamToOrderStream_label3 {{variable colData1} {inter positionBoolean0type} {false positionBoolean0dependent}} {}",
+      "pipeline copyStreamToOrderStream\/copyStreamToOrderStreamInnerLoop {} {}",
+      "resource colStreamToColSum {{variable positionBooleanTextRequiredcolData0} {core RAM_2P_LUTRAM}} {}",
+      "resource colStreamToColSum {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "104",
+    "Latency": "91",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -86,15 +90,11 @@
     "CSource": ["..\/src\/miniBlockSAD.cpp"],
     "Vhdl": [
       "impl\/vhdl\/accumulateStream.vhd",
-      "impl\/vhdl\/Block_proc86.vhd",
+      "impl\/vhdl\/Block_proc84.vhd",
       "impl\/vhdl\/colSADSum.vhd",
       "impl\/vhdl\/colStreamToColSum.vhd",
-      "impl\/vhdl\/colStreamToColSum_Lo.vhd",
-      "impl\/vhdl\/colStreamToColSum_Lo_1.vhd",
       "impl\/vhdl\/colStreamToColSumcud.vhd",
-      "impl\/vhdl\/colStreamToColSumcud_memcore.vhd",
       "impl\/vhdl\/colStreamToColSumdEe.vhd",
-      "impl\/vhdl\/colStreamToColSumdEe_memcore.vhd",
       "impl\/vhdl\/convertBlockToStream.vhd",
       "impl\/vhdl\/fifo_w6_d2_A.vhd",
       "impl\/vhdl\/fifo_w8_d2_A.vhd",
@@ -113,15 +113,11 @@
     ],
     "Verilog": [
       "impl\/verilog\/accumulateStream.v",
-      "impl\/verilog\/Block_proc86.v",
+      "impl\/verilog\/Block_proc84.v",
       "impl\/verilog\/colSADSum.v",
       "impl\/verilog\/colStreamToColSum.v",
-      "impl\/verilog\/colStreamToColSum_Lo.v",
-      "impl\/verilog\/colStreamToColSum_Lo_1.v",
       "impl\/verilog\/colStreamToColSumcud.v",
-      "impl\/verilog\/colStreamToColSumcud_memcore.v",
       "impl\/verilog\/colStreamToColSumdEe.v",
-      "impl\/verilog\/colStreamToColSumdEe_memcore.v",
       "impl\/verilog\/convertBlockToStream.v",
       "impl\/verilog\/fifo_w6_d2_A.v",
       "impl\/verilog\/fifo_w8_d2_A.v",
@@ -514,78 +510,68 @@
         {
           "ModuleName": "colStreamToColSum",
           "InstanceName": "colStreamToColSum_U0",
-          "Instances": [
-            {
-              "ModuleName": "colStreamToColSum_Lo_1",
-              "InstanceName": "colStreamToColSum_Lo_1_U0",
-              "Instances": [{
-                  "ModuleName": "colSADSum",
-                  "InstanceName": "grp_colSADSum_fu_188",
-                  "Instances": [
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_240",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_200"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_288",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_200"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_336",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_200"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_384",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_200"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_432",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_200"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_480",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_200"
-                        }]
-                    },
-                    {
-                      "ModuleName": "sad",
-                      "InstanceName": "grp_sad_fu_528",
-                      "Instances": [{
-                          "ModuleName": "sadSum",
-                          "InstanceName": "grp_sadSum_fu_200"
-                        }]
-                    }
-                  ]
-                }]
-            },
-            {
-              "ModuleName": "colStreamToColSum_Lo",
-              "InstanceName": "colStreamToColSum_Lo_U0"
-            }
-          ]
+          "Instances": [{
+              "ModuleName": "colSADSum",
+              "InstanceName": "grp_colSADSum_fu_267",
+              "Instances": [
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_240",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_200"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_288",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_200"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_336",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_200"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_384",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_200"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_432",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_200"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_480",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_200"
+                    }]
+                },
+                {
+                  "ModuleName": "sad",
+                  "InstanceName": "grp_sad_fu_528",
+                  "Instances": [{
+                      "ModuleName": "sadSum",
+                      "InstanceName": "grp_sadSum_fu_200"
+                    }]
+                }
+              ]
+            }]
         },
         {
           "ModuleName": "accumulateStream",
@@ -600,8 +586,8 @@
           "InstanceName": "convertBlockToStream_U0"
         },
         {
-          "ModuleName": "Block_proc86",
-          "InstanceName": "Block_proc86_U0"
+          "ModuleName": "Block_proc84",
+          "InstanceName": "Block_proc84_U0"
         }
       ]
     },
@@ -630,34 +616,6 @@
         "Area": {
           "FF": "14",
           "LUT": "143",
-          "BRAM_18K": "0",
-          "DSP48E": "0"
-        }
-      },
-      "colStreamToColSum_Lo": {
-        "Latency": {
-          "LatencyBest": "19",
-          "LatencyAvg": "19",
-          "LatencyWorst": "19",
-          "PipelineII": "19",
-          "PipelineDepth": "",
-          "PipelineType": "none"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "6.89"
-        },
-        "Loops": [{
-            "Name": "colStreamToColSum_label3",
-            "TripCount": "17",
-            "Latency": "17",
-            "PipelineII": "1",
-            "PipelineDepth": "2"
-          }],
-        "Area": {
-          "FF": "18",
-          "LUT": "128",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -725,12 +683,12 @@
           "BRAM_18K": "0"
         }
       },
-      "colStreamToColSum_Lo_1": {
+      "colStreamToColSum": {
         "Latency": {
-          "LatencyBest": "83",
-          "LatencyAvg": "83",
-          "LatencyWorst": "83",
-          "PipelineII": "83",
+          "LatencyBest": "84",
+          "LatencyAvg": "84",
+          "LatencyWorst": "84",
+          "PipelineII": "84",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -742,36 +700,15 @@
         "Loops": [{
             "Name": "colStreamToColSum_label1_colStreamToColSum_label2",
             "TripCount": "77",
-            "Latency": "81",
+            "Latency": "82",
             "PipelineII": "1",
-            "PipelineDepth": "6"
+            "PipelineDepth": "7"
           }],
         "Area": {
           "BRAM_18K": "0",
           "DSP48E": "35",
-          "FF": "1374",
-          "LUT": "3073"
-        }
-      },
-      "colStreamToColSum": {
-        "Latency": {
-          "LatencyBest": "103",
-          "LatencyAvg": "103",
-          "LatencyWorst": "103",
-          "PipelineII": "84",
-          "PipelineDepth": "",
-          "PipelineType": "dataflow"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "8.83"
-        },
-        "Area": {
-          "BRAM_18K": "2",
-          "DSP48E": "35",
-          "FF": "1531",
-          "LUT": "3254"
+          "FF": "1990",
+          "LUT": "3281"
         }
       },
       "accumulateStream": {
@@ -830,7 +767,7 @@
           "DSP48E": "0"
         }
       },
-      "Block_proc86": {
+      "Block_proc84": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -853,10 +790,10 @@
       },
       "miniBlockSADHW": {
         "Latency": {
-          "LatencyBest": "104",
-          "LatencyAvg": "104",
-          "LatencyWorst": "104",
-          "PipelineII": "84",
+          "LatencyBest": "91",
+          "LatencyAvg": "91",
+          "LatencyWorst": "91",
+          "PipelineII": "85",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
         },
@@ -866,17 +803,17 @@
           "Estimate": "9.70"
         },
         "Area": {
-          "BRAM_18K": "2",
+          "BRAM_18K": "0",
           "DSP48E": "35",
-          "FF": "2200",
-          "LUT": "4620"
+          "FF": "2659",
+          "LUT": "4647"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-16 17:13:22 +0200",
+    "Time": "2018-10-16 18:42:12 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

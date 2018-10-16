@@ -30,7 +30,7 @@ void image_filter_exp(AXI_STREAM& INPUT_STREAM0, AXI_STREAM& INPUT_STREAM1, AXI_
 	hls::Mat2AXIvideo(img_2, OUTPUT_STREAM);
 }
 
-
+/******************* Basic modules ************************************/
 void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
 {
 	ap_int<16> tmp = 0;
@@ -126,6 +126,8 @@ ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1], int8_t *index)
 	return tmp;
 }
 
+
+/************************  Debug test modules ******************************************/
 void colsToStream(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t t2Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut)
 {
@@ -433,6 +435,12 @@ void colStreamToMinStream(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<
 	}
 }
 
+
+
+
+/****************** Main modules start from here, above modules are basci and debug modules ********************/
+
+
 void convertBlockToStream(pix_t refBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1)
@@ -450,28 +458,62 @@ void convertBlockToStream(pix_t refBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK
 	}
 }
 
+// Function description: this function copy the stream to a form a new stream with specific order.
+void copyStreamToOrderStream(hls::stream<apIntBlockCol_t> &colStreamIn0, hls::stream<apIntBlockCol_t> &colStreamIn1,
+		hls::stream<apIntBlockCol_t> &colStreamOut0, hls::stream<apIntBlockCol_t> &colStreamOut1)
+{
+	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+	{
+		copyStreamToOrderStreamInnerLoop:for(int k= 0; k < BLOCK_SIZE; k++)
+		{
+			if(i == 0)
+			{
+				colData0[k] = colStreamIn0.read();
+				colData1[k] = colStreamIn1.read();
+
+				colStreamOut0.write(colData0[k]);
+				colStreamOut1.write(colData1[k]);
+			}
+			else
+			{
+				if((i == 1) && (k < 2 * SEARCH_DISTANCE))  colData1[BLOCK_SIZE + k] = colStreamIn1.read();
+
+				colStreamOut0.write(colData0[k]);
+				colStreamOut1.write(colData1[i + k]);
+			}
+		}
+	}
+}
+
+
 void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
 		hls::stream<apUint112_t> &outStream)
 {
 	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-	colStreamToColSum_label3:for(int k= 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE; k++)
-	{
-		if(k < BLOCK_SIZE)	colData0[k] = colStream0.read();
-		colData1[k] = colStream1.read();
-	}
-
 	colStreamToColSum_label1:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 	{
 		colStreamToColSum_label2:for(int k= 0; k < BLOCK_SIZE; k++)
 		{
-//			int iterCnt = i * BLOCK_SIZE + k;
-//
-//			if (iterCnt < BLOCK_SIZE + 2 * SEARCH_DISTANCE)
-//			{
-//				if (iterCnt < BLOCK_SIZE) colData0[iterCnt] = colStream0.read();
-//				colData1[iterCnt] = colStream1.read();
-//			}
+			apIntBlockCol_t tmpData0, tmpData1;
+
+			if(i == 0)
+			{
+				colData0[k] = colStream0.read();
+				colData1[k] = colStream1.read();
+
+				tmpData0 = colData0[k];
+				tmpData1 = colData1[k];
+			}
+			else
+			{
+				if((i == 1) && (k < 2 * SEARCH_DISTANCE))  colData1[BLOCK_SIZE + k] = colStream1.read();
+
+				tmpData0 = colData0[k];
+				tmpData1 = colData1[i + k];
+			}
 
 			pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 			pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
@@ -483,8 +525,8 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 			// are only wires connection and will not consume any resources.
 			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
 			{
-				in1[l] = colData0[k].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
-				in2[l] = colData1[k + i].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+				in1[l] = tmpData0.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+				in2[l] = tmpData1.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
 			}
 
 			colSADSum(in1, in2, out);
