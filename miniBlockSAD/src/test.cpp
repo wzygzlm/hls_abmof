@@ -23,7 +23,7 @@ void blockSAD(pix_t blockIn1[BLOCK_SIZE][BLOCK_SIZE], pix_t blockIn2[BLOCK_SIZE]
 	*sumRet = tmpSum;
 }
 
-void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
+void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		ap_int<16> *miniRet, ap_uint<6> *OFRet)
 {
@@ -35,16 +35,17 @@ void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
 	{
 		for(uint8_t yOffset = 0; yOffset < 2 * SEARCH_DISTANCE + 1; yOffset++)
 		{
-			pix_t tagBlockIn[BLOCK_SIZE][BLOCK_SIZE];
+			pix_t refBlockIn[BLOCK_SIZE][BLOCK_SIZE], tagBlockIn[BLOCK_SIZE][BLOCK_SIZE];
 			uint16_t tmpBlockSum;
 			for(uint8_t i = 0; i < BLOCK_SIZE; i++)
 			{
 				for(uint8_t j = 0; j < BLOCK_SIZE; j++)
 				{
+					refBlockIn[i][j] = refBlock[i + SEARCH_DISTANCE][j + SEARCH_DISTANCE];
 					tagBlockIn[i][j] = tagBlock[i + xOffset][j + yOffset];
 				}
 			}
-			blockSAD(refBlock, tagBlockIn, &tmpBlockSum);
+			blockSAD(refBlockIn, tagBlockIn, &tmpBlockSum);
 
 			if(tmpBlockSum < tmpSum)
 			{
@@ -67,7 +68,7 @@ int main(int argc, char *argv[])
     int total_err_cnt = 0;
 	int retval=0;
 
-	pix_t blockInRef[BLOCK_SIZE][BLOCK_SIZE];
+	pix_t blockInRef[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 	pix_t blockInTag[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
 	for(int k = 0; k < TEST_TIMES; k++)
@@ -75,18 +76,11 @@ int main(int argc, char *argv[])
 		cout << "Test " << k << ":" << endl;
 		int err_cnt = 0;
 
-		for(int i = 0; i < BLOCK_SIZE; i++)
-		{
-			for(int j = 0; j < BLOCK_SIZE; j++)
-			{
-				blockInRef[i][j] = rand() % 16;
-			}
-		}
-
 		for(int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
 		{
 			for(int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
 			{
+				blockInRef[i][j] = rand() % 16;
 				blockInTag[i][j] = rand() % 16;
 			}
 		}
@@ -101,13 +95,13 @@ int main(int argc, char *argv[])
 		{
 			for(int j = 0; j < BLOCK_SIZE; j++)
 			{
-				blockInTag[i + OF_x][j + OF_y] = blockInRef[i][j];
+				blockInTag[i + OF_x][j + OF_y] = blockInRef[i + SEARCH_DISTANCE][j + SEARCH_DISTANCE];
 			}
 		}
 
 
-		blockInRef[0][0] = rand() % 16;
-		mini_GT = abs(blockInTag[OF_x][OF_y] - blockInRef[0][0]);
+		blockInRef[SEARCH_DISTANCE][SEARCH_DISTANCE] = rand() % 16;
+		mini_GT = abs(blockInTag[OF_x][OF_y] - blockInRef[SEARCH_DISTANCE][SEARCH_DISTANCE]);
 
 		ap_int<16> miniResult;
 		ap_uint<6> OFResult;
