@@ -43,4 +43,6 @@ set_directive_pipeline "colStreamToMinStream2/reOrderColStreams2_label0"
 set_directive_pipeline "colStreamToColSum/colStreamToColSum_label2"
 set_directive_dataflow "colStreamToColSum"
 set_directive_pipeline "accumulateStream/accumulateStream_label3"
-set_directive_array_partition -type complete -dim 1 "accumulateStream" lastSumData
+set_directive_array_reshape -type complete -dim 1 "accumulateStream" lastSumData
+set_directive_pipeline "findStreamMin/findStreamMin_label4"
+set_directive_array_reshape -type complete -dim 1 "accumulateStream/accumulateStream_label3" inputData

@@ -194,8 +194,18 @@
             <pragma name="PIPELINE"/>
         </directive>
         <directive functionName="accumulateStream" label="" functionLabel="">
-            <pragma name="ARRAY_PARTITION">
+            <pragma name="ARRAY_RESHAPE">
                 <option name="variable" value="lastSumData" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="findStreamMin" label="findStreamMin_label4" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="accumulateStream" label="accumulateStream_label3" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="inputData" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
                 <option name="dim" value="1"/>
             </pragma>

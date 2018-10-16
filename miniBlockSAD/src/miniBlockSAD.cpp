@@ -429,6 +429,7 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 }
 
 static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
+static apUint112_t lastSum;
 void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream)
 {
 	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
@@ -439,17 +440,37 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 
 			uint16_t inputData[2 * SEARCH_DISTANCE + 1];
 
-			for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+			if(k == BLOCK_SIZE - 1)
 			{
-				inputData[i] = inData.range(16 * l + 15, 16 * l);
-				lastSumData[i] += inputData[i];
+				ap_int<16> tmpData[2 * SEARCH_DISTANCE + 1];
+				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+				{
+					inputData[l] = inData.range(16 * l + 15, 16 * l);
+					lastSumData[l] = lastSumData[l] + inputData[l];
+				}
+
+				ap_int<16> outputMinData;
+				int8_t index;
+				outputMinData = min(lastSumData, &index);
+				outStream.write(outputMinData.to_short());
+
+				// If use reshape directive, then here must use decrease form.
+				// if use increase form, then the II is 2 cannot be 1.
+				// And lastSumData couldn't be 0.
+				// DON'T KNOW WHY. MIGHT BE A BUG.
+				for (int l = 2 * SEARCH_DISTANCE; l >= 0; l--)
+				{
+					lastSumData[l] = 0;
+				}
 			}
-
-			ap_int<16> outputMinData;
-			int8_t index;
-			outputMinData = min(lastSumData, &index);
-
-			if(k == BLOCK_SIZE - 1) outStream.write(outputMinData.to_short());
+			else
+			{
+				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+				{
+					inputData[l] = inData.range(16 * l + 15, 16 * l);
+					lastSumData[l] += inputData[l];
+				}
+			}
 		}
 	}
 }
@@ -460,12 +481,15 @@ void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int16_t> &minStre
 	findStreamMin_label4:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 	{
 		int16_t inData = inStream.read();
-		currentMin = (inData < currentMin) ? inData : currentMin;
-
 		if(i == 2 * SEARCH_DISTANCE)
 		{
+			currentMin = (inData < currentMin) ? inData : currentMin;
 			minStream.write(currentMin);
 			currentMin = 0x7fff;
+		}
+		else
+		{
+			currentMin = (inData < currentMin) ? inData : currentMin;
 		}
 	}
 }

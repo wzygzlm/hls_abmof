@@ -1,4 +1,4 @@
-<project xmlns="com.autoesl.autopilot.project" name="miniBlockSAD" top="colStreamToColSum">
+<project xmlns="com.autoesl.autopilot.project" name="miniBlockSAD" top="accumulateStream">
     <includePaths/>
     <libraryPaths/>
     <Simulation>
@@ -6,11 +6,11 @@
     </Simulation>
     <files xmlns="">
         <file name="../src/test.cpp" sc="0" tb="1" cflags=" "/>
-        <file name="miniBlockSAD/src/ambofAccel.h" sc="0" tb="false" cflags=""/>
-        <file name="miniBlockSAD/src/miniBlockSAD.cpp" sc="0" tb="false" cflags=""/>
-        <file name="miniBlockSAD/src/xf_config_params.h" sc="0" tb="false" cflags=""/>
-        <file name="miniBlockSAD/src/xf_headers.h" sc="0" tb="false" cflags=""/>
         <file name="miniBlockSAD/src/xf_stereoBM_config.h" sc="0" tb="false" cflags=""/>
+        <file name="miniBlockSAD/src/xf_headers.h" sc="0" tb="false" cflags=""/>
+        <file name="miniBlockSAD/src/xf_config_params.h" sc="0" tb="false" cflags=""/>
+        <file name="miniBlockSAD/src/miniBlockSAD.cpp" sc="0" tb="false" cflags=""/>
+        <file name="miniBlockSAD/src/ambofAccel.h" sc="0" tb="false" cflags=""/>
     </files>
     <solutions xmlns="">
         <solution name="solution1" status="active"/>

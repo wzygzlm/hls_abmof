@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
   <source>
-    <originFiles name="xf_stereoBM_config.h" path="E:\xfOpenCV\hls_2018_1\miniBlockSAD\src\xf_stereoBM_config.h"/>
-    <originFiles name="xf_headers.h" path="E:\xfOpenCV\hls_2018_1\miniBlockSAD\src\xf_headers.h"/>
-    <originFiles name="xf_config_params.h" path="E:\xfOpenCV\hls_2018_1\miniBlockSAD\src\xf_config_params.h"/>
-    <originFiles name="miniBlockSAD.cpp" path="E:\xfOpenCV\hls_2018_1\miniBlockSAD\src\miniBlockSAD.cpp"/>
-    <originFiles name="ambofAccel.h" path="E:\xfOpenCV\hls_2018_1\miniBlockSAD\src\ambofAccel.h"/>
+    <originFiles name="ambofAccel.h" path="E:\workspace\hls_abmof\miniBlockSAD\src\ambofAccel.h"/>
+    <originFiles name="miniBlockSAD.cpp" path="E:\workspace\hls_abmof\miniBlockSAD\src\miniBlockSAD.cpp"/>
+    <originFiles name="xf_config_params.h" path="E:\workspace\hls_abmof\miniBlockSAD\src\xf_config_params.h"/>
+    <originFiles name="xf_headers.h" path="E:\workspace\hls_abmof\miniBlockSAD\src\xf_headers.h"/>
+    <originFiles name="xf_stereoBM_config.h" path="E:\workspace\hls_abmof\miniBlockSAD\src\xf_stereoBM_config.h"/>
   </source>
   <testbench>
-    <originFiles name="test.cpp" path="E:\xfOpenCV\hls_2018_1\miniBlockSAD\src\test.cpp"/>
+    <originFiles name="test.cpp" path="E:\workspace\hls_abmof\miniBlockSAD\src\test.cpp"/>
   </testbench>
 </autopilotfilemapping:AutoPilotFileMapping>

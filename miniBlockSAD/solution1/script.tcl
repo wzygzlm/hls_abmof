@@ -4,12 +4,12 @@
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
 open_project miniBlockSAD
-set_top colStreamToColSum
-add_files miniBlockSAD/src/xf_stereoBM_config.h
-add_files miniBlockSAD/src/xf_headers.h
-add_files miniBlockSAD/src/xf_config_params.h
-add_files miniBlockSAD/src/miniBlockSAD.cpp
+set_top accumulateStream
 add_files miniBlockSAD/src/ambofAccel.h
+add_files miniBlockSAD/src/miniBlockSAD.cpp
+add_files miniBlockSAD/src/xf_config_params.h
+add_files miniBlockSAD/src/xf_headers.h
+add_files miniBlockSAD/src/xf_stereoBM_config.h
 add_files -tb miniBlockSAD/src/test.cpp
 open_solution "solution1"
 set_part {xc7z007sclg225-1} -tool vivado
