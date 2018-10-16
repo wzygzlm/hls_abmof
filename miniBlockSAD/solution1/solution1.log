@@ -8,7 +8,334 @@ Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
 INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
 INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
-INFO: [SIM 211-2] *************** CSIM start ***************
-INFO: [SIM 211-4] CSIM will launch GCC as the compiler.
-INFO: [SIM 211-1] CSim file generation done with 0 errors.
-INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-10] Analyzing design file 'miniBlockSAD/src/miniBlockSAD.cpp' ...
+INFO: [HLS 200-10] Validating synthesis directives ...
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'AddSub_DSP' cannot be applied: Variable 'tmpSum' has no assigment in 'sad/calOFDSPLoop'.
+WARNING: [HLS 200-40] Directive 'DATAFLOW' cannot be applied: Function 'colStreamToMinStream2' does not exist in any synthesis source file.
+WARNING: [HLS 200-40] Directive 'ARRAY_PARTITION' cannot be applied: Function 'colStreamToMinStream2' does not exist in any synthesis source file.
+WARNING: [HLS 200-40] Directive 'ARRAY_PARTITION' cannot be applied: Function 'colStreamToMinStream2' does not exist in any synthesis source file.
+WARNING: [HLS 200-40] Directive 'PIPELINE' cannot be applied: Function 'colStreamToMinStream2' does not exist in any synthesis source file.
+WARNING: [HLS 200-40] Directive 'PIPELINE' cannot be applied: Function 'colStreamToMinStream2' does not exist in any synthesis source file.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K3' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'first_order_fixed_16::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K4' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'first_order_fixed_16::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K4' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::sin_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K3' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sin_or_cos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K4' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K3' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'second_order_float::cos_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:02 ; elapsed = 00:00:24 . Memory (MB): peak = 105.703 ; gain = 47.809
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:02 ; elapsed = 00:00:26 . Memory (MB): peak = 105.738 ; gain = 47.844
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:03 ; elapsed = 00:00:28 . Memory (MB): peak = 146.930 ; gain = 89.035
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [XFORM 203-602] Inlining function 'min' into 'accumulateStream' (miniBlockSAD/src/miniBlockSAD.cpp:526) automatically.
+WARNING: [SYNCHK 200-23] miniBlockSAD/src/miniBlockSAD.cpp:445: variable-indexed range selection may cause suboptimal QoR.
+INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:04 ; elapsed = 00:00:29 . Memory (MB): peak = 171.164 ; gain = 113.270
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'colStreamToColSum_label2' (miniBlockSAD/src/miniBlockSAD.cpp:467) in function 'colStreamToColSum' for pipelining.
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'accumulateStream_label3' (miniBlockSAD/src/miniBlockSAD.cpp:510) in function 'accumulateStream' for pipelining.
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'min' (miniBlockSAD/src/miniBlockSAD.cpp:111).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'colSADSum' (miniBlockSAD/src/miniBlockSAD.cpp:79).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sad' (miniBlockSAD/src/miniBlockSAD.cpp:47).
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'sadSum' (miniBlockSAD/src/miniBlockSAD.cpp:34).
+INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'convertBlockToStream_label1' (miniBlockSAD/src/miniBlockSAD.cpp:441) in function 'convertBlockToStream' for pipelining.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-2.1.1' (miniBlockSAD/src/miniBlockSAD.cpp:484) in function 'colStreamToColSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-2.1.2' (miniBlockSAD/src/miniBlockSAD.cpp:494) in function 'colStreamToColSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1.1' (miniBlockSAD/src/miniBlockSAD.cpp:518) in function 'accumulateStream' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1.2' (miniBlockSAD/src/miniBlockSAD.cpp:533) in function 'accumulateStream' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1.3' (miniBlockSAD/src/miniBlockSAD.cpp:540) in function 'accumulateStream' completely.
+INFO: [XFORM 203-501] Unrolling loop 'minLoop' (miniBlockSAD/src/miniBlockSAD.cpp:116) in function 'min' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumLoop' (miniBlockSAD/src/miniBlockSAD.cpp:98) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'colSADSumInnerLoop' (miniBlockSAD/src/miniBlockSAD.cpp:101) in function 'colSADSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFDSPLoop' (miniBlockSAD/src/miniBlockSAD.cpp:62) in function 'sad' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFNoDSPLoop' (miniBlockSAD/src/miniBlockSAD.cpp:68) in function 'sad' completely.
+INFO: [XFORM 203-501] Unrolling loop 'calOFLoop2' (miniBlockSAD/src/miniBlockSAD.cpp:38) in function 'sadSum' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-1.1' (miniBlockSAD/src/miniBlockSAD.cpp:443) in function 'convertBlockToStream' completely.
+INFO: [XFORM 203-102] Partitioning array 'sum.V' (miniBlockSAD/src/miniBlockSAD.cpp:50) automatically.
+INFO: [XFORM 203-131] Reshaping array 'lastSumData.V'  in dimension 1 completely.
+INFO: [XFORM 203-131] Reshaping array 'inputData' (miniBlockSAD/src/miniBlockSAD.cpp:513) in dimension 1 completely.
+INFO: [XFORM 203-131] Reshaping array 'tagBlock.V' (miniBlockSAD/src/miniBlockSAD.cpp:572) in dimension 2 completely.
+INFO: [XFORM 203-131] Reshaping array 'refBlock.V' (miniBlockSAD/src/miniBlockSAD.cpp:571) in dimension 2 completely.
+INFO: [XFORM 203-101] Partitioning array 'out' (miniBlockSAD/src/miniBlockSAD.cpp:479) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'in2.V' (miniBlockSAD/src/miniBlockSAD.cpp:477) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'in1.V' (miniBlockSAD/src/miniBlockSAD.cpp:476) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'input2.V' (miniBlockSAD/src/miniBlockSAD.cpp:99) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'input1.V' (miniBlockSAD/src/miniBlockSAD.cpp:99) in dimension 1 completely.
+INFO: [XFORM 203-602] Inlining function 'min' into 'accumulateStream' automatically.
+INFO: [XFORM 203-721] Changing loop 'Loop_colStreamToColSum_label3_proc' (miniBlockSAD/src/miniBlockSAD.cpp:459) to a process function for dataflow in function 'colStreamToColSum'.
+INFO: [XFORM 203-721] Changing loop 'Loop_colStreamToColSum_label1_proc' (miniBlockSAD/src/miniBlockSAD.cpp:465) to a process function for dataflow in function 'colStreamToColSum'.
+WARNING: [XFORM 203-713] All the elements of global array 'colData0.V'  should be updated in process function 'colStreamToColSum_Loop_colStreamToColSum_label3_proc75', otherwise it may not be synthesized correctly.
+INFO: [XFORM 203-712] Applying dataflow to function 'colStreamToColSum', detected/extracted 2 process function(s): 
+	 'colStreamToColSum_Loop_colStreamToColSum_label3_proc75'
+	 'colStreamToColSum_Loop_colStreamToColSum_label1_proc76'.
+INFO: [XFORM 203-712] Applying dataflow to function 'miniBlockSADHW', detected/extracted 5 process function(s): 
+	 'convertBlockToStream'
+	 'colStreamToColSum'
+	 'accumulateStream'
+	 'findStreamMin'
+	 'Block__proc77'.
+INFO: [XFORM 203-11] Balancing expressions in function 'sadSum' (miniBlockSAD/src/miniBlockSAD.cpp:34)...7 expression(s) balanced.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:06 ; elapsed = 00:00:32 . Memory (MB): peak = 218.266 ; gain = 160.371
+INFO: [XFORM 203-541] Flattening a loop nest 'colStreamToColSum_label1' (miniBlockSAD/src/miniBlockSAD.cpp:465:3) in function 'colStreamToColSum_Loop_colStreamToColSum_label1_proc76'.
+INFO: [XFORM 203-541] Flattening a loop nest 'Loop-1' (miniBlockSAD/src/miniBlockSAD.cpp:507:15) in function 'accumulateStream'.
+WARNING: [XFORM 203-631] Renaming function 'colStreamToColSum_Loop_colStreamToColSum_label3_proc75' to 'colStreamToColSum_Lo' (miniBlockSAD/src/miniBlockSAD.cpp:456)
+WARNING: [XFORM 203-631] Renaming function 'colStreamToColSum_Loop_colStreamToColSum_label1_proc76' to 'colStreamToColSum_Lo.1' (miniBlockSAD/src/miniBlockSAD.cpp:464:50)
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:07 ; elapsed = 00:00:33 . Memory (MB): peak = 314.531 ; gain = 256.637
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'miniBlockSADHW' ...
+WARNING: [SYN 201-103] Legalizing function name 'colStreamToColSum_Lo.1' to 'colStreamToColSum_Lo_1'.
+WARNING: [SYN 201-103] Legalizing function name 'Block__proc77' to 'Block_proc77'.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'convertBlockToStream'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'convertBlockToStream_label1'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 33.441 seconds; current allocated memory: 261.503 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.17 seconds; current allocated memory: 261.631 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'colStreamToColSum_Lo'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'colStreamToColSum_label3'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.132 seconds; current allocated memory: 261.759 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.126 seconds; current allocated memory: 261.848 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'sadSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'sadSum'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.094 seconds; current allocated memory: 262.090 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.141 seconds; current allocated memory: 262.302 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'sad'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'sad'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 3.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.135 seconds; current allocated memory: 262.532 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.148 seconds; current allocated memory: 262.740 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'colSADSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 'colSADSum'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 4.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.105 seconds; current allocated memory: 262.946 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.197 seconds; current allocated memory: 263.593 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'colStreamToColSum_Lo_1'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'colStreamToColSum_label1_colStreamToColSum_label2'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 6.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.297 seconds; current allocated memory: 264.111 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.194 seconds; current allocated memory: 264.657 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'colStreamToColSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.268 seconds; current allocated memory: 265.027 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.257 seconds; current allocated memory: 265.258 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'accumulateStream'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'L_accumulateStream_label3'.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 5.
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.328 seconds; current allocated memory: 265.810 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.321 seconds; current allocated memory: 266.035 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'findStreamMin'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.138 seconds; current allocated memory: 266.134 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.115 seconds; current allocated memory: 266.253 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'Block_proc77'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.089 seconds; current allocated memory: 266.283 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.15 seconds; current allocated memory: 266.323 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'miniBlockSADHW'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.058 seconds; current allocated memory: 266.393 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.609 seconds; current allocated memory: 267.179 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'convertBlockToStream'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'convertBlockToStream'.
+INFO: [HLS 200-111]  Elapsed time: 0.327 seconds; current allocated memory: 267.785 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'colStreamToColSum_Lo'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'colStreamToColSum_Lo'.
+INFO: [HLS 200-111]  Elapsed time: 0.119 seconds; current allocated memory: 268.054 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'sadSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'sadSum'.
+INFO: [HLS 200-111]  Elapsed time: 0.197 seconds; current allocated memory: 268.540 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'sad'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SYN 201-210] Renamed object name 'miniBlockSADHW_sub_5s_5s_5_1_1' to 'miniBlockSADHW_subkb' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'miniBlockSADHW_subkb': 5 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'sad'.
+INFO: [HLS 200-111]  Elapsed time: 0.284 seconds; current allocated memory: 269.113 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'colSADSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'colSADSum'.
+INFO: [HLS 200-111]  Elapsed time: 0.253 seconds; current allocated memory: 270.165 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'colStreamToColSum_Lo_1'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SYN 201-210] Renamed object name 'miniBlockSADHW_mux_73_16_1_1' to 'miniBlockSADHW_mucud' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 'miniBlockSADHW_mucud': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'colStreamToColSum_Lo_1'.
+INFO: [HLS 200-111]  Elapsed time: 0.558 seconds; current allocated memory: 271.469 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'colStreamToColSum'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SYN 201-210] Renamed object name 'colStreamToColSum_colData0_V' to 'colStreamToColSumdEe' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'colStreamToColSum_colData1_V' to 'colStreamToColSumeOg' due to the length limit 20
+INFO: [RTGEN 206-100] Finished creating RTL model for 'colStreamToColSum'.
+INFO: [HLS 200-111]  Elapsed time: 0.412 seconds; current allocated memory: 272.147 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'accumulateStream'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Register 'lastSumData_V' is power-on initialization.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'accumulateStream'.
+INFO: [HLS 200-111]  Elapsed time: 0.366 seconds; current allocated memory: 273.080 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'findStreamMin'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Register 'currentMin' is power-on initialization.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'findStreamMin'.
+INFO: [HLS 200-111]  Elapsed time: 0.427 seconds; current allocated memory: 273.384 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'Block_proc77'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'Block_proc77'.
+INFO: [HLS 200-111]  Elapsed time: 0.131 seconds; current allocated memory: 273.518 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'miniBlockSADHW'
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'miniBlockSADHW/refBlock_V' to 'ap_memory'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'miniBlockSADHW/tagBlock_V' to 'ap_memory'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'miniBlockSADHW/miniRet_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'miniBlockSADHW/OFRet_V' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'miniBlockSADHW' to 'ap_ctrl_hs'.
+INFO: [SYN 201-210] Renamed object name 'start_for_colStreamToColSum_U0' to 'start_for_colStrefYi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'start_for_accumulateStream_U0' to 'start_for_accumulg8j' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'start_for_findStreamMin_U0' to 'start_for_findStrhbi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 'start_for_Block_proc77_U0' to 'start_for_Block_pibs' due to the length limit 20
+INFO: [RTGEN 206-100] Finished creating RTL model for 'miniBlockSADHW'.
+INFO: [HLS 200-111]  Elapsed time: 0.238 seconds; current allocated memory: 274.103 MB.
+INFO: [RTMG 210-287] Generating adder/subtractor assigned to DSP48: 'miniBlockSADHW_subkb_AddSub_DSP_0'
+INFO: [RTMG 210-278] Implementing memory 'colStreamToColSumdEe_memcore_ram (RAM)' using block RAMs.
+INFO: [RTMG 210-278] Implementing memory 'colStreamToColSumeOg_memcore_ram (RAM)' using block RAMs.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w68_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w68_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w112_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w16_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'fifo_w16_d2_A' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_colStrefYi' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_accumulg8j' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_findStrhbi' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_Block_pibs' using Shift Registers.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:12 ; elapsed = 00:00:44 . Memory (MB): peak = 341.516 ; gain = 283.621
+INFO: [SYSC 207-301] Generating SystemC RTL for miniBlockSADHW.
+INFO: [VHDL 208-304] Generating VHDL RTL for miniBlockSADHW.
+INFO: [VLOG 209-307] Generating Verilog RTL for miniBlockSADHW.
+INFO: [HLS 200-112] Total elapsed time: 44.547 seconds; peak allocated memory: 274.103 MB.

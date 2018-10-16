@@ -184,12 +184,6 @@
         <directive functionName="colStreamToMinStream2" label="reOrderColStreams2_label0" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
-        <directive functionName="colStreamToColSum" label="colStreamToColSum_label2" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
-        <directive functionName="colStreamToColSum" label="" functionLabel="">
-            <pragma name="DATAFLOW"/>
-        </directive>
         <directive functionName="accumulateStream" label="accumulateStream_label3" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
@@ -200,15 +194,55 @@
                 <option name="dim" value="1"/>
             </pragma>
         </directive>
-        <directive functionName="findStreamMin" label="findStreamMin_label4" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
         <directive functionName="accumulateStream" label="accumulateStream_label3" functionLabel="">
             <pragma name="ARRAY_RESHAPE">
                 <option name="variable" value="inputData" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
                 <option name="dim" value="1"/>
             </pragma>
+        </directive>
+        <directive functionName="miniBlockSADHW" label="DFRegion" functionLabel="">
+            <pragma name="DATAFLOW"/>
+        </directive>
+        <directive functionName="convertBlockToStream" label="convertBlockToStream_label1" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="convertBlockToStream" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="refBlock" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="convertBlockToStream" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="tagBlock" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniBlockSADHW" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="refBlock" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniBlockSADHW" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="tagBlock" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="colStreamToColSum" label="colStreamToColSum_label2" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colStreamToColSum" label="colStreamToColSum_label3" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colStreamToColSum" label="" functionLabel="">
+            <pragma name="DATAFLOW"/>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>

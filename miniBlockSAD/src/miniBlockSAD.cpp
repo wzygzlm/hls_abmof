@@ -385,12 +385,77 @@ void readSmallColDataFromBigColData(apIntBlockCol_t bigData, ap_uint<8> idx, apI
 }
 
 
-void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
-		hls::stream<apUint112_t> outStream)
+void colStreamToMinStream(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
+		hls::stream<int16_t> &sumStream)
 {
 	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-	for(int k= 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE; k++)
+	reOrderColStreams2_label7:for(int k= 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE; k++)
+	{
+		if(k < BLOCK_SIZE)	colData0[k] = colStream0.read();
+		colData1[k] = colStream1.read();
+	}
+
+	reOrderColStreams2_label0:for (int i = 0; i < (2 * SEARCH_DISTANCE + 1) *  (2 * SEARCH_DISTANCE + 1); i++)
+	{
+		ap_int<16>  sumRet[2 * SEARCH_DISTANCE + 1];
+		int16_t tmpRetVal[2];
+
+		reOrderColStreams2_label9:for (int j = 0; j < 1; j++)
+		{
+			sumRet[j] = 0;
+
+			reOrderColStreams2_label5:for(int k = 0; k < BLOCK_SIZE; k++)
+			{
+				pix_t input1[BLOCK_SIZE], input2[BLOCK_SIZE];
+				apIntColBits_t input2SmallColData;
+
+				readSmallColDataFromBigColData(colData1[k%BLOCK_SIZE + i % 7], i / 7, &input2SmallColData);
+
+				// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
+				// to calculate the range function. However, unroll it completely will make all this operations
+				// are only wires connection and will not consume any resources.
+				for (int8_t l = 0; l < BLOCK_SIZE; l++)
+				{
+					int8_t index = l + SEARCH_DISTANCE;
+					input1[l] = colData0[k].range(BITS_PER_PIXEL * index + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * index);
+					input2[l] = input2SmallColData.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+				}
+
+				sad(input1, input2, &tmpRetVal[1]);
+				sumRet[j] += tmpRetVal[1];
+			}
+		}
+
+		int8_t index;
+		ap_int<16> miniSum = min(sumRet, &index);
+		sumStream.write(miniSum.to_short());
+	}
+}
+
+void convertBlockToStream(pix_t refBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1)
+{
+	convertBlockToStream_label1:for(int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+	{
+		apIntBlockCol_t colData0, colData1;
+		for (int l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+		{
+			colData0.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = refBlock[i][l];
+			colData1.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = tagBlock[i][l];
+		}
+		if(i < BLOCK_SIZE) colStream0.write(colData0);
+		colStream1.write(colData1);
+	}
+}
+
+void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
+		hls::stream<apUint112_t> &outStream)
+{
+	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	colStreamToColSum_label3:for(int k= 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE; k++)
 	{
 		if(k < BLOCK_SIZE)	colData0[k] = colStream0.read();
 		colData1[k] = colStream1.read();
@@ -400,6 +465,14 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 	{
 		colStreamToColSum_label2:for(int k= 0; k < BLOCK_SIZE; k++)
 		{
+//			int iterCnt = i * BLOCK_SIZE + k;
+//
+//			if (iterCnt < BLOCK_SIZE + 2 * SEARCH_DISTANCE)
+//			{
+//				if (iterCnt < BLOCK_SIZE) colData0[iterCnt] = colStream0.read();
+//				colData1[iterCnt] = colStream1.read();
+//			}
+
 			pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 			pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
@@ -429,7 +502,6 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 }
 
 static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
-static apUint112_t lastSum;
 void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream)
 {
 	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
@@ -494,86 +566,30 @@ void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int16_t> &minStre
 	}
 }
 
-void colStreamToMinStream(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
-		hls::stream<int16_t> &sumStream)
-{
-	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-
-	reOrderColStreams2_label7:for(int k= 0; k < BLOCK_SIZE + 2 * SEARCH_DISTANCE; k++)
-	{
-		if(k < BLOCK_SIZE)	colData0[k] = colStream0.read();
-		colData1[k] = colStream1.read();
-	}
-
-	reOrderColStreams2_label0:for (int i = 0; i < (2 * SEARCH_DISTANCE + 1) *  (2 * SEARCH_DISTANCE + 1); i++)
-	{
-		ap_int<16>  sumRet[2 * SEARCH_DISTANCE + 1];
-		int16_t tmpRetVal[2];
-
-		reOrderColStreams2_label9:for (int j = 0; j < 1; j++)
-		{
-			sumRet[j] = 0;
-
-			reOrderColStreams2_label5:for(int k = 0; k < BLOCK_SIZE; k++)
-			{
-				pix_t input1[BLOCK_SIZE], input2[BLOCK_SIZE];
-				apIntColBits_t input2SmallColData;
-
-				readSmallColDataFromBigColData(colData1[k%BLOCK_SIZE + i % 7], i / 7, &input2SmallColData);
-
-				// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
-				// to calculate the range function. However, unroll it completely will make all this operations
-				// are only wires connection and will not consume any resources.
-				for (int8_t l = 0; l < BLOCK_SIZE; l++)
-				{
-					int8_t index = l + SEARCH_DISTANCE;
-					input1[l] = colData0[k].range(BITS_PER_PIXEL * index + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * index);
-					input2[l] = input2SmallColData.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
-				}
-
-				sad(input1, input2, &tmpRetVal[1]);
-				sumRet[j] += tmpRetVal[1];
-			}
-		}
-
-		int8_t index;
-		ap_int<16> miniSum = min(sumRet, &index);
-		sumStream.write(miniSum.to_short());
-	}
-}
 
 
-void miniBlockSADHW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
-		pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1][BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1],
+void miniBlockSADHW(pix_t refBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		ap_int<16> *miniRet, ap_uint<6> *OFRet)
 {
 	uint16_t tmpSum = 0x7fff;
 	ap_uint<3> tmpOF_x = ap_uint<3>(7);
 	ap_uint<3> tmpOF_y = ap_uint<3>(7);
 
-	for(uint8_t xOffset = 0; xOffset < 2 * SEARCH_DISTANCE + 1; xOffset++)
-	{
-		for(uint8_t yOffset = 0; yOffset < 2 * SEARCH_DISTANCE + 1; yOffset++)
-		{
-			pix_t tagBlockIn[BLOCK_SIZE][BLOCK_SIZE];
-			uint16_t tmpBlockSum;
-			for(uint8_t i = 0; i < BLOCK_SIZE; i++)
-			{
-				for(uint8_t j = 0; j < BLOCK_SIZE; j++)
-				{
-					tagBlockIn[i][j] = tagBlock[i + xOffset][j + yOffset];
-				}
-			}
-			blockSADHW(refBlock, tagBlockIn, &tmpBlockSum);
+	hls::stream<apIntBlockCol_t> colStream0("input_stream0"), colStream1("input_stream1");
+	hls::stream<apUint112_t> outStream("sumStream");
+	hls::stream<int16_t> outSumStream("outSumStream");
+	hls::stream<int16_t> minStream("minStream");
 
-			if(tmpBlockSum < tmpSum)
-			{
-				tmpSum = tmpBlockSum;
-				tmpOF_x = ap_uint<3>(xOffset);
-				tmpOF_y = ap_uint<3>(yOffset);
-			}
-		}
+	DFRegion:
+	{
+		convertBlockToStream(refBlock, tagBlock, colStream0, colStream1);
+		colStreamToColSum(colStream0, colStream1, outStream);
+		accumulateStream(outStream, outSumStream);
+		findStreamMin(outSumStream, minStream);
 	}
-	*miniRet = tmpSum;
+
+
+	*miniRet = minStream.read();
 	*OFRet = tmpOF_y.concat(tmpOF_x);
 }
