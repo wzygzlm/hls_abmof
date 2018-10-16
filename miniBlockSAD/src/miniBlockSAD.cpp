@@ -442,7 +442,7 @@ void convertBlockToStream(pix_t refBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK
 		apIntBlockCol_t colData0, colData1;
 		for (int l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
 		{
-			colData0.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = refBlock[i][l];
+			colData0.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = refBlock[i + SEARCH_DISTANCE][l];
 			colData1.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = tagBlock[i][l];
 		}
 		if(i < BLOCK_SIZE) colStream0.write(colData0);
@@ -493,7 +493,7 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 
 			for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
 			{
-				outputData.range(16 * l + 15, 16 * l) = out[i];
+				outputData.range(16 * l + 15, 16 * l) = out[l];
 			}
 
 			outStream.write(outputData);
@@ -502,7 +502,7 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 }
 
 static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
-void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream)
+void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream)
 {
 	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 	{
@@ -525,6 +525,7 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				int8_t index;
 				outputMinData = min(lastSumData, &index);
 				outStream.write(outputMinData.to_short());
+				OF_yStream.write(index);
 
 				// If use reshape directive, then here must use decrease form.
 				// if use increase form, then the II is 2 cannot be 1.
@@ -548,20 +549,30 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 }
 
 static int16_t currentMin = 0x7fff;
-void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int16_t> &minStream)
+void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStream, hls::stream<int16_t> &minStream, hls::stream<apUint6_t> &OFStream)
 {
+	apUint6_t OFRet = 0x3f;
+
 	findStreamMin_label4:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 	{
 		int16_t inData = inStream.read();
+		ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
+		ap_uint<1> compCond;
+
 		if(i == 2 * SEARCH_DISTANCE)
 		{
-			currentMin = (inData < currentMin) ? inData : currentMin;
+			compCond = (inData < currentMin) ? 1 : 0;
+			currentMin = (compCond == 1) ? inData : currentMin;
+			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
 			minStream.write(currentMin);
+			OFStream.write(OFRet);
 			currentMin = 0x7fff;
 		}
 		else
 		{
-			currentMin = (inData < currentMin) ? inData : currentMin;
+			compCond = (inData < currentMin) ? 1 : 0;
+			currentMin = (compCond == 1) ? inData : currentMin;
+			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
 		}
 	}
 }
@@ -579,17 +590,20 @@ void miniBlockSADHW(pix_t refBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE 
 	hls::stream<apIntBlockCol_t> colStream0("input_stream0"), colStream1("input_stream1");
 	hls::stream<apUint112_t> outStream("sumStream");
 	hls::stream<int16_t> outSumStream("outSumStream");
+	hls::stream<int8_t> OF_yStream("OF_yStream");
 	hls::stream<int16_t> minStream("minStream");
+	hls::stream<apUint6_t> OFStream("OFstream");
+
 
 	DFRegion:
 	{
 		convertBlockToStream(refBlock, tagBlock, colStream0, colStream1);
 		colStreamToColSum(colStream0, colStream1, outStream);
-		accumulateStream(outStream, outSumStream);
-		findStreamMin(outSumStream, minStream);
+		accumulateStream(outStream, outSumStream, OF_yStream);
+		findStreamMin(outSumStream, OF_yStream, minStream, OFStream);
 	}
 
 
 	*miniRet = minStream.read();
-	*OFRet = tmpOF_y.concat(tmpOF_x);
+	*OFRet = OFStream.read();
 }

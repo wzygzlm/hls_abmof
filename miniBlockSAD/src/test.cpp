@@ -103,19 +103,21 @@ int main(int argc, char *argv[])
 		blockInRef[SEARCH_DISTANCE][SEARCH_DISTANCE] = rand() % 16;
 		mini_GT = abs(blockInTag[OF_x][OF_y] - blockInRef[SEARCH_DISTANCE][SEARCH_DISTANCE]);
 
-		ap_int<16> miniResult;
-		ap_uint<6> OFResult;
+		ap_int<16> miniResultSW, miniResultHW;
+		ap_uint<6> OFResultSW, OFResultHW;
 
-		miniBlockSADSW(blockInRef, blockInTag, &miniResult, &OFResult);
+		miniBlockSADSW(blockInRef, blockInTag, &miniResultSW, &OFResultSW);
+		miniBlockSADHW(blockInRef, blockInTag, &miniResultHW, &OFResultHW);
 
-		cout << "OF_GT is: " << hex << OF_GT << "\t OFResult is: " << OFResult << endl;
-		cout << "mini_GT is: " << dec << mini_GT << "\t miniResult is: " << miniResult << endl;
+		cout << "OF_GT is: " << hex << OF_GT << "\t OFResultSW is: " << OFResultSW << "\t OFResultHW is: " << OFResultHW << endl;
+		cout << "mini_GT is: " << dec << mini_GT << "\t miniResultSW is: " << miniResultSW << "\t miniResultHW is: " << miniResultHW << endl;
 
-		if(OFResult != OF_GT || miniResult != mini_GT)
+		if(OFResultSW != OF_GT || miniResultSW != mini_GT || miniResultHW != mini_GT || OFResultHW != OF_GT)
 		{
 			err_cnt++;
 
-			cout << "OFResult is: " << hex << OFResult << "\t miniResult is: " << dec << miniResult << endl;
+			cout << "OFResultSW is: " << hex << OFResultSW << "\t miniResultSW is: " << dec << miniResultSW << endl;
+			cout << "OFResultHW is: " << hex << OFResultHW << "\t miniResultHW is: " << dec << miniResultHW << endl;
 			cout << "Test " << k << " failed." << endl;
 		}
 

@@ -86,54 +86,56 @@
     "CSource": ["..\/src\/miniBlockSAD.cpp"],
     "Vhdl": [
       "impl\/vhdl\/accumulateStream.vhd",
-      "impl\/vhdl\/Block_proc77.vhd",
+      "impl\/vhdl\/Block_proc86.vhd",
       "impl\/vhdl\/colSADSum.vhd",
       "impl\/vhdl\/colStreamToColSum.vhd",
       "impl\/vhdl\/colStreamToColSum_Lo.vhd",
       "impl\/vhdl\/colStreamToColSum_Lo_1.vhd",
+      "impl\/vhdl\/colStreamToColSumcud.vhd",
+      "impl\/vhdl\/colStreamToColSumcud_memcore.vhd",
       "impl\/vhdl\/colStreamToColSumdEe.vhd",
       "impl\/vhdl\/colStreamToColSumdEe_memcore.vhd",
-      "impl\/vhdl\/colStreamToColSumeOg.vhd",
-      "impl\/vhdl\/colStreamToColSumeOg_memcore.vhd",
       "impl\/vhdl\/convertBlockToStream.vhd",
+      "impl\/vhdl\/fifo_w6_d2_A.vhd",
+      "impl\/vhdl\/fifo_w8_d2_A.vhd",
       "impl\/vhdl\/fifo_w16_d2_A.vhd",
       "impl\/vhdl\/fifo_w68_d2_A.vhd",
       "impl\/vhdl\/fifo_w112_d2_A.vhd",
       "impl\/vhdl\/findStreamMin.vhd",
-      "impl\/vhdl\/miniBlockSADHW_mucud.vhd",
       "impl\/vhdl\/miniBlockSADHW_subkb.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/sadSum.vhd",
-      "impl\/vhdl\/start_for_accumulg8j.vhd",
-      "impl\/vhdl\/start_for_Block_pibs.vhd",
-      "impl\/vhdl\/start_for_colStrefYi.vhd",
-      "impl\/vhdl\/start_for_findStrhbi.vhd",
+      "impl\/vhdl\/start_for_accumulfYi.vhd",
+      "impl\/vhdl\/start_for_Block_phbi.vhd",
+      "impl\/vhdl\/start_for_colStreeOg.vhd",
+      "impl\/vhdl\/start_for_findStrg8j.vhd",
       "impl\/vhdl\/miniBlockSADHW.vhd"
     ],
     "Verilog": [
       "impl\/verilog\/accumulateStream.v",
-      "impl\/verilog\/Block_proc77.v",
+      "impl\/verilog\/Block_proc86.v",
       "impl\/verilog\/colSADSum.v",
       "impl\/verilog\/colStreamToColSum.v",
       "impl\/verilog\/colStreamToColSum_Lo.v",
       "impl\/verilog\/colStreamToColSum_Lo_1.v",
+      "impl\/verilog\/colStreamToColSumcud.v",
+      "impl\/verilog\/colStreamToColSumcud_memcore.v",
       "impl\/verilog\/colStreamToColSumdEe.v",
       "impl\/verilog\/colStreamToColSumdEe_memcore.v",
-      "impl\/verilog\/colStreamToColSumeOg.v",
-      "impl\/verilog\/colStreamToColSumeOg_memcore.v",
       "impl\/verilog\/convertBlockToStream.v",
+      "impl\/verilog\/fifo_w6_d2_A.v",
+      "impl\/verilog\/fifo_w8_d2_A.v",
       "impl\/verilog\/fifo_w16_d2_A.v",
       "impl\/verilog\/fifo_w68_d2_A.v",
       "impl\/verilog\/fifo_w112_d2_A.v",
       "impl\/verilog\/findStreamMin.v",
-      "impl\/verilog\/miniBlockSADHW_mucud.v",
       "impl\/verilog\/miniBlockSADHW_subkb.v",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/sadSum.v",
-      "impl\/verilog\/start_for_accumulg8j.v",
-      "impl\/verilog\/start_for_Block_pibs.v",
-      "impl\/verilog\/start_for_colStrefYi.v",
-      "impl\/verilog\/start_for_findStrhbi.v",
+      "impl\/verilog\/start_for_accumulfYi.v",
+      "impl\/verilog\/start_for_Block_phbi.v",
+      "impl\/verilog\/start_for_colStreeOg.v",
+      "impl\/verilog\/start_for_findStrg8j.v",
       "impl\/verilog\/miniBlockSADHW.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -518,7 +520,7 @@
               "InstanceName": "colStreamToColSum_Lo_1_U0",
               "Instances": [{
                   "ModuleName": "colSADSum",
-                  "InstanceName": "grp_colSADSum_fu_190",
+                  "InstanceName": "grp_colSADSum_fu_188",
                   "Instances": [
                     {
                       "ModuleName": "sad",
@@ -598,8 +600,8 @@
           "InstanceName": "convertBlockToStream_U0"
         },
         {
-          "ModuleName": "Block_proc77",
-          "InstanceName": "Block_proc77_U0"
+          "ModuleName": "Block_proc86",
+          "InstanceName": "Block_proc86_U0"
         }
       ]
     },
@@ -627,7 +629,7 @@
           }],
         "Area": {
           "FF": "14",
-          "LUT": "128",
+          "LUT": "143",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -735,7 +737,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.71"
+          "Estimate": "8.83"
         },
         "Loops": [{
             "Name": "colStreamToColSum_label1_colStreamToColSum_label2",
@@ -747,8 +749,8 @@
         "Area": {
           "BRAM_18K": "0",
           "DSP48E": "35",
-          "FF": "1438",
-          "LUT": "3145"
+          "FF": "1374",
+          "LUT": "3073"
         }
       },
       "colStreamToColSum": {
@@ -763,13 +765,13 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.71"
+          "Estimate": "8.83"
         },
         "Area": {
           "BRAM_18K": "2",
           "DSP48E": "35",
-          "FF": "1595",
-          "LUT": "3326"
+          "FF": "1531",
+          "LUT": "3254"
         }
       },
       "accumulateStream": {
@@ -795,8 +797,8 @@
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "535",
-          "LUT": "587",
+          "FF": "542",
+          "LUT": "615",
           "DSP48E": "0"
         }
       },
@@ -822,13 +824,13 @@
             "PipelineDepth": "2"
           }],
         "Area": {
-          "FF": "60",
-          "LUT": "149",
+          "FF": "54",
+          "LUT": "181",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
       },
-      "Block_proc77": {
+      "Block_proc86": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -843,8 +845,8 @@
           "Estimate": "3.63"
         },
         "Area": {
-          "FF": "18",
-          "LUT": "29",
+          "FF": "24",
+          "LUT": "47",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -861,20 +863,20 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.71"
+          "Estimate": "9.70"
         },
         "Area": {
           "BRAM_18K": "2",
           "DSP48E": "35",
-          "FF": "2247",
-          "LUT": "4561"
+          "FF": "2200",
+          "LUT": "4620"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-16 16:06:27 +0200",
+    "Time": "2018-10-16 17:13:22 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
