@@ -18,5 +18,5 @@ set_clock_uncertainty 0.1
 source "./miniBlockSAD/solution1/directives.tcl"
 csim_design -setup
 csynth_design
-cosim_design
+cosim_design -trace_level all
 export_design -rtl verilog -format ip_catalog

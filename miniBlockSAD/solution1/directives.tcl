@@ -57,10 +57,10 @@ set_directive_resource -core RAM_2P_LUTRAM "colStreamToColSum" colData0
 set_directive_resource -core RAM_2P_LUTRAM "colStreamToColSum" colData1
 set_directive_array_reshape -type complete -dim 3 "miniMutilBlocksSADHW" tagBlock
 set_directive_array_reshape -type complete -dim 3 "miniMutilBlocksSADHW" refBlock
-set_directive_interface -mode ap_fifo "miniMutilBlocksSADHW" miniRet
-set_directive_interface -mode ap_fifo "miniMutilBlocksSADHW" OFRet
+set_directive_interface -mode ap_fifo -depth 20 "miniMutilBlocksSADHW" miniRet
+set_directive_interface -mode ap_fifo -depth 20 "miniMutilBlocksSADHW" OFRet
 set_directive_pipeline "readMultiBlockData/GenerateStream"
 set_directive_pipeline -rewind "colStreamToColSum/colStreamToColSum_label2"
 set_directive_pipeline "findStreamMin/findStreamMin_label4"
 set_directive_pipeline "miniMutilBlocksSADHW/GenerateStream"
-set_directive_dataflow "miniMutilBlocksSADHW/miniMutilBlocksSADHW_label3"
+set_directive_dataflow "miniMutilBlocksSADHW/DFRegion"

@@ -288,12 +288,14 @@
         <directive functionName="miniMutilBlocksSADHW" label="" functionLabel="">
             <pragma name="INTERFACE">
                 <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="depth" value="20"/>
                 <option name="port" value="miniRet" positionalBoolean="4"/>
             </pragma>
         </directive>
         <directive functionName="miniMutilBlocksSADHW" label="" functionLabel="">
             <pragma name="INTERFACE">
                 <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="depth" value="20"/>
                 <option name="port" value="OFRet" positionalBoolean="4"/>
             </pragma>
         </directive>
@@ -311,7 +313,7 @@
         <directive functionName="miniMutilBlocksSADHW" label="GenerateStream" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
-        <directive functionName="miniMutilBlocksSADHW" label="miniMutilBlocksSADHW_label3" functionLabel="">
+        <directive functionName="miniMutilBlocksSADHW" label="DFRegion" functionLabel="">
             <pragma name="DATAFLOW"/>
         </directive>
     </sourceFile>

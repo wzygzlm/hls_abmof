@@ -67,20 +67,20 @@
       "resource colStreamToColSum {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}",
       "array_reshape miniMutilBlocksSADHW {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredtagBlock} {complete positionBoolean0type} {dim 3}} {}",
       "array_reshape miniMutilBlocksSADHW {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredrefBlock} {complete positionBoolean0type} {dim 3}} {}",
-      "interface miniMutilBlocksSADHW {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredminiRet}} {}",
-      "interface miniMutilBlocksSADHW {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredOFRet}} {}",
+      "interface miniMutilBlocksSADHW {{ap_fifo positionBoolean0mode} {depth 20} {port positionBooleanTextRequiredminiRet}} {}",
+      "interface miniMutilBlocksSADHW {{ap_fifo positionBoolean0mode} {depth 20} {port positionBooleanTextRequiredOFRet}} {}",
       "pipeline readMultiBlockData\/GenerateStream {} {}",
       "pipeline colStreamToColSum\/colStreamToColSum_label2 {{rewind positionBoolean1}} {}",
       "pipeline findStreamMin\/findStreamMin_label4 {} {}",
       "pipeline miniMutilBlocksSADHW\/GenerateStream {} {}",
-      "dataflow miniMutilBlocksSADHW\/miniMutilBlocksSADHW_label3 {} {}"
+      "dataflow miniMutilBlocksSADHW\/DFRegion {} {}"
     ]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "7717",
+    "Latency": "1555",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -103,10 +103,8 @@
       "impl\/vhdl\/colStreamToColSumcud.vhd",
       "impl\/vhdl\/colStreamToColSumdEe.vhd",
       "impl\/vhdl\/dataflow_in_loop_min.vhd",
-      "impl\/vhdl\/dataflow_parent_loop_1.vhd",
-      "impl\/vhdl\/fifo_w1_d4_A.vhd",
+      "impl\/vhdl\/fifo_w5_d5_A.vhd",
       "impl\/vhdl\/fifo_w6_d2_A.vhd",
-      "impl\/vhdl\/fifo_w7_d5_A.vhd",
       "impl\/vhdl\/fifo_w8_d2_A.vhd",
       "impl\/vhdl\/fifo_w16_d2_A.vhd",
       "impl\/vhdl\/fifo_w68_d2_A.vhd",
@@ -117,10 +115,10 @@
       "impl\/vhdl\/readMultiBlockData92.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/sadSum.vhd",
-      "impl\/vhdl\/start_for_accumulhbi.vhd",
+      "impl\/vhdl\/start_for_accumulg8j.vhd",
       "impl\/vhdl\/start_for_colStreeOg.vhd",
-      "impl\/vhdl\/start_for_findStrfYi.vhd",
-      "impl\/vhdl\/start_for_outputRg8j.vhd",
+      "impl\/vhdl\/start_for_findStrhbi.vhd",
+      "impl\/vhdl\/start_for_outputRfYi.vhd",
       "impl\/vhdl\/miniMutilBlocksSADHW.vhd"
     ],
     "Verilog": [
@@ -130,10 +128,8 @@
       "impl\/verilog\/colStreamToColSumcud.v",
       "impl\/verilog\/colStreamToColSumdEe.v",
       "impl\/verilog\/dataflow_in_loop_min.v",
-      "impl\/verilog\/dataflow_parent_loop_1.v",
-      "impl\/verilog\/fifo_w1_d4_A.v",
+      "impl\/verilog\/fifo_w5_d5_A.v",
       "impl\/verilog\/fifo_w6_d2_A.v",
-      "impl\/verilog\/fifo_w7_d5_A.v",
       "impl\/verilog\/fifo_w8_d2_A.v",
       "impl\/verilog\/fifo_w16_d2_A.v",
       "impl\/verilog\/fifo_w68_d2_A.v",
@@ -144,10 +140,10 @@
       "impl\/verilog\/readMultiBlockData92.v",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/sadSum.v",
-      "impl\/verilog\/start_for_accumulhbi.v",
+      "impl\/verilog\/start_for_accumulg8j.v",
       "impl\/verilog\/start_for_colStreeOg.v",
-      "impl\/verilog\/start_for_findStrfYi.v",
-      "impl\/verilog\/start_for_outputRg8j.v",
+      "impl\/verilog\/start_for_findStrhbi.v",
+      "impl\/verilog\/start_for_outputRfYi.v",
       "impl\/verilog\/miniMutilBlocksSADHW.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -178,12 +174,12 @@
     },
     "ap_ctrl": {
       "type": "ap_ctrl",
-      "ctrl_ports": "ap_start ap_done ap_idle ap_ready",
+      "ctrl_ports": "ap_done ap_start ap_ready ap_idle",
       "ctype": {
-        "start": {"Type": "bool"},
         "done": {"Type": "bool"},
-        "idle": {"Type": "bool"},
-        "ready": {"Type": "bool"}
+        "start": {"Type": "bool"},
+        "ready": {"Type": "bool"},
+        "idle": {"Type": "bool"}
       }
     },
     "ap_rst": {
@@ -207,10 +203,39 @@
     "refBlock_V_address0": {
       "type": "data",
       "dir": "out",
-      "width": "11",
+      "width": "9",
       "ctype": {"DATA": {
           "Type": "null",
-          "Width": "11"
+          "Width": "9"
+        }}
+    },
+    "refBlock_V_address1": {
+      "type": "data",
+      "dir": "out",
+      "width": "9",
+      "ctype": {"DATA": {
+          "Type": "null",
+          "Width": "9"
+        }}
+    },
+    "refBlock_V_d0": {
+      "type": "data",
+      "dir": "out",
+      "width": "68",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4",
+          "Bits": "68"
+        }}
+    },
+    "refBlock_V_d1": {
+      "type": "data",
+      "dir": "out",
+      "width": "68",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4",
+          "Bits": "68"
         }}
     },
     "refBlock_V_q0": {
@@ -223,16 +248,65 @@
           "Bits": "68"
         }}
     },
+    "refBlock_V_q1": {
+      "type": "data",
+      "dir": "in",
+      "width": "68",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4",
+          "Bits": "68"
+        }}
+    },
     "tagBlock_V_address0": {
       "type": "data",
       "dir": "out",
-      "width": "11",
+      "width": "9",
       "ctype": {"DATA": {
           "Type": "null",
-          "Width": "11"
+          "Width": "9"
+        }}
+    },
+    "tagBlock_V_address1": {
+      "type": "data",
+      "dir": "out",
+      "width": "9",
+      "ctype": {"DATA": {
+          "Type": "null",
+          "Width": "9"
+        }}
+    },
+    "tagBlock_V_d0": {
+      "type": "data",
+      "dir": "out",
+      "width": "68",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4",
+          "Bits": "68"
+        }}
+    },
+    "tagBlock_V_d1": {
+      "type": "data",
+      "dir": "out",
+      "width": "68",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4",
+          "Bits": "68"
         }}
     },
     "tagBlock_V_q0": {
+      "type": "data",
+      "dir": "in",
+      "width": "68",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "4",
+          "Bits": "68"
+        }}
+    },
+    "tagBlock_V_q1": {
       "type": "data",
       "dir": "in",
       "width": "68",
@@ -244,53 +318,85 @@
     }
   },
   "RtlPorts": {
-    "ap_clk": {
-      "dir": "in",
-      "width": "1"
-    },
-    "ap_rst": {
-      "dir": "in",
-      "width": "1"
-    },
-    "ap_start": {
-      "dir": "in",
-      "width": "1"
-    },
-    "ap_done": {
-      "dir": "out",
-      "width": "1"
-    },
-    "ap_idle": {
-      "dir": "out",
-      "width": "1"
-    },
-    "ap_ready": {
-      "dir": "out",
-      "width": "1"
-    },
     "refBlock_V_address0": {
       "dir": "out",
-      "width": "11"
+      "width": "9"
     },
     "refBlock_V_ce0": {
       "dir": "out",
       "width": "1"
     },
+    "refBlock_V_d0": {
+      "dir": "out",
+      "width": "68"
+    },
     "refBlock_V_q0": {
       "dir": "in",
       "width": "68"
     },
+    "refBlock_V_we0": {
+      "dir": "out",
+      "width": "1"
+    },
+    "refBlock_V_address1": {
+      "dir": "out",
+      "width": "9"
+    },
+    "refBlock_V_ce1": {
+      "dir": "out",
+      "width": "1"
+    },
+    "refBlock_V_d1": {
+      "dir": "out",
+      "width": "68"
+    },
+    "refBlock_V_q1": {
+      "dir": "in",
+      "width": "68"
+    },
+    "refBlock_V_we1": {
+      "dir": "out",
+      "width": "1"
+    },
     "tagBlock_V_address0": {
       "dir": "out",
-      "width": "11"
+      "width": "9"
     },
     "tagBlock_V_ce0": {
       "dir": "out",
       "width": "1"
     },
+    "tagBlock_V_d0": {
+      "dir": "out",
+      "width": "68"
+    },
     "tagBlock_V_q0": {
       "dir": "in",
       "width": "68"
+    },
+    "tagBlock_V_we0": {
+      "dir": "out",
+      "width": "1"
+    },
+    "tagBlock_V_address1": {
+      "dir": "out",
+      "width": "9"
+    },
+    "tagBlock_V_ce1": {
+      "dir": "out",
+      "width": "1"
+    },
+    "tagBlock_V_d1": {
+      "dir": "out",
+      "width": "68"
+    },
+    "tagBlock_V_q1": {
+      "dir": "in",
+      "width": "68"
+    },
+    "tagBlock_V_we1": {
+      "dir": "out",
+      "width": "1"
     },
     "miniRet_V_din": {
       "dir": "out",
@@ -315,19 +421,71 @@
     "OFRet_V_write": {
       "dir": "out",
       "width": "1"
+    },
+    "ap_clk": {
+      "dir": "in",
+      "width": "1"
+    },
+    "ap_rst": {
+      "dir": "in",
+      "width": "1"
+    },
+    "ap_done": {
+      "dir": "out",
+      "width": "1"
+    },
+    "ap_start": {
+      "dir": "in",
+      "width": "1"
+    },
+    "ap_ready": {
+      "dir": "out",
+      "width": "1"
+    },
+    "ap_idle": {
+      "dir": "out",
+      "width": "1"
     }
   },
   "CPorts": {
-    "ap_ctrl": {
-      "interfaceRef": "ap_ctrl",
-      "dir": "out"
+    "refBlock_V_d0": {
+      "interfaceRef": "refBlock_V_d0",
+      "dir": "out",
+      "dataWidth": "68",
+      "busTypeRef": "ap_memory",
+      "arraySize": "340",
+      "handshakeRef": "ap_none"
     },
     "refBlock_V_q0": {
       "interfaceRef": "refBlock_V_q0",
       "dir": "in",
       "dataWidth": "68",
       "busTypeRef": "ap_memory",
-      "arraySize": "1700",
+      "arraySize": "340",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_V_d1": {
+      "interfaceRef": "refBlock_V_d1",
+      "dir": "out",
+      "dataWidth": "68",
+      "busTypeRef": "ap_memory",
+      "arraySize": "340",
+      "handshakeRef": "ap_none"
+    },
+    "refBlock_V_q1": {
+      "interfaceRef": "refBlock_V_q1",
+      "dir": "in",
+      "dataWidth": "68",
+      "busTypeRef": "ap_memory",
+      "arraySize": "340",
+      "handshakeRef": "ap_none"
+    },
+    "tagBlock_V_d0": {
+      "interfaceRef": "tagBlock_V_d0",
+      "dir": "out",
+      "dataWidth": "68",
+      "busTypeRef": "ap_memory",
+      "arraySize": "340",
       "handshakeRef": "ap_none"
     },
     "tagBlock_V_q0": {
@@ -335,7 +493,23 @@
       "dir": "in",
       "dataWidth": "68",
       "busTypeRef": "ap_memory",
-      "arraySize": "1700",
+      "arraySize": "340",
+      "handshakeRef": "ap_none"
+    },
+    "tagBlock_V_d1": {
+      "interfaceRef": "tagBlock_V_d1",
+      "dir": "out",
+      "dataWidth": "68",
+      "busTypeRef": "ap_memory",
+      "arraySize": "340",
+      "handshakeRef": "ap_none"
+    },
+    "tagBlock_V_q1": {
+      "interfaceRef": "tagBlock_V_q1",
+      "dir": "in",
+      "dataWidth": "68",
+      "busTypeRef": "ap_memory",
+      "arraySize": "340",
       "handshakeRef": "ap_none"
     },
     "miniRet_V": {
@@ -347,102 +521,102 @@
       "interfaceRef": "OFRet_V",
       "dir": "out",
       "firstOutLatency": "0"
+    },
+    "ap_ctrl": {
+      "interfaceRef": "ap_ctrl",
+      "dir": "out"
     }
   },
   "ModuleInfo": {
     "Hierarchy": {
       "ModuleName": "miniMutilBlocksSADHW",
       "Instances": [{
-          "ModuleName": "dataflow_parent_loop_1",
-          "InstanceName": "grp_dataflow_parent_loop_1_fu_48",
-          "Instances": [{
-              "ModuleName": "dataflow_in_loop_min",
-              "InstanceName": "dataflow_in_loop_min_U0",
-              "Instances": [
-                {
-                  "ModuleName": "colStreamToColSum",
-                  "InstanceName": "colStreamToColSum_U0",
-                  "Instances": [{
-                      "ModuleName": "colSADSum",
-                      "InstanceName": "grp_colSADSum_fu_314",
-                      "Instances": [
-                        {
-                          "ModuleName": "sad",
-                          "InstanceName": "grp_sad_fu_240",
-                          "Instances": [{
-                              "ModuleName": "sadSum",
-                              "InstanceName": "grp_sadSum_fu_200"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sad",
-                          "InstanceName": "grp_sad_fu_288",
-                          "Instances": [{
-                              "ModuleName": "sadSum",
-                              "InstanceName": "grp_sadSum_fu_200"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sad",
-                          "InstanceName": "grp_sad_fu_336",
-                          "Instances": [{
-                              "ModuleName": "sadSum",
-                              "InstanceName": "grp_sadSum_fu_200"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sad",
-                          "InstanceName": "grp_sad_fu_384",
-                          "Instances": [{
-                              "ModuleName": "sadSum",
-                              "InstanceName": "grp_sadSum_fu_200"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sad",
-                          "InstanceName": "grp_sad_fu_432",
-                          "Instances": [{
-                              "ModuleName": "sadSum",
-                              "InstanceName": "grp_sadSum_fu_200"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sad",
-                          "InstanceName": "grp_sad_fu_480",
-                          "Instances": [{
-                              "ModuleName": "sadSum",
-                              "InstanceName": "grp_sadSum_fu_200"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sad",
-                          "InstanceName": "grp_sad_fu_528",
-                          "Instances": [{
-                              "ModuleName": "sadSum",
-                              "InstanceName": "grp_sadSum_fu_200"
-                            }]
-                        }
-                      ]
-                    }]
-                },
-                {
-                  "ModuleName": "accumulateStream",
-                  "InstanceName": "accumulateStream_U0"
-                },
-                {
-                  "ModuleName": "readMultiBlockData92",
-                  "InstanceName": "readMultiBlockData92_U0"
-                },
-                {
-                  "ModuleName": "findStreamMin",
-                  "InstanceName": "findStreamMin_U0"
-                },
-                {
-                  "ModuleName": "outputResult",
-                  "InstanceName": "outputResult_U0"
-                }
-              ]
-            }]
+          "ModuleName": "dataflow_in_loop_min",
+          "InstanceName": "dataflow_in_loop_min_U0",
+          "Instances": [
+            {
+              "ModuleName": "colStreamToColSum",
+              "InstanceName": "colStreamToColSum_U0",
+              "Instances": [{
+                  "ModuleName": "colSADSum",
+                  "InstanceName": "grp_colSADSum_fu_314",
+                  "Instances": [
+                    {
+                      "ModuleName": "sad",
+                      "InstanceName": "grp_sad_fu_240",
+                      "Instances": [{
+                          "ModuleName": "sadSum",
+                          "InstanceName": "grp_sadSum_fu_200"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sad",
+                      "InstanceName": "grp_sad_fu_288",
+                      "Instances": [{
+                          "ModuleName": "sadSum",
+                          "InstanceName": "grp_sadSum_fu_200"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sad",
+                      "InstanceName": "grp_sad_fu_336",
+                      "Instances": [{
+                          "ModuleName": "sadSum",
+                          "InstanceName": "grp_sadSum_fu_200"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sad",
+                      "InstanceName": "grp_sad_fu_384",
+                      "Instances": [{
+                          "ModuleName": "sadSum",
+                          "InstanceName": "grp_sadSum_fu_200"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sad",
+                      "InstanceName": "grp_sad_fu_432",
+                      "Instances": [{
+                          "ModuleName": "sadSum",
+                          "InstanceName": "grp_sadSum_fu_200"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sad",
+                      "InstanceName": "grp_sad_fu_480",
+                      "Instances": [{
+                          "ModuleName": "sadSum",
+                          "InstanceName": "grp_sadSum_fu_200"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sad",
+                      "InstanceName": "grp_sad_fu_528",
+                      "Instances": [{
+                          "ModuleName": "sadSum",
+                          "InstanceName": "grp_sadSum_fu_200"
+                        }]
+                    }
+                  ]
+                }]
+            },
+            {
+              "ModuleName": "accumulateStream",
+              "InstanceName": "accumulateStream_U0"
+            },
+            {
+              "ModuleName": "readMultiBlockData92",
+              "InstanceName": "readMultiBlockData92_U0"
+            },
+            {
+              "ModuleName": "findStreamMin",
+              "InstanceName": "findStreamMin_U0"
+            },
+            {
+              "ModuleName": "outputResult",
+              "InstanceName": "outputResult_U0"
+            }
+          ]
         }]
     },
     "Metrics": {
@@ -458,7 +632,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "7.04"
+          "Estimate": "6.87"
         },
         "Loops": [{
             "Name": "GenerateStream",
@@ -468,8 +642,8 @@
             "PipelineDepth": "2"
           }],
         "Area": {
-          "FF": "14",
-          "LUT": "210",
+          "FF": "88",
+          "LUT": "283",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -588,19 +762,17 @@
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "614",
-          "LUT": "650",
+          "FF": "615",
+          "LUT": "659",
           "DSP48E": "0"
         }
       },
       "findStreamMin": {
         "Latency": {
-          "LatencyBest": "4",
-          "LatencyAvg": "7",
+          "LatencyBest": "10",
+          "LatencyAvg": "10",
           "LatencyWorst": "10",
-          "PipelineIIMin": "4",
-          "PipelineIIMax": "10",
-          "PipelineII": "4 ~ 10",
+          "PipelineII": "10",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -611,16 +783,14 @@
         },
         "Loops": [{
             "Name": "findStreamMin_label4",
-            "TripCount": "",
-            "LatencyMin": "2",
-            "LatencyMax": "8",
-            "Latency": "2 ~ 8",
+            "TripCount": "7",
+            "Latency": "8",
             "PipelineII": "1",
             "PipelineDepth": "3"
           }],
         "Area": {
-          "FF": "60",
-          "LUT": "218",
+          "FF": "59",
+          "LUT": "205",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -649,8 +819,8 @@
       "dataflow_in_loop_min": {
         "Latency": {
           "LatencyBest": "90",
-          "LatencyAvg": "93",
-          "LatencyWorst": "96",
+          "LatencyAvg": "90",
+          "LatencyWorst": "90",
           "PipelineII": "77",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
@@ -663,18 +833,16 @@
         "Area": {
           "BRAM_18K": "0",
           "DSP48E": "35",
-          "FF": "2736",
-          "LUT": "4871"
+          "FF": "2805",
+          "LUT": "4918"
         }
       },
-      "dataflow_parent_loop_1": {
+      "miniMutilBlocksSADHW": {
         "Latency": {
-          "LatencyBest": "7715",
-          "LatencyAvg": "7718",
-          "LatencyWorst": "7721",
-          "PipelineIIMin": "7715",
-          "PipelineIIMax": "7721",
-          "PipelineII": "7715 ~ 7721",
+          "LatencyBest": "1555",
+          "LatencyAvg": "1555",
+          "LatencyWorst": "1555",
+          "PipelineII": "1556",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -685,50 +853,23 @@
         },
         "Loops": [{
             "Name": "miniMutilBlocksSADHW_label3",
-            "TripCount": "100",
-            "LatencyMin": "7714",
-            "LatencyMax": "7720",
-            "Latency": "7714 ~ 7720",
+            "TripCount": "20",
+            "Latency": "1554",
             "PipelineII": "",
-            "PipelineDepthMin": "7714",
-            "PipelineDepthMax": "7720",
-            "PipelineDepth": "7714 ~ 7720"
+            "PipelineDepth": "1554"
           }],
         "Area": {
           "BRAM_18K": "0",
           "DSP48E": "35",
-          "FF": "2752",
-          "LUT": "4919"
-        }
-      },
-      "miniMutilBlocksSADHW": {
-        "Latency": {
-          "LatencyBest": "7717",
-          "LatencyAvg": "7720",
-          "LatencyWorst": "7723",
-          "PipelineIIMin": "7718",
-          "PipelineIIMax": "7724",
-          "PipelineII": "7718 ~ 7724",
-          "PipelineDepth": "",
-          "PipelineType": "none"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "9.70"
-        },
-        "Area": {
-          "BRAM_18K": "0",
-          "DSP48E": "35",
-          "FF": "2790",
-          "LUT": "4971"
+          "FF": "2817",
+          "LUT": "4966"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-17 15:15:27 +0200",
+    "Time": "2018-10-17 20:37:23 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

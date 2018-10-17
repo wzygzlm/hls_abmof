@@ -22,7 +22,7 @@
 #define BITS_PER_PIXEL 4
 #define COMBINED_PIXELS 32
 
-#define BLOCKS_TEST_NUMBER 100
+#define BLOCKS_TEST_NUMBER 20
 
 #define BLOCK_SIZE 11
 #define SEARCH_DISTANCE 3
@@ -84,6 +84,10 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
 
 void miniBlockSADHW(pix_t refBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		ap_int<16> *miniRet, ap_uint<6> *OFRet);
+
+void miniMutilBlocksSADHW(pix_t refBlock[BLOCKS_TEST_NUMBER][BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pix_t tagBlock[BLOCKS_TEST_NUMBER][BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		ap_int<16> *miniRet, ap_uint<6> *OFRet);
 
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice);
