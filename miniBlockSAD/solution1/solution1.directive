@@ -185,7 +185,9 @@
             <pragma name="PIPELINE"/>
         </directive>
         <directive functionName="accumulateStream" label="accumulateStream_label3" functionLabel="">
-            <pragma name="PIPELINE"/>
+            <pragma name="PIPELINE">
+                <option name="rewind" value="" positionalBoolean="1"/>
+            </pragma>
         </directive>
         <directive functionName="accumulateStream" label="" functionLabel="">
             <pragma name="ARRAY_RESHAPE">
@@ -235,9 +237,6 @@
                 <option name="dim" value="2"/>
             </pragma>
         </directive>
-        <directive functionName="colStreamToColSum" label="colStreamToColSum_label2" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
         <directive functionName="copyStreamToOrderStream" label="" functionLabel="">
             <pragma name="RESOURCE">
                 <option name="variable" value="colData0" positionalBoolean="4"/>
@@ -271,6 +270,49 @@
                 <option name="variable" value="colData1" positionalBoolean="4"/>
                 <option name="core" value="RAM_2P_LUTRAM"/>
             </pragma>
+        </directive>
+        <directive functionName="miniMutilBlocksSADHW" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="tagBlock" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="3"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniMutilBlocksSADHW" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="refBlock" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="3"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniMutilBlocksSADHW" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="miniRet" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="miniMutilBlocksSADHW" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="ap_fifo" value="" positionalBoolean="mode"/>
+                <option name="port" value="OFRet" positionalBoolean="4"/>
+            </pragma>
+        </directive>
+        <directive functionName="readMultiBlockData" label="GenerateStream" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="colStreamToColSum" label="colStreamToColSum_label2" functionLabel="">
+            <pragma name="PIPELINE">
+                <option name="rewind" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="findStreamMin" label="findStreamMin_label4" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="miniMutilBlocksSADHW" label="GenerateStream" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="miniMutilBlocksSADHW" label="miniMutilBlocksSADHW_label3" functionLabel="">
+            <pragma name="DATAFLOW"/>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>

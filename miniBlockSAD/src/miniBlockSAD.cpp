@@ -5,6 +5,7 @@ typedef hls::stream<ap_axiu<32,1,1,1> > AXI_STREAM;
 typedef hls::Scalar<3, unsigned char> RGB_PIXEL;
 typedef hls::Mat<20, 20, HLS_8UC1> RGB_IMAGE;
 
+ap_uint<1> lastEventFlg;
 void image_filter_exp(AXI_STREAM& INPUT_STREAM0, AXI_STREAM& INPUT_STREAM1, AXI_STREAM& OUTPUT_STREAM, int rows, int cols)
 {
 	#pragma HLS INTERFACE axis port=INPUT_STREAM0
@@ -131,17 +132,20 @@ ap_int<16> min(ap_int<16> inArr[2*SEARCH_DISTANCE + 1], int8_t *index)
 void colsToStream(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t t2Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut)
 {
-	apIntBlockCol_t refBlockCol;
-	apIntBlockCol_t tagBlockCol;
-
-	for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+	for (int i = 0; i < 500; i++)
 	{
-		refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = t1Col[l];
-		tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = t2Col[l];
-	}
+		apIntBlockCol_t refBlockCol;
+		apIntBlockCol_t tagBlockCol;
 
-	refStreamOut << refBlockCol;
-	tagStreamOut << tagBlockCol;
+		for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+		{
+			refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = t1Col[l];
+			tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = t2Col[l];
+		}
+
+		refStreamOut << refBlockCol;
+		tagStreamOut << tagBlockCol;
+	}
 }
 
 
@@ -493,101 +497,105 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 {
 	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-	colStreamToColSum_label1:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
-	{
-		colStreamToColSum_label2:for(int k= 0; k < BLOCK_SIZE; k++)
+		colStreamToColSum_label1:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 		{
-			apIntBlockCol_t tmpData0, tmpData1;
-
-			if(i == 0)
+			colStreamToColSum_label2:for(int k= 0; k < BLOCK_SIZE; k++)
 			{
-				colData0[k] = colStream0.read();
-				colData1[k] = colStream1.read();
+				apIntBlockCol_t tmpData0, tmpData1;
 
-				tmpData0 = colData0[k];
-				tmpData1 = colData1[k];
+				if(i == 0)
+				{
+					colData0[k] = colStream0.read();
+					colData1[k] = colStream1.read();
+
+					tmpData0 = colData0[k];
+					tmpData1 = colData1[k];
+				}
+				else
+				{
+					if((i == 1) && (k < 2 * SEARCH_DISTANCE))  colData1[BLOCK_SIZE + k] = colStream1.read();
+
+					tmpData0 = colData0[k];
+					tmpData1 = colData1[i + k];
+				}
+
+				pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+				pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+				int16_t out[2*SEARCH_DISTANCE + 1];
+
+				// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
+				// to calculate the range function. However, unroll it completely will make all this operations
+				// are only wires connection and will not consume any resources.
+				for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+				{
+					in1[l] = tmpData0.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+					in2[l] = tmpData1.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+				}
+
+				colSADSum(in1, in2, out);
+
+				apUint112_t outputData;
+
+				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+				{
+					outputData.range(16 * l + 15, 16 * l) = out[l];
+				}
+
+				outStream.write(outputData);
 			}
-			else
-			{
-				if((i == 1) && (k < 2 * SEARCH_DISTANCE))  colData1[BLOCK_SIZE + k] = colStream1.read();
-
-				tmpData0 = colData0[k];
-				tmpData1 = colData1[i + k];
-			}
-
-			pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-			pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-
-			int16_t out[2*SEARCH_DISTANCE + 1];
-
-			// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
-			// to calculate the range function. However, unroll it completely will make all this operations
-			// are only wires connection and will not consume any resources.
-			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
-			{
-				in1[l] = tmpData0.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
-				in2[l] = tmpData1.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
-			}
-
-			colSADSum(in1, in2, out);
-
-			apUint112_t outputData;
-
-			for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
-			{
-				outputData.range(16 * l + 15, 16 * l) = out[l];
-			}
-
-			outStream.write(outputData);
 		}
-	}
+
+
 }
 
 static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
 void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream)
 {
-	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
-	{
-		accumulateStream_label3:for(int k= 0; k < BLOCK_SIZE; k++)
+
+		for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 		{
-			apUint112_t inData = inStream.read();
-
-			uint16_t inputData[2 * SEARCH_DISTANCE + 1];
-
-			if(k == BLOCK_SIZE - 1)
+			accumulateStream_label3:for(int k= 0; k < BLOCK_SIZE; k++)
 			{
-				ap_int<16> tmpData[2 * SEARCH_DISTANCE + 1];
-				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
-				{
-					inputData[l] = inData.range(16 * l + 15, 16 * l);
-					lastSumData[l] = lastSumData[l] + inputData[l];
-				}
+				apUint112_t inData = inStream.read();
 
-				ap_int<16> outputMinData;
-				int8_t index;
-				outputMinData = min(lastSumData, &index);
-				outStream.write(outputMinData.to_short());
-				OF_yStream.write(index);
+				uint16_t inputData[2 * SEARCH_DISTANCE + 1];
 
-				// If use reshape directive, then here must use decrease form.
-				// if use increase form, then the II is 2 cannot be 1.
-				// And lastSumData couldn't be 0.
-				// DON'T KNOW WHY. MIGHT BE A BUG.
-				for (int l = 2 * SEARCH_DISTANCE; l >= 0; l--)
+				if(k == BLOCK_SIZE - 1)
 				{
-					lastSumData[l] = 0;
+					ap_int<16> tmpData[2 * SEARCH_DISTANCE + 1];
+					for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+					{
+						inputData[l] = inData.range(16 * l + 15, 16 * l);
+						lastSumData[l] = lastSumData[l] + inputData[l];
+					}
+
+					ap_int<16> outputMinData;
+					int8_t index;
+					outputMinData = min(lastSumData, &index);
+					outStream.write(outputMinData.to_short());
+					OF_yStream.write(index);
+
+					// If use reshape directive, then here must use decrease form.
+					// if use increase form, then the II is 2 cannot be 1.
+					// And lastSumData couldn't be 0.
+					// DON'T KNOW WHY. MIGHT BE A BUG.
+					for (int l = 2 * SEARCH_DISTANCE; l >= 0; l--)
+					{
+						lastSumData[l] = 0;
+					}
 				}
-			}
-			else
-			{
-				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+				else
 				{
-					inputData[l] = inData.range(16 * l + 15, 16 * l);
-					lastSumData[l] += inputData[l];
+					for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+					{
+						inputData[l] = inData.range(16 * l + 15, 16 * l);
+						lastSumData[l] += inputData[l];
+					}
 				}
 			}
 		}
-	}
+
 }
 
 static int16_t currentMin = 0x7fff;
@@ -595,28 +603,32 @@ void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStre
 {
 	apUint6_t OFRet = 0x3f;
 
-	findStreamMin_label4:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
-	{
-		int16_t inData = inStream.read();
-		ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
-		ap_uint<1> compCond;
+		findStreamMin_label4:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+		{
+			if (lastEventFlg) break;
 
-		if(i == 2 * SEARCH_DISTANCE)
-		{
-			compCond = (inData < currentMin) ? 1 : 0;
-			currentMin = (compCond == 1) ? inData : currentMin;
-			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
-			minStream.write(currentMin);
-			OFStream.write(OFRet);
-			currentMin = 0x7fff;
+				int16_t inData = inStream.read();
+				ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
+				ap_uint<1> compCond;
+
+				if(i == 2 * SEARCH_DISTANCE)
+				{
+					compCond = (inData < currentMin) ? 1 : 0;
+					currentMin = (compCond == 1) ? inData : currentMin;
+					OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
+					minStream.write(currentMin);
+					OFStream.write(OFRet);
+					currentMin = 0x7fff;
+				}
+				else
+				{
+					compCond = (inData < currentMin) ? 1 : 0;
+					currentMin = (compCond == 1) ? inData : currentMin;
+					OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
+				}
+
 		}
-		else
-		{
-			compCond = (inData < currentMin) ? 1 : 0;
-			currentMin = (compCond == 1) ? inData : currentMin;
-			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
-		}
-	}
+
 }
 
 
@@ -648,4 +660,69 @@ void miniBlockSADHW(pix_t refBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE 
 
 	*miniRet = minStream.read();
 	*OFRet = OFStream.read();
+}
+
+int tmpIndex = 0;
+
+void readMultiBlockData(pix_t refBlock[BLOCKS_TEST_NUMBER][BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pix_t tagBlock[BLOCKS_TEST_NUMBER][BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1)
+{
+//	for(int i = 0; i < BLOCKS_TEST_NUMBER; i++)
+//	{
+	GenerateStream: for (int j = 0; j < BLOCK_SIZE + 2 * SEARCH_DISTANCE; j++)
+	{
+		apIntBlockCol_t colData0, colData1;
+		lastEventFlg = 0;
+		for (int l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+		{
+			colData0.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = refBlock[tmpIndex][j][l];
+			colData1.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = tagBlock[tmpIndex][j][l];
+		}
+		if(j < BLOCK_SIZE) colStream0.write(colData0);
+		colStream1.write(colData1);
+
+		tmpIndex++;
+
+//				if (i == BLOCKS_TEST_NUMBER - 1 && j == BLOCK_SIZE + 2 * SEARCH_DISTANCE - 1) lastEventFlg = 1;
+	}
+//	}
+}
+
+void outputResult(hls::stream<int16_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,  ap_int<16> *miniRet, ap_uint<6> *OFRet)
+{
+	*miniRet++ = miniSumStream.read();
+	*OFRet++ = OFRetStream.read();
+}
+
+void miniMutilBlocksSADHW(pix_t refBlock[BLOCKS_TEST_NUMBER][BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		pix_t tagBlock[BLOCKS_TEST_NUMBER][BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+		ap_int<16> *miniRet, ap_uint<6> *OFRet)
+{
+	pix_t testRefBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	pix_t testtagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	hls::stream<apIntBlockCol_t> colStream0("input_stream0"), colStream1("input_stream1");
+	hls::stream<apUint112_t> outStream("sumStream");
+	hls::stream<int16_t> outSumStream("outSumStream");
+	hls::stream<int8_t> OF_yStream("OF_yStream");
+	hls::stream<int16_t> minStream("minStream");
+	hls::stream<apUint6_t> OFStream("OFstream");
+
+	tmpIndex = 0;
+
+	miniMutilBlocksSADHW_label3:for(int i = 0; i < BLOCKS_TEST_NUMBER; i++)
+	{
+		DFRegion:
+		{
+			readMultiBlockData(refBlock, tagBlock, colStream0, colStream1);
+			colStreamToColSum(colStream0, colStream1, outStream);
+			accumulateStream(outStream, outSumStream, OF_yStream);
+			findStreamMin(outSumStream, OF_yStream, minStream, OFStream);
+			outputResult(minStream, OFStream, miniRet++, OFRet++);
+		}
+	}
+
+
+
 }

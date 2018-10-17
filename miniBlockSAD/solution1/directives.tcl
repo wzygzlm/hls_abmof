@@ -40,7 +40,7 @@ set_directive_array_partition -type complete -dim 1 "colStreamToMinStream2" colD
 set_directive_array_partition -type complete -dim 1 "colStreamToMinStream2" colData1
 set_directive_pipeline "colStreamToMinStream2/reOrderColStreams2_label7"
 set_directive_pipeline "colStreamToMinStream2/reOrderColStreams2_label0"
-set_directive_pipeline "accumulateStream/accumulateStream_label3"
+set_directive_pipeline -rewind "accumulateStream/accumulateStream_label3"
 set_directive_array_reshape -type complete -dim 1 "accumulateStream" lastSumData
 set_directive_array_reshape -type complete -dim 1 "accumulateStream/accumulateStream_label3" inputData
 set_directive_dataflow "miniBlockSADHW/DFRegion"
@@ -49,10 +49,18 @@ set_directive_array_reshape -type complete -dim 2 "convertBlockToStream" refBloc
 set_directive_array_reshape -type complete -dim 2 "convertBlockToStream" tagBlock
 set_directive_array_reshape -type complete -dim 2 "miniBlockSADHW" refBlock
 set_directive_array_reshape -type complete -dim 2 "miniBlockSADHW" tagBlock
-set_directive_pipeline "colStreamToColSum/colStreamToColSum_label2"
 set_directive_resource -core RAM_2P_LUTRAM "copyStreamToOrderStream" colData0
 set_directive_resource -core RAM_2P_LUTRAM "copyStreamToOrderStream" colData1
 set_directive_dependence -variable colData1 -type inter -dependent false "copyStreamToOrderStream/copyStreamToOrderStream_label3"
 set_directive_pipeline "copyStreamToOrderStream/copyStreamToOrderStreamInnerLoop"
 set_directive_resource -core RAM_2P_LUTRAM "colStreamToColSum" colData0
 set_directive_resource -core RAM_2P_LUTRAM "colStreamToColSum" colData1
+set_directive_array_reshape -type complete -dim 3 "miniMutilBlocksSADHW" tagBlock
+set_directive_array_reshape -type complete -dim 3 "miniMutilBlocksSADHW" refBlock
+set_directive_interface -mode ap_fifo "miniMutilBlocksSADHW" miniRet
+set_directive_interface -mode ap_fifo "miniMutilBlocksSADHW" OFRet
+set_directive_pipeline "readMultiBlockData/GenerateStream"
+set_directive_pipeline -rewind "colStreamToColSum/colStreamToColSum_label2"
+set_directive_pipeline "findStreamMin/findStreamMin_label4"
+set_directive_pipeline "miniMutilBlocksSADHW/GenerateStream"
+set_directive_dataflow "miniMutilBlocksSADHW/miniMutilBlocksSADHW_label3"

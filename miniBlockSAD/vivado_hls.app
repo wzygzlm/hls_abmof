@@ -1,4 +1,4 @@
-<project xmlns="com.autoesl.autopilot.project" name="miniBlockSAD" top="miniBlockSADHW">
+<project xmlns="com.autoesl.autopilot.project" name="miniBlockSAD" top="miniMutilBlocksSADHW">
     <includePaths/>
     <libraryPaths/>
     <Simulation>
