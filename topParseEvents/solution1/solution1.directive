@@ -323,7 +323,7 @@
         <directive functionName="parseEvents" label="DFRegion" functionLabel="">
             <pragma name="STREAM">
                 <option name="variable" value="tagStreamIn" positionalBoolean="4"/>
-                <option name="depth" value="2"/>
+                <option name="depth" value="6"/>
                 <option name="dim" value="1"/>
             </pragma>
         </directive>

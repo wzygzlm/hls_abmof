@@ -65,7 +65,7 @@ set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" yStream
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" refStream
 set_directive_stream -depth 2 -dim 1 "parseEvents/DFRegion" refStream
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" tagStreamIn
-set_directive_stream -depth 2 -dim 1 "parseEvents/DFRegion" tagStreamIn
+set_directive_stream -depth 6 -dim 1 "parseEvents/DFRegion" tagStreamIn
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" miniSumStream
 set_directive_stream -depth 2 -dim 1 "parseEvents/DFRegion" miniSumStream
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" pktEventDataStream

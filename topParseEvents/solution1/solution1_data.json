@@ -77,7 +77,7 @@
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredrefStream} {core FIFO_SRL}} {}",
       "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredrefStream} {depth 2} {dim 1}} {}",
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {core FIFO_SRL}} {}",
-      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {depth 2} {dim 1}} {}",
+      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {depth 6} {dim 1}} {}",
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredminiSumStream} {core FIFO_SRL}} {}",
       "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredminiSumStream} {depth 2} {dim 1}} {}",
       "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredpktEventDataStream} {core FIFO_SRL}} {}",
@@ -164,6 +164,7 @@
       "impl\/vhdl\/fifo_w16_d7_A.vhd",
       "impl\/vhdl\/fifo_w17_d2_S.vhd",
       "impl\/vhdl\/fifo_w68_d2_S.vhd",
+      "impl\/vhdl\/fifo_w68_d6_S.vhd",
       "impl\/vhdl\/fifo_w112_d0_A.vhd",
       "impl\/vhdl\/findStreamMin.vhd",
       "impl\/vhdl\/getXandY.vhd",
@@ -203,6 +204,7 @@
       "impl\/verilog\/fifo_w16_d7_A.v",
       "impl\/verilog\/fifo_w17_d2_S.v",
       "impl\/verilog\/fifo_w68_d2_S.v",
+      "impl\/verilog\/fifo_w68_d6_S.v",
       "impl\/verilog\/fifo_w112_d0_A.v",
       "impl\/verilog\/findStreamMin.v",
       "impl\/verilog\/getXandY.v",
@@ -1040,7 +1042,7 @@
           "BRAM_18K": "60",
           "DSP48E": "35",
           "FF": "4202",
-          "LUT": "6431"
+          "LUT": "6432"
         }
       },
       "dataflow_parent_loop_1": {
@@ -1074,7 +1076,7 @@
           "BRAM_18K": "60",
           "DSP48E": "35",
           "FF": "4236",
-          "LUT": "6495"
+          "LUT": "6496"
         }
       },
       "parseEvents": {
@@ -1097,14 +1099,14 @@
           "BRAM_18K": "60",
           "DSP48E": "35",
           "FF": "4293",
-          "LUT": "6572"
+          "LUT": "6573"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-18 21:31:36 +0200",
+    "Time": "2018-10-18 23:04:15 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

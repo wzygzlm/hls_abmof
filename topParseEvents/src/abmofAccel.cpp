@@ -611,6 +611,8 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 	ap_uint<8> yRd;
 	sliceIdx_t idx;
 
+	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
 //	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
 //	{
 		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE * (2 * SEARCH_DISTANCE + 1); xOffSet++)
