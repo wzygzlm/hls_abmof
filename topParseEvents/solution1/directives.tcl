@@ -22,7 +22,7 @@ set_directive_pipeline "blockSADSum"
 set_directive_array_reshape -type complete -dim 1 "blockSADSum" t2Block
 set_directive_array_reshape -type complete -dim 1 "blockSADSum" t1Block
 set_directive_array_reshape -type complete -dim 1 "blockSADSum" sumBlock
-set_directive_array_partition -type complete -dim 0 "min" inArr
+set_directive_array_reshape -type complete -dim 1 "min" inArr
 set_directive_pipeline "min"
 set_directive_inline -off "min"
 set_directive_inline "readPixFromCol"
@@ -107,3 +107,9 @@ set_directive_loop_tripcount -min 1 -max 10000 "feedbackWrapperAndOutputResult/f
 set_directive_pipeline -rewind "readSlices/readSlicesInnerLoop"
 set_directive_dataflow "parseEvents/DFRegion"
 set_directive_loop_tripcount -min 1 -max 10000 "parseEvents/parseEventsLoop"
+set_directive_resource -core RAM_2P_LUTRAM "colStreamToColSum" colData0
+set_directive_resource -core RAM_2P_LUTRAM "colStreamToColSum" colData1
+set_directive_pipeline -rewind "colStreamToColSum/colStreamToColSum_label2"
+set_directive_array_reshape -type complete -dim 1 "accumulateStream" lastSumData
+set_directive_array_reshape -type complete -dim 1 "accumulateStream/accumulateStream_label3" inputData
+set_directive_pipeline -rewind "accumulateStream/accumulateStream_label3"

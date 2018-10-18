@@ -34,7 +34,7 @@
       "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt2Block} {complete positionBoolean0type} {dim 1}} {}",
       "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredt1Block} {complete positionBoolean0type} {dim 1}} {}",
       "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredsumBlock} {complete positionBoolean0type} {dim 1}} {}",
-      "array_partition min {{partition positionBooleanCmd} {variable positionBooleanTextRequiredinArr} {complete positionBoolean0type} {dim 0}} {}",
+      "array_reshape min {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredinArr} {complete positionBoolean0type} {dim 1}} {}",
       "pipeline min {} {}",
       "inline min {{off positionBoolean1}} {}",
       "inline readPixFromCol {} {}",
@@ -118,7 +118,13 @@
       "loop_tripcount feedbackWrapperAndOutputResult\/feedbackWrapperLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
       "pipeline readSlices\/readSlicesInnerLoop {{rewind positionBoolean1}} {}",
       "dataflow parseEvents\/DFRegion {} {}",
-      "loop_tripcount parseEvents\/parseEventsLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}"
+      "loop_tripcount parseEvents\/parseEventsLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
+      "resource colStreamToColSum {{variable positionBooleanTextRequiredcolData0} {core RAM_2P_LUTRAM}} {}",
+      "resource colStreamToColSum {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}",
+      "pipeline colStreamToColSum\/colStreamToColSum_label2 {{rewind positionBoolean1}} {}",
+      "array_reshape accumulateStream {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredlastSumData} {complete positionBoolean0type} {dim 1}} {}",
+      "array_reshape accumulateStream\/accumulateStream_label3 {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredinputData} {complete positionBoolean0type} {dim 1}} {}",
+      "pipeline accumulateStream\/accumulateStream_label3 {{rewind positionBoolean1}} {}"
     ]
   },
   "ClockInfo": {
@@ -126,7 +132,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "97",
+    "Latency": "100",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -143,19 +149,25 @@
   "Files": {
     "CSource": ["..\/src\/abmofAccel.cpp"],
     "Vhdl": [
+      "impl\/vhdl\/accumulateStream.vhd",
       "impl\/vhdl\/colSADSum.vhd",
+      "impl\/vhdl\/colStreamToColSum.vhd",
+      "impl\/vhdl\/colStreamToColSumqcK.vhd",
+      "impl\/vhdl\/colStreamToColSumrcU.vhd",
       "impl\/vhdl\/dataflow_in_loop_par.vhd",
       "impl\/vhdl\/dataflow_parent_loop_1.vhd",
       "impl\/vhdl\/fifo_w2_d0_A.vhd",
       "impl\/vhdl\/fifo_w6_d0_A.vhd",
       "impl\/vhdl\/fifo_w8_d0_A.vhd",
       "impl\/vhdl\/fifo_w15_d2_S.vhd",
-      "impl\/vhdl\/fifo_w16_d5_A.vhd",
+      "impl\/vhdl\/fifo_w16_d0_A.vhd",
+      "impl\/vhdl\/fifo_w16_d7_A.vhd",
       "impl\/vhdl\/fifo_w17_d2_S.vhd",
       "impl\/vhdl\/fifo_w68_d2_S.vhd",
+      "impl\/vhdl\/fifo_w112_d0_A.vhd",
+      "impl\/vhdl\/findStreamMin.vhd",
       "impl\/vhdl\/getXandY.vhd",
       "impl\/vhdl\/min.vhd",
-      "impl\/vhdl\/miniSADSumWrapper.vhd",
       "impl\/vhdl\/outputResult.vhd",
       "impl\/vhdl\/parseEvents_AXILiteS_s_axi.vhd",
       "impl\/vhdl\/parseEvents_mux_4ocq.vhd",
@@ -167,26 +179,34 @@
       "impl\/vhdl\/rwSlices_glPLSlickbM.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/sadSum.vhd",
-      "impl\/vhdl\/start_for_miniSADtde.vhd",
-      "impl\/vhdl\/start_for_outputRrcU.vhd",
-      "impl\/vhdl\/start_for_rotateSqcK.vhd",
-      "impl\/vhdl\/start_for_rwSlicesc4.vhd",
+      "impl\/vhdl\/start_for_accumulwdI.vhd",
+      "impl\/vhdl\/start_for_colStrevdy.vhd",
+      "impl\/vhdl\/start_for_findStrxdS.vhd",
+      "impl\/vhdl\/start_for_outputRtde.vhd",
+      "impl\/vhdl\/start_for_rotateSsc4.vhd",
+      "impl\/vhdl\/start_for_rwSliceudo.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
+      "impl\/verilog\/accumulateStream.v",
       "impl\/verilog\/colSADSum.v",
+      "impl\/verilog\/colStreamToColSum.v",
+      "impl\/verilog\/colStreamToColSumqcK.v",
+      "impl\/verilog\/colStreamToColSumrcU.v",
       "impl\/verilog\/dataflow_in_loop_par.v",
       "impl\/verilog\/dataflow_parent_loop_1.v",
       "impl\/verilog\/fifo_w2_d0_A.v",
       "impl\/verilog\/fifo_w6_d0_A.v",
       "impl\/verilog\/fifo_w8_d0_A.v",
       "impl\/verilog\/fifo_w15_d2_S.v",
-      "impl\/verilog\/fifo_w16_d5_A.v",
+      "impl\/verilog\/fifo_w16_d0_A.v",
+      "impl\/verilog\/fifo_w16_d7_A.v",
       "impl\/verilog\/fifo_w17_d2_S.v",
       "impl\/verilog\/fifo_w68_d2_S.v",
+      "impl\/verilog\/fifo_w112_d0_A.v",
+      "impl\/verilog\/findStreamMin.v",
       "impl\/verilog\/getXandY.v",
       "impl\/verilog\/min.v",
-      "impl\/verilog\/miniSADSumWrapper.v",
       "impl\/verilog\/outputResult.v",
       "impl\/verilog\/parseEvents_AXILiteS_s_axi.v",
       "impl\/verilog\/parseEvents_mux_4ocq.v",
@@ -200,10 +220,12 @@
       "impl\/verilog\/rwSlices_glPLSlickbM_ram.dat",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/sadSum.v",
-      "impl\/verilog\/start_for_miniSADtde.v",
-      "impl\/verilog\/start_for_outputRrcU.v",
-      "impl\/verilog\/start_for_rotateSqcK.v",
-      "impl\/verilog\/start_for_rwSlicesc4.v",
+      "impl\/verilog\/start_for_accumulwdI.v",
+      "impl\/verilog\/start_for_colStrevdy.v",
+      "impl\/verilog\/start_for_findStrxdS.v",
+      "impl\/verilog\/start_for_outputRtde.v",
+      "impl\/verilog\/start_for_rotateSsc4.v",
+      "impl\/verilog\/start_for_rwSliceudo.v",
       "impl\/verilog\/parseEvents.v"
     ],
     "SwDriver": [
@@ -628,18 +650,17 @@
       "ModuleName": "parseEvents",
       "Instances": [{
           "ModuleName": "dataflow_parent_loop_1",
-          "InstanceName": "grp_dataflow_parent_loop_1_fu_262",
+          "InstanceName": "grp_dataflow_parent_loop_1_fu_98",
           "Instances": [{
               "ModuleName": "dataflow_in_loop_par",
               "InstanceName": "dataflow_in_loop_par_U0",
               "Instances": [
                 {
-                  "ModuleName": "miniSADSumWrapper",
-                  "InstanceName": "miniSADSumWrapper_U0",
-                  "Instances": [
-                    {
+                  "ModuleName": "colStreamToColSum",
+                  "InstanceName": "colStreamToColSum_U0",
+                  "Instances": [{
                       "ModuleName": "colSADSum",
-                      "InstanceName": "grp_colSADSum_fu_400",
+                      "InstanceName": "grp_colSADSum_fu_314",
                       "Instances": [
                         {
                           "ModuleName": "sad",
@@ -698,20 +719,27 @@
                             }]
                         }
                       ]
-                    },
-                    {
-                      "ModuleName": "min",
-                      "InstanceName": "grp_min_fu_432"
-                    }
-                  ]
+                    }]
                 },
                 {
                   "ModuleName": "rwSlices",
                   "InstanceName": "rwSlices_U0"
                 },
                 {
+                  "ModuleName": "accumulateStream",
+                  "InstanceName": "accumulateStream_U0",
+                  "Instances": [{
+                      "ModuleName": "min",
+                      "InstanceName": "grp_min_fu_164"
+                    }]
+                },
+                {
                   "ModuleName": "rotateSlice",
                   "InstanceName": "rotateSlice_U0"
+                },
+                {
+                  "ModuleName": "findStreamMin",
+                  "InstanceName": "findStreamMin_U0"
                 },
                 {
                   "ModuleName": "getXandY",
@@ -738,7 +766,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "7.25"
+          "Estimate": "7.27"
         },
         "Area": {
           "FF": "3",
@@ -800,8 +828,8 @@
           }],
         "Area": {
           "BRAM_18K": "60",
-          "FF": "1201",
-          "LUT": "1100",
+          "FF": "1266",
+          "LUT": "1158",
           "DSP48E": "0"
         }
       },
@@ -868,6 +896,34 @@
           "BRAM_18K": "0"
         }
       },
+      "colStreamToColSum": {
+        "Latency": {
+          "LatencyBest": "82",
+          "LatencyAvg": "82",
+          "LatencyWorst": "83",
+          "PipelineII": "77",
+          "PipelineDepth": "",
+          "PipelineType": "loop rewind"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "8.83"
+        },
+        "Loops": [{
+            "Name": "colStreamToColSum_label1_colStreamToColSum_label2",
+            "TripCount": "77",
+            "Latency": "82",
+            "PipelineII": "1",
+            "PipelineDepth": "7"
+          }],
+        "Area": {
+          "BRAM_18K": "0",
+          "DSP48E": "35",
+          "FF": "2001",
+          "LUT": "3316"
+        }
+      },
       "min": {
         "Latency": {
           "LatencyBest": "1",
@@ -889,12 +945,12 @@
           "DSP48E": "0"
         }
       },
-      "miniSADSumWrapper": {
+      "accumulateStream": {
         "Latency": {
-          "LatencyBest": "27",
-          "LatencyAvg": "27",
-          "LatencyWorst": "28",
-          "PipelineII": "18",
+          "LatencyBest": "79",
+          "LatencyAvg": "79",
+          "LatencyWorst": "80",
+          "PipelineII": "77",
           "PipelineDepth": "",
           "PipelineType": "loop rewind"
         },
@@ -904,17 +960,45 @@
           "Estimate": "9.89"
         },
         "Loops": [{
-            "Name": "innerLoop_1",
-            "TripCount": "18",
-            "Latency": "27",
+            "Name": "L_accumulateStream_label3",
+            "TripCount": "77",
+            "Latency": "79",
             "PipelineII": "1",
-            "PipelineDepth": "11"
+            "PipelineDepth": "4"
           }],
         "Area": {
           "BRAM_18K": "0",
-          "DSP48E": "35",
-          "FF": "3394",
-          "LUT": "3973"
+          "FF": "475",
+          "LUT": "656",
+          "DSP48E": "0"
+        }
+      },
+      "findStreamMin": {
+        "Latency": {
+          "LatencyBest": "15",
+          "LatencyAvg": "15",
+          "LatencyWorst": "15",
+          "PipelineII": "15",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "8.59"
+        },
+        "Loops": [{
+            "Name": "findStreamMin_label4",
+            "TripCount": "7",
+            "Latency": "14",
+            "PipelineII": "",
+            "PipelineDepth": "2"
+          }],
+        "Area": {
+          "FF": "51",
+          "LUT": "171",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
         }
       },
       "outputResult": {
@@ -929,7 +1013,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "7.25"
+          "Estimate": "7.27"
         },
         "Area": {
           "FF": "2",
@@ -940,9 +1024,9 @@
       },
       "dataflow_in_loop_par": {
         "Latency": {
-          "LatencyBest": "94",
-          "LatencyAvg": "94",
-          "LatencyWorst": "95",
+          "LatencyBest": "97",
+          "LatencyAvg": "97",
+          "LatencyWorst": "97",
           "PipelineII": "77",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
@@ -955,18 +1039,18 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "35",
-          "FF": "4988",
-          "LUT": "6030"
+          "FF": "4202",
+          "LUT": "6431"
         }
       },
       "dataflow_parent_loop_1": {
         "Latency": {
-          "LatencyBest": "96",
-          "LatencyAvg": "385019",
-          "LatencyWorst": "770020",
-          "PipelineIIMin": "96",
-          "PipelineIIMax": "770020",
-          "PipelineII": "96 ~ 770020",
+          "LatencyBest": "99",
+          "LatencyAvg": "385022",
+          "LatencyWorst": "770022",
+          "PipelineIIMin": "99",
+          "PipelineIIMax": "770022",
+          "PipelineII": "99 ~ 770022",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -978,29 +1062,29 @@
         "Loops": [{
             "Name": "parseEventsLoop",
             "TripCount": "",
-            "LatencyMin": "95",
-            "LatencyMax": "770019",
-            "Latency": "95 ~ 770019",
+            "LatencyMin": "98",
+            "LatencyMax": "770021",
+            "Latency": "98 ~ 770021",
             "PipelineII": "",
-            "PipelineDepthMin": "95",
-            "PipelineDepthMax": "770019",
-            "PipelineDepth": "95 ~ 770019"
+            "PipelineDepthMin": "98",
+            "PipelineDepthMax": "770021",
+            "PipelineDepth": "98 ~ 770021"
           }],
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "35",
-          "FF": "5022",
-          "LUT": "6094"
+          "FF": "4236",
+          "LUT": "6495"
         }
       },
       "parseEvents": {
         "Latency": {
-          "LatencyBest": "97",
-          "LatencyAvg": "385020",
-          "LatencyWorst": "770021",
-          "PipelineIIMin": "98",
-          "PipelineIIMax": "770022",
-          "PipelineII": "98 ~ 770022",
+          "LatencyBest": "100",
+          "LatencyAvg": "385023",
+          "LatencyWorst": "770023",
+          "PipelineIIMin": "101",
+          "PipelineIIMax": "770024",
+          "PipelineII": "101 ~ 770024",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -1012,15 +1096,15 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "35",
-          "FF": "5079",
-          "LUT": "6171"
+          "FF": "4293",
+          "LUT": "6572"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-18 20:02:01 +0200",
+    "Time": "2018-10-18 21:31:36 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

@@ -112,10 +112,10 @@
             </pragma>
         </directive>
         <directive functionName="min" label="" functionLabel="">
-            <pragma name="ARRAY_PARTITION">
+            <pragma name="ARRAY_RESHAPE">
                 <option name="variable" value="inArr" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
-                <option name="dim" value="0"/>
+                <option name="dim" value="1"/>
             </pragma>
         </directive>
         <directive functionName="min" label="" functionLabel="">
@@ -558,6 +558,42 @@
             <pragma name="LOOP_TRIPCOUNT">
                 <option name="min" value="1"/>
                 <option name="max" value="10000"/>
+            </pragma>
+        </directive>
+        <directive functionName="colStreamToColSum" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="colData0" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_LUTRAM"/>
+            </pragma>
+        </directive>
+        <directive functionName="colStreamToColSum" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="colData1" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_LUTRAM"/>
+            </pragma>
+        </directive>
+        <directive functionName="colStreamToColSum" label="colStreamToColSum_label2" functionLabel="">
+            <pragma name="PIPELINE">
+                <option name="rewind" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="accumulateStream" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="lastSumData" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="accumulateStream" label="accumulateStream_label3" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="inputData" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="accumulateStream" label="accumulateStream_label3" functionLabel="">
+            <pragma name="PIPELINE">
+                <option name="rewind" value="" positionalBoolean="1"/>
             </pragma>
         </directive>
     </sourceFile>

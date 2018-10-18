@@ -665,7 +665,7 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 					tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
 				}
 
-				refStreamOut << refBlockCol;
+				if (xOffSet > SEARCH_DISTANCE && xOffSet <= SEARCH_DISTANCE + BLOCK_SIZE) refStreamOut << refBlockCol;
 				tagStreamOut << tagBlockCol;
 			}
 			else
@@ -684,6 +684,141 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 //		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 //		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 //	}
+
+}
+
+// Function description: reorder the column stream read directly from the memory slices.
+// TODO: combine this function with rwSlices to reduce the resources.
+void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
+		hls::stream<apUint112_t> &outStream)
+{
+	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	colStreamToColSum_label1:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+	{
+		colStreamToColSum_label2:for(int k= 0; k < BLOCK_SIZE; k++)
+		{
+			apIntBlockCol_t tmpData0, tmpData1;
+
+			if(i == 0)
+			{
+				colData0[k] = colStream0.read();
+				colData1[k] = colStream1.read();
+
+				tmpData0 = colData0[k];
+				tmpData1 = colData1[k];
+			}
+			else
+			{
+				if((i == 1) && (k < 2 * SEARCH_DISTANCE))  colData1[BLOCK_SIZE + k] = colStream1.read();
+
+				tmpData0 = colData0[k];
+				tmpData1 = colData1[i + k];
+			}
+
+			pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+			pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+			int16_t out[2*SEARCH_DISTANCE + 1];
+
+			// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
+			// to calculate the range function. However, unroll it completely will make all this operations
+			// are only wires connection and will not consume any resources.
+			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+			{
+				in1[l] = tmpData0.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+				in2[l] = tmpData1.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+			}
+
+			colSADSum(in1, in2, out);
+
+			apUint112_t outputData;
+
+			for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+			{
+				outputData.range(16 * l + 15, 16 * l) = out[l];
+			}
+
+			outStream.write(outputData);
+		}
+	}
+}
+
+static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
+void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream)
+{
+	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+	{
+		accumulateStream_label3:for(int k= 0; k < BLOCK_SIZE; k++)
+		{
+			apUint112_t inData = inStream.read();
+
+			uint16_t inputData[2 * SEARCH_DISTANCE + 1];
+
+			if(k == BLOCK_SIZE - 1)
+			{
+				ap_int<16> tmpData[2 * SEARCH_DISTANCE + 1];
+				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+				{
+					inputData[l] = inData.range(16 * l + 15, 16 * l);
+					lastSumData[l] = lastSumData[l] + inputData[l];
+				}
+
+				ap_int<16> outputMinData;
+				int8_t index;
+				outputMinData = min(lastSumData, &index);
+				outStream.write(outputMinData.to_short());
+				OF_yStream.write(index);
+
+				// If use reshape directive, then here must use decrease form.
+				// if use increase form, then the II is 2 cannot be 1.
+				// And lastSumData couldn't be 0.
+				// DON'T KNOW WHY. MIGHT BE A BUG.
+				for (int l = 2 * SEARCH_DISTANCE; l >= 0; l--)
+				{
+					lastSumData[l] = 0;
+				}
+			}
+			else
+			{
+				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+				{
+					inputData[l] = inData.range(16 * l + 15, 16 * l);
+					lastSumData[l] += inputData[l];
+				}
+			}
+		}
+	}
+
+}
+
+static apUint15_t currentMin = 0x7fff;
+void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStream, hls::stream<apUint15_t> &minStream, hls::stream<apUint6_t> &OFStream)
+{
+	apUint6_t OFRet = 0x3f;
+
+	findStreamMin_label4:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+	{
+		int16_t inData = inStream.read();
+		ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
+		ap_uint<1> compCond;
+
+		if(i == 2 * SEARCH_DISTANCE)
+		{
+			compCond = (inData < currentMin) ? 1 : 0;
+			currentMin = (compCond == 1) ? apUint15_t(inData) : currentMin;
+			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
+			minStream.write(currentMin);
+			OFStream.write(OFRet);
+			currentMin = 0x7fff;
+		}
+		else
+		{
+			compCond = (inData < currentMin) ? 1 : 0;
+			currentMin = (compCond == 1) ? apUint15_t(inData) : currentMin;
+			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
+		}
+	}
 
 }
 
@@ -952,16 +1087,29 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 	hls::stream<sliceIdx_t> idxWrStream("idxWrStream");
 	hls::stream<col_pix_t> currentColStream("currentColStream");
 
+	hls::stream<apUint112_t> outStream("sumStream");
+	hls::stream<int16_t> outSumStream("outSumStream");
+	hls::stream<int8_t> OF_yStream("OF_yStream");
+
 	eventIterSize = eventsArraySize;
 
 	parseEventsLoop:for(int32_t i = 0; i < eventIterSize; i++)
 	{
 		DFRegion:
 		{
+			// This one has wrong block sad sum module.
+//			getXandY(dataStream++, xInStream, yInStream, pktEventDataStream);
+//			rotateSlice(xInStream, yInStream, xOutStream, yOutStream, idxStream);
+//			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
+//			miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
+//			outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice++);
+
 			getXandY(dataStream++, xInStream, yInStream, pktEventDataStream);
 			rotateSlice(xInStream, yInStream, xOutStream, yOutStream, idxStream);
 			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
-			miniSADSumWrapper(refStream, tagStreamIn, miniSumStream, OFRetStream);
+			colStreamToColSum(refStream, tagStreamIn, outStream);
+			accumulateStream(outStream, outSumStream, OF_yStream);
+			findStreamMin(outSumStream, OF_yStream, miniSumStream, OFRetStream);
 			outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice++);
 
 // read and write array in seperate process function is not supported in dataflow.
