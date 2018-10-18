@@ -21,11 +21,11 @@ void resetPixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 void writePixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 {
 	int8_t yNewIdx = y%COMBINED_PIXELS;
-	cout << "Data before write : " << slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
+//	cout << "Data before write : " << slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
 	pix_t tmp = slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx);
 	tmp += 1;
 	slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) = tmp;
-	cout << "Data after write : " << slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
+//	cout << "Data after write : " << slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
 }
 
 void readBlockColsSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
@@ -56,19 +56,19 @@ void colSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		int16_t out[2 * SEARCH_DISTANCE + 1])
 {
-	cout << "in1 is: " << endl;
-	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
-	{
-		cout << in1[m] << " ";
-	}
-	cout << endl;
-
-	cout << "in2 is: " << endl;
-	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
-	{
-		cout << in2[m] << " ";
-	}
-	cout << endl;
+//	cout << "in1 is: " << endl;
+//	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+//	{
+//		cout << in1[m] << " ";
+//	}
+//	cout << endl;
+//
+//	cout << "in2 is: " << endl;
+//	for (int m = 0; m < BLOCK_SIZE + 2 * SEARCH_DISTANCE; m++)
+//	{
+//		cout << in2[m] << " ";
+//	}
+//	cout << endl;
 
 	for(int i = 0; i <= 2 * SEARCH_DISTANCE; i++)
 	{
@@ -151,88 +151,14 @@ void miniSADSumSW(pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		}
 	}
 
-	cout << "OF_x is: " << OFRet_x << "\t OF_y is: " << OFRet_y << endl;
+//	cout << "OF_x is: " << OFRet_x << "\t OF_y is: " << OFRet_y << endl;
 
 	*miniSumRet = miniRetVal;
 	*OFRet = minOFRet;
 
-	std::cout << "miniSumRetSW is: " << *miniSumRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
-	std::cout << std::dec;    // Restore dec mode
+//	std::cout << "miniSumRetSW is: " << *miniSumRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
+//	std::cout << std::dec;    // Restore dec mode
 }
-
-void blockSADSW(pix_t blockIn1[BLOCK_SIZE][BLOCK_SIZE], pix_t blockIn2[BLOCK_SIZE][BLOCK_SIZE], uint16_t *sumRet)
-{
-    uint16_t tmpSum = 0;
-    for(uint8_t i = 0; i < BLOCK_SIZE; i++)
-    {
-        for(uint8_t j = 0; j < BLOCK_SIZE; j++)
-        {
-            tmpSum += abs(blockIn1[i][j] - blockIn2[i][j]);
-        }
-    }
-    *sumRet = tmpSum;
-}
-
-void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
-        pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-        ap_int<16> *miniRet, ap_uint<6> *OFRet)
-{
-    uint16_t tmpSum = 0x7fff;
-    ap_uint<3> tmpOF_x = ap_uint<3>(7);
-    ap_uint<3> tmpOF_y = ap_uint<3>(7);
-
-    cout << "Reference block is: " << endl;
-    for(uint8_t blockX = 0; blockX < BLOCK_SIZE; blockX++)
-    {
-        for(uint8_t blockY = 0; blockY < BLOCK_SIZE; blockY++)
-        {
-            cout << refBlock[blockX][blockY] << "\t";
-        }
-        cout << endl;
-    }
-    cout << endl;
-
-    cout << "target block is: " << endl;
-    for(uint8_t blockX = 0; blockX < BLOCK_SIZE + 2 * SEARCH_DISTANCE; blockX++)
-    {
-        for(uint8_t blockY = 0; blockY < BLOCK_SIZE + 2 * SEARCH_DISTANCE; blockY++)
-        {
-            cout << tagBlock[blockX][blockY] << "\t";
-        }
-        cout << endl;
-    }
-    cout << endl;
-
-    for(uint8_t xOffset = 0; xOffset < 2 * SEARCH_DISTANCE + 1; xOffset++)
-    {
-        for(uint8_t yOffset = 0; yOffset < 2 * SEARCH_DISTANCE + 1; yOffset++)
-        {
-            pix_t tagBlockIn[BLOCK_SIZE][BLOCK_SIZE];
-            uint16_t tmpBlockSum;
-            for(uint8_t i = 0; i < BLOCK_SIZE; i++)
-            {
-                for(uint8_t j = 0; j < BLOCK_SIZE; j++)
-                {
-                    tagBlockIn[i][j] = tagBlock[i + xOffset][j + yOffset];
-                }
-            }
-            blockSADSW(refBlock, tagBlockIn, &tmpBlockSum);
-
-            if(tmpBlockSum < tmpSum)
-            {
-                tmpSum = tmpBlockSum;
-                tmpOF_x = ap_uint<3>(xOffset);
-                tmpOF_y = ap_uint<3>(yOffset);
-            }
-        }
-    }
-    *miniRet = tmpSum;
-    *OFRet = tmpOF_y.concat(tmpOF_x);
-	std::cout << "miniSumRetSW is: " << *miniRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
-	std::cout << std::dec;    // Restore dec mode
-}
-
-
 
 void testMiniSADSumWrapperSW(apIntBlockCol_t *input1, apIntBlockCol_t *input2, int16_t eventCnt, apUint15_t *miniSum, apUint6_t *OF)
 {
@@ -448,7 +374,7 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 }
 
 static uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
-static uint16_t areaEventThrSW = 1000;
+static uint16_t areaEventThrSW = 20;
 static uint16_t OFRetRegsSW[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
 
 
@@ -509,7 +435,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 
 	for(int32_t i = 0; i < eventsArraySize; i++)
 	{
-        cout << "Current Event packet's event number is: " << eventsArraySize << endl;
+//        cout << "Current Event packet's event number is: " << eventsArraySize << endl;
 		uint64_t tmp = *dataStream++;
 		ap_uint<8> xWr, yWr;
 		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
@@ -533,9 +459,9 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 //            idx = glPLActiveSliceIdxSW;
             rotateFlg = 1;
 
-            for(int r = 0; r < 1000; r++)
+            for(int r = 0; r < 1; r++)
             {
-                cout << "Rotated successfully!!!!" << endl;
+                cout << "Rotated successfully from SW!!!!" << endl;
                 cout << "x is: " << xWr << "\t y is: " << yWr << "\t idx is: " << glPLActiveSliceIdxSW << endl;
             }
 
@@ -546,7 +472,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
                 {
                     if (slicesSW[glPLActiveSliceIdxSW][xAddr][yAddr/COMBINED_PIXELS] != 0)
                     {
-                        for(int r = 0; r < 1000; r++)
+                        for(int r = 0; r < 10; r++)
                         {
                             cout << "Ha! I caught you, the pixel which is not clear!" << endl;
                             cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << glPLActiveSliceIdxSW << endl;
@@ -569,7 +495,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
                resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
            }
 
-           // clearOFHistogram 
+           // clearOFHistogram
            for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
            {
                for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
@@ -595,7 +521,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 
 		for(int idx1 = 0; idx1 < BLOCK_SIZE; idx1++)
 		{
-			for(int idx2 = 0; idx2 < BLOCK_SIZE; idx2++)
+			for(int idx2 = 0; idx2 < 2*SEARCH_DISTANCE + 1; idx2++)
 			{
 				localSumReg[idx1][idx2] = 0;
 			}
@@ -609,31 +535,18 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 //			miniSumTmp[j] = ap_int<16>(0);
 //		}
 
-        pix_t block1[BLOCK_SIZE][BLOCK_SIZE];
-        pix_t block2[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+		for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffSet++)
+		{
 
-		for(int8_t xOffset = 0; xOffset < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffset++)
-        {
-            pix_t out1[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
-            pix_t out2[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-			readBlockColsSW(xWr - BLOCK_SIZE/2 - SEARCH_DISTANCE + xOffset, yWr , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
 
-            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE; yCopyOffset++)
-            {
-                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE + SEARCH_DISTANCE)
-                {
-                    block1[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1[yCopyOffset + SEARCH_DISTANCE];
-                }
-            }
+			readBlockColsSW(xWr - BLOCK_SIZE/2 - SEARCH_DISTANCE  + xOffSet, yWr , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
 
-            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE + 2 * SEARCH_DISTANCE; yCopyOffset++)
-            {
-                block2[xOffset][yCopyOffset] = out2[yCopyOffset];
-            }
+			miniSADSumSW(out1, out2, xOffSet, &miniRet, &OFRet);   // Here k starts from 1 not 0.
+
 		}
-
-        miniBlockSADSW(block1, block2, &miniRet, &OFRet);
 
 		apUint17_t tmp1 = apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 		ap_int<9> tmp2 = miniRet.range(8, 0);

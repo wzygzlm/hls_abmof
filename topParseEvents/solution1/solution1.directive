@@ -257,7 +257,9 @@
             </pragma>
         </directive>
         <directive functionName="rwSlices" label="rwSlicesInnerLoop" functionLabel="">
-            <pragma name="PIPELINE"/>
+            <pragma name="PIPELINE">
+                <option name="rewind" value="" positionalBoolean="1"/>
+            </pragma>
         </directive>
         <directive functionName="rwSlices" label="resetLoop" functionLabel="">
             <pragma name="PIPELINE"/>
@@ -268,7 +270,9 @@
             </pragma>
         </directive>
         <directive functionName="miniSADSumWrapper" label="innerLoop_1" functionLabel="">
-            <pragma name="PIPELINE"/>
+            <pragma name="PIPELINE">
+                <option name="rewind" value="" positionalBoolean="1"/>
+            </pragma>
         </directive>
         <directive functionName="miniSADSumWrapper" label="wrapperLoop" functionLabel="">
             <pragma name="LOOP_TRIPCOUNT">
@@ -284,9 +288,6 @@
         </directive>
         <directive functionName="outputResult" label="outputLoop" functionLabel="">
             <pragma name="PIPELINE"/>
-        </directive>
-        <directive functionName="parseEvents" label="DFRegion" functionLabel="">
-            <pragma name="DATAFLOW"/>
         </directive>
         <directive functionName="parseEvents" label="DFRegion" functionLabel="">
             <pragma name="RESOURCE">
@@ -540,6 +541,20 @@
             </pragma>
         </directive>
         <directive functionName="feedbackWrapperAndOutputResult" label="feedbackWrapperLoop" functionLabel="">
+            <pragma name="LOOP_TRIPCOUNT">
+                <option name="min" value="1"/>
+                <option name="max" value="10000"/>
+            </pragma>
+        </directive>
+        <directive functionName="readSlices" label="readSlicesInnerLoop" functionLabel="">
+            <pragma name="PIPELINE">
+                <option name="rewind" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="DFRegion" functionLabel="">
+            <pragma name="DATAFLOW"/>
+        </directive>
+        <directive functionName="parseEvents" label="parseEventsLoop" functionLabel="">
             <pragma name="LOOP_TRIPCOUNT">
                 <option name="min" value="1"/>
                 <option name="max" value="10000"/>

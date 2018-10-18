@@ -53,14 +53,13 @@ set_directive_pipeline "getXandY/getXandYLoop"
 set_directive_loop_tripcount -min 1 -max 10000 "getXandY/getXandYLoop"
 set_directive_inline -off "rwSlices"
 set_directive_loop_tripcount -min 1 -max 10000 "rwSlices/rwSlicesLoop"
-set_directive_pipeline "rwSlices/rwSlicesInnerLoop"
+set_directive_pipeline -rewind "rwSlices/rwSlicesInnerLoop"
 set_directive_pipeline "rwSlices/resetLoop"
 set_directive_inline -off "miniSADSumWrapper"
-set_directive_pipeline "miniSADSumWrapper/innerLoop_1"
+set_directive_pipeline -rewind "miniSADSumWrapper/innerLoop_1"
 set_directive_loop_tripcount -min 1 -max 10000 "miniSADSumWrapper/wrapperLoop"
 set_directive_loop_tripcount -min 1 -max 10000 "outputResult/outputLoop"
 set_directive_pipeline "outputResult/outputLoop"
-set_directive_dataflow "parseEvents/DFRegion"
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" xStream
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" yStream
 set_directive_resource -core FIFO_SRL "parseEvents/DFRegion" refStream
@@ -105,3 +104,6 @@ set_directive_resource -core AddSub_DSP "sad/calOFDSPLoop" tmpSum
 set_directive_resource -core RAM_2P_LUTRAM "feedback" OFRetRegs
 set_directive_interface -mode ap_fifo "feedbackWrapperAndOutputResult" eventSlice
 set_directive_loop_tripcount -min 1 -max 10000 "feedbackWrapperAndOutputResult/feedbackWrapperLoop"
+set_directive_pipeline -rewind "readSlices/readSlicesInnerLoop"
+set_directive_dataflow "parseEvents/DFRegion"
+set_directive_loop_tripcount -min 1 -max 10000 "parseEvents/parseEventsLoop"
