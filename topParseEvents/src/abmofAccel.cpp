@@ -2,6 +2,7 @@
 #include "ap_int.h"
 #include "abmofAccel.h"
 #include "hls_math.h"
+#include "utils/x_hls_utils.h"
 
 static col_pix_t glPLSlices[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static sliceIdx_t glPLActiveSliceIdx = 0, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
@@ -690,7 +691,6 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 }
 
 // Function description: reorder the column stream read directly from the memory slices.
-// TODO: combine this function with rwSlices to reduce the resources.
 void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
 		hls::stream<apUint112_t> &outStream)
 {
@@ -745,6 +745,121 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 		}
 	}
 }
+
+
+
+void rwSlicesAndColStreams(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls::stream<sliceIdx_t> &idxStream,
+							hls::stream<apUint112_t> &outStream)
+{
+	ap_uint<8> xRd;
+	ap_uint<8> yRd;
+	sliceIdx_t idx;
+
+	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	// This loop is used to readSlices and fill the buffers.
+	rwSlicesLoop:for(uint8_t xOffSet = 0; xOffSet < BLOCK_SIZE * (2 * SEARCH_DISTANCE + 1); xOffSet++)
+	{
+//			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
+//			yRd = (xOffSet == 0)? (ap_uint<8>)(yStream.read()): yRd;
+		if (xOffSet == 0)
+		{
+			xRd = xStream.read();
+			yRd = yStream.read();
+			idx = idxStream.read();
+
+			/* This is only for C-simulation and debugging. */
+			if (oldIdx != idx)
+			{
+				oldIdx = idx;
+				// Check the accumulation slice is clear or not
+				for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
+				{
+					for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
+					{
+						if (glPLSlices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+						{
+							for(int r = 0; r < 1000; r++)
+							{
+								std::cout << "Ha! I caught you, the pixel which is not clear!" << std::endl;
+								std::cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << std::endl;
+							}
+						}
+					}
+				}
+			}
+
+			writePix(xRd, yRd, idx);
+
+			resetPix(resetCnt/(PIXS_PER_COL), (resetCnt % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+			resetCnt++;
+		}
+		else if(xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1)
+		{
+			pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+			pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+			uint8_t realOffset = xOffSet - 1;
+
+			readBlockCols(xRd - BLOCK_SIZE/2 - SEARCH_DISTANCE + realOffset, yRd , idx + 1, idx + 2, out1, out2);
+
+			apIntBlockCol_t refBlockCol;
+			apIntBlockCol_t tagBlockCol;
+
+			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+			{
+				refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
+				tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
+			}
+
+			if (realOffset >= SEARCH_DISTANCE && realOffset < SEARCH_DISTANCE + BLOCK_SIZE) colData0[realOffset - SEARCH_DISTANCE] = refBlockCol;
+			colData1[realOffset] = tagBlockCol;
+		}
+		else
+		{
+			// Reset two pixels at the same time because it has two write ports.
+			resetPix(resetCnt/(PIXS_PER_COL), (resetCnt % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+			resetCnt++;
+			resetPix(resetCnt/(PIXS_PER_COL), (resetCnt % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+			resetCnt++;
+		}
+	}
+
+	// This loop is used to read the buffers and generate the stream.
+	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
+	{
+		GenerateStreamLoop:for(int k= 0; k < BLOCK_SIZE; k++)
+		{
+			pix_t in1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+			pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+			int16_t out[2*SEARCH_DISTANCE + 1];
+
+			// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
+			// to calculate the range function. However, unroll it completely will make all this operations
+			// are only wires connection and will not consume any resources.
+			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+			{
+				in1[l] = colData0[k].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+				in2[l] = colData1[k + i].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l);
+			}
+
+			colSADSum(in1, in2, out);
+
+			apUint112_t outputData;
+
+			for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
+			{
+				outputData.range(16 * l + 15, 16 * l) = out[l];
+			}
+
+			outStream.write(outputData);
+		}
+	}
+
+
+}
+
 
 static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
 void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream)
@@ -1113,6 +1228,15 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 			accumulateStream(outStream, outSumStream, OF_yStream);
 			findStreamMin(outSumStream, OF_yStream, miniSumStream, OFRetStream);
 			outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice++);
+
+			// This is the version combined rwSlices and colStreamToColSum together
+			// It consumes less resources but has higher II.
+//			getXandY(dataStream++, xInStream, yInStream, pktEventDataStream);
+//			rotateSlice(xInStream, yInStream, xOutStream, yOutStream, idxStream);
+//			rwSlicesAndColStreams(xOutStream, yOutStream, idxStream, outStream);
+//			accumulateStream(outStream, outSumStream, OF_yStream);
+//			findStreamMin(outSumStream, OF_yStream, miniSumStream, OFRetStream);
+//			outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice++);
 
 // read and write array in seperate process function is not supported in dataflow.
 //			getXandY(dataStream++, xInStream, yInStream, pktEventDataStream);

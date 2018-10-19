@@ -126,7 +126,12 @@
       "array_reshape accumulateStream\/accumulateStream_label3 {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredinputData} {complete positionBoolean0type} {dim 1}} {}",
       "pipeline accumulateStream\/accumulateStream_label3 {{rewind positionBoolean1}} {}",
       "stream parseEvents {{variable positionBooleanTextRequiredoutStream} {depth 2} {dim 1}} {}",
-      "resource parseEvents {{variable positionBooleanTextRequiredoutStream} {core FIFO_SRL}} {}"
+      "resource parseEvents {{variable positionBooleanTextRequiredoutStream} {core FIFO_SRL}} {}",
+      "pipeline rwSlicesAndColStreams\/rwSlicesLoop {} {}",
+      "pipeline rwSlicesAndColStreams\/GenerateStreamLoop {} {}",
+      "dataflow rwSlicesAndColStreams {} {}",
+      "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData0} {core RAM_1P_LUTRAM}} {}",
+      "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}"
     ]
   },
   "ClockInfo": {
@@ -1108,7 +1113,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-19 15:13:03 +0200",
+    "Time": "2018-10-19 20:20:49 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

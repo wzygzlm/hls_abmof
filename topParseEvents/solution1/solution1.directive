@@ -609,6 +609,27 @@
                 <option name="core" value="FIFO_SRL"/>
             </pragma>
         </directive>
+        <directive functionName="rwSlicesAndColStreams" label="rwSlicesLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="rwSlicesAndColStreams" label="GenerateStreamLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="rwSlicesAndColStreams" label="" functionLabel="">
+            <pragma name="DATAFLOW"/>
+        </directive>
+        <directive functionName="rwSlicesAndColStreams" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="colData0" positionalBoolean="4"/>
+                <option name="core" value="RAM_1P_LUTRAM"/>
+            </pragma>
+        </directive>
+        <directive functionName="rwSlicesAndColStreams" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="colData1" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_LUTRAM"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 

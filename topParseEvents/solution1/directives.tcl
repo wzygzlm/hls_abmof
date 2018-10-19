@@ -115,3 +115,8 @@ set_directive_array_reshape -type complete -dim 1 "accumulateStream/accumulateSt
 set_directive_pipeline -rewind "accumulateStream/accumulateStream_label3"
 set_directive_stream -depth 2 -dim 1 "parseEvents" outStream
 set_directive_resource -core FIFO_SRL "parseEvents" outStream
+set_directive_pipeline "rwSlicesAndColStreams/rwSlicesLoop"
+set_directive_pipeline "rwSlicesAndColStreams/GenerateStreamLoop"
+set_directive_dataflow "rwSlicesAndColStreams"
+set_directive_resource -core RAM_1P_LUTRAM "rwSlicesAndColStreams" colData0
+set_directive_resource -core RAM_2P_LUTRAM "rwSlicesAndColStreams" colData1
