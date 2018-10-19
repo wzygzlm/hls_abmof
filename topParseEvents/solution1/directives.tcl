@@ -113,3 +113,5 @@ set_directive_pipeline -rewind "colStreamToColSum/colStreamToColSum_label2"
 set_directive_array_reshape -type complete -dim 1 "accumulateStream" lastSumData
 set_directive_array_reshape -type complete -dim 1 "accumulateStream/accumulateStream_label3" inputData
 set_directive_pipeline -rewind "accumulateStream/accumulateStream_label3"
+set_directive_stream -depth 2 -dim 1 "parseEvents" outStream
+set_directive_resource -core FIFO_SRL "parseEvents" outStream

@@ -124,7 +124,9 @@
       "pipeline colStreamToColSum\/colStreamToColSum_label2 {{rewind positionBoolean1}} {}",
       "array_reshape accumulateStream {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredlastSumData} {complete positionBoolean0type} {dim 1}} {}",
       "array_reshape accumulateStream\/accumulateStream_label3 {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredinputData} {complete positionBoolean0type} {dim 1}} {}",
-      "pipeline accumulateStream\/accumulateStream_label3 {{rewind positionBoolean1}} {}"
+      "pipeline accumulateStream\/accumulateStream_label3 {{rewind positionBoolean1}} {}",
+      "stream parseEvents {{variable positionBooleanTextRequiredoutStream} {depth 2} {dim 1}} {}",
+      "resource parseEvents {{variable positionBooleanTextRequiredoutStream} {core FIFO_SRL}} {}"
     ]
   },
   "ClockInfo": {
@@ -165,7 +167,7 @@
       "impl\/vhdl\/fifo_w17_d2_S.vhd",
       "impl\/vhdl\/fifo_w68_d2_S.vhd",
       "impl\/vhdl\/fifo_w68_d6_S.vhd",
-      "impl\/vhdl\/fifo_w112_d0_A.vhd",
+      "impl\/vhdl\/fifo_w112_d2_S.vhd",
       "impl\/vhdl\/findStreamMin.vhd",
       "impl\/vhdl\/getXandY.vhd",
       "impl\/vhdl\/min.vhd",
@@ -205,7 +207,7 @@
       "impl\/verilog\/fifo_w17_d2_S.v",
       "impl\/verilog\/fifo_w68_d2_S.v",
       "impl\/verilog\/fifo_w68_d6_S.v",
-      "impl\/verilog\/fifo_w112_d0_A.v",
+      "impl\/verilog\/fifo_w112_d2_S.v",
       "impl\/verilog\/findStreamMin.v",
       "impl\/verilog\/getXandY.v",
       "impl\/verilog\/min.v",
@@ -732,7 +734,7 @@
                   "InstanceName": "accumulateStream_U0",
                   "Instances": [{
                       "ModuleName": "min",
-                      "InstanceName": "grp_min_fu_164"
+                      "InstanceName": "grp_min_fu_186"
                     }]
                 },
                 {
@@ -1106,7 +1108,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-18 23:04:15 +0200",
+    "Time": "2018-10-19 15:13:03 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

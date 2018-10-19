@@ -596,6 +596,19 @@
                 <option name="rewind" value="" positionalBoolean="1"/>
             </pragma>
         </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="STREAM">
+                <option name="variable" value="outStream" positionalBoolean="4"/>
+                <option name="depth" value="2"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="outStream" positionalBoolean="4"/>
+                <option name="core" value="FIFO_SRL"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 
