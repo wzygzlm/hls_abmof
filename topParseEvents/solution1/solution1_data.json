@@ -105,17 +105,13 @@
       "interface parseEvents {{s_axilite positionBoolean0mode} {register positionBoolean1} {port positionBooleanTextRequiredreturn}} {}",
       "inline rotateSlice {{off positionBoolean1}} {}",
       "interface getXandY {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequireddata}} {}",
-      "loop_tripcount rotateSlice\/rotateSliceOutLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
       "array_partition rotateSlice {{partition positionBooleanCmd} {variable positionBooleanTextRequiredareaEventRegs} {complete positionBoolean0type} {dim 2}} {}",
       "pipeline rotateSlice\/rotateSliceResetLoop {} {}",
       "inline rotateSlice\/rotateSliceResetLoop {{off positionBoolean1}} {}",
       "resource rotateSlice {{variable positionBooleanTextRequiredareaEventRegs} {core RAM_2P_LUTRAM}} {}",
-      "pipeline feedback\/feedbackReadOFLoop {} {}",
       "pipeline feedbackWrapper\/feedbackWrapperLoop {} {}",
       "resource sad\/calOFDSPLoop {{variable positionBooleanTextRequiredtmpSum} {core AddSub_DSP}} {}",
       "resource feedback {{variable positionBooleanTextRequiredOFRetRegs} {core RAM_2P_LUTRAM}} {}",
-      "interface feedbackWrapperAndOutputResult {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredeventSlice}} {}",
-      "loop_tripcount feedbackWrapperAndOutputResult\/feedbackWrapperLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
       "pipeline readSlices\/readSlicesInnerLoop {{rewind positionBoolean1}} {}",
       "dataflow parseEvents\/DFRegion {} {}",
       "loop_tripcount parseEvents\/parseEventsLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
@@ -131,7 +127,12 @@
       "pipeline rwSlicesAndColStreams\/GenerateStreamLoop {} {}",
       "dataflow rwSlicesAndColStreams {} {}",
       "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData0} {core RAM_1P_LUTRAM}} {}",
-      "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}"
+      "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}",
+      "pipeline feedback\/feedbackReadOFInnerLoop {} {}",
+      "inline rotateSliceNoRotationFlg {{off positionBoolean1}} {}",
+      "array_partition rotateSliceNoRotationFlg {{partition positionBooleanCmd} {variable positionBooleanTextRequiredareaEventRegs} {complete positionBoolean0type} {dim 2}} {}",
+      "resource rotateSliceNoRotationFlg {{variable positionBooleanTextRequiredareaEventRegs} {core RAM_2P_LUTRAM}} {}",
+      "pipeline rotateSliceNoRotationFlg\/rotateSliceLoop {} {}"
     ]
   },
   "ClockInfo": {
@@ -163,12 +164,15 @@
       "impl\/vhdl\/colStreamToColSumrcU.vhd",
       "impl\/vhdl\/dataflow_in_loop_par.vhd",
       "impl\/vhdl\/dataflow_parent_loop_1.vhd",
+      "impl\/vhdl\/feedback.vhd",
+      "impl\/vhdl\/feedback_OFRetRegs.vhd",
+      "impl\/vhdl\/feedbackWrapperAndOu.vhd",
+      "impl\/vhdl\/fifo_w1_d0_A.vhd",
       "impl\/vhdl\/fifo_w2_d0_A.vhd",
       "impl\/vhdl\/fifo_w6_d0_A.vhd",
       "impl\/vhdl\/fifo_w8_d0_A.vhd",
       "impl\/vhdl\/fifo_w15_d2_S.vhd",
       "impl\/vhdl\/fifo_w16_d0_A.vhd",
-      "impl\/vhdl\/fifo_w16_d7_A.vhd",
       "impl\/vhdl\/fifo_w17_d2_S.vhd",
       "impl\/vhdl\/fifo_w68_d2_S.vhd",
       "impl\/vhdl\/fifo_w68_d6_S.vhd",
@@ -176,8 +180,10 @@
       "impl\/vhdl\/findStreamMin.vhd",
       "impl\/vhdl\/getXandY.vhd",
       "impl\/vhdl\/min.vhd",
-      "impl\/vhdl\/outputResult.vhd",
+      "impl\/vhdl\/parseEvents_ama_asc4.vhd",
       "impl\/vhdl\/parseEvents_AXILiteS_s_axi.vhd",
+      "impl\/vhdl\/parseEvents_mul_mtde.vhd",
+      "impl\/vhdl\/parseEvents_mul_mudo.vhd",
       "impl\/vhdl\/parseEvents_mux_4ocq.vhd",
       "impl\/vhdl\/parseEvents_mux_8jbC.vhd",
       "impl\/vhdl\/parseEvents_sub_5pcA.vhd",
@@ -187,12 +193,12 @@
       "impl\/vhdl\/rwSlices_glPLSlickbM.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/sadSum.vhd",
-      "impl\/vhdl\/start_for_accumulwdI.vhd",
-      "impl\/vhdl\/start_for_colStrevdy.vhd",
-      "impl\/vhdl\/start_for_findStrxdS.vhd",
-      "impl\/vhdl\/start_for_outputRtde.vhd",
-      "impl\/vhdl\/start_for_rotateSsc4.vhd",
-      "impl\/vhdl\/start_for_rwSliceudo.vhd",
+      "impl\/vhdl\/start_for_accumulzec.vhd",
+      "impl\/vhdl\/start_for_colStreyd2.vhd",
+      "impl\/vhdl\/start_for_feedbacwdI.vhd",
+      "impl\/vhdl\/start_for_findStrAem.vhd",
+      "impl\/vhdl\/start_for_rotateSvdy.vhd",
+      "impl\/vhdl\/start_for_rwSlicexdS.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
@@ -203,12 +209,16 @@
       "impl\/verilog\/colStreamToColSumrcU.v",
       "impl\/verilog\/dataflow_in_loop_par.v",
       "impl\/verilog\/dataflow_parent_loop_1.v",
+      "impl\/verilog\/feedback.v",
+      "impl\/verilog\/feedback_OFRetRegs.v",
+      "impl\/verilog\/feedback_OFRetRegs_ram.dat",
+      "impl\/verilog\/feedbackWrapperAndOu.v",
+      "impl\/verilog\/fifo_w1_d0_A.v",
       "impl\/verilog\/fifo_w2_d0_A.v",
       "impl\/verilog\/fifo_w6_d0_A.v",
       "impl\/verilog\/fifo_w8_d0_A.v",
       "impl\/verilog\/fifo_w15_d2_S.v",
       "impl\/verilog\/fifo_w16_d0_A.v",
-      "impl\/verilog\/fifo_w16_d7_A.v",
       "impl\/verilog\/fifo_w17_d2_S.v",
       "impl\/verilog\/fifo_w68_d2_S.v",
       "impl\/verilog\/fifo_w68_d6_S.v",
@@ -216,8 +226,10 @@
       "impl\/verilog\/findStreamMin.v",
       "impl\/verilog\/getXandY.v",
       "impl\/verilog\/min.v",
-      "impl\/verilog\/outputResult.v",
+      "impl\/verilog\/parseEvents_ama_asc4.v",
       "impl\/verilog\/parseEvents_AXILiteS_s_axi.v",
+      "impl\/verilog\/parseEvents_mul_mtde.v",
+      "impl\/verilog\/parseEvents_mul_mudo.v",
       "impl\/verilog\/parseEvents_mux_4ocq.v",
       "impl\/verilog\/parseEvents_mux_8jbC.v",
       "impl\/verilog\/parseEvents_sub_5pcA.v",
@@ -229,12 +241,12 @@
       "impl\/verilog\/rwSlices_glPLSlickbM_ram.dat",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/sadSum.v",
-      "impl\/verilog\/start_for_accumulwdI.v",
-      "impl\/verilog\/start_for_colStrevdy.v",
-      "impl\/verilog\/start_for_findStrxdS.v",
-      "impl\/verilog\/start_for_outputRtde.v",
-      "impl\/verilog\/start_for_rotateSsc4.v",
-      "impl\/verilog\/start_for_rwSliceudo.v",
+      "impl\/verilog\/start_for_accumulzec.v",
+      "impl\/verilog\/start_for_colStreyd2.v",
+      "impl\/verilog\/start_for_feedbacwdI.v",
+      "impl\/verilog\/start_for_findStrAem.v",
+      "impl\/verilog\/start_for_rotateSvdy.v",
+      "impl\/verilog\/start_for_rwSlicexdS.v",
       "impl\/verilog\/parseEvents.v"
     ],
     "SwDriver": [
@@ -651,7 +663,7 @@
     "eventSlice": {
       "interfaceRef": "eventSlice",
       "dir": "out",
-      "firstOutLatency": "0"
+      "firstOutLatency": "1"
     }
   },
   "ModuleInfo": {
@@ -659,7 +671,7 @@
       "ModuleName": "parseEvents",
       "Instances": [{
           "ModuleName": "dataflow_parent_loop_1",
-          "InstanceName": "grp_dataflow_parent_loop_1_fu_98",
+          "InstanceName": "grp_dataflow_parent_loop_1_fu_104",
           "Instances": [{
               "ModuleName": "dataflow_in_loop_par",
               "InstanceName": "dataflow_in_loop_par_U0",
@@ -743,6 +755,14 @@
                     }]
                 },
                 {
+                  "ModuleName": "feedbackWrapperAndOu",
+                  "InstanceName": "feedbackWrapperAndOu_U0",
+                  "Instances": [{
+                      "ModuleName": "feedback",
+                      "InstanceName": "grp_feedback_fu_92"
+                    }]
+                },
+                {
                   "ModuleName": "rotateSlice",
                   "InstanceName": "rotateSlice_U0"
                 },
@@ -753,10 +773,6 @@
                 {
                   "ModuleName": "getXandY",
                   "InstanceName": "getXandY_U0"
-                },
-                {
-                  "ModuleName": "outputResult",
-                  "InstanceName": "outputResult_U0"
                 }
               ]
             }]
@@ -779,7 +795,7 @@
         },
         "Area": {
           "FF": "3",
-          "LUT": "65",
+          "LUT": "56",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -798,7 +814,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.20"
+          "Estimate": "9.31"
         },
         "Loops": [{
             "Name": "rotateSliceResetLoop",
@@ -808,8 +824,8 @@
             "PipelineDepth": "1"
           }],
         "Area": {
-          "FF": "333",
-          "LUT": "474",
+          "FF": "317",
+          "LUT": "511",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1010,25 +1026,57 @@
           "DSP48E": "0"
         }
       },
-      "outputResult": {
+      "feedback": {
         "Latency": {
-          "LatencyBest": "0",
-          "LatencyAvg": "0",
-          "LatencyWorst": "0",
-          "PipelineII": "0",
+          "LatencyBest": "1",
+          "LatencyAvg": "43",
+          "LatencyWorst": "53",
+          "PipelineIIMin": "1",
+          "PipelineIIMax": "53",
+          "PipelineII": "1 ~ 53",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "7.27"
+          "Estimate": "8.72"
+        },
+        "Loops": [{
+            "Name": "feedbackReadOFLoop_feedbackReadOFInnerLoop",
+            "TripCount": "49",
+            "Latency": "49",
+            "PipelineII": "1",
+            "PipelineDepth": "2"
+          }],
+        "Area": {
+          "DSP48E": "3",
+          "FF": "220",
+          "LUT": "543",
+          "BRAM_18K": "0"
+        }
+      },
+      "feedbackWrapperAndOu": {
+        "Latency": {
+          "LatencyBest": "2",
+          "LatencyAvg": "44",
+          "LatencyWorst": "54",
+          "PipelineIIMin": "2",
+          "PipelineIIMax": "54",
+          "PipelineII": "2 ~ 54",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.66"
         },
         "Area": {
-          "FF": "2",
-          "LUT": "56",
-          "BRAM_18K": "0",
-          "DSP48E": "0"
+          "DSP48E": "3",
+          "FF": "271",
+          "LUT": "625",
+          "BRAM_18K": "0"
         }
       },
       "dataflow_in_loop_par": {
@@ -1047,9 +1095,9 @@
         },
         "Area": {
           "BRAM_18K": "60",
-          "DSP48E": "35",
-          "FF": "4202",
-          "LUT": "6432"
+          "DSP48E": "38",
+          "FF": "4459",
+          "LUT": "7044"
         }
       },
       "dataflow_parent_loop_1": {
@@ -1081,9 +1129,9 @@
           }],
         "Area": {
           "BRAM_18K": "60",
-          "DSP48E": "35",
-          "FF": "4236",
-          "LUT": "6496"
+          "DSP48E": "38",
+          "FF": "4493",
+          "LUT": "7108"
         }
       },
       "parseEvents": {
@@ -1104,16 +1152,16 @@
         },
         "Area": {
           "BRAM_18K": "60",
-          "DSP48E": "35",
-          "FF": "4293",
-          "LUT": "6573"
+          "DSP48E": "38",
+          "FF": "4550",
+          "LUT": "7185"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-19 20:20:49 +0200",
+    "Time": "2018-10-20 01:31:41 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

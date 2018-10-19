@@ -93,17 +93,13 @@ set_directive_loop_tripcount -min 1 -max 170000 "testRwslices/writeFromStream"
 set_directive_interface -mode s_axilite -register "parseEvents"
 set_directive_inline -off "rotateSlice"
 set_directive_interface -mode ap_fifo "getXandY" data
-set_directive_loop_tripcount -min 1 -max 10000 "rotateSlice/rotateSliceOutLoop"
 set_directive_array_partition -type complete -dim 2 "rotateSlice" areaEventRegs
 set_directive_pipeline "rotateSlice/rotateSliceResetLoop"
 set_directive_inline -off "rotateSlice/rotateSliceResetLoop"
 set_directive_resource -core RAM_2P_LUTRAM "rotateSlice" areaEventRegs
-set_directive_pipeline "feedback/feedbackReadOFLoop"
 set_directive_pipeline "feedbackWrapper/feedbackWrapperLoop"
 set_directive_resource -core AddSub_DSP "sad/calOFDSPLoop" tmpSum
 set_directive_resource -core RAM_2P_LUTRAM "feedback" OFRetRegs
-set_directive_interface -mode ap_fifo "feedbackWrapperAndOutputResult" eventSlice
-set_directive_loop_tripcount -min 1 -max 10000 "feedbackWrapperAndOutputResult/feedbackWrapperLoop"
 set_directive_pipeline -rewind "readSlices/readSlicesInnerLoop"
 set_directive_dataflow "parseEvents/DFRegion"
 set_directive_loop_tripcount -min 1 -max 10000 "parseEvents/parseEventsLoop"
@@ -120,3 +116,8 @@ set_directive_pipeline "rwSlicesAndColStreams/GenerateStreamLoop"
 set_directive_dataflow "rwSlicesAndColStreams"
 set_directive_resource -core RAM_1P_LUTRAM "rwSlicesAndColStreams" colData0
 set_directive_resource -core RAM_2P_LUTRAM "rwSlicesAndColStreams" colData1
+set_directive_pipeline "feedback/feedbackReadOFInnerLoop"
+set_directive_inline -off "rotateSliceNoRotationFlg"
+set_directive_array_partition -type complete -dim 2 "rotateSliceNoRotationFlg" areaEventRegs
+set_directive_resource -core RAM_2P_LUTRAM "rotateSliceNoRotationFlg" areaEventRegs
+set_directive_pipeline "rotateSliceNoRotationFlg/rotateSliceLoop"

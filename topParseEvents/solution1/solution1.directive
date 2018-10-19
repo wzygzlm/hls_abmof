@@ -489,12 +489,6 @@
                 <option name="port" value="data" positionalBoolean="4"/>
             </pragma>
         </directive>
-        <directive functionName="rotateSlice" label="rotateSliceOutLoop" functionLabel="">
-            <pragma name="LOOP_TRIPCOUNT">
-                <option name="min" value="1"/>
-                <option name="max" value="10000"/>
-            </pragma>
-        </directive>
         <directive functionName="rotateSlice" label="" functionLabel="">
             <pragma name="ARRAY_PARTITION">
                 <option name="variable" value="areaEventRegs" positionalBoolean="4"/>
@@ -516,9 +510,6 @@
                 <option name="core" value="RAM_2P_LUTRAM"/>
             </pragma>
         </directive>
-        <directive functionName="feedback" label="feedbackReadOFLoop" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
         <directive functionName="feedbackWrapper" label="feedbackWrapperLoop" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
@@ -532,18 +523,6 @@
             <pragma name="RESOURCE">
                 <option name="variable" value="OFRetRegs" positionalBoolean="4"/>
                 <option name="core" value="RAM_2P_LUTRAM"/>
-            </pragma>
-        </directive>
-        <directive functionName="feedbackWrapperAndOutputResult" label="" functionLabel="">
-            <pragma name="INTERFACE">
-                <option name="ap_fifo" value="" positionalBoolean="mode"/>
-                <option name="port" value="eventSlice" positionalBoolean="4"/>
-            </pragma>
-        </directive>
-        <directive functionName="feedbackWrapperAndOutputResult" label="feedbackWrapperLoop" functionLabel="">
-            <pragma name="LOOP_TRIPCOUNT">
-                <option name="min" value="1"/>
-                <option name="max" value="10000"/>
             </pragma>
         </directive>
         <directive functionName="readSlices" label="readSlicesInnerLoop" functionLabel="">
@@ -629,6 +608,30 @@
                 <option name="variable" value="colData1" positionalBoolean="4"/>
                 <option name="core" value="RAM_2P_LUTRAM"/>
             </pragma>
+        </directive>
+        <directive functionName="feedback" label="feedbackReadOFInnerLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="rotateSliceNoRotationFlg" label="" functionLabel="">
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="rotateSliceNoRotationFlg" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="areaEventRegs" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="2"/>
+            </pragma>
+        </directive>
+        <directive functionName="rotateSliceNoRotationFlg" label="" functionLabel="">
+            <pragma name="RESOURCE">
+                <option name="variable" value="areaEventRegs" positionalBoolean="4"/>
+                <option name="core" value="RAM_2P_LUTRAM"/>
+            </pragma>
+        </directive>
+        <directive functionName="rotateSliceNoRotationFlg" label="rotateSliceLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
