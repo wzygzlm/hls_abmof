@@ -1,12 +1,5 @@
 <AutoPilot:ProjectResources xmlns:AutoPilot="com.autoesl.autopilot.ui.directiveView">
     <sourceFile name="">
-        <directive functionName="parseEvents" label="" functionLabel="">
-            <pragma name="INTERFACE">
-                <option name="ap_fifo" value="" positionalBoolean="mode"/>
-                <option name="depth" value="500"/>
-                <option name="port" value="eventSlice" positionalBoolean="4"/>
-            </pragma>
-        </directive>
         <directive functionName="blockSADSum" label="" functionLabel="">
             <pragma name="INTERFACE">
                 <option name="ap_fifo" value="" positionalBoolean="mode"/>
@@ -609,9 +602,6 @@
                 <option name="core" value="RAM_2P_LUTRAM"/>
             </pragma>
         </directive>
-        <directive functionName="feedback" label="feedbackReadOFInnerLoop" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
         <directive functionName="rotateSliceNoRotationFlg" label="" functionLabel="">
             <pragma name="INLINE">
                 <option name="off" value="" positionalBoolean="1"/>
@@ -632,6 +622,28 @@
         </directive>
         <directive functionName="rotateSliceNoRotationFlg" label="rotateSliceLoop" functionLabel="">
             <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="feedback" label="feedbackReadOFInnerLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="STREAM">
+                <option name="variable" value="thrStream" positionalBoolean="4"/>
+                <option name="depth" value="3"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="INTERFACE">
+                <option name="m_axi" value="" positionalBoolean="mode"/>
+                <option name="depth" value="500"/>
+                <option name="port" value="eventSlice" positionalBoolean="4"/>
+                <option name="offset" value="slave"/>
+                <option name="bundle" value="gmem"/>
+                <option name="num_read_outstanding" value="0"/>
+                <option name="max_read_burst_length" value="2"/>
+                <option name="max_write_burst_length" value="256"/>
+            </pragma>
         </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>

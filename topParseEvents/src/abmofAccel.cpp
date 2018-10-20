@@ -406,7 +406,7 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 
 
 static uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
-static uint16_t areaEventThr = 20;
+static uint16_t areaEventThr = 60;
 
 void rotateSliceNoRotationFlg(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream,
 				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream)
@@ -457,10 +457,14 @@ void rotateSliceNoRotationFlg(hls::stream<uint8_t>  &xInStream, hls::stream<uint
 //	}
 }
 
+apUint1_t glRotateFlg = 0;
+// areaEventThr is occupied by feedback, here we use another value to copy its initial value.
+// Remember to update this value when areaEventThr is updated.
+uint16_t areaEventThrBak = areaEventThr;
 
 void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream, hls::stream<uint16_t> &thrStream,
 				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream,
-				 hls::stream<sliceIdx_t> &idxStream, hls::stream<apUint1_t> &rotatFlgStream)
+				 hls::stream<sliceIdx_t> &idxStream)
 {
 //	glPLActiveSliceIdx--;
 
@@ -472,18 +476,20 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 	c = c + 1;
 	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
 
-	uint16_t tmpThr = thrStream.read();
+	uint16_t tmpThr = 60;
 
-	rotatFlgStream.write(0);
+	if (!thrStream.empty()) tmpThr = thrStream.read();
+
+	glRotateFlg = 0;
 	// The area threshold reached, rotate the slice index and clear the areaEventRegs.
 	if (c > tmpThr)
 	{
 		glPLActiveSliceIdx--;
-		rotatFlgStream.write(1);
+		glRotateFlg = 1;
 
-		for(int r = 0; r < 10; r++)
+		for(int r = 0; r < 1; r++)
 		{
-			std::cout << "Rotated successfully!!!!" << std::endl;
+			std::cout << "Rotated successfully from HW!!!!" << std::endl;
 			std::cout << "x is: " << x << "\t y is: " << y << "\t idx is: " << glPLActiveSliceIdx << std::endl;
 		}
 
@@ -989,66 +995,71 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
         uint16_t OFRetHistCnt = OFRetRegs[OFRet.range(2, 0)][OFRet.range(5, 3)];
         OFRetHistCnt = OFRetHistCnt + 1;
         OFRetRegs[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
-
-        if(rotateFlg)
-        {
-            ap_uint<16> countSum = 0;
-            ap_uint<16> histCountSum = 0;
-            ap_uint<16> radiusSum =  0;
-            ap_uint<16> radiusCountSum =  0;
-
-            feedbackReadOFLoop:for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
-            {
-                feedbackReadOFInnerLoop:for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
-                {
-                	ap_uint<16> count = OFRetRegs[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
-                	ap_uint<16> tmpRadius = OFRetHistX * OFRetHistX + OFRetHistY *  OFRetHistY;
-                	ap_uint<16> radius = tmpRadius;
-                    countSum += count;
-                    radiusCountSum += radius * count;
-
-                    histCountSum += 1;
-                    radiusSum += radius;
-                }
-            }
-
-            if (countSum >= 10)
-            {
-            	uint32_t avgMatchMul =  radiusCountSum * histCountSum;
-            	uint32_t avgTargetMul = radiusSum * countSum;
-
-            	// 3/64 = 0.046875~ 0.05
-            	uint16_t deltaThr = areaEventThr * 3 / 64;
-                if(avgMatchMul > avgTargetMul )
-                {
-                    areaEventThr -= deltaThr;
-    //            	areaEventThr -= 50;
-                }
-                else if (avgMatchMul < avgTargetMul)
-                {
-                    areaEventThr += deltaThr;
-    //            	areaEventThr += 50;
-                }
-            }
-        }
     }
+
+	if(rotateFlg)
+	{
+		ap_uint<16> countSum = 0;
+		ap_uint<16> histCountSum = 0;
+		ap_uint<16> radiusSum =  0;
+		ap_uint<16> radiusCountSum =  0;
+
+		feedbackReadOFLoop:for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
+		{
+			feedbackReadOFInnerLoop:for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
+			{
+				ap_uint<16> count = OFRetRegs[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
+				ap_uint<16> tmpRadius = OFRetHistX * OFRetHistX + OFRetHistY *  OFRetHistY;
+				ap_uint<16> radius = tmpRadius;
+				countSum += count;
+				radiusCountSum += radius * count;
+
+				histCountSum += 1;
+				radiusSum += radius;
+
+				// Clear OF histgram
+				OFRetRegs[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE] = 0;
+			}
+		}
+
+		if (countSum >= 10)
+		{
+			uint32_t avgMatchMul =  radiusCountSum * histCountSum;
+			uint32_t avgTargetMul = radiusSum * countSum;
+
+			// 3/64 = 0.046875~ 0.05
+			uint16_t deltaThr = areaEventThr * 3 / 64;
+			if(avgMatchMul > avgTargetMul )
+			{
+				areaEventThr -= deltaThr;
+//            	areaEventThr -= 50;
+			}
+			else if (avgMatchMul < avgTargetMul)
+			{
+				areaEventThr += deltaThr;
+//            	areaEventThr += 50;
+			}
+		}
+	}
+
+	areaEventThrBak = areaEventThr;
     *thrRet = areaEventThr;
 }
 
 void feedbackWrapperAndOutputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,
 						hls::stream<apUint17_t> &packetEventDataStream,
-					 hls::stream<apUint1_t> &rotateFlgStream, hls::stream<uint16_t> &thrStream, int32_t *eventSlice)
+					 hls::stream<uint16_t> &thrStream, int32_t *eventSlice)
 {
 	apUint17_t tmp1 = packetEventDataStream.read();
 	apUint15_t tmpMiniSumRet = miniSumStream.read();
 	ap_int<9> tmp2 = tmpMiniSumRet.range(8, 0);
 	apUint6_t tmpOF = OFRetStream.read();
 
-	apUint1_t tmpFlg = rotateFlgStream.read();
+//	apUint1_t tmpFlg = rotateFlgStream.read();
 
 	uint16_t tmpThr;
 
-	feedback(tmpMiniSumRet, tmpOF, apUint1_t(1), &tmpThr);
+	feedback(tmpMiniSumRet, tmpOF, glRotateFlg, &tmpThr);
 
 	thrStream.write(tmpThr);
 
@@ -1057,7 +1068,7 @@ void feedbackWrapperAndOutputResult(hls::stream<apUint15_t> &miniSumStream, hls:
 //		std :: cout << "tmp2 is "  << std::hex << tmp2 << std :: endl;
 //		std :: cout << "output is "  << std::hex << output << std :: endl;
 //		std :: cout << "eventSlice is "  << std::hex << output.to_int() << std :: endl;
-	*eventSlice++ = output.to_uint();
+	*eventSlice++ = output.to_int();
 }
 
 void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream,  hls::stream<apUint17_t> &packetEventDataStream, int32_t *eventSlice)
@@ -1182,7 +1193,6 @@ void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
 {
-
 	hls::stream<uint8_t>  xInStream("xInStream"), yInStream("yInStream");
 	hls::stream<uint8_t>  xOutStream("xOutStream"), yOutStream("yOutStream");
 	hls::stream<sliceIdx_t> idxStream("idxStream");
@@ -1225,12 +1235,12 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 
 			// With feedback
 			getXandY(dataStream++, xInStream, yInStream, pktEventDataStream);
-			rotateSlice(xInStream, yInStream, thrStream, xOutStream, yOutStream, idxStream, rotatFlgStream);
+			rotateSlice(xInStream, yInStream, thrStream, xOutStream, yOutStream, idxStream);
 			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
 			colStreamToColSum(refStream, tagStreamIn, outStream);
 			accumulateStream(outStream, outSumStream, OF_yStream);
 			findStreamMin(outSumStream, OF_yStream, miniSumStream, OFRetStream);
-			feedbackWrapperAndOutputResult(miniSumStream, OFRetStream, pktEventDataStream, rotatFlgStream, thrStream, eventSlice);
+			feedbackWrapperAndOutputResult(miniSumStream, OFRetStream, pktEventDataStream, thrStream, eventSlice++);
 
 			// This is the version combined rwSlices and colStreamToColSum together
 			// It consumes less resources but has higher II.

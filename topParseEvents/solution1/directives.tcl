@@ -3,7 +3,6 @@
 ## Please DO NOT edit it.
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
-set_directive_interface -mode ap_fifo -depth 500 "parseEvents" eventSlice
 set_directive_interface -mode ap_fifo "blockSADSum" t1Block
 set_directive_interface -mode ap_fifo "blockSADSum" t2Block
 set_directive_interface -mode ap_fifo -depth 500 "parseEvents" dataStream
@@ -116,8 +115,10 @@ set_directive_pipeline "rwSlicesAndColStreams/GenerateStreamLoop"
 set_directive_dataflow "rwSlicesAndColStreams"
 set_directive_resource -core RAM_1P_LUTRAM "rwSlicesAndColStreams" colData0
 set_directive_resource -core RAM_2P_LUTRAM "rwSlicesAndColStreams" colData1
-set_directive_pipeline "feedback/feedbackReadOFInnerLoop"
 set_directive_inline -off "rotateSliceNoRotationFlg"
 set_directive_array_partition -type complete -dim 2 "rotateSliceNoRotationFlg" areaEventRegs
 set_directive_resource -core RAM_2P_LUTRAM "rotateSliceNoRotationFlg" areaEventRegs
 set_directive_pipeline "rotateSliceNoRotationFlg/rotateSliceLoop"
+set_directive_pipeline "feedback/feedbackReadOFInnerLoop"
+set_directive_stream -depth 3 -dim 1 "parseEvents" thrStream
+set_directive_interface -mode m_axi -depth 500 -offset slave -bundle gmem -num_read_outstanding 0 -max_read_burst_length 2 -max_write_burst_length 256 "parseEvents" eventSlice

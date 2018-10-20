@@ -15,7 +15,6 @@
   "HlsSolution": {
     "Config": ["config_dataflow -default_channel=fifo -fifo_depth=0"],
     "Directives": [
-      "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 500} {port positionBooleanTextRequiredeventSlice}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt1Block}} {}",
       "interface blockSADSum {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequiredt2Block}} {}",
       "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 500} {port positionBooleanTextRequireddataStream}} {}",
@@ -128,11 +127,13 @@
       "dataflow rwSlicesAndColStreams {} {}",
       "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData0} {core RAM_1P_LUTRAM}} {}",
       "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}",
-      "pipeline feedback\/feedbackReadOFInnerLoop {} {}",
       "inline rotateSliceNoRotationFlg {{off positionBoolean1}} {}",
       "array_partition rotateSliceNoRotationFlg {{partition positionBooleanCmd} {variable positionBooleanTextRequiredareaEventRegs} {complete positionBoolean0type} {dim 2}} {}",
       "resource rotateSliceNoRotationFlg {{variable positionBooleanTextRequiredareaEventRegs} {core RAM_2P_LUTRAM}} {}",
-      "pipeline rotateSliceNoRotationFlg\/rotateSliceLoop {} {}"
+      "pipeline rotateSliceNoRotationFlg\/rotateSliceLoop {} {}",
+      "pipeline feedback\/feedbackReadOFInnerLoop {} {}",
+      "stream parseEvents {{variable positionBooleanTextRequiredthrStream} {depth 3} {dim 1}} {}",
+      "interface parseEvents {{m_axi positionBoolean0mode} {depth 500} {port positionBooleanTextRequiredeventSlice} {offset slave} {bundle gmem} {num_read_outstanding 0} {max_read_burst_length 2} {max_write_burst_length 256}} {}"
     ]
   },
   "ClockInfo": {
@@ -167,21 +168,25 @@
       "impl\/vhdl\/feedback.vhd",
       "impl\/vhdl\/feedback_OFRetRegs.vhd",
       "impl\/vhdl\/feedbackWrapperAndOu.vhd",
-      "impl\/vhdl\/fifo_w1_d0_A.vhd",
+      "impl\/vhdl\/fifo_w1_d6_A.vhd",
       "impl\/vhdl\/fifo_w2_d0_A.vhd",
       "impl\/vhdl\/fifo_w6_d0_A.vhd",
       "impl\/vhdl\/fifo_w8_d0_A.vhd",
       "impl\/vhdl\/fifo_w15_d2_S.vhd",
       "impl\/vhdl\/fifo_w16_d0_A.vhd",
+      "impl\/vhdl\/fifo_w16_d3_A.vhd",
+      "impl\/vhdl\/fifo_w16_d7_A.vhd",
       "impl\/vhdl\/fifo_w17_d2_S.vhd",
+      "impl\/vhdl\/fifo_w30_d7_A.vhd",
       "impl\/vhdl\/fifo_w68_d2_S.vhd",
       "impl\/vhdl\/fifo_w68_d6_S.vhd",
       "impl\/vhdl\/fifo_w112_d2_S.vhd",
       "impl\/vhdl\/findStreamMin.vhd",
-      "impl\/vhdl\/getXandY.vhd",
+      "impl\/vhdl\/getXandY7.vhd",
       "impl\/vhdl\/min.vhd",
       "impl\/vhdl\/parseEvents_ama_asc4.vhd",
       "impl\/vhdl\/parseEvents_AXILiteS_s_axi.vhd",
+      "impl\/vhdl\/parseEvents_gmem_m_axi.vhd",
       "impl\/vhdl\/parseEvents_mul_mtde.vhd",
       "impl\/vhdl\/parseEvents_mul_mudo.vhd",
       "impl\/vhdl\/parseEvents_mux_4ocq.vhd",
@@ -213,21 +218,25 @@
       "impl\/verilog\/feedback_OFRetRegs.v",
       "impl\/verilog\/feedback_OFRetRegs_ram.dat",
       "impl\/verilog\/feedbackWrapperAndOu.v",
-      "impl\/verilog\/fifo_w1_d0_A.v",
+      "impl\/verilog\/fifo_w1_d6_A.v",
       "impl\/verilog\/fifo_w2_d0_A.v",
       "impl\/verilog\/fifo_w6_d0_A.v",
       "impl\/verilog\/fifo_w8_d0_A.v",
       "impl\/verilog\/fifo_w15_d2_S.v",
       "impl\/verilog\/fifo_w16_d0_A.v",
+      "impl\/verilog\/fifo_w16_d3_A.v",
+      "impl\/verilog\/fifo_w16_d7_A.v",
       "impl\/verilog\/fifo_w17_d2_S.v",
+      "impl\/verilog\/fifo_w30_d7_A.v",
       "impl\/verilog\/fifo_w68_d2_S.v",
       "impl\/verilog\/fifo_w68_d6_S.v",
       "impl\/verilog\/fifo_w112_d2_S.v",
       "impl\/verilog\/findStreamMin.v",
-      "impl\/verilog\/getXandY.v",
+      "impl\/verilog\/getXandY7.v",
       "impl\/verilog\/min.v",
       "impl\/verilog\/parseEvents_ama_asc4.v",
       "impl\/verilog\/parseEvents_AXILiteS_s_axi.v",
+      "impl\/verilog\/parseEvents_gmem_m_axi.v",
       "impl\/verilog\/parseEvents_mul_mtde.v",
       "impl\/verilog\/parseEvents_mul_mudo.v",
       "impl\/verilog\/parseEvents_mux_4ocq.v",
@@ -270,7 +279,7 @@
     "ap_clk": {
       "type": "clock",
       "ctype": {"CLK": {"Type": "bool"}},
-      "buses": "s_axi_AXILiteS",
+      "buses": "s_axi_AXILiteS m_axi_gmem",
       "reset": "ap_rst_n"
     },
     "ap_rst_n": {
@@ -291,19 +300,6 @@
         "RD_EN": {"Type": "bool"}
       }
     },
-    "eventSlice": {
-      "type": "ap_fifo",
-      "fifo_width": "32",
-      "fifo_type": "write",
-      "ctype": {
-        "WR_DATA": {
-          "Type": "integer signed",
-          "Width": "32"
-        },
-        "FULL_N": {"Type": "bool"},
-        "WR_EN": {"Type": "bool"}
-      }
-    },
     "eventsArraySize": {
       "type": "data",
       "dir": "in",
@@ -317,13 +313,192 @@
       "type": "interrupt",
       "ctype": {"INTERRUPT": {"Type": "bool"}}
     },
+    "m_axi_gmem": {
+      "type": "native_axim",
+      "is_adaptor": "true",
+      "mode": "master",
+      "port_prefix": "m_axi_gmem",
+      "data_width": "32",
+      "param_prefix": "C_M_AXI_GMEM",
+      "ctype": {
+        "AWLEN": {
+          "Type": "integer unsigned",
+          "Width": "8"
+        },
+        "AWSIZE": {
+          "Type": "integer unsigned",
+          "Width": "3"
+        },
+        "AWBURST": {
+          "Type": "integer unsigned",
+          "Width": "2"
+        },
+        "AWLOCK": {
+          "Type": "integer unsigned",
+          "Width": "2"
+        },
+        "AWREGION": {
+          "Type": "integer unsigned",
+          "Width": "4"
+        },
+        "AWCACHE": {
+          "Type": "integer unsigned",
+          "Width": "4"
+        },
+        "AWPROT": {
+          "Type": "integer unsigned",
+          "Width": "3"
+        },
+        "AWQOS": {
+          "Type": "integer unsigned",
+          "Width": "4"
+        },
+        "AWVALID": {"Type": "bool"},
+        "AWREADY": {"Type": "bool"},
+        "WLAST": {"Type": "bool"},
+        "WVALID": {"Type": "bool"},
+        "WREADY": {"Type": "bool"},
+        "BVALID": {"Type": "bool"},
+        "BREADY": {"Type": "bool"},
+        "BRESP": {
+          "Type": "integer unsigned",
+          "Width": "2"
+        },
+        "ARLEN": {
+          "Type": "integer unsigned",
+          "Width": "8"
+        },
+        "ARSIZE": {
+          "Type": "integer unsigned",
+          "Width": "3"
+        },
+        "ARBURST": {
+          "Type": "integer unsigned",
+          "Width": "2"
+        },
+        "ARLOCK": {
+          "Type": "integer unsigned",
+          "Width": "2"
+        },
+        "ARREGION": {
+          "Type": "integer unsigned",
+          "Width": "4"
+        },
+        "ARCACHE": {
+          "Type": "integer unsigned",
+          "Width": "4"
+        },
+        "ARPROT": {
+          "Type": "integer unsigned",
+          "Width": "3"
+        },
+        "ARQOS": {
+          "Type": "integer unsigned",
+          "Width": "4"
+        },
+        "ARVALID": {"Type": "bool"},
+        "ARREADY": {"Type": "bool"},
+        "RLAST": {"Type": "bool"},
+        "RVALID": {"Type": "bool"},
+        "RREADY": {"Type": "bool"},
+        "RRESP": {
+          "Type": "integer unsigned",
+          "Width": "2"
+        },
+        "AWADDR": {
+          "Type": "integer unsigned",
+          "Width": "32"
+        },
+        "AWID": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        },
+        "AWUSER": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        },
+        "WDATA": {
+          "Type": "integer signed",
+          "Width": "32"
+        },
+        "WSTRB": {
+          "Type": "integer unsigned",
+          "Width": "4"
+        },
+        "WID": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        },
+        "WUSER": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        },
+        "ARADDR": {
+          "Type": "integer unsigned",
+          "Width": "32"
+        },
+        "ARID": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        },
+        "ARUSER": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        },
+        "RDATA": {
+          "Type": "integer signed",
+          "Width": "32"
+        },
+        "RID": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        },
+        "RUSER": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        },
+        "BID": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        },
+        "BUSER": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        }
+      },
+      "HasOffset": "1",
+      "preferred_usage_value": "MEMORY",
+      "has_dependant_on": "1",
+      "offset_slave_name": "s_axi_AXILiteS",
+      "NUM_READ_OUTSTANDING": "0",
+      "NUM_WRITE_OUTSTANDING": "16",
+      "MAX_READ_BURST_LENGTH": "2",
+      "MAX_WRITE_BURST_LENGTH": "256",
+      "port_width": {
+        "ARADDR": "32",
+        "ARID": "1",
+        "ARUSER": "1",
+        "AWADDR": "32",
+        "AWID": "1",
+        "AWUSER": "1",
+        "BID": "1",
+        "BUSER": "1",
+        "RDATA": "32",
+        "RID": "1",
+        "RUSER": "1",
+        "WDATA": "32",
+        "WID": "1",
+        "WSTRB": "4",
+        "WUSER": "1"
+      }
+    },
     "s_axi_AXILiteS": {
       "type": "axi4lite",
       "is_adaptor": "true",
       "mode": "slave",
       "port_prefix": "s_axi_AXILiteS",
       "param_prefix": "C_S_AXI_AXILITES",
-      "addr_bits": "4",
+      "addr_bits": "5",
       "registers": [
         {
           "offset": "0x00",
@@ -480,6 +655,21 @@
               "description": "Reserved.  0s on read."
             }
           ]
+        },
+        {
+          "offset": "0x10",
+          "name": "eventSlice",
+          "access": "W",
+          "reset_value": "0x0",
+          "description": "Data signal of eventSlice",
+          "fields": [{
+              "offset": "0",
+              "width": "32",
+              "name": "eventSlice",
+              "access": "W",
+              "reset_value": "0",
+              "description": "Bit 31 to 0 Data signal of eventSlice"
+            }]
         }
       ],
       "memories": "",
@@ -504,7 +694,7 @@
         },
         "AWADDR": {
           "Type": "integer unsigned",
-          "Width": "4"
+          "Width": "5"
         },
         "WDATA": {
           "Type": "null",
@@ -516,7 +706,7 @@
         },
         "ARADDR": {
           "Type": "integer unsigned",
-          "Width": "4"
+          "Width": "5"
         },
         "RDATA": {
           "Type": "null",
@@ -525,8 +715,8 @@
       },
       "data_width": "32",
       "port_width": {
-        "ARADDR": "4",
-        "AWADDR": "4",
+        "ARADDR": "5",
+        "AWADDR": "5",
         "RDATA": "32",
         "WDATA": "32",
         "WSTRB": "4"
@@ -544,7 +734,7 @@
     },
     "s_axi_AXILiteS_AWADDR": {
       "dir": "in",
-      "width": "4"
+      "width": "5"
     },
     "s_axi_AXILiteS_WVALID": {
       "dir": "in",
@@ -572,7 +762,7 @@
     },
     "s_axi_AXILiteS_ARADDR": {
       "dir": "in",
-      "width": "4"
+      "width": "5"
     },
     "s_axi_AXILiteS_RVALID": {
       "dir": "out",
@@ -615,6 +805,196 @@
       "width": "1",
       "isVector": "true"
     },
+    "m_axi_gmem_AWVALID": {
+      "dir": "out",
+      "width": "1"
+    },
+    "m_axi_gmem_AWREADY": {
+      "dir": "in",
+      "width": "1"
+    },
+    "m_axi_gmem_AWADDR": {
+      "dir": "out",
+      "width": "32"
+    },
+    "m_axi_gmem_AWID": {
+      "dir": "out",
+      "width": "1",
+      "isVector": "true"
+    },
+    "m_axi_gmem_AWLEN": {
+      "dir": "out",
+      "width": "8"
+    },
+    "m_axi_gmem_AWSIZE": {
+      "dir": "out",
+      "width": "3"
+    },
+    "m_axi_gmem_AWBURST": {
+      "dir": "out",
+      "width": "2"
+    },
+    "m_axi_gmem_AWLOCK": {
+      "dir": "out",
+      "width": "2"
+    },
+    "m_axi_gmem_AWCACHE": {
+      "dir": "out",
+      "width": "4"
+    },
+    "m_axi_gmem_AWPROT": {
+      "dir": "out",
+      "width": "3"
+    },
+    "m_axi_gmem_AWQOS": {
+      "dir": "out",
+      "width": "4"
+    },
+    "m_axi_gmem_AWREGION": {
+      "dir": "out",
+      "width": "4"
+    },
+    "m_axi_gmem_AWUSER": {
+      "dir": "out",
+      "width": "1",
+      "isVector": "true"
+    },
+    "m_axi_gmem_WVALID": {
+      "dir": "out",
+      "width": "1"
+    },
+    "m_axi_gmem_WREADY": {
+      "dir": "in",
+      "width": "1"
+    },
+    "m_axi_gmem_WDATA": {
+      "dir": "out",
+      "width": "32"
+    },
+    "m_axi_gmem_WSTRB": {
+      "dir": "out",
+      "width": "4"
+    },
+    "m_axi_gmem_WLAST": {
+      "dir": "out",
+      "width": "1"
+    },
+    "m_axi_gmem_WID": {
+      "dir": "out",
+      "width": "1",
+      "isVector": "true"
+    },
+    "m_axi_gmem_WUSER": {
+      "dir": "out",
+      "width": "1",
+      "isVector": "true"
+    },
+    "m_axi_gmem_ARVALID": {
+      "dir": "out",
+      "width": "1"
+    },
+    "m_axi_gmem_ARREADY": {
+      "dir": "in",
+      "width": "1"
+    },
+    "m_axi_gmem_ARADDR": {
+      "dir": "out",
+      "width": "32"
+    },
+    "m_axi_gmem_ARID": {
+      "dir": "out",
+      "width": "1",
+      "isVector": "true"
+    },
+    "m_axi_gmem_ARLEN": {
+      "dir": "out",
+      "width": "8"
+    },
+    "m_axi_gmem_ARSIZE": {
+      "dir": "out",
+      "width": "3"
+    },
+    "m_axi_gmem_ARBURST": {
+      "dir": "out",
+      "width": "2"
+    },
+    "m_axi_gmem_ARLOCK": {
+      "dir": "out",
+      "width": "2"
+    },
+    "m_axi_gmem_ARCACHE": {
+      "dir": "out",
+      "width": "4"
+    },
+    "m_axi_gmem_ARPROT": {
+      "dir": "out",
+      "width": "3"
+    },
+    "m_axi_gmem_ARQOS": {
+      "dir": "out",
+      "width": "4"
+    },
+    "m_axi_gmem_ARREGION": {
+      "dir": "out",
+      "width": "4"
+    },
+    "m_axi_gmem_ARUSER": {
+      "dir": "out",
+      "width": "1",
+      "isVector": "true"
+    },
+    "m_axi_gmem_RVALID": {
+      "dir": "in",
+      "width": "1"
+    },
+    "m_axi_gmem_RREADY": {
+      "dir": "out",
+      "width": "1"
+    },
+    "m_axi_gmem_RDATA": {
+      "dir": "in",
+      "width": "32"
+    },
+    "m_axi_gmem_RLAST": {
+      "dir": "in",
+      "width": "1"
+    },
+    "m_axi_gmem_RID": {
+      "dir": "in",
+      "width": "1",
+      "isVector": "true"
+    },
+    "m_axi_gmem_RUSER": {
+      "dir": "in",
+      "width": "1",
+      "isVector": "true"
+    },
+    "m_axi_gmem_RRESP": {
+      "dir": "in",
+      "width": "2"
+    },
+    "m_axi_gmem_BVALID": {
+      "dir": "in",
+      "width": "1"
+    },
+    "m_axi_gmem_BREADY": {
+      "dir": "out",
+      "width": "1"
+    },
+    "m_axi_gmem_BRESP": {
+      "dir": "in",
+      "width": "2"
+    },
+    "m_axi_gmem_BID": {
+      "dir": "in",
+      "width": "1",
+      "isVector": "true"
+    },
+    "m_axi_gmem_BUSER": {
+      "dir": "in",
+      "width": "1",
+      "isVector": "true"
+    },
     "dataStream_dout": {
       "dir": "in",
       "width": "64"
@@ -630,25 +1010,27 @@
     "eventsArraySize": {
       "dir": "in",
       "width": "32"
-    },
-    "eventSlice_din": {
-      "dir": "out",
-      "width": "32"
-    },
-    "eventSlice_full_n": {
-      "dir": "in",
-      "width": "1"
-    },
-    "eventSlice_write": {
-      "dir": "out",
-      "width": "1"
     }
   },
   "CPorts": {
+    "eventSlice": {
+      "interfaceRef": "s_axi_AXILiteS",
+      "dir": "in",
+      "offset": "16",
+      "statusOffset": "NA",
+      "handshakeRef": "ap_none",
+      "Object": "AXILiteS",
+      "aximmInterfaceRef": "m_axi_gmem",
+      "dataWidth": "32"
+    },
     "ap_ctrl": {
       "interfaceRef": "s_axi_AXILiteS",
       "dir": "in",
       "offset": "0"
+    },
+    "gmem": {
+      "interfaceRef": "m_axi_gmem",
+      "dir": "inout"
     },
     "dataStream": {
       "interfaceRef": "dataStream",
@@ -659,11 +1041,6 @@
       "dir": "in",
       "dataWidth": "32",
       "handshakeRef": "ap_none"
-    },
-    "eventSlice": {
-      "interfaceRef": "eventSlice",
-      "dir": "out",
-      "firstOutLatency": "1"
     }
   },
   "ModuleInfo": {
@@ -671,7 +1048,7 @@
       "ModuleName": "parseEvents",
       "Instances": [{
           "ModuleName": "dataflow_parent_loop_1",
-          "InstanceName": "grp_dataflow_parent_loop_1_fu_104",
+          "InstanceName": "grp_dataflow_parent_loop_1_fu_130",
           "Instances": [{
               "ModuleName": "dataflow_in_loop_par",
               "InstanceName": "dataflow_in_loop_par_U0",
@@ -759,7 +1136,7 @@
                   "InstanceName": "feedbackWrapperAndOu_U0",
                   "Instances": [{
                       "ModuleName": "feedback",
-                      "InstanceName": "grp_feedback_fu_92"
+                      "InstanceName": "grp_feedback_fu_137"
                     }]
                 },
                 {
@@ -771,15 +1148,15 @@
                   "InstanceName": "findStreamMin_U0"
                 },
                 {
-                  "ModuleName": "getXandY",
-                  "InstanceName": "getXandY_U0"
+                  "ModuleName": "getXandY7",
+                  "InstanceName": "getXandY7_U0"
                 }
               ]
             }]
         }]
     },
     "Metrics": {
-      "getXandY": {
+      "getXandY7": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -795,7 +1172,7 @@
         },
         "Area": {
           "FF": "3",
-          "LUT": "56",
+          "LUT": "74",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -814,7 +1191,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.31"
+          "Estimate": "9.60"
         },
         "Loops": [{
             "Name": "rotateSliceResetLoop",
@@ -824,8 +1201,8 @@
             "PipelineDepth": "1"
           }],
         "Area": {
-          "FF": "317",
-          "LUT": "511",
+          "FF": "334",
+          "LUT": "518",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1028,12 +1405,12 @@
       },
       "feedback": {
         "Latency": {
-          "LatencyBest": "1",
+          "LatencyBest": "2",
           "LatencyAvg": "43",
           "LatencyWorst": "53",
-          "PipelineIIMin": "1",
+          "PipelineIIMin": "2",
           "PipelineIIMax": "53",
-          "PipelineII": "1 ~ 53",
+          "PipelineII": "2 ~ 53",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -1051,31 +1428,31 @@
           }],
         "Area": {
           "DSP48E": "3",
-          "FF": "220",
-          "LUT": "543",
+          "FF": "226",
+          "LUT": "573",
           "BRAM_18K": "0"
         }
       },
       "feedbackWrapperAndOu": {
         "Latency": {
-          "LatencyBest": "2",
-          "LatencyAvg": "44",
-          "LatencyWorst": "54",
-          "PipelineIIMin": "2",
-          "PipelineIIMax": "54",
-          "PipelineII": "2 ~ 54",
+          "LatencyBest": "9",
+          "LatencyAvg": "50",
+          "LatencyWorst": "60",
+          "PipelineIIMin": "9",
+          "PipelineIIMax": "60",
+          "PipelineII": "9 ~ 60",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.66"
+          "Estimate": "9.90"
         },
         "Area": {
           "DSP48E": "3",
-          "FF": "271",
-          "LUT": "625",
+          "FF": "317",
+          "LUT": "776",
           "BRAM_18K": "0"
         }
       },
@@ -1091,13 +1468,13 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.89"
+          "Estimate": "9.90"
         },
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "38",
-          "FF": "4459",
-          "LUT": "7044"
+          "FF": "4534",
+          "LUT": "7293"
         }
       },
       "dataflow_parent_loop_1": {
@@ -1114,7 +1491,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.89"
+          "Estimate": "9.90"
         },
         "Loops": [{
             "Name": "parseEventsLoop",
@@ -1130,8 +1507,8 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "38",
-          "FF": "4493",
-          "LUT": "7108"
+          "FF": "4568",
+          "LUT": "7357"
         }
       },
       "parseEvents": {
@@ -1148,20 +1525,20 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.89"
+          "Estimate": "9.90"
         },
         "Area": {
-          "BRAM_18K": "60",
+          "BRAM_18K": "68",
           "DSP48E": "38",
-          "FF": "4550",
-          "LUT": "7185"
+          "FF": "5205",
+          "LUT": "8096"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-20 01:31:41 +0200",
+    "Time": "2018-10-20 23:18:40 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

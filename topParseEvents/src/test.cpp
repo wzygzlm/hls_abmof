@@ -448,7 +448,7 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 }
 
 static uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
-static uint16_t areaEventThrSW = 20;
+static uint16_t areaEventThrSW = 60;
 static uint16_t OFRetRegsSW[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
 
 
@@ -459,45 +459,48 @@ static void feedbackSW(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateF
         uint16_t OFRetHistCnt = OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(5, 3)];
         OFRetHistCnt = OFRetHistCnt + 1;
         OFRetRegsSW[OFRet.range(2, 0)][OFRet.range(5, 3)] = OFRetHistCnt;
-
-        if(rotateFlg)
-        {
-            uint16_t countSum = 0;
-            uint16_t histCountSum = 0;
-            uint16_t radiusSum =  0;
-            uint16_t radiusCountSum =  0;
-
-            for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
-            {
-                for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
-                {
-                    uint16_t count = OFRetRegsSW[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
-                    float radius = pow(OFRetHistX,  2) + pow(OFRetHistY,  2);
-                    countSum += count;
-                    radiusCountSum += radius * count;
-
-                    histCountSum += 1;
-                    radiusSum += radius;
-                }
-            }
-
-            if (countSum >= 10)
-            {
-                float avgMatchDistance = (float)radiusCountSum / countSum;
-                float avgTargetDistance = (float)radiusSum / histCountSum;
-
-                if(avgMatchDistance > avgTargetDistance )
-                {
-                    areaEventThrSW -= areaEventThrSW * 3/64;
-                }
-                else if (avgMatchDistance < avgTargetDistance)
-                {
-                    areaEventThrSW += areaEventThrSW *3/64;
-                }
-            }
-        }
-
     }
+
+	if(rotateFlg)
+	{
+		uint16_t countSum = 0;
+		uint16_t histCountSum = 0;
+		uint16_t radiusSum =  0;
+		uint16_t radiusCountSum =  0;
+
+		for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
+		{
+			for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
+			{
+				uint16_t count = OFRetRegsSW[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE];
+				float radius = pow(OFRetHistX,  2) + pow(OFRetHistY,  2);
+				countSum += count;
+				radiusCountSum += radius * count;
+
+				histCountSum += 1;
+				radiusSum += radius;
+
+				OFRetRegsSW[OFRetHistX+SEARCH_DISTANCE][OFRetHistY+SEARCH_DISTANCE] = 0;
+			}
+		}
+
+		if (countSum >= 10)
+		{
+			float avgMatchDistance = (float)radiusCountSum / countSum;
+			float avgTargetDistance = (float)radiusSum / histCountSum;
+
+			if(avgMatchDistance > avgTargetDistance )
+			{
+				areaEventThrSW -= areaEventThrSW * 3/64;
+			}
+			else if (avgMatchDistance < avgTargetDistance)
+			{
+				areaEventThrSW += areaEventThrSW *3/64;
+			}
+		}
+	}
+
+
     *thrRet = areaEventThrSW;
 
 }
@@ -567,15 +570,6 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
            {
                resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
                resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
-           }
-
-           // clearOFHistogram
-           for(int8_t OFRetHistX = -SEARCH_DISTANCE; OFRetHistX <= SEARCH_DISTANCE; OFRetHistX++)
-           {
-               for(int8_t OFRetHistY = -SEARCH_DISTANCE; OFRetHistY <= SEARCH_DISTANCE; OFRetHistY++)
-               {
-                   OFRetRegsSW[OFRetHistX][OFRetHistY] = 0;
-               }
            }
 
         }
