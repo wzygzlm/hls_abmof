@@ -221,8 +221,8 @@ void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
             if(tmpBlockSum < tmpSum)
             {
                 tmpSum = tmpBlockSum;
-                tmpOF_x = ap_uint<3>(xOffset);
-                tmpOF_y = ap_uint<3>(yOffset);
+                tmpOF_y = ap_uint<3>(xOffset);
+                tmpOF_x = ap_uint<3>(yOffset);
             }
         }
     }
