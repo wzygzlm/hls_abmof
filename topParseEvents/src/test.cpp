@@ -475,7 +475,7 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 }
 
 static uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
-static uint16_t areaEventThrSW = 60;
+static uint16_t areaEventThrSW = 500;
 static uint16_t OFRetRegsSW[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
 
 
@@ -519,10 +519,21 @@ static void feedbackSW(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateF
 			if(avgMatchDistance > avgTargetDistance )
 			{
 				areaEventThrSW -= areaEventThrSW * 3/64;
+				if (areaEventThrSW <= 100)
+				{
+					areaEventThrSW = 100;
+				}
+				std::cout << "AreaEventThr is decreased. New areaEventThr from SW is: " << areaEventThrSW << std::endl;
 			}
 			else if (avgMatchDistance < avgTargetDistance)
 			{
+
 				areaEventThrSW += areaEventThrSW *3/64;
+				if (areaEventThrSW >= 1000)
+				{
+					areaEventThrSW = 1000;
+				}
+				std::cout << "AreaEventThr is increased. New areaEventThr from SW is: " << areaEventThrSW << std::endl;
 			}
 		}
 	}
@@ -537,7 +548,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 //	glPLActiveSliceIdxSW--;
 //	sliceIdx_t idx = glPLActiveSliceIdxSW;
 
-        cout << "Current Event packet's event number is: " << eventsArraySize << endl;
+//	cout << "Current Event packet's event number is: " << eventsArraySize << endl;
 	for(int32_t i = 0; i < eventsArraySize; i++)
 	{
 		uint64_t tmp = *dataStream++;

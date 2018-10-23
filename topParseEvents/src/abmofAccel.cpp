@@ -445,7 +445,7 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 
 
 static uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
-static uint16_t areaEventThr = 60;
+static uint16_t areaEventThr = 500;
 
 void rotateSliceNoRotationFlg(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream,
 				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream)
@@ -515,7 +515,7 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 	c = c + 1;
 	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
 
-	uint16_t tmpThr = 60;
+	uint16_t tmpThr = 500;
 
 	if (!thrStream.empty()) tmpThr = thrStream.read();
 
@@ -1091,12 +1091,22 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
 			if(avgMatchMul > avgTargetMul )
 			{
 				areaEventThr -= deltaThr;
+				if (areaEventThr <= 100)
+				{
+					areaEventThr = 100;
+				}
 //            	areaEventThr -= 50;
+				std::cout << "AreaEventThr is decreased. New areaEventThr from HW is: " << areaEventThr << std::endl;
 			}
 			else if (avgMatchMul < avgTargetMul)
 			{
 				areaEventThr += deltaThr;
+				if (areaEventThr >= 1000)
+				{
+					areaEventThr = 1000;
+				}
 //            	areaEventThr += 50;
+				std::cout << "AreaEventThr is increased. New areaEventThr from HW is: " << areaEventThr << std::endl;
 			}
 		}
 	}

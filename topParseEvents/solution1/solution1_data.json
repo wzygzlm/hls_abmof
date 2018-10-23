@@ -1452,7 +1452,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "8.72"
+          "Estimate": "9.26"
         },
         "Loops": [{
             "Name": "feedbackReadOFLoop_feedbackReadOFInnerLoop",
@@ -1464,7 +1464,7 @@
         "Area": {
           "DSP48E": "3",
           "FF": "226",
-          "LUT": "573",
+          "LUT": "639",
           "BRAM_18K": "0"
         }
       },
@@ -1486,8 +1486,8 @@
         },
         "Area": {
           "DSP48E": "3",
-          "FF": "317",
-          "LUT": "776",
+          "FF": "333",
+          "LUT": "840",
           "BRAM_18K": "0"
         }
       },
@@ -1508,8 +1508,8 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "38",
-          "FF": "4889",
-          "LUT": "7781"
+          "FF": "4905",
+          "LUT": "7845"
         }
       },
       "dataflow_parent_loop_1": {
@@ -1542,8 +1542,8 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "38",
-          "FF": "4923",
-          "LUT": "7845"
+          "FF": "4939",
+          "LUT": "7909"
         }
       },
       "parseEvents": {
@@ -1565,15 +1565,15 @@
         "Area": {
           "BRAM_18K": "68",
           "DSP48E": "38",
-          "FF": "5560",
-          "LUT": "8584"
+          "FF": "5576",
+          "LUT": "8648"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-23 22:53:25 +0200",
+    "Time": "2018-10-23 23:41:32 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
