@@ -65,6 +65,7 @@ void readBlockColsSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceId
         tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][neighboryOffset]);
     }
 
+
 	// find the bottom pixel of the column that centered on y.
 	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
 
@@ -240,6 +241,7 @@ void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
                     tagBlockIn[i][j] = tagBlock[i + xOffset][j + yOffset];
                 }
             }
+
             blockSADSW(refBlock, tagBlockIn, &tmpBlockSum);
 
             if(tmpBlockSum < tmpSum)
@@ -250,6 +252,7 @@ void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
             }
         }
     }
+
     *miniRet = tmpSum;
     *OFRet = tmpOF_y.concat(tmpOF_x);
 //	std::cout << "miniSumRetSW is: " << *miniRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
@@ -654,6 +657,26 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 
 
         miniBlockSADSW(block1, block2, &miniRet, &OFRet);
+
+        // Remove outliers
+        int block1ZeroCnt = 0;
+        for(int8_t block1IdxX = 0; block1IdxX < BLOCK_SIZE; block1IdxX++)
+        {
+            for(int8_t block1IdxY = 0; block1IdxY < BLOCK_SIZE; block1IdxY++)
+            {
+                if(block1[block1IdxX][block1IdxY] == 0)
+                {
+                    block1ZeroCnt++;
+                }
+            }
+        }
+
+        if(block1ZeroCnt > BLOCK_SIZE * (BLOCK_SIZE - 1))
+        {
+            miniRet = 0x7fff;
+            OFRet = 0x3f;
+        }
+
 
 		apUint17_t tmp1 = apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 		ap_int<9> tmp2 = miniRet.range(8, 0);

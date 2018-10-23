@@ -122,3 +122,7 @@ set_directive_pipeline "rotateSliceNoRotationFlg/rotateSliceLoop"
 set_directive_pipeline "feedback/feedbackReadOFInnerLoop"
 set_directive_stream -depth 3 -dim 1 "parseEvents" thrStream
 set_directive_interface -mode m_axi -depth 500 -offset slave -bundle gmem -num_read_outstanding 0 -max_read_burst_length 2 -max_write_burst_length 256 "parseEvents" eventSlice
+set_directive_array_partition -type complete -dim 1 "colZeroCnt" t1Col
+set_directive_array_partition -type complete -dim 1 "colZeroCnt" t2Col
+set_directive_pipeline "colZeroCnt"
+set_directive_stream -depth 2 -dim 1 "parseEvents" refZeroCntStream

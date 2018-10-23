@@ -75,15 +75,44 @@ void colSADSum(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	colSADSumLoop:for(ap_uint<4> i = 0; i <= 2*SEARCH_DISTANCE; i++)
 	{
 		pix_t input1[BLOCK_SIZE], input2[BLOCK_SIZE];
+		int refTmpZeroCnt = 0, tagTmpZeroCnt = 0;
 		colSADSumInnerLoop:for(ap_uint<4> j = 0; j < BLOCK_SIZE; j++)
 		{
 			input1[j] = t1Col[j + SEARCH_DISTANCE];   // Get the col data centered on current event.
 			input2[j] = t2Col[i+j];
+			refTmpZeroCnt++;
+			tagTmpZeroCnt++;
 		}
 		sad(input1, input2, &retVal[i]);
 	}
 
 }
+
+void colZeroCnt(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
+			pix_t t2Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],  ap_uint<6> *refColZeroCnt)
+{
+	int refTmpZeroCnt = 0, tagTmpZeroCnt = 0;
+
+	for(int i = 0; i < BLOCK_SIZE; i++)
+	{
+	  if (t1Col[i + SEARCH_DISTANCE] == 0)   // Get the col data centered on current event.
+	  {
+		  refTmpZeroCnt++;
+	  }
+	}
+
+//	for(int i = 0; i < BLOCK_SIZE + 2*SEARCH_DISTANCE; i++)
+//	{
+//		if(t2Col[i] == 0)
+//		{
+//			tagTmpZeroCnt++;
+//		}
+//	}
+
+	*refColZeroCnt = refTmpZeroCnt;
+//	*tagColZeroCnt = tagTmpZeroCnt;
+}
+
 
 void blockSADSum(pix_t t1Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 		pix_t t2Block[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
@@ -705,7 +734,7 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 
 // Function description: reorder the column stream read directly from the memory slices.
 void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
-		hls::stream<apUint112_t> &outStream)
+		hls::stream<apUint112_t> &outStream, hls::stream<apUint6_t> &refZeroCntStream)
 {
 	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
@@ -735,6 +764,7 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 			pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
 			int16_t out[2*SEARCH_DISTANCE + 1];
+			ap_uint<6> refColZeroCnt, tagColZeroCnt;
 
 			// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
 			// to calculate the range function. However, unroll it completely will make all this operations
@@ -747,6 +777,8 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 
 			colSADSum(in1, in2, out);
 
+			colZeroCnt(in1, in2, &refColZeroCnt);
+
 			apUint112_t outputData;
 
 			for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
@@ -754,6 +786,7 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 				outputData.range(16 * l + 15, 16 * l) = out[l];
 			}
 
+			refZeroCntStream.write(refColZeroCnt);
 			outStream.write(outputData);
 		}
 	}
@@ -875,13 +908,16 @@ void rwSlicesAndColStreams(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &
 
 
 static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
-void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream)
+static uint16_t lastSumRefZeroCnt;
+void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream,
+		hls::stream<apUint6_t> &refZeroCntStream, hls::stream<uint16_t> &refZeroCntSumStream)
 {
 	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 	{
 		accumulateStream_label3:for(int k= 0; k < BLOCK_SIZE; k++)
 		{
 			apUint112_t inData = inStream.read();
+			apUint6_t refZeroCnt = refZeroCntStream.read();
 
 			uint16_t inputData[2 * SEARCH_DISTANCE + 1];
 
@@ -893,6 +929,7 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 					inputData[l] = inData.range(16 * l + 15, 16 * l);
 					lastSumData[l] = lastSumData[l] + inputData[l];
 				}
+				lastSumRefZeroCnt += refZeroCnt;
 
 				ap_int<16> outputMinData;
 				int8_t index;
@@ -900,6 +937,7 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				outStream.write(outputMinData.to_short());
 				OF_yStream.write(index);
 
+				refZeroCntSumStream.write(lastSumRefZeroCnt);
 				// If use reshape directive, then here must use decrease form.
 				// if use increase form, then the II is 2 cannot be 1.
 				// And lastSumData couldn't be 0.
@@ -908,6 +946,7 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				{
 					lastSumData[l] = 0;
 				}
+				lastSumRefZeroCnt = 0;
 			}
 			else
 			{
@@ -916,6 +955,7 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 					inputData[l] = inData.range(16 * l + 15, 16 * l);
 					lastSumData[l] += inputData[l];
 				}
+				lastSumRefZeroCnt += refZeroCnt;
 			}
 		}
 	}
@@ -923,21 +963,31 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 }
 
 static apUint15_t currentMin = 0x7fff;
-void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStream, hls::stream<apUint15_t> &minStream, hls::stream<apUint6_t> &OFStream)
+void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStream, hls::stream<uint16_t> &refZeroCntSumStream,
+		hls::stream<apUint15_t> &minStream,  hls::stream<apUint6_t> &OFStream)
 {
 	apUint6_t OFRet = 0x3f;
 
 	findStreamMin_label4:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 	{
 		int16_t inData = inStream.read();
+		uint16_t refZeroCntSum = refZeroCntSumStream.read();
+
 		ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
 		ap_uint<1> compCond;
+		ap_uint<1> cond2;
 
 		if(i == 2 * SEARCH_DISTANCE)
 		{
 			compCond = (inData < currentMin) ? 1 : 0;
+			cond2 = (refZeroCntSum > BLOCK_SIZE * (BLOCK_SIZE - 1)) ? 1 : 0;
+
 			currentMin = (compCond == 1) ? apUint15_t(inData) : currentMin;
 			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
+
+			currentMin = (cond2 == 1) ? apUint15_t(0x7fff) : currentMin;
+			OFRet = (cond2 == 1) ? apUint6_t(0x3f) : OFRet;
+
 			minStream.write(currentMin);
 			OFStream.write(OFRet);
 			currentMin = 0x7fff;
@@ -949,7 +999,6 @@ void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStre
 			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
 		}
 	}
-
 }
 
 void miniSADSumWrapper(hls::stream<apIntBlockCol_t> &refStreamIn, hls::stream<apIntBlockCol_t> &tagStreamIn, hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t> &OFRetStream)
@@ -1222,6 +1271,9 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 	hls::stream<int16_t> outSumStream("outSumStream");
 	hls::stream<int8_t> OF_yStream("OF_yStream");
 
+	hls::stream<apUint6_t> refZeroCntStream("refZeroCntStream");
+	hls::stream<uint16_t> refZeroCntSumStream("refZeroCntSumStream");
+
 	eventIterSize = eventsArraySize;
 
 	parseEventsLoop:for(int32_t i = 0; i < eventIterSize; i++)
@@ -1247,9 +1299,9 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 			getXandY(dataStream++, xInStream, yInStream, pktEventDataStream);
 			rotateSlice(xInStream, yInStream, thrStream, xOutStream, yOutStream, idxStream);
 			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
-			colStreamToColSum(refStream, tagStreamIn, outStream);
-			accumulateStream(outStream, outSumStream, OF_yStream);
-			findStreamMin(outSumStream, OF_yStream, miniSumStream, OFRetStream);
+			colStreamToColSum(refStream, tagStreamIn, outStream, refZeroCntStream);
+			accumulateStream(outStream, outSumStream, OF_yStream, refZeroCntStream, refZeroCntSumStream);
+			findStreamMin(outSumStream, OF_yStream, refZeroCntSumStream, miniSumStream, OFRetStream);
 			feedbackWrapperAndOutputResult(miniSumStream, OFRetStream, pktEventDataStream, thrStream, eventSlice++);
 
 			// This is the version combined rwSlices and colStreamToColSum together
