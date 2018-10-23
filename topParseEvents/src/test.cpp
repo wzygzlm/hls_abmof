@@ -31,15 +31,39 @@ void writePixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 void readBlockColsSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
 		pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
-	two_cols_pix_t refColData;
-	// concatenate two columns together
-	refColData = (slicesSW[sliceIdxRef][x][y/COMBINED_PIXELS], slicesSW[sliceIdxRef][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
-//	cout << "refColData: " << refColData.range(255, 192) << endl;
 
-	// concatenate two columns together
-	two_cols_pix_t tagColData;
-	// Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-	tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
+	two_cols_pix_t refColData;
+    two_cols_pix_t tagColData;
+    ap_uint<3> neighboryOffset;
+    if ( y%COMBINED_PIXELS < BLOCK_SIZE/2 + SEARCH_DISTANCE )
+    {
+        neighboryOffset = y/COMBINED_PIXELS - 1;
+        // concatenate two columns together
+        refColData = (slicesSW[sliceIdxRef][x][y/COMBINED_PIXELS], slicesSW[sliceIdxRef][x][neighboryOffset]); 
+        //	cout << "refColData: " << refColData << endl; 
+        // concatenate two columns together
+        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+        tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][neighboryOffset]);
+    }
+    else if ( y%COMBINED_PIXELS >  COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE - 1 )
+    {
+        neighboryOffset = y/COMBINED_PIXELS + 1;
+        // concatenate two columns together
+        refColData = (slicesSW[sliceIdxRef][x][y/COMBINED_PIXELS], slicesSW[sliceIdxRef][x][neighboryOffset]); 
+        //	cout << "refColData: " << refColData << endl; 
+        // concatenate two columns together
+        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+        tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][neighboryOffset]);
+    }
+    else
+    {
+        neighboryOffset = y/COMBINED_PIXELS + 0;
+        refColData = (slicesSW[sliceIdxRef][x][y/COMBINED_PIXELS], slicesSW[sliceIdxRef][x][neighboryOffset]); 
+        //	cout << "refColData: " << refColData << endl; 
+        // concatenate two columns together
+        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+        tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][neighboryOffset]);
+    }
 
 	// find the bottom pixel of the column that centered on y.
 	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
@@ -221,8 +245,8 @@ void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
             if(tmpBlockSum < tmpSum)
             {
                 tmpSum = tmpBlockSum;
-                tmpOF_y = ap_uint<3>(xOffset);
-                tmpOF_x = ap_uint<3>(yOffset);
+                tmpOF_x = ap_uint<3>(xOffset);
+                tmpOF_y = ap_uint<3>(yOffset);
             }
         }
     }
@@ -510,9 +534,9 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 //	glPLActiveSliceIdxSW--;
 //	sliceIdx_t idx = glPLActiveSliceIdxSW;
 
+        cout << "Current Event packet's event number is: " << eventsArraySize << endl;
 	for(int32_t i = 0; i < eventsArraySize; i++)
 	{
-//        cout << "Current Event packet's event number is: " << eventsArraySize << endl;
 		uint64_t tmp = *dataStream++;
 		ap_uint<8> xWr, yWr;
 		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
@@ -627,6 +651,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
                 block2[xOffset][yCopyOffset] = out2[yCopyOffset];
             }
 		}
+
 
         miniBlockSADSW(block1, block2, &miniRet, &OFRet);
 

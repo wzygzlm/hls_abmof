@@ -334,24 +334,34 @@ void readBlockCols(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_
 		pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 
-		two_cols_pix_t refColData;
-		// concatenate two columns together
-		refColData = (glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS], glPLSlices[sliceIdxRef][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
+	two_cols_pix_t refColData;
+    two_cols_pix_t tagColData;
+    ap_uint<3> neighboryOffset;
+    if ( y%COMBINED_PIXELS < BLOCK_SIZE/2 + SEARCH_DISTANCE )
+    {
+        neighboryOffset = y/COMBINED_PIXELS - 1;
+    }
+    else
+    {
+        neighboryOffset = y/COMBINED_PIXELS + 1;
+    }
 
-		// concatenate two columns together
-		two_cols_pix_t tagColData;
-		// Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-		tagColData = (glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][ap_uint<3>(y/COMBINED_PIXELS - 1)]);
+    // concatenate two columns together
+    refColData = (glPLSlices[sliceIdxRef][x][y/COMBINED_PIXELS], glPLSlices[sliceIdxRef][x][neighboryOffset]);
+    //	cout << "refColData: " << refColData << endl;
+    // concatenate two columns together
+    // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+    tagColData = (glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], glPLSlices[(sliceIdx_t)(sliceIdxTag + 0)][x][neighboryOffset]);
 
-		// find the bottom pixel of the column that centered on y.
-		ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
+	// find the bottom pixel of the column that centered on y.
+	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
 
-		readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
-		{
-			refCol[i] = readPixFromTwoCols(refColData,  yColOffsetIdx);
-			tagCol[i] = readPixFromTwoCols(tagColData,  yColOffsetIdx);
-			yColOffsetIdx++;
-		}
+	readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+	{
+		refCol[i] = readPixFromTwoCols(refColData,  yColOffsetIdx);
+		tagCol[i] = readPixFromTwoCols(tagColData,  yColOffsetIdx);
+		yColOffsetIdx++;
+	}
 
 }
 
@@ -865,7 +875,7 @@ void rwSlicesAndColStreams(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &
 
 
 static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
-void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_xStream)
+void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream)
 {
 	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 	{
@@ -888,7 +898,7 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				int8_t index;
 				outputMinData = min(lastSumData, &index);
 				outStream.write(outputMinData.to_short());
-				OF_xStream.write(index);
+				OF_yStream.write(index);
 
 				// If use reshape directive, then here must use decrease form.
 				// if use increase form, then the II is 2 cannot be 1.
@@ -913,21 +923,21 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 }
 
 static apUint15_t currentMin = 0x7fff;
-void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_xStream, hls::stream<apUint15_t> &minStream, hls::stream<apUint6_t> &OFStream)
+void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStream, hls::stream<apUint15_t> &minStream, hls::stream<apUint6_t> &OFStream)
 {
 	apUint6_t OFRet = 0x3f;
 
 	findStreamMin_label4:for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 	{
 		int16_t inData = inStream.read();
-		ap_uint<3> tmpOF_x = ap_uint<3>(OF_xStream.read());
+		ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
 		ap_uint<1> compCond;
 
 		if(i == 2 * SEARCH_DISTANCE)
 		{
 			compCond = (inData < currentMin) ? 1 : 0;
 			currentMin = (compCond == 1) ? apUint15_t(inData) : currentMin;
-			OFRet = (compCond == 1) ? ap_uint<3>(i).concat(tmpOF_x) : OFRet;
+			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
 			minStream.write(currentMin);
 			OFStream.write(OFRet);
 			currentMin = 0x7fff;
@@ -936,7 +946,7 @@ void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_xStre
 		{
 			compCond = (inData < currentMin) ? 1 : 0;
 			currentMin = (compCond == 1) ? apUint15_t(inData) : currentMin;
-			OFRet = (compCond == 1) ? ap_uint<3>(i).concat(tmpOF_x) : OFRet;
+			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
 		}
 	}
 
@@ -1210,7 +1220,7 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 
 	hls::stream<apUint112_t> outStream("sumStream");
 	hls::stream<int16_t> outSumStream("outSumStream");
-	hls::stream<int8_t> OF_xStream("OF_yStream");
+	hls::stream<int8_t> OF_yStream("OF_yStream");
 
 	eventIterSize = eventsArraySize;
 
@@ -1229,8 +1239,8 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 //			rotateSliceNoRotationFlg(xInStream, yInStream, xOutStream, yOutStream, idxStream);
 //			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
 //			colStreamToColSum(refStream, tagStreamIn, outStream);
-//			accumulateStream(outStream, outSumStream, OF_xStream);
-//			findStreamMin(outSumStream, OF_xStream, miniSumStream, OFRetStream);
+//			accumulateStream(outStream, outSumStream, OF_yStream);
+//			findStreamMin(outSumStream, OF_yStream, miniSumStream, OFRetStream);
 //			outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice++);
 
 			// With feedback
@@ -1238,8 +1248,8 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 			rotateSlice(xInStream, yInStream, thrStream, xOutStream, yOutStream, idxStream);
 			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
 			colStreamToColSum(refStream, tagStreamIn, outStream);
-			accumulateStream(outStream, outSumStream, OF_xStream);
-			findStreamMin(outSumStream, OF_xStream, miniSumStream, OFRetStream);
+			accumulateStream(outStream, outSumStream, OF_yStream);
+			findStreamMin(outSumStream, OF_yStream, miniSumStream, OFRetStream);
 			feedbackWrapperAndOutputResult(miniSumStream, OFRetStream, pktEventDataStream, thrStream, eventSlice++);
 
 			// This is the version combined rwSlices and colStreamToColSum together
