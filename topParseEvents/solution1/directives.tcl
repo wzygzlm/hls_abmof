@@ -126,3 +126,6 @@ set_directive_array_partition -type complete -dim 1 "colZeroCnt" t1Col
 set_directive_array_partition -type complete -dim 1 "colZeroCnt" t2Col
 set_directive_pipeline "colZeroCnt"
 set_directive_stream -depth 2 -dim 1 "parseEvents" refZeroCntStream
+set_directive_array_partition -type complete -dim 1 "colZeroCnt" tagValidPixCnt
+set_directive_array_reshape -type complete -dim 1 "accumulateStream" lastTagColValidCntSumData
+set_directive_stream -depth 2 -dim 1 "parseEvents" tagColValidCntStream

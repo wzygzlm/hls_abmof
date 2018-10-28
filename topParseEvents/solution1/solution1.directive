@@ -669,6 +669,27 @@
                 <option name="dim" value="1"/>
             </pragma>
         </directive>
+        <directive functionName="colZeroCnt" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="tagValidPixCnt" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="accumulateStream" label="" functionLabel="">
+            <pragma name="ARRAY_RESHAPE">
+                <option name="variable" value="lastTagColValidCntSumData" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="STREAM">
+                <option name="variable" value="tagColValidCntStream" positionalBoolean="4"/>
+                <option name="depth" value="2"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 

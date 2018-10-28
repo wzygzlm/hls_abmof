@@ -137,7 +137,10 @@
       "array_partition colZeroCnt {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 1}} {}",
       "array_partition colZeroCnt {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Col} {complete positionBoolean0type} {dim 1}} {}",
       "pipeline colZeroCnt {} {}",
-      "stream parseEvents {{variable positionBooleanTextRequiredrefZeroCntStream} {depth 2} {dim 1}} {}"
+      "stream parseEvents {{variable positionBooleanTextRequiredrefZeroCntStream} {depth 2} {dim 1}} {}",
+      "array_partition colZeroCnt {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtagValidPixCnt} {complete positionBoolean0type} {dim 1}} {}",
+      "array_reshape accumulateStream {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredlastTagColValidCntSumData} {complete positionBoolean0type} {dim 1}} {}",
+      "stream parseEvents {{variable positionBooleanTextRequiredtagColValidCntStream} {depth 2} {dim 1}} {}"
     ]
   },
   "ClockInfo": {
@@ -184,6 +187,7 @@
       "impl\/vhdl\/fifo_w16_d7_A.vhd",
       "impl\/vhdl\/fifo_w17_d2_S.vhd",
       "impl\/vhdl\/fifo_w30_d7_A.vhd",
+      "impl\/vhdl\/fifo_w42_d2_A.vhd",
       "impl\/vhdl\/fifo_w68_d2_S.vhd",
       "impl\/vhdl\/fifo_w68_d6_S.vhd",
       "impl\/vhdl\/fifo_w112_d2_S.vhd",
@@ -236,6 +240,7 @@
       "impl\/verilog\/fifo_w16_d7_A.v",
       "impl\/verilog\/fifo_w17_d2_S.v",
       "impl\/verilog\/fifo_w30_d7_A.v",
+      "impl\/verilog\/fifo_w42_d2_A.v",
       "impl\/verilog\/fifo_w68_d2_S.v",
       "impl\/verilog\/fifo_w68_d6_S.v",
       "impl\/verilog\/fifo_w112_d2_S.v",
@@ -1056,7 +1061,7 @@
       "ModuleName": "parseEvents",
       "Instances": [{
           "ModuleName": "dataflow_parent_loop_1",
-          "InstanceName": "grp_dataflow_parent_loop_1_fu_132",
+          "InstanceName": "grp_dataflow_parent_loop_1_fu_136",
           "Instances": [{
               "ModuleName": "dataflow_in_loop_par",
               "InstanceName": "dataflow_in_loop_par_U0",
@@ -1067,7 +1072,7 @@
                   "Instances": [
                     {
                       "ModuleName": "colSADSum",
-                      "InstanceName": "grp_colSADSum_fu_325",
+                      "InstanceName": "grp_colSADSum_fu_338",
                       "Instances": [
                         {
                           "ModuleName": "sad",
@@ -1129,7 +1134,7 @@
                     },
                     {
                       "ModuleName": "colZeroCnt",
-                      "InstanceName": "grp_colZeroCnt_fu_357"
+                      "InstanceName": "grp_colZeroCnt_fu_370"
                     }
                   ]
                 },
@@ -1138,19 +1143,19 @@
                   "InstanceName": "rwSlices_U0"
                 },
                 {
+                  "ModuleName": "accumulateStream",
+                  "InstanceName": "accumulateStream_U0",
+                  "Instances": [{
+                      "ModuleName": "min",
+                      "InstanceName": "grp_min_fu_259"
+                    }]
+                },
+                {
                   "ModuleName": "feedbackWrapperAndOu",
                   "InstanceName": "feedbackWrapperAndOu_U0",
                   "Instances": [{
                       "ModuleName": "feedback",
                       "InstanceName": "grp_feedback_fu_137"
-                    }]
-                },
-                {
-                  "ModuleName": "accumulateStream",
-                  "InstanceName": "accumulateStream_U0",
-                  "Instances": [{
-                      "ModuleName": "min",
-                      "InstanceName": "grp_min_fu_210"
                     }]
                 },
                 {
@@ -1245,7 +1250,7 @@
         "Area": {
           "BRAM_18K": "60",
           "FF": "1266",
-          "LUT": "1168",
+          "LUT": "1177",
           "DSP48E": "0"
         }
       },
@@ -1265,7 +1270,7 @@
         },
         "Area": {
           "FF": "16",
-          "LUT": "309",
+          "LUT": "305",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1287,7 +1292,7 @@
         "Area": {
           "DSP48E": "5",
           "FF": "159",
-          "LUT": "399",
+          "LUT": "395",
           "BRAM_18K": "0"
         }
       },
@@ -1308,7 +1313,7 @@
         "Area": {
           "DSP48E": "35",
           "FF": "1282",
-          "LUT": "2856",
+          "LUT": "2828",
           "BRAM_18K": "0"
         }
       },
@@ -1324,11 +1329,11 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.05"
+          "Estimate": "9.06"
         },
         "Area": {
-          "FF": "69",
-          "LUT": "253",
+          "FF": "209",
+          "LUT": "547",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1345,7 +1350,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.05"
+          "Estimate": "9.06"
         },
         "Loops": [{
             "Name": "colStreamToColSum_label1_colStreamToColSum_label2",
@@ -1357,8 +1362,8 @@
         "Area": {
           "BRAM_18K": "0",
           "DSP48E": "35",
-          "FF": "2211",
-          "LUT": "3580"
+          "FF": "2395",
+          "LUT": "3855"
         }
       },
       "min": {
@@ -1405,8 +1410,8 @@
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "609",
-          "LUT": "766",
+          "FF": "920",
+          "LUT": "1513",
           "DSP48E": "0"
         }
       },
@@ -1422,7 +1427,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "8.59"
+          "Estimate": "9.07"
         },
         "Loops": [{
             "Name": "findStreamMin_label4",
@@ -1432,8 +1437,8 @@
             "PipelineDepth": "2"
           }],
         "Area": {
-          "FF": "52",
-          "LUT": "229",
+          "FF": "69",
+          "LUT": "263",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1441,7 +1446,7 @@
       "feedback": {
         "Latency": {
           "LatencyBest": "2",
-          "LatencyAvg": "43",
+          "LatencyAvg": "45",
           "LatencyWorst": "53",
           "PipelineIIMin": "2",
           "PipelineIIMax": "53",
@@ -1452,7 +1457,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.26"
+          "Estimate": "8.72"
         },
         "Loops": [{
             "Name": "feedbackReadOFLoop_feedbackReadOFInnerLoop",
@@ -1463,15 +1468,15 @@
           }],
         "Area": {
           "DSP48E": "3",
-          "FF": "226",
-          "LUT": "639",
+          "FF": "188",
+          "LUT": "529",
           "BRAM_18K": "0"
         }
       },
       "feedbackWrapperAndOu": {
         "Latency": {
           "LatencyBest": "9",
-          "LatencyAvg": "50",
+          "LatencyAvg": "52",
           "LatencyWorst": "60",
           "PipelineIIMin": "9",
           "PipelineIIMax": "60",
@@ -1486,8 +1491,8 @@
         },
         "Area": {
           "DSP48E": "3",
-          "FF": "333",
-          "LUT": "840",
+          "FF": "289",
+          "LUT": "730",
           "BRAM_18K": "0"
         }
       },
@@ -1508,8 +1513,8 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "38",
-          "FF": "4905",
-          "LUT": "7845"
+          "FF": "5383",
+          "LUT": "8882"
         }
       },
       "dataflow_parent_loop_1": {
@@ -1542,8 +1547,8 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "38",
-          "FF": "4939",
-          "LUT": "7909"
+          "FF": "5417",
+          "LUT": "8946"
         }
       },
       "parseEvents": {
@@ -1565,15 +1570,15 @@
         "Area": {
           "BRAM_18K": "68",
           "DSP48E": "38",
-          "FF": "5576",
-          "LUT": "8648"
+          "FF": "6054",
+          "LUT": "9685"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-23 23:41:32 +0200",
+    "Time": "2018-10-28 22:11:54 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

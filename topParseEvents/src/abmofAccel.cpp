@@ -88,29 +88,57 @@ void colSADSum(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 
 }
 
+// This function is used to calculate the number of non-zero pixels in ref block, tag block
+// and the number of the number of identical non-zero pixels between both of them.
 void colZeroCnt(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
-			pix_t t2Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],  ap_uint<6> *refColZeroCnt)
+			pix_t t2Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],  ap_uint<6> *refColZeroCnt,
+			ap_uint<6> tagValidPixCnt[2 * SEARCH_DISTANCE + 1],
+			ap_uint<6> refTagValidPixCnt[2 * SEARCH_DISTANCE + 1])
 {
-	int refTmpZeroCnt = 0, tagTmpZeroCnt = 0;
-
+	int refTmpZeroCnt = 0, tagTmpZeroCnt = 0, refTagTmpZeroCnt = 0;
+	ap_uint< BLOCK_SIZE > refValidPixFlgBits, tagValidPixFlgBits;
 	for(int i = 0; i < BLOCK_SIZE; i++)
 	{
-	  if (t1Col[i + SEARCH_DISTANCE] == 0)   // Get the col data centered on current event.
-	  {
-		  refTmpZeroCnt++;
-	  }
+		ap_uint<1> refTmpBool = t1Col[i + SEARCH_DISTANCE].bit(0);
+		ap_uint<1> tagTmpBool = t2Col[i].bit(0);
+		for (int j = 1; j < BITS_PER_PIXEL; j++)
+		{
+			refTmpBool |= t1Col[i + SEARCH_DISTANCE].bit(j);
+			tagTmpBool |= t2Col[i].bit(j);
+		}
+		ap_uint<1> refTagTmpBool = refTmpBool | refTagTmpBool;
+
+		refTmpZeroCnt +=  refTmpBool;
+		tagTmpZeroCnt +=  tagTmpBool;
+		refTagTmpZeroCnt += refTagTmpBool;
+
+//		if (t1Col[i + SEARCH_DISTANCE].or_reduce())   // Get the col data centered on current event.
+//		{
+//		  refTmpZeroCnt++;
+//		}
 	}
 
-//	for(int i = 0; i < BLOCK_SIZE + 2*SEARCH_DISTANCE; i++)
-//	{
-//		if(t2Col[i] == 0)
-//		{
-//			tagTmpZeroCnt++;
-//		}
-//	}
+	tagValidPixCnt[0] = tagTmpZeroCnt;
+	refTagValidPixCnt[0] = refTagTmpZeroCnt;
+
+	for(int m = 1; m <= 2 * SEARCH_DISTANCE; m++)
+	{
+		ap_uint<1> tmpBool1 = t2Col[m - 1].bit(0);
+		for (int j = 1; j < BITS_PER_PIXEL; j++)
+		{
+			tmpBool1 |= t2Col[m - 1].bit(j);
+		}
+
+		ap_uint<1> tmpBool2 = t2Col[BLOCK_SIZE + m - 1].bit(0);
+		for (int j = 1; j < BITS_PER_PIXEL; j++)
+		{
+			tmpBool2 |= t2Col[BLOCK_SIZE + m - 1].bit(j);
+		}
+
+		tagValidPixCnt[m] = tagValidPixCnt[m - 1] + tmpBool2 - tmpBool1;
+	}
 
 	*refColZeroCnt = refTmpZeroCnt;
-//	*tagColZeroCnt = tagTmpZeroCnt;
 }
 
 
@@ -250,7 +278,8 @@ void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 
 	tmpTmpData = readPixFromCol(tmpData, yNewIdx);
 
-	tmpTmpData +=  1;
+	ap_uint<1> cmpFlg = ap_uint<1>(tmpTmpData < (ap_uint< BITS_PER_PIXEL - 1 >(0xff)));
+	tmpTmpData +=  cmpFlg;
 
 	writePixToCol(&tmpData, yNewIdx, tmpTmpData);
 
@@ -521,7 +550,7 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 
 	glRotateFlg = 0;
 	// The area threshold reached, rotate the slice index and clear the areaEventRegs.
-	if (c > tmpThr)
+	if (c >= tmpThr)
 	{
 		glPLActiveSliceIdx--;
 		glRotateFlg = 1;
@@ -734,7 +763,8 @@ void rwSlices(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &yStream, hls:
 
 // Function description: reorder the column stream read directly from the memory slices.
 void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
-		hls::stream<apUint112_t> &outStream, hls::stream<apUint6_t> &refZeroCntStream)
+		hls::stream<apUint112_t> &outStream, hls::stream<apUint6_t> &refZeroCntStream,
+		hls::stream<apUint42_t> &tagColValidCntStream)
 {
 	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
@@ -764,7 +794,7 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 			pix_t in2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
 			int16_t out[2*SEARCH_DISTANCE + 1];
-			ap_uint<6> refColZeroCnt, tagColZeroCnt;
+			ap_uint<6> refColZeroCnt, tagColValidCnt[2*SEARCH_DISTANCE + 1], refTagValidPixCnt[2*SEARCH_DISTANCE + 1];
 
 			// This forloop should be unrolled completely, otherwise it will take a lot of shift registers
 			// to calculate the range function. However, unroll it completely will make all this operations
@@ -777,17 +807,20 @@ void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apI
 
 			colSADSum(in1, in2, out);
 
-			colZeroCnt(in1, in2, &refColZeroCnt);
+			colZeroCnt(in1, in2, &refColZeroCnt, tagColValidCnt, refTagValidPixCnt);
 
 			apUint112_t outputData;
+			apUint42_t tagColValidOutputData;
 
 			for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
 			{
 				outputData.range(16 * l + 15, 16 * l) = out[l];
+				tagColValidOutputData.range(6 * l + 5, 6 * l) = tagColValidCnt[l];
 			}
 
 			refZeroCntStream.write(refColZeroCnt);
 			outStream.write(outputData);
+			tagColValidCntStream.write(tagColValidOutputData);
 		}
 	}
 }
@@ -908,18 +941,22 @@ void rwSlicesAndColStreams(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &
 
 
 static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
+static ap_int<16> lastTagColValidCntSumData[2 * SEARCH_DISTANCE + 1];
 static uint16_t lastSumRefZeroCnt;
 void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream,
-		hls::stream<apUint6_t> &refZeroCntStream, hls::stream<uint16_t> &refZeroCntSumStream)
+		hls::stream<apUint6_t> &refZeroCntStream, hls::stream<uint16_t> &refZeroCntSumStream,
+		hls::stream<apUint42_t> &tagColValidCntStream, hls::stream<uint16_t> &tagColValidCntSumStream)
 {
 	for(int i = 0; i < 2 * SEARCH_DISTANCE + 1; i++)
 	{
 		accumulateStream_label3:for(int k= 0; k < BLOCK_SIZE; k++)
 		{
 			apUint112_t inData = inStream.read();
+			apUint42_t tagColValidCntData = tagColValidCntStream.read();
 			apUint6_t refZeroCnt = refZeroCntStream.read();
 
 			uint16_t inputData[2 * SEARCH_DISTANCE + 1];
+			apUint6_t inputTagColValidCntData[2 * SEARCH_DISTANCE + 1];
 
 			if(k == BLOCK_SIZE - 1)
 			{
@@ -927,7 +964,9 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
 				{
 					inputData[l] = inData.range(16 * l + 15, 16 * l);
+					inputTagColValidCntData[l] = tagColValidCntData.range(6 * l + 5, 6 * l);
 					lastSumData[l] = lastSumData[l] + inputData[l];
+					lastTagColValidCntSumData[l] = lastTagColValidCntSumData[l] + inputTagColValidCntData[l];
 				}
 				lastSumRefZeroCnt += refZeroCnt;
 
@@ -938,6 +977,7 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				OF_yStream.write(index);
 
 				refZeroCntSumStream.write(lastSumRefZeroCnt);
+				tagColValidCntSumStream.write(lastTagColValidCntSumData[index]);
 				// If use reshape directive, then here must use decrease form.
 				// if use increase form, then the II is 2 cannot be 1.
 				// And lastSumData couldn't be 0.
@@ -945,6 +985,7 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				for (int l = 2 * SEARCH_DISTANCE; l >= 0; l--)
 				{
 					lastSumData[l] = 0;
+					lastTagColValidCntSumData[l] = 0;
 				}
 				lastSumRefZeroCnt = 0;
 			}
@@ -954,6 +995,8 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				{
 					inputData[l] = inData.range(16 * l + 15, 16 * l);
 					lastSumData[l] += inputData[l];
+					inputTagColValidCntData[l] = tagColValidCntData.range(6 * l + 5, 6 * l);
+					lastTagColValidCntSumData[l] += inputTagColValidCntData[l];
 				}
 				lastSumRefZeroCnt += refZeroCnt;
 			}
@@ -963,7 +1006,9 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 }
 
 static apUint15_t currentMin = 0x7fff;
-void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStream, hls::stream<uint16_t> &refZeroCntSumStream,
+void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStream,
+		hls::stream<uint16_t> &refZeroCntSumStream,
+		hls::stream<uint16_t> &tagColValidCntStream,
 		hls::stream<apUint15_t> &minStream,  hls::stream<apUint6_t> &OFStream)
 {
 	apUint6_t OFRet = 0x3f;
@@ -972,18 +1017,25 @@ void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStre
 	{
 		int16_t inData = inStream.read();
 		uint16_t refZeroCntSum = refZeroCntSumStream.read();
+		uint16_t tagColValidCntSum = tagColValidCntStream.read();
 
 		ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
+		ap_uint<1> wholeCond;
 		ap_uint<1> compCond;
 		ap_uint<1> cond2;
+		ap_uint<1> tagValidCond;
 
 		if(i == 2 * SEARCH_DISTANCE)
 		{
 			compCond = (inData < currentMin) ? 1 : 0;
-			cond2 = (refZeroCntSum > BLOCK_SIZE * (BLOCK_SIZE - 1)) ? 1 : 0;
+			cond2 = (refZeroCntSum < 2) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
+			tagValidCond = (tagColValidCntSum < 2) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
 
 			currentMin = (compCond == 1) ? apUint15_t(inData) : currentMin;
 			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
+
+			currentMin = (tagValidCond == 1) ? apUint15_t(0x7fff) : currentMin;
+			OFRet = (tagValidCond == 1) ? apUint6_t(0x3f) : OFRet;
 
 			currentMin = (cond2 == 1) ? apUint15_t(0x7fff) : currentMin;
 			OFRet = (cond2 == 1) ? apUint6_t(0x3f) : OFRet;
@@ -995,8 +1047,13 @@ void findStreamMin(hls::stream<int16_t> &inStream, hls::stream<int8_t> &OF_yStre
 		else
 		{
 			compCond = (inData < currentMin) ? 1 : 0;
+			tagValidCond = (tagColValidCntSum < 2) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
+
 			currentMin = (compCond == 1) ? apUint15_t(inData) : currentMin;
 			OFRet = (compCond == 1) ? tmpOF_y.concat(ap_uint<3>(i)) : OFRet;
+
+			currentMin = (tagValidCond == 1) ? apUint15_t(0x7fff) : currentMin;
+			OFRet = (tagValidCond == 1) ? apUint6_t(0x3f) : OFRet;
 		}
 	}
 }
@@ -1090,7 +1147,7 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
 			uint16_t deltaThr = areaEventThr * 3 / 64;
 			if(avgMatchMul > avgTargetMul )
 			{
-				areaEventThr -= deltaThr;
+//				areaEventThr -= deltaThr;
 				if (areaEventThr <= 100)
 				{
 					areaEventThr = 100;
@@ -1100,7 +1157,7 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
 			}
 			else if (avgMatchMul < avgTargetMul)
 			{
-				areaEventThr += deltaThr;
+//				areaEventThr += deltaThr;
 				if (areaEventThr >= 1000)
 				{
 					areaEventThr = 1000;
@@ -1284,6 +1341,9 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 	hls::stream<apUint6_t> refZeroCntStream("refZeroCntStream");
 	hls::stream<uint16_t> refZeroCntSumStream("refZeroCntSumStream");
 
+	hls::stream<apUint42_t> tagColValidCntStream("tagColValidCntStream");
+	hls::stream<uint16_t> tagColValidCntSumStream("tagColValidCntSumStream");
+
 	eventIterSize = eventsArraySize;
 
 	parseEventsLoop:for(int32_t i = 0; i < eventIterSize; i++)
@@ -1309,9 +1369,9 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 			getXandY(dataStream++, xInStream, yInStream, pktEventDataStream);
 			rotateSlice(xInStream, yInStream, thrStream, xOutStream, yOutStream, idxStream);
 			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
-			colStreamToColSum(refStream, tagStreamIn, outStream, refZeroCntStream);
-			accumulateStream(outStream, outSumStream, OF_yStream, refZeroCntStream, refZeroCntSumStream);
-			findStreamMin(outSumStream, OF_yStream, refZeroCntSumStream, miniSumStream, OFRetStream);
+			colStreamToColSum(refStream, tagStreamIn, outStream, refZeroCntStream, tagColValidCntStream);
+			accumulateStream(outStream, outSumStream, OF_yStream, refZeroCntStream, refZeroCntSumStream, tagColValidCntStream, tagColValidCntSumStream);
+			findStreamMin(outSumStream, OF_yStream, refZeroCntSumStream, tagColValidCntSumStream, miniSumStream, OFRetStream);
 			feedbackWrapperAndOutputResult(miniSumStream, OFRetStream, pktEventDataStream, thrStream, eventSlice++);
 
 			// This is the version combined rwSlices and colStreamToColSum together
