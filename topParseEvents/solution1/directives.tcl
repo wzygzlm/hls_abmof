@@ -23,7 +23,7 @@ set_directive_array_reshape -type complete -dim 1 "blockSADSum" t1Block
 set_directive_array_reshape -type complete -dim 1 "blockSADSum" sumBlock
 set_directive_array_reshape -type complete -dim 1 "min" inArr
 set_directive_pipeline "min"
-set_directive_inline -off "min"
+set_directive_inline "min"
 set_directive_inline "readPixFromCol"
 set_directive_unroll "readPixFromCol/readWiderBitsLoop"
 set_directive_inline "readPixFromTwoCols"
@@ -127,5 +127,5 @@ set_directive_array_partition -type complete -dim 1 "colZeroCnt" t2Col
 set_directive_pipeline "colZeroCnt"
 set_directive_stream -depth 2 -dim 1 "parseEvents" refZeroCntStream
 set_directive_array_partition -type complete -dim 1 "colZeroCnt" tagValidPixCnt
-set_directive_array_reshape -type complete -dim 1 "accumulateStream" lastTagColValidCntSumData
 set_directive_stream -depth 2 -dim 1 "parseEvents" tagColValidCntStream
+set_directive_array_partition -type complete -dim 1 "colZeroCnt" refTagValidPixCnt

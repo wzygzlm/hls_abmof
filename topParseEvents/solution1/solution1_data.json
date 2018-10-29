@@ -35,7 +35,7 @@
       "array_reshape blockSADSum {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredsumBlock} {complete positionBoolean0type} {dim 1}} {}",
       "array_reshape min {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredinArr} {complete positionBoolean0type} {dim 1}} {}",
       "pipeline min {} {}",
-      "inline min {{off positionBoolean1}} {}",
+      "inline min {} {}",
       "inline readPixFromCol {} {}",
       "unroll readPixFromCol\/readWiderBitsLoop {} {}",
       "inline readPixFromTwoCols {} {}",
@@ -139,8 +139,8 @@
       "pipeline colZeroCnt {} {}",
       "stream parseEvents {{variable positionBooleanTextRequiredrefZeroCntStream} {depth 2} {dim 1}} {}",
       "array_partition colZeroCnt {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtagValidPixCnt} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape accumulateStream {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredlastTagColValidCntSumData} {complete positionBoolean0type} {dim 1}} {}",
-      "stream parseEvents {{variable positionBooleanTextRequiredtagColValidCntStream} {depth 2} {dim 1}} {}"
+      "stream parseEvents {{variable positionBooleanTextRequiredtagColValidCntStream} {depth 2} {dim 1}} {}",
+      "array_partition colZeroCnt {{partition positionBooleanCmd} {variable positionBooleanTextRequiredrefTagValidPixCnt} {complete positionBoolean0type} {dim 1}} {}"
     ]
   },
   "ClockInfo": {
@@ -193,7 +193,6 @@
       "impl\/vhdl\/fifo_w112_d2_S.vhd",
       "impl\/vhdl\/findStreamMin.vhd",
       "impl\/vhdl\/getXandY7.vhd",
-      "impl\/vhdl\/min.vhd",
       "impl\/vhdl\/parseEvents_ama_asc4.vhd",
       "impl\/vhdl\/parseEvents_AXILiteS_s_axi.vhd",
       "impl\/vhdl\/parseEvents_gmem_m_axi.vhd",
@@ -246,7 +245,6 @@
       "impl\/verilog\/fifo_w112_d2_S.v",
       "impl\/verilog\/findStreamMin.v",
       "impl\/verilog\/getXandY7.v",
-      "impl\/verilog\/min.v",
       "impl\/verilog\/parseEvents_ama_asc4.v",
       "impl\/verilog\/parseEvents_AXILiteS_s_axi.v",
       "impl\/verilog\/parseEvents_gmem_m_axi.v",
@@ -1144,11 +1142,7 @@
                 },
                 {
                   "ModuleName": "accumulateStream",
-                  "InstanceName": "accumulateStream_U0",
-                  "Instances": [{
-                      "ModuleName": "min",
-                      "InstanceName": "grp_min_fu_259"
-                    }]
+                  "InstanceName": "accumulateStream_U0"
                 },
                 {
                   "ModuleName": "feedbackWrapperAndOu",
@@ -1366,27 +1360,6 @@
           "LUT": "3855"
         }
       },
-      "min": {
-        "Latency": {
-          "LatencyBest": "1",
-          "LatencyAvg": "1",
-          "LatencyWorst": "1",
-          "PipelineII": "1",
-          "PipelineDepth": "2",
-          "PipelineType": "function"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "9.89"
-        },
-        "Area": {
-          "FF": "66",
-          "LUT": "193",
-          "BRAM_18K": "0",
-          "DSP48E": "0"
-        }
-      },
       "accumulateStream": {
         "Latency": {
           "LatencyBest": "79",
@@ -1399,7 +1372,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.89"
+          "Estimate": "9.70"
         },
         "Loops": [{
             "Name": "L_accumulateStream_label3",
@@ -1410,8 +1383,8 @@
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "920",
-          "LUT": "1513",
+          "FF": "682",
+          "LUT": "1000",
           "DSP48E": "0"
         }
       },
@@ -1513,8 +1486,8 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "38",
-          "FF": "5383",
-          "LUT": "8882"
+          "FF": "5145",
+          "LUT": "8369"
         }
       },
       "dataflow_parent_loop_1": {
@@ -1547,8 +1520,8 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "38",
-          "FF": "5417",
-          "LUT": "8946"
+          "FF": "5179",
+          "LUT": "8433"
         }
       },
       "parseEvents": {
@@ -1570,15 +1543,15 @@
         "Area": {
           "BRAM_18K": "68",
           "DSP48E": "38",
-          "FF": "6054",
-          "LUT": "9685"
+          "FF": "5816",
+          "LUT": "9172"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-28 22:11:54 +0100",
+    "Time": "2018-10-29 16:03:20 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

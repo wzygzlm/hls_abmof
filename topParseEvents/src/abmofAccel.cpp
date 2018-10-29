@@ -106,11 +106,8 @@ void colZeroCnt(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			refTmpBool |= t1Col[i + SEARCH_DISTANCE].bit(j);
 			tagTmpBool |= t2Col[i].bit(j);
 		}
-		ap_uint<1> refTagTmpBool = refTmpBool | refTagTmpBool;
-
 		refTmpZeroCnt +=  refTmpBool;
 		tagTmpZeroCnt +=  tagTmpBool;
-		refTagTmpZeroCnt += refTagTmpBool;
 
 //		if (t1Col[i + SEARCH_DISTANCE].or_reduce())   // Get the col data centered on current event.
 //		{
@@ -119,8 +116,6 @@ void colZeroCnt(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 	}
 
 	tagValidPixCnt[0] = tagTmpZeroCnt;
-	refTagValidPixCnt[0] = refTagTmpZeroCnt;
-
 	for(int m = 1; m <= 2 * SEARCH_DISTANCE; m++)
 	{
 		ap_uint<1> tmpBool1 = t2Col[m - 1].bit(0);
@@ -135,8 +130,22 @@ void colZeroCnt(pix_t t1Col[BLOCK_SIZE + 2 * SEARCH_DISTANCE],
 			tmpBool2 |= t2Col[BLOCK_SIZE + m - 1].bit(j);
 		}
 
+//		ap_uint<1> refTagTmpBool1 = (t1Col[m - 1 + SEARCH_DISTANCE].bit(0) == t2Col[m - 1].bit(0)) & (t2Col[m - 1].bit(0) != 0);
+//		ap_uint<1> refTagTmpBool2 = (t1Col[BLOCK_SIZE + m - 1 + SEARCH_DISTANCE].bit(0) == t2Col[BLOCK_SIZE + m - 1].bit(0)) & (t2Col[BLOCK_SIZE + m - 1].bit(0) != 0);
+//
 		tagValidPixCnt[m] = tagValidPixCnt[m - 1] + tmpBool2 - tmpBool1;
+//		refTagValidPixCnt[m] = tagValidPixCnt[m - 1] + refTagTmpBool2 - refTagTmpBool1;
 	}
+
+//	for(int m = 0; m <= 2 * SEARCH_DISTANCE; m++)
+//	{
+//		for(int n = 0; n < BLOCK_SIZE; n++)
+//		{
+//			ap_uint<1> refTagTmpBool = (t1Col[n + SEARCH_DISTANCE] == t2Col[n + m]) & (t2Col[n + m] != 0);
+//			refTagTmpZeroCnt += refTagTmpBool;
+//		}
+//		refTagValidPixCnt[m] = refTagTmpZeroCnt;
+//	}
 
 	*refColZeroCnt = refTmpZeroCnt;
 }
@@ -941,7 +950,7 @@ void rwSlicesAndColStreams(hls::stream<uint8_t> &xStream, hls::stream<uint8_t> &
 
 
 static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
-static ap_int<16> lastTagColValidCntSumData[2 * SEARCH_DISTANCE + 1];
+static ap_uint< 9 * (2 * SEARCH_DISTANCE + 1) > lastTagColValidCntSumData;
 static uint16_t lastSumRefZeroCnt;
 void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream,
 		hls::stream<apUint6_t> &refZeroCntStream, hls::stream<uint16_t> &refZeroCntSumStream,
@@ -964,9 +973,12 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				for (int l = 0; l < 2 * SEARCH_DISTANCE + 1; l++)
 				{
 					inputData[l] = inData.range(16 * l + 15, 16 * l);
-					inputTagColValidCntData[l] = tagColValidCntData.range(6 * l + 5, 6 * l);
 					lastSumData[l] = lastSumData[l] + inputData[l];
-					lastTagColValidCntSumData[l] = lastTagColValidCntSumData[l] + inputTagColValidCntData[l];
+
+					apUint6_t tmpInputTagColValidCntData = tagColValidCntData.range(6 * l + 5, 6 * l);
+					ap_uint<9> tmpLastTagColValidCntSumData = lastTagColValidCntSumData.range(9 * l + 8, 9 * l);
+					tmpLastTagColValidCntSumData += tmpInputTagColValidCntData;
+					lastTagColValidCntSumData.range(9 * l + 8, 9 * l) = tmpLastTagColValidCntSumData;
 				}
 				lastSumRefZeroCnt += refZeroCnt;
 
@@ -977,7 +989,13 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				OF_yStream.write(index);
 
 				refZeroCntSumStream.write(lastSumRefZeroCnt);
-				tagColValidCntSumStream.write(lastTagColValidCntSumData[index]);
+
+				ap_uint<9> tagColValidCntSumWriteData;
+				for (int j = 0; j < 9; j++)
+				{
+					tagColValidCntSumWriteData[j] = lastTagColValidCntSumData[9 * index + j];
+				}
+				tagColValidCntSumStream.write(tagColValidCntSumWriteData.to_short());
 				// If use reshape directive, then here must use decrease form.
 				// if use increase form, then the II is 2 cannot be 1.
 				// And lastSumData couldn't be 0.
@@ -985,9 +1003,9 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				for (int l = 2 * SEARCH_DISTANCE; l >= 0; l--)
 				{
 					lastSumData[l] = 0;
-					lastTagColValidCntSumData[l] = 0;
 				}
 				lastSumRefZeroCnt = 0;
+				lastTagColValidCntSumData = 0;
 			}
 			else
 			{
@@ -995,8 +1013,11 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 				{
 					inputData[l] = inData.range(16 * l + 15, 16 * l);
 					lastSumData[l] += inputData[l];
-					inputTagColValidCntData[l] = tagColValidCntData.range(6 * l + 5, 6 * l);
-					lastTagColValidCntSumData[l] += inputTagColValidCntData[l];
+
+					apUint6_t tmpInputTagColValidCntData = tagColValidCntData.range(6 * l + 5, 6 * l);
+					ap_uint<9> tmpLastTagColValidCntSumData = lastTagColValidCntSumData.range(9 * l + 8, 9 * l);
+					tmpLastTagColValidCntSumData += tmpInputTagColValidCntData;
+					lastTagColValidCntSumData.range(9 * l + 8, 9 * l) = tmpLastTagColValidCntSumData;
 				}
 				lastSumRefZeroCnt += refZeroCnt;
 			}
