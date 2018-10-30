@@ -204,16 +204,19 @@ void blockSADSW(pix_t blockIn1[BLOCK_SIZE][BLOCK_SIZE], pix_t blockIn2[BLOCK_SIZ
             {
                 validPixTagBlockCnt++;
             }
+            if (blockIn1[i][j] != 0 && blockIn2[i][j] != 0)
+            {
+                nonZeroMatchCnt++;
+            }
         }
     }
 
     // Remove outliers
     int minValidPixNum = 0.02 * (BLOCK_SIZE * BLOCK_SIZE); 
-    if (validPixRefBlockCnt < minValidPixNum || validPixTagBlockCnt < minValidPixNum)
+    if (validPixRefBlockCnt < minValidPixNum || validPixTagBlockCnt < minValidPixNum || nonZeroMatchCnt < minValidPixNum)
     {
         tmpSum = 0x7fff;
-    }
-
+    } 
     *sumRet = tmpSum;
 }
 
@@ -587,6 +590,11 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
 		int64_t ts = tmp >> 32;
 
+        /* These two values are only for debug and test */
+        ap_uint<3> OFGT_x = (tmp >> 26);
+        ap_uint<3> OFGT_y = (tmp >> 29);
+        ap_uint<6> OFGT = OFGT_y.concat(OFGT_x);
+
 		ap_int<16> miniRet;
 		ap_uint<6> OFRet;
 
@@ -693,6 +701,11 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
             }
 		}
 
+        if (i == 294)
+        {
+        	int tmp = 1;
+        }
+
         bool printBlocksEnable = false;
         miniBlockSADSW(block1, block2, printBlocksEnable, &miniRet, &OFRet);
 
@@ -714,7 +727,6 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 //            miniRet = 0x7fff;
 //            OFRet = 0x3f;
 //        }
-
 
 		apUint17_t tmp1 = apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 		ap_int<9> tmp2 = miniRet.range(8, 0);

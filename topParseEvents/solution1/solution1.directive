@@ -115,7 +115,9 @@
             <pragma name="PIPELINE"/>
         </directive>
         <directive functionName="min" label="" functionLabel="">
-            <pragma name="INLINE"/>
+            <pragma name="INLINE">
+                <option name="off" value="" positionalBoolean="1"/>
+            </pragma>
         </directive>
         <directive functionName="readPixFromCol" label="" functionLabel="">
             <pragma name="INLINE"/>
@@ -488,9 +490,6 @@
             </pragma>
         </directive>
         <directive functionName="rotateSlice" label="rotateSliceResetLoop" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
-        <directive functionName="rotateSlice" label="rotateSliceResetLoop" functionLabel="">
             <pragma name="INLINE">
                 <option name="off" value="" positionalBoolean="1"/>
             </pragma>
@@ -660,17 +659,27 @@
         <directive functionName="colZeroCnt" label="" functionLabel="">
             <pragma name="PIPELINE"/>
         </directive>
-        <directive functionName="parseEvents" label="" functionLabel="">
-            <pragma name="STREAM">
-                <option name="variable" value="refZeroCntStream" positionalBoolean="4"/>
-                <option name="depth" value="2"/>
+        <directive functionName="colZeroCnt" label="" functionLabel="">
+            <pragma name="ARRAY_PARTITION">
+                <option name="variable" value="tagValidPixCnt" positionalBoolean="4"/>
+                <option name="complete" value="" positionalBoolean="type"/>
                 <option name="dim" value="1"/>
             </pragma>
         </directive>
         <directive functionName="colZeroCnt" label="" functionLabel="">
             <pragma name="ARRAY_PARTITION">
-                <option name="variable" value="tagValidPixCnt" positionalBoolean="4"/>
+                <option name="variable" value="refTagValidPixCnt" positionalBoolean="4"/>
                 <option name="complete" value="" positionalBoolean="type"/>
+                <option name="dim" value="1"/>
+            </pragma>
+        </directive>
+        <directive functionName="rotateSlice" label="rotateSliceResetLoop" functionLabel="">
+            <pragma name="PIPELINE"/>
+        </directive>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="STREAM">
+                <option name="variable" value="refZeroCntStream" positionalBoolean="4"/>
+                <option name="depth" value="2"/>
                 <option name="dim" value="1"/>
             </pragma>
         </directive>
@@ -681,10 +690,10 @@
                 <option name="dim" value="1"/>
             </pragma>
         </directive>
-        <directive functionName="colZeroCnt" label="" functionLabel="">
-            <pragma name="ARRAY_PARTITION">
-                <option name="variable" value="refTagValidPixCnt" positionalBoolean="4"/>
-                <option name="complete" value="" positionalBoolean="type"/>
+        <directive functionName="parseEvents" label="" functionLabel="">
+            <pragma name="STREAM">
+                <option name="variable" value="refTagValidCntStream" positionalBoolean="4"/>
+                <option name="depth" value="2"/>
                 <option name="dim" value="1"/>
             </pragma>
         </directive>
