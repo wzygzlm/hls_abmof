@@ -493,7 +493,7 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 
 
 static uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
-static uint16_t areaEventThr = 500;
+static uint16_t areaEventThr = 1000;
 
 void rotateSliceNoRotationFlg(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream,
 				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream)
@@ -563,7 +563,7 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 	c = c + 1;
 	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
 
-	uint16_t tmpThr = 500;
+	uint16_t tmpThr = 1000;
 
 	if (!thrStream.empty()) tmpThr = thrStream.read();
 
@@ -966,6 +966,7 @@ static ap_int<16> lastSumData[2 * SEARCH_DISTANCE + 1];
 static ap_uint< 9 * (2 * SEARCH_DISTANCE + 1) > lastTagColValidCntSumData;
 static ap_uint< 9 * (2 * SEARCH_DISTANCE + 1) > lastrefTagValidCntSumData;
 static uint16_t lastSumRefZeroCnt;
+// TODO: continue to optimize this function.
 void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &outStream, hls::stream<int8_t> &OF_yStream,
 		hls::stream<apUint6_t> &refZeroCntStream,
 		hls::stream<apUint42_t> &tagColValidCntStream,
