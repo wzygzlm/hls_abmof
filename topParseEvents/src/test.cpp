@@ -701,11 +701,6 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
             }
 		}
 
-        if (i == 294)
-        {
-        	int tmp = 1;
-        }
-
         bool printBlocksEnable = false;
         miniBlockSADSW(block1, block2, printBlocksEnable, &miniRet, &OFRet);
 
