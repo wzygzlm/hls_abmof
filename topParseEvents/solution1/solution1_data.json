@@ -182,12 +182,14 @@
       "impl\/vhdl\/fifo_w6_d0_A.vhd",
       "impl\/vhdl\/fifo_w6_d2_A.vhd",
       "impl\/vhdl\/fifo_w8_d0_A.vhd",
+      "impl\/vhdl\/fifo_w9_d6_A.vhd",
       "impl\/vhdl\/fifo_w15_d2_S.vhd",
       "impl\/vhdl\/fifo_w16_d0_A.vhd",
       "impl\/vhdl\/fifo_w16_d3_A.vhd",
       "impl\/vhdl\/fifo_w16_d7_A.vhd",
       "impl\/vhdl\/fifo_w17_d2_S.vhd",
       "impl\/vhdl\/fifo_w30_d7_A.vhd",
+      "impl\/vhdl\/fifo_w32_d0_A.vhd",
       "impl\/vhdl\/fifo_w42_d2_A.vhd",
       "impl\/vhdl\/fifo_w68_d2_S.vhd",
       "impl\/vhdl\/fifo_w68_d6_S.vhd",
@@ -235,12 +237,14 @@
       "impl\/verilog\/fifo_w6_d0_A.v",
       "impl\/verilog\/fifo_w6_d2_A.v",
       "impl\/verilog\/fifo_w8_d0_A.v",
+      "impl\/verilog\/fifo_w9_d6_A.v",
       "impl\/verilog\/fifo_w15_d2_S.v",
       "impl\/verilog\/fifo_w16_d0_A.v",
       "impl\/verilog\/fifo_w16_d3_A.v",
       "impl\/verilog\/fifo_w16_d7_A.v",
       "impl\/verilog\/fifo_w17_d2_S.v",
       "impl\/verilog\/fifo_w30_d7_A.v",
+      "impl\/verilog\/fifo_w32_d0_A.v",
       "impl\/verilog\/fifo_w42_d2_A.v",
       "impl\/verilog\/fifo_w68_d2_S.v",
       "impl\/verilog\/fifo_w68_d6_S.v",
@@ -1062,7 +1066,7 @@
       "ModuleName": "parseEvents",
       "Instances": [{
           "ModuleName": "dataflow_parent_loop_1",
-          "InstanceName": "grp_dataflow_parent_loop_1_fu_138",
+          "InstanceName": "grp_dataflow_parent_loop_1_fu_144",
           "Instances": [{
               "ModuleName": "dataflow_in_loop_par",
               "InstanceName": "dataflow_in_loop_par_U0",
@@ -1156,7 +1160,7 @@
                   "InstanceName": "feedbackWrapperAndOu_U0",
                   "Instances": [{
                       "ModuleName": "feedback",
-                      "InstanceName": "grp_feedback_fu_137"
+                      "InstanceName": "grp_feedback_fu_147"
                     }]
                 },
                 {
@@ -1192,7 +1196,7 @@
         },
         "Area": {
           "FF": "3",
-          "LUT": "74",
+          "LUT": "83",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1221,8 +1225,8 @@
             "PipelineDepth": "1"
           }],
         "Area": {
-          "FF": "334",
-          "LUT": "518",
+          "FF": "462",
+          "LUT": "579",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1493,7 +1497,7 @@
         "Area": {
           "DSP48E": "3",
           "FF": "285",
-          "LUT": "730",
+          "LUT": "739",
           "BRAM_18K": "0"
         }
       },
@@ -1514,8 +1518,8 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "38",
-          "FF": "5177",
-          "LUT": "9883"
+          "FF": "5315",
+          "LUT": "10028"
         }
       },
       "dataflow_parent_loop_1": {
@@ -1548,8 +1552,8 @@
         "Area": {
           "BRAM_18K": "60",
           "DSP48E": "38",
-          "FF": "5211",
-          "LUT": "9947"
+          "FF": "5349",
+          "LUT": "10092"
         }
       },
       "parseEvents": {
@@ -1571,15 +1575,15 @@
         "Area": {
           "BRAM_18K": "68",
           "DSP48E": "38",
-          "FF": "5848",
-          "LUT": "10686"
+          "FF": "5986",
+          "LUT": "10831"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-10-30 23:23:26 +0100",
+    "Time": "2018-11-09 15:23:28 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

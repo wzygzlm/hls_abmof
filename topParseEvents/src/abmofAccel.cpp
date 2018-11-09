@@ -451,8 +451,7 @@ void readBlockColsAndMiniSADSum(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, int1
 	readBlockCols(x, y , idx + 1, idx + 2, in1, in2);
 	miniSADSum(in1, in2, shiftCnt, miniSumRet, &OFRet);
 }
-
-void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream, hls::stream<apUint17_t> &packetEventDataStream)
+void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream<uint8_t> &yStream, hls::stream<uint32_t> &tsStream, hls::stream<apUint17_t> &packetEventDataStream)
 //void getXandY(const uint64_t * data, int32_t eventsArraySize, ap_uint<8> *xStream, ap_uint<8> *yStream)
 {
 
@@ -464,7 +463,7 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
 		yWr = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
 		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
-		int64_t ts = tmp >> 32;
+		uint32_t ts = tmp >> 32;
 
 //		writePix(xWr, yWr, glPLActiveSliceIdx);
 //		resetPix(xWr, yWr, glPLActiveSliceIdx + 3);
@@ -485,6 +484,7 @@ void getXandY(const uint64_t * data, hls::stream<uint8_t>  &xStream, hls::stream
 
 		xStream << xWr;
 		yStream << yWr;
+		tsStream << ts;
 		packetEventDataStream << apUint17_t(xWr.to_int() + (yWr.to_int() << 8) + (pol << 16));
 //		*xStream++ = xWr;
 //		*yStream++ = yWr;
@@ -548,8 +548,9 @@ apUint1_t glRotateFlg = 0;
 // areaEventThr is occupied by feedback, here we use another value to copy its initial value.
 // Remember to update this value when areaEventThr is updated.
 uint16_t areaEventThrBak = areaEventThr;
-
-void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream, hls::stream<uint16_t> &thrStream,
+static uint32_t lastTsHW = 0, currentTsHW = 0;
+static ap_uint<9> deltaTsHW;
+void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream, hls::stream<uint32_t> &tsInStream, hls::stream<uint16_t> &thrStream,
 				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream,
 				 hls::stream<sliceIdx_t> &idxStream)
 {
@@ -558,6 +559,7 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 	ap_uint<8> x, y;
 	x = xInStream.read();
 	y = yInStream.read();
+	uint32_t ts = tsInStream.read();
 
 	uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
 	c = c + 1;
@@ -574,10 +576,14 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 		glPLActiveSliceIdx--;
 		glRotateFlg = 1;
 
-		for(int r = 0; r < 1; r++)
+        lastTsHW = currentTsHW;
+        currentTsHW = ts;
+
+        for(int r = 0; r < 1; r++)
 		{
 			std::cout << "Rotated successfully from HW!!!!" << std::endl;
 			std::cout << "x is: " << x << "\t y is: " << y << "\t idx is: " << glPLActiveSliceIdx << std::endl;
+			std::cout << "delataTsHW is: " << ((currentTsHW - lastTsHW) >> 9) << std::endl;
 		}
 
 
@@ -599,7 +605,7 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 	xOutStream.write(x);
 	yOutStream.write(y);
 	idxStream.write(glPLActiveSliceIdx);
-
+	deltaTsHW = ((currentTsHW - lastTsHW) >> 9);
 }
 
 
@@ -1230,7 +1236,7 @@ void feedbackWrapperAndOutputResult(hls::stream<apUint15_t> &miniSumStream, hls:
 
 	thrStream.write(tmpThr);
 
-	ap_uint<32> output = (tmp2, (tmpOF, tmp1));
+	ap_uint<32> output = (deltaTsHW, (tmpOF, tmp1));
 //		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
 //		std :: cout << "tmp2 is "  << std::hex << tmp2 << std :: endl;
 //		std :: cout << "output is "  << std::hex << output << std :: endl;
@@ -1362,6 +1368,8 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 {
 	hls::stream<uint8_t>  xInStream("xInStream"), yInStream("yInStream");
 	hls::stream<uint8_t>  xOutStream("xOutStream"), yOutStream("yOutStream");
+	hls::stream<uint32_t>  tsInStream("tsInStream");
+
 	hls::stream<sliceIdx_t> idxStream("idxStream");
 	hls::stream<apUint17_t> pktEventDataStream("EventStream");
 	hls::stream<apUint6_t> OFRetStream("OFStream");
@@ -1410,8 +1418,8 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 //			outputResult(miniSumStream, OFRetStream, pktEventDataStream, eventSlice++);
 
 			// With feedback
-			getXandY(dataStream++, xInStream, yInStream, pktEventDataStream);
-			rotateSlice(xInStream, yInStream, thrStream, xOutStream, yOutStream, idxStream);
+			getXandY(dataStream++, xInStream, yInStream, tsInStream, pktEventDataStream);
+			rotateSlice(xInStream, yInStream, tsInStream, thrStream, xOutStream, yOutStream, idxStream);
 			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
 			colStreamToColSum(refStream, tagStreamIn, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
 			accumulateStream(outStream, outSumStream, OF_yStream, refZeroCntStream, tagColValidCntStream,  refTagValidCntStream);

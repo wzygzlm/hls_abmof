@@ -18,16 +18,4 @@ INFO: [COSIM 212-12] Generating RTL test bench ...
 INFO: [COSIM 212-323] Starting verilog simulation. 
 INFO: [COSIM 212-15] Starting XSIM ...
 INFO: [COSIM 212-316] Starting C post checking ...
-ERROR: [COSIM 212-362] Aborting co-simulation: C TB post check failed.
-ERROR: [COSIM 212-4] *** C/RTL co-simulation finished: FAIL ***
-command 'ap_source' returned error code
-    while executing
-"source E:/xfOpenCV/hls_2018_1/topParseEvents/solution1/cosim.tcl"
-    invoked from within
-"hls::main E:/xfOpenCV/hls_2018_1/topParseEvents/solution1/cosim.tcl"
-    ("uplevel" body line 1)
-    invoked from within
-"uplevel 1 hls::main {*}$args"
-    (procedure "hls_proc" line 5)
-    invoked from within
-"hls_proc $argv"
+INFO: [COSIM 212-1000] *** C/RTL co-simulation finished: PASS ***
