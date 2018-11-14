@@ -2,9 +2,6 @@
     <checksum>
         <value string="false"/>
     </checksum>
-    <downStreamTool>
-        <DownStreamTool name=""/>
-    </downStreamTool>
     <config>
         <schedule model="parseEvents"/>
         <config_dataflow default_channel="fifo" fifo_depth="0"/>
@@ -56,18 +53,21 @@
         </SimFlow>
     </Simulation>
     <name>
-        <value string="solution1"/>
+        <value string="solution2"/>
     </name>
     <project>
         <value string="topParseEvents"/>
     </project>
     <targetInfo>
-        <TargetInfo value="xc7z007s:clg225:-1"/>
+        <TargetInfo value="xc7z100:ffg900:-2"/>
     </targetInfo>
     <libraryList>
         <library name="DefaultPlatform" value="xilinx/zynq/zynq"/>
         <library name="DefaultPlatform" value="xilinx/zynq/zynq_fpv6"/>
     </libraryList>
+    <downStreamTool>
+        <DownStreamTool name="vivado"/>
+    </downStreamTool>
     <clockList>
         <clock default="false" name="default" uncertainty="0.1" period="10"/>
     </clockList>

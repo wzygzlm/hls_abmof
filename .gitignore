@@ -77,6 +77,11 @@ topParseEvents/solution1/.autopilot
 topParseEvents/solution1/csim
 topParseEvents/solution1/sim
 topParseEvents/solution1/impl
+topParseEvents/solution2/syn
+topParseEvents/solution2/.autopilot
+topParseEvents/solution2/csim
+topParseEvents/solution2/sim
+topParseEvents/solution2/impl
 miniBlockSAD/solution1/syn
 miniBlockSAD/solution1/.autopilot
 miniBlockSAD/solution1/csim

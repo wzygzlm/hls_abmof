@@ -47,6 +47,11 @@
 			<location>E:/xfOpenCV/hls_2018_1/topParseEvents/solution1/.tcls</location>
 		</link>
 		<link>
+			<name>solution2/constraints</name>
+			<type>2</type>
+			<location>E:/xfOpenCV/hls_2018_1/topParseEvents/solution2/.tcls</location>
+		</link>
+		<link>
 			<name>source/abmofAccel.cpp</name>
 			<type>1</type>
 			<location>E:/xfOpenCV/hls_2018_1/topParseEvents/src/abmofAccel.cpp</location>
@@ -75,6 +80,21 @@
 			<name>solution1/constraints/script.tcl</name>
 			<type>1</type>
 			<location>E:/xfOpenCV/hls_2018_1/topParseEvents/solution1/script.tcl</location>
+		</link>
+		<link>
+			<name>solution2/constraints/.xml.directive</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/hls_2018_1/topParseEvents/solution2/solution2.directive</location>
+		</link>
+		<link>
+			<name>solution2/constraints/directives.tcl</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/hls_2018_1/topParseEvents/solution2/directives.tcl</location>
+		</link>
+		<link>
+			<name>solution2/constraints/script.tcl</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/hls_2018_1/topParseEvents/solution2/script.tcl</location>
 		</link>
 	</linkedResources>
 </projectDescription>

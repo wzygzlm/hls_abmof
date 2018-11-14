@@ -7,7 +7,7 @@ Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 
 INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
 INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 0.1ns.
-INFO: [HLS 200-10] Setting target device to 'xc7z007sclg225-1'
+INFO: [HLS 200-10] Setting target device to 'xc7z100ffg900-2'
 INFO: [XFORM 203-701] Set the default channel type in dataflow to FIFO.
 INFO: [XFORM 203-701] Set the default channel type in dataflow to FIFO.
 INFO: [HLS 200-10] Analyzing design file 'topParseEvents/src/abmofAccel.cpp' ...
@@ -49,8 +49,8 @@ WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be ap
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::sin_K0' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K2' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
 WARNING: [HLS 200-40] Directive 'RESOURCE' for core 'ROM_1P_LUTRAM' cannot be applied: Variable 'fourth_order_double::cos_K1' can not be recognized(UNKNOWN VARIABLE) in 'sincos_approximation'.
-INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:03 ; elapsed = 00:00:37 . Memory (MB): peak = 117.176 ; gain = 59.270
-INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:03 ; elapsed = 00:00:41 . Memory (MB): peak = 117.215 ; gain = 59.309
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:03 ; elapsed = 00:00:38 . Memory (MB): peak = 117.102 ; gain = 59.664
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:03 ; elapsed = 00:00:42 . Memory (MB): peak = 117.141 ; gain = 59.703
 INFO: [HLS 200-10] Starting code transformations ...
 INFO: [XFORM 203-603] Inlining function 'readPixFromCol' into 'writePix' (topParseEvents/src/abmofAccel.cpp:295).
 INFO: [XFORM 203-603] Inlining function 'readPixFromCol' into 'writePix' (topParseEvents/src/abmofAccel.cpp:279).
@@ -65,11 +65,11 @@ INFO: [XFORM 203-603] Inlining function 'resetPix' into 'rwSlices' (topParseEven
 INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:333).
 INFO: [XFORM 203-603] Inlining function 'readPixFromTwoCols' into 'readBlockCols' (topParseEvents/src/abmofAccel.cpp:332).
 INFO: [XFORM 203-603] Inlining function 'readBlockCols' into 'rwSlices' (topParseEvents/src/abmofAccel.cpp:722).
-INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:05 ; elapsed = 00:00:45 . Memory (MB): peak = 172.465 ; gain = 114.559
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:05 ; elapsed = 00:00:46 . Memory (MB): peak = 171.859 ; gain = 114.422
 INFO: [HLS 200-10] Checking synthesizability ...
 WARNING: [SYNCHK 200-23] topParseEvents/src/abmofAccel.cpp:201: variable-indexed range selection may cause suboptimal QoR.
 INFO: [SYNCHK 200-10] 0 error(s), 1 warning(s).
-INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:08 ; elapsed = 00:00:47 . Memory (MB): peak = 197.578 ; gain = 139.672
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:08 ; elapsed = 00:00:48 . Memory (MB): peak = 197.594 ; gain = 140.156
 INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'rwSlicesInnerLoop' (topParseEvents/src/abmofAccel.cpp:682) in function 'rwSlices' for pipelining.
 INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'rotateSliceResetLoop' (topParseEvents/src/abmofAccel.cpp:557) in function 'rotateSlice' for pipelining.
 INFO: [XFORM 203-502] Unrolling all sub-loops inside loop 'colStreamToColSum_label2' (topParseEvents/src/abmofAccel.cpp:766) in function 'colStreamToColSum' for pipelining.
@@ -137,7 +137,7 @@ INFO: [XFORM 203-712] Applying dataflow to function 'dataflow_in_loop_parseEvent
 INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (topParseEvents/src/abmofAccel.cpp:1055:25) to (topParseEvents/src/abmofAccel.cpp:1063:3) in function 'findStreamMin'... converting 3 basic blocks.
 INFO: [XFORM 203-11] Balancing expressions in function 'sadSum' (topParseEvents/src/abmofAccel.cpp:15)...7 expression(s) balanced.
 INFO: [XFORM 203-11] Balancing expressions in function 'colZeroCnt' (topParseEvents/src/abmofAccel.cpp:97)...159 expression(s) balanced.
-INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:01:07 ; elapsed = 00:01:56 . Memory (MB): peak = 254.582 ; gain = 196.676
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:01:07 ; elapsed = 00:01:58 . Memory (MB): peak = 252.813 ; gain = 195.375
 INFO: [XFORM 203-541] Flattening a loop nest 'feedbackReadOFLoop' (topParseEvents/src/abmofAccel.cpp:1093:4) in function 'feedback'.
 INFO: [XFORM 203-541] Flattening a loop nest 'colStreamToColSum_label1' (topParseEvents/src/abmofAccel.cpp:764:3) in function 'colStreamToColSum'.
 INFO: [XFORM 203-541] Flattening a loop nest 'Loop-1' (topParseEvents/src/abmofAccel.cpp:947:15) in function 'accumulateStream'.
@@ -145,21 +145,21 @@ WARNING: [XFORM 203-631] Renaming function 'feedbackWrapperAndOutputResult' to '
 WARNING: [XFORM 203-631] Renaming function 'dataflow_parent_loop_proc' to 'dataflow_parent_loop.1' (topParseEvents/src/abmofAccel.cpp:1263:56)
 WARNING: [XFORM 203-631] Renaming function 'dataflow_in_loop_parseEventsLoop' to 'dataflow_in_loop_par' (topParseEvents/src/abmofAccel.cpp:1231:4)
 INFO: [XFORM 203-531] Rewinding loop 'rwSlicesInnerLoop' (topParseEvents/src/abmofAccel.cpp:682) in function 'rwSlices'.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlicesScale2.V.0'.
 WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlicesScale2.V.3'.
 WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlicesScale2.V.2'.
 WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlicesScale2.V.1'.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlicesScale1.V.0'.
+WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlicesScale2.V.0'.
 WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlicesScale1.V.3'.
 WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlicesScale1.V.2'.
 WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlicesScale1.V.1'.
-WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.2'.
+WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlicesScale1.V.0'.
 WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.1'.
+WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.2'.
 WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.3'.
 WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glPLSlices.V.0'.
 INFO: [XFORM 203-531] Rewinding loop 'colStreamToColSum_label1_colStreamToColSum_label2' in function 'colStreamToColSum'.
 INFO: [XFORM 203-531] Rewinding loop 'L_accumulateStream_label3' in function 'accumulateStream'.
-INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:01:13 ; elapsed = 00:02:03 . Memory (MB): peak = 415.391 ; gain = 357.484
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:01:13 ; elapsed = 00:02:05 . Memory (MB): peak = 415.508 ; gain = 358.070
 INFO: [HLS 200-10] Starting hardware synthesis ...
 INFO: [HLS 200-10] Synthesizing 'parseEvents' ...
 WARNING: [SYN 201-103] Legalizing function name 'dataflow_parent_loop.1' to 'dataflow_parent_loop_1'.
@@ -173,13 +173,13 @@ INFO: [HLS 200-42] -- Implementing module 'getXandY7'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 123.624 seconds; current allocated memory: 346.910 MB.
+INFO: [HLS 200-111]  Elapsed time: 125.696 seconds; current allocated memory: 346.910 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.257 seconds; current allocated memory: 347.150 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.254 seconds; current allocated memory: 347.149 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'rotateSlice'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -187,28 +187,28 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'rotateSliceResetLoop'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 1.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.481 seconds; current allocated memory: 347.531 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.493 seconds; current allocated memory: 347.507 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.312 seconds; current allocated memory: 347.897 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.191 seconds; current allocated memory: 347.892 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'rwSlices'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'rwSlicesInnerLoop'.
 INFO: [SCHED 204-61] Discarding stage scheduling solution.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 5.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 4.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.894 seconds; current allocated memory: 349.534 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.872 seconds; current allocated memory: 349.496 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.829 seconds; current allocated memory: 351.445 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.813 seconds; current allocated memory: 351.404 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'sadSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -216,13 +216,13 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'sadSum'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.746 seconds; current allocated memory: 351.755 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.795 seconds; current allocated memory: 351.698 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.28 seconds; current allocated memory: 351.967 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.206 seconds; current allocated memory: 351.910 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'sad'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -230,13 +230,13 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'sad'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 3.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.25 seconds; current allocated memory: 352.175 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.233 seconds; current allocated memory: 352.133 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.22 seconds; current allocated memory: 352.383 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.339 seconds; current allocated memory: 352.341 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'colSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -244,35 +244,35 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'colSADSum'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 4.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.349 seconds; current allocated memory: 352.588 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.306 seconds; current allocated memory: 352.545 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.272 seconds; current allocated memory: 353.183 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.291 seconds; current allocated memory: 353.140 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'colZeroCnt'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'colZeroCnt'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 3.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.866 seconds; current allocated memory: 354.787 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.927 seconds; current allocated memory: 354.732 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.844 seconds; current allocated memory: 356.349 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.821 seconds; current allocated memory: 356.291 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'colStreamToColSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'colStreamToColSum_label1_colStreamToColSum_label2'.
-INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 8.
+INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 7.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 1.103 seconds; current allocated memory: 357.040 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.089 seconds; current allocated memory: 356.975 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
@@ -280,7 +280,7 @@ WARNING: [BIND 205-102] The specified resource core for memory 'colData0_V' will
 WARNING: [BIND 205-102] The specified resource core for memory 'colData1_V' will be ignored if a simpler one can be used.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.875 seconds; current allocated memory: 358.225 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.859 seconds; current allocated memory: 358.133 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'min'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -288,13 +288,13 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining function 'min'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.808 seconds; current allocated memory: 358.889 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.908 seconds; current allocated memory: 358.797 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.328 seconds; current allocated memory: 359.014 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.259 seconds; current allocated memory: 358.921 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'accumulateStream'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -302,25 +302,25 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'L_accumulateStream_label3'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 4.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.392 seconds; current allocated memory: 359.735 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.472 seconds; current allocated memory: 359.642 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.542 seconds; current allocated memory: 360.534 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.479 seconds; current allocated memory: 360.441 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'findStreamMin'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.456 seconds; current allocated memory: 360.786 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.514 seconds; current allocated memory: 360.683 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.274 seconds; current allocated memory: 360.920 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.236 seconds; current allocated memory: 360.812 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'feedback'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -328,66 +328,66 @@ INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-61] Pipelining loop 'feedbackReadOFLoop_feedbackReadOFInnerLoop'.
 INFO: [SCHED 204-61] Pipelining result : Target II = 1, Final II = 1, Depth = 2.
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.282 seconds; current allocated memory: 361.267 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.267 seconds; current allocated memory: 361.164 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.275 seconds; current allocated memory: 361.577 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.271 seconds; current allocated memory: 361.477 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'feedbackWrapperAndOu'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.323 seconds; current allocated memory: 361.700 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.471 seconds; current allocated memory: 361.600 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.343 seconds; current allocated memory: 361.917 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.548 seconds; current allocated memory: 361.817 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'dataflow_in_loop_par'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.252 seconds; current allocated memory: 362.161 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.317 seconds; current allocated memory: 362.045 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 1.608 seconds; current allocated memory: 363.879 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.563 seconds; current allocated memory: 363.748 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'dataflow_parent_loop_1'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.987 seconds; current allocated memory: 364.627 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.13 seconds; current allocated memory: 364.527 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.465 seconds; current allocated memory: 364.983 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.538 seconds; current allocated memory: 364.899 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-42] -- Implementing module 'parseEvents'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SCHED 204-11] Starting scheduling ...
 INFO: [SCHED 204-11] Finished scheduling.
-INFO: [HLS 200-111]  Elapsed time: 0.912 seconds; current allocated memory: 365.784 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.028 seconds; current allocated memory: 365.668 MB.
 INFO: [BIND 205-100] Starting micro-architecture generation ...
 INFO: [BIND 205-101] Performing variable lifetime analysis.
 INFO: [BIND 205-101] Exploring resource sharing.
 INFO: [BIND 205-101] Binding ...
 INFO: [BIND 205-100] Finished micro-architecture generation.
-INFO: [HLS 200-111]  Elapsed time: 0.595 seconds; current allocated memory: 366.213 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.66 seconds; current allocated memory: 366.098 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'getXandY7'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'getXandY7'.
-INFO: [HLS 200-111]  Elapsed time: 0.984 seconds; current allocated memory: 367.143 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.021 seconds; current allocated memory: 367.043 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'rotateSlice'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -405,7 +405,7 @@ WARNING: [RTGEN 206-101] Register 'lastTsHW' is power-on initialization.
 INFO: [SYN 201-210] Renamed object name 'parseEvents_mux_83_16_1_1' to 'parseEvents_mux_8jbC' due to the length limit 20
 INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_8jbC': 1 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'rotateSlice'.
-INFO: [HLS 200-111]  Elapsed time: 0.34 seconds; current allocated memory: 367.892 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.338 seconds; current allocated memory: 367.819 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'rwSlices'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -426,41 +426,41 @@ WARNING: [RTGEN 206-101] Register 'resetCnt_V' is power-on initialization.
 INFO: [SYN 201-210] Renamed object name 'parseEvents_mux_42_128_1_1' to 'parseEvents_mux_4wdI' due to the length limit 20
 INFO: [RTGEN 206-100] Generating core module 'parseEvents_mux_4wdI': 7 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'rwSlices'.
-INFO: [HLS 200-111]  Elapsed time: 1.152 seconds; current allocated memory: 371.980 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.042 seconds; current allocated memory: 371.813 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'sadSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'sadSum'.
-INFO: [HLS 200-111]  Elapsed time: 2.423 seconds; current allocated memory: 372.793 MB.
+INFO: [HLS 200-111]  Elapsed time: 2.398 seconds; current allocated memory: 372.614 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'sad'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SYN 201-210] Renamed object name 'parseEvents_sub_5s_5s_5_1_1' to 'parseEvents_sub_5xdS' due to the length limit 20
 INFO: [RTGEN 206-100] Generating core module 'parseEvents_sub_5xdS': 5 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'sad'.
-INFO: [HLS 200-111]  Elapsed time: 0.478 seconds; current allocated memory: 373.315 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.484 seconds; current allocated memory: 373.136 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'colSADSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'colSADSum'.
-INFO: [HLS 200-111]  Elapsed time: 0.796 seconds; current allocated memory: 374.352 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.576 seconds; current allocated memory: 374.188 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'colZeroCnt'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'colZeroCnt'.
-INFO: [HLS 200-111]  Elapsed time: 0.806 seconds; current allocated memory: 378.265 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.769 seconds; current allocated memory: 377.902 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'colStreamToColSum'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [SYN 201-210] Renamed object name 'colStreamToColSum_colData0_V' to 'colStreamToColSumyd2' due to the length limit 20
 INFO: [SYN 201-210] Renamed object name 'colStreamToColSum_colData1_V' to 'colStreamToColSumzec' due to the length limit 20
 INFO: [RTGEN 206-100] Finished creating RTL model for 'colStreamToColSum'.
-INFO: [HLS 200-111]  Elapsed time: 2.71 seconds; current allocated memory: 381.086 MB.
+INFO: [HLS 200-111]  Elapsed time: 2.645 seconds; current allocated memory: 380.678 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'min'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'min'.
-INFO: [HLS 200-111]  Elapsed time: 1.181 seconds; current allocated memory: 381.957 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.327 seconds; current allocated memory: 381.579 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'accumulateStream'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -469,13 +469,13 @@ WARNING: [RTGEN 206-101] Register 'lastTagColValidCntSu' is power-on initializat
 WARNING: [RTGEN 206-101] Register 'lastrefTagValidCntSu' is power-on initialization.
 WARNING: [RTGEN 206-101] Register 'lastSumRefZeroCnt' is power-on initialization.
 INFO: [RTGEN 206-100] Finished creating RTL model for 'accumulateStream'.
-INFO: [HLS 200-111]  Elapsed time: 0.727 seconds; current allocated memory: 383.451 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.531 seconds; current allocated memory: 383.088 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'findStreamMin'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 WARNING: [RTGEN 206-101] Register 'currentMin_V' is power-on initialization.
 INFO: [RTGEN 206-100] Finished creating RTL model for 'findStreamMin'.
-INFO: [HLS 200-111]  Elapsed time: 1.413 seconds; current allocated memory: 384.170 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.363 seconds; current allocated memory: 383.793 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'feedback'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -487,12 +487,12 @@ INFO: [RTGEN 206-100] Generating core module 'parseEvents_ama_aAem': 1 instance(
 INFO: [RTGEN 206-100] Generating core module 'parseEvents_mul_mBew': 1 instance(s).
 INFO: [RTGEN 206-100] Generating core module 'parseEvents_mul_mCeG': 1 instance(s).
 INFO: [RTGEN 206-100] Finished creating RTL model for 'feedback'.
-INFO: [HLS 200-111]  Elapsed time: 0.518 seconds; current allocated memory: 384.799 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.539 seconds; current allocated memory: 384.416 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'feedbackWrapperAndOu'
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [RTGEN 206-100] Finished creating RTL model for 'feedbackWrapperAndOu'.
-INFO: [HLS 200-111]  Elapsed time: 0.586 seconds; current allocated memory: 385.378 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.937 seconds; current allocated memory: 384.996 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'dataflow_in_loop_par'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -516,7 +516,7 @@ WARNING: [RTGEN 206-101] Setting dangling out port 'dataflow_in_loop_par/m_axi_e
 WARNING: [RTGEN 206-101] Setting dangling out port 'dataflow_in_loop_par/m_axi_eventSlice_ARUSER' to 0.
 WARNING: [RTGEN 206-101] Setting dangling out port 'dataflow_in_loop_par/m_axi_eventSlice_RREADY' to 0.
 INFO: [RTGEN 206-100] Finished creating RTL model for 'dataflow_in_loop_par'.
-INFO: [HLS 200-111]  Elapsed time: 0.842 seconds; current allocated memory: 387.007 MB.
+INFO: [HLS 200-111]  Elapsed time: 0.822 seconds; current allocated memory: 386.610 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'dataflow_parent_loop_1'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -534,7 +534,7 @@ WARNING: [RTGEN 206-101] Setting dangling out port 'dataflow_parent_loop_1/m_axi
 WARNING: [RTGEN 206-101] Setting dangling out port 'dataflow_parent_loop_1/m_axi_eventSlice_ARUSER' to 0.
 WARNING: [RTGEN 206-101] Setting dangling out port 'dataflow_parent_loop_1/m_axi_eventSlice_RREADY' to 0.
 INFO: [RTGEN 206-100] Finished creating RTL model for 'dataflow_parent_loop_1'.
-INFO: [HLS 200-111]  Elapsed time: 1.754 seconds; current allocated memory: 388.116 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.696 seconds; current allocated memory: 387.718 MB.
 INFO: [HLS 200-10] ----------------------------------------------------------------
 INFO: [HLS 200-10] -- Generating RTL for module 'parseEvents'
 INFO: [HLS 200-10] ----------------------------------------------------------------
@@ -547,7 +547,7 @@ WARNING: [RTGEN 206-101] Global scalar 'oldIdx_V' will not be exposed as RTL por
 WARNING: [RTGEN 206-101] Global scalar 'areaEventThrBak' will not be exposed as RTL port.
 INFO: [RTGEN 206-100] Bundling port 'return' and 'eventSlice' to AXI-Lite port AXILiteS.
 INFO: [RTGEN 206-100] Finished creating RTL model for 'parseEvents'.
-INFO: [HLS 200-111]  Elapsed time: 1.935 seconds; current allocated memory: 389.955 MB.
+INFO: [HLS 200-111]  Elapsed time: 1.454 seconds; current allocated memory: 389.573 MB.
 INFO: [RTMG 210-278] Implementing memory 'rotateSlice_areaEbkb_ram (RAM_2P_LUTRAM)' using distributed RAMs with power-on initialization.
 INFO: [RTMG 210-278] Implementing memory 'rwSlices_glPLSlickbM_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
 INFO: [RTMG 210-278] Implementing memory 'rwSlices_glPLSlicocq_ram (RAM_T2P_BRAM)' using block RAMs with power-on initialization.
@@ -575,8 +575,8 @@ INFO: [RTMG 210-285] Implementing FIFO 'start_for_rwSliceFfa' using Shift Regist
 INFO: [RTMG 210-285] Implementing FIFO 'start_for_colStreGfk' using Shift Registers.
 INFO: [RTMG 210-285] Implementing FIFO 'start_for_accumulHfu' using Shift Registers.
 INFO: [RTMG 210-285] Implementing FIFO 'start_for_findStrIfE' using Shift Registers.
-INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:01:39 ; elapsed = 00:02:49 . Memory (MB): peak = 498.582 ; gain = 440.676
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:01:38 ; elapsed = 00:02:51 . Memory (MB): peak = 497.320 ; gain = 439.883
 INFO: [SYSC 207-301] Generating SystemC RTL for parseEvents.
 INFO: [VHDL 208-304] Generating VHDL RTL for parseEvents.
 INFO: [VLOG 209-307] Generating Verilog RTL for parseEvents.
-INFO: [HLS 200-112] Total elapsed time: 168.705 seconds; peak allocated memory: 389.955 MB.
+INFO: [HLS 200-112] Total elapsed time: 170.871 seconds; peak allocated memory: 389.573 MB.
