@@ -16,58 +16,13 @@
     "Config": ["config_dataflow -default_channel=fifo -fifo_depth=0"],
     "Directives": [
       "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 500} {port positionBooleanTextRequireddataStream}} {}",
-      "inline sadSum {{off positionBoolean1}} {}",
-      "unroll sadSum\/calOFLoop2 {{factor 1}} {}",
-      "pipeline sad {} {}",
-      "inline sad {{off positionBoolean1}} {}",
-      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Col} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredretVal} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition colSADSum {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 0}} {}",
-      "pipeline colSADSum {} {}",
-      "inline colSADSum {{off positionBoolean1}} {}",
-      "array_partition colSADSum\/colSADSumLoop {{partition positionBooleanCmd} {variable positionBooleanTextRequiredinput1} {complete positionBoolean0type} {dim 0}} {}",
-      "array_partition colSADSum\/colSADSumLoop {{partition positionBooleanCmd} {variable positionBooleanTextRequiredinput2} {complete positionBoolean0type} {dim 0}} {}",
-      "array_reshape min {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredinArr} {complete positionBoolean0type} {dim 1}} {}",
-      "pipeline min {} {}",
-      "inline min {{off positionBoolean1}} {}",
-      "inline readPixFromCol {} {}",
-      "unroll readPixFromCol\/readWiderBitsLoop {} {}",
-      "inline readPixFromTwoCols {} {}",
-      "unroll readPixFromTwoCols\/readTwoColsWiderBitsLoop {} {}",
-      "inline writePixToCol {} {}",
-      "unroll writePixToCol\/writeWiderBitsLoop {} {}",
-      "inline resetPix {} {}",
-      "dependence writePix {{variable glPLSlices} {inter positionBoolean0type} {false positionBoolean0dependent}} {}",
-      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {cyclic positionBoolean0type} {factor 1} {dim 3}} {}",
-      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlices} {complete positionBoolean0type} {dim 1}} {}",
-      "inline writePix {} {}",
-      "pipeline writePix {} {}",
-      "resource writePix {{variable positionBooleanTextRequiredglPLSlices} {core RAM_T2P_BRAM}} {}",
-      "array_reshape readBlockCols {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredtagCol} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape readBlockCols {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredrefCol} {complete positionBoolean0type} {dim 1}} {}",
-      "pipeline readBlockCols {} {}",
-      "inline readBlockCols {} {}",
-      "inline readBlockColsAndMiniSADSum {} {}",
-      "inline getXandY {{off positionBoolean1}} {}",
       "pipeline getXandY\/getXandYLoop {} {}",
       "loop_tripcount getXandY\/getXandYLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
-      "inline rwSlices {{off positionBoolean1}} {}",
       "loop_tripcount rwSlices\/rwSlicesLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
-      "pipeline rwSlices\/rwSlicesInnerLoop {{rewind positionBoolean1}} {}",
       "pipeline rwSlices\/resetLoop {} {}",
       "loop_tripcount miniSADSumWrapper\/wrapperLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
       "loop_tripcount outputResult\/outputLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
       "pipeline outputResult\/outputLoop {} {}",
-      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredxStream} {core FIFO_SRL}} {}",
-      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredyStream} {core FIFO_SRL}} {}",
-      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredrefStream} {core FIFO_SRL}} {}",
-      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredrefStream} {depth 2} {dim 1}} {}",
-      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {core FIFO_SRL}} {}",
-      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredtagStreamIn} {depth 6} {dim 1}} {}",
-      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredminiSumStream} {core FIFO_SRL}} {}",
-      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredminiSumStream} {depth 2} {dim 1}} {}",
-      "resource parseEvents\/DFRegion {{variable positionBooleanTextRequiredpktEventDataStream} {core FIFO_SRL}} {}",
-      "stream parseEvents\/DFRegion {{variable positionBooleanTextRequiredpktEventDataStream} {depth 2} {dim 1}} {}",
       "interface testRwslices {{ap_fifo positionBoolean0mode} {depth 1000} {port positionBooleanTextRequireddata}} {}",
       "interface testRwslices {{ap_fifo positionBoolean0mode} {depth 17000} {port positionBooleanTextRequiredrefData}} {}",
       "interface testRwslices {{ap_fifo positionBoolean0mode} {depth 17000} {port positionBooleanTextRequiredtagData}} {}",
@@ -79,62 +34,14 @@
       "pipeline testRwslices\/writeFromStream {} {}",
       "loop_tripcount testRwslices\/writeFromStream {{tripcount positionBooleanCmd} {min 1} {max 170000}} {}",
       "interface parseEvents {{s_axilite positionBoolean0mode} {register positionBoolean1} {port positionBooleanTextRequiredreturn}} {}",
-      "inline rotateSlice {{off positionBoolean1}} {}",
       "interface getXandY {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequireddata}} {}",
-      "array_partition rotateSlice {{partition positionBooleanCmd} {variable positionBooleanTextRequiredareaEventRegs} {complete positionBoolean0type} {dim 2}} {}",
-      "inline rotateSlice\/rotateSliceResetLoop {{off positionBoolean1}} {}",
-      "resource rotateSlice {{variable positionBooleanTextRequiredareaEventRegs} {core RAM_2P_LUTRAM}} {}",
       "pipeline feedbackWrapper\/feedbackWrapperLoop {} {}",
-      "resource sad\/calOFDSPLoop {{variable positionBooleanTextRequiredtmpSum} {core AddSub_DSP}} {}",
-      "resource feedback {{variable positionBooleanTextRequiredOFRetRegs} {core RAM_2P_LUTRAM}} {}",
-      "pipeline readSlices\/readSlicesInnerLoop {{rewind positionBoolean1}} {}",
-      "dataflow parseEvents\/DFRegion {} {}",
-      "loop_tripcount parseEvents\/parseEventsLoop {{tripcount positionBooleanCmd} {min 1} {max 10000}} {}",
-      "resource colStreamToColSum {{variable positionBooleanTextRequiredcolData0} {core RAM_2P_LUTRAM}} {}",
-      "resource colStreamToColSum {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}",
-      "pipeline colStreamToColSum\/colStreamToColSum_label2 {{rewind positionBoolean1}} {}",
-      "array_reshape accumulateStream {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredlastSumData} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape accumulateStream\/accumulateStream_label3 {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredinputData} {complete positionBoolean0type} {dim 1}} {}",
-      "pipeline accumulateStream\/accumulateStream_label3 {{rewind positionBoolean1}} {}",
-      "stream parseEvents {{variable positionBooleanTextRequiredoutStream} {depth 2} {dim 1}} {}",
-      "resource parseEvents {{variable positionBooleanTextRequiredoutStream} {core FIFO_SRL}} {}",
       "pipeline rwSlicesAndColStreams\/rwSlicesLoop {} {}",
       "pipeline rwSlicesAndColStreams\/GenerateStreamLoop {} {}",
       "dataflow rwSlicesAndColStreams {} {}",
       "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData0} {core RAM_1P_LUTRAM}} {}",
       "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}",
-      "inline rotateSliceNoRotationFlg {{off positionBoolean1}} {}",
-      "array_partition rotateSliceNoRotationFlg {{partition positionBooleanCmd} {variable positionBooleanTextRequiredareaEventRegs} {complete positionBoolean0type} {dim 2}} {}",
-      "resource rotateSliceNoRotationFlg {{variable positionBooleanTextRequiredareaEventRegs} {core RAM_2P_LUTRAM}} {}",
-      "pipeline rotateSliceNoRotationFlg\/rotateSliceLoop {} {}",
-      "pipeline feedback\/feedbackReadOFInnerLoop {} {}",
-      "stream parseEvents {{variable positionBooleanTextRequiredthrStream} {depth 3} {dim 1}} {}",
-      "interface parseEvents {{m_axi positionBoolean0mode} {depth 500} {port positionBooleanTextRequiredeventSlice} {offset slave} {bundle gmem} {num_read_outstanding 0} {max_read_burst_length 2} {max_write_burst_length 256}} {}",
-      "array_partition colZeroCnt {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt1Col} {complete positionBoolean0type} {dim 1}} {}",
-      "array_partition colZeroCnt {{partition positionBooleanCmd} {variable positionBooleanTextRequiredt2Col} {complete positionBoolean0type} {dim 1}} {}",
-      "pipeline colZeroCnt {} {}",
-      "array_partition colZeroCnt {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtagValidPixCnt} {complete positionBoolean0type} {dim 1}} {}",
-      "array_partition colZeroCnt {{partition positionBooleanCmd} {variable positionBooleanTextRequiredrefTagValidPixCnt} {complete positionBoolean0type} {dim 1}} {}",
-      "pipeline rotateSlice\/rotateSliceResetLoop {} {}",
-      "stream parseEvents {{variable positionBooleanTextRequiredrefZeroCntStream} {depth 2} {dim 1}} {}",
-      "stream parseEvents {{variable positionBooleanTextRequiredtagColValidCntStream} {depth 2} {dim 1}} {}",
-      "stream parseEvents {{variable positionBooleanTextRequiredrefTagValidCntStream} {depth 2} {dim 1}} {}",
-      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlicesScale1} {complete positionBoolean0type} {dim 1}} {}",
-      "resource writePix {{variable positionBooleanTextRequiredglPLSlicesScale1} {core RAM_T2P_BRAM}} {}",
-      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlicesScale1} {cyclic positionBoolean0type} {factor 1} {dim 3}} {}",
-      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlicesScale2} {complete positionBoolean0type} {dim 1}} {}",
-      "array_partition writePix {{partition positionBooleanCmd} {variable positionBooleanTextRequiredglPLSlicesScale2} {cyclic positionBoolean0type} {factor 1} {dim 3}} {}",
-      "resource writePix {{variable positionBooleanTextRequiredglPLSlicesScale2} {core RAM_T2P_BRAM}} {}",
-      "dependence writePix {{variable glPLSlicesScale1} {inter positionBoolean0type} {false positionBoolean0dependent}} {}",
-      "dependence writePix {{variable glPLSlicesScale2} {inter positionBoolean0type} {false positionBoolean0dependent}} {}",
-      "inline readBlockColsScale1 {} {}",
-      "pipeline readBlockColsScale1 {} {}",
-      "inline readBlockColsScale2 {} {}",
-      "pipeline readBlockColsScale2 {} {}",
-      "array_reshape readBlockColsScale2 {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredrefColScale2} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape readBlockColsScale2 {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredtagColScale2} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape readBlockColsScale1 {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredrefColScale1} {complete positionBoolean0type} {dim 1}} {}",
-      "array_reshape readBlockColsScale1 {{reshape positionBooleanCmd} {variable positionBooleanTextRequiredtagColScale1} {complete positionBoolean0type} {dim 1}} {}"
+      "interface parseEvents {{m_axi positionBoolean0mode} {depth 500} {port positionBooleanTextRequiredeventSlice} {offset slave} {bundle gmem} {num_read_outstanding 0} {max_read_burst_length 2} {max_write_burst_length 256}} {}"
     ]
   },
   "ClockInfo": {
@@ -160,8 +67,12 @@
     "CSource": ["..\/src\/abmofAccel.cpp"],
     "Vhdl": [
       "impl\/vhdl\/accumulateStream.vhd",
+      "impl\/vhdl\/accumulateStreamScal.vhd",
+      "impl\/vhdl\/accumulateStreamScal_1.vhd",
       "impl\/vhdl\/colSADSum.vhd",
       "impl\/vhdl\/colStreamToColSum.vhd",
+      "impl\/vhdl\/colStreamToColSumSca.vhd",
+      "impl\/vhdl\/colStreamToColSumSca_1.vhd",
       "impl\/vhdl\/colStreamToColSumyd2.vhd",
       "impl\/vhdl\/colStreamToColSumzec.vhd",
       "impl\/vhdl\/colZeroCnt.vhd",
@@ -184,17 +95,21 @@
       "impl\/vhdl\/fifo_w30_d7_A.vhd",
       "impl\/vhdl\/fifo_w32_d0_A.vhd",
       "impl\/vhdl\/fifo_w42_d2_A.vhd",
+      "impl\/vhdl\/fifo_w68_d2_A.vhd",
       "impl\/vhdl\/fifo_w68_d2_S.vhd",
+      "impl\/vhdl\/fifo_w68_d6_A.vhd",
       "impl\/vhdl\/fifo_w68_d6_S.vhd",
       "impl\/vhdl\/fifo_w112_d2_S.vhd",
       "impl\/vhdl\/findStreamMin.vhd",
+      "impl\/vhdl\/findStreamMinScale1.vhd",
+      "impl\/vhdl\/findStreamMinScale2.vhd",
       "impl\/vhdl\/getXandY7.vhd",
       "impl\/vhdl\/min.vhd",
-      "impl\/vhdl\/parseEvents_ama_aAem.vhd",
+      "impl\/vhdl\/parseEvents_ama_aEe0.vhd",
       "impl\/vhdl\/parseEvents_AXILiteS_s_axi.vhd",
       "impl\/vhdl\/parseEvents_gmem_m_axi.vhd",
-      "impl\/vhdl\/parseEvents_mul_mBew.vhd",
-      "impl\/vhdl\/parseEvents_mul_mCeG.vhd",
+      "impl\/vhdl\/parseEvents_mul_mFfa.vhd",
+      "impl\/vhdl\/parseEvents_mul_mGfk.vhd",
       "impl\/vhdl\/parseEvents_mux_4wdI.vhd",
       "impl\/vhdl\/parseEvents_mux_8jbC.vhd",
       "impl\/vhdl\/parseEvents_sub_5xdS.vhd",
@@ -206,18 +121,28 @@
       "impl\/vhdl\/rwSlices_glPLSlicsc4.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/sadSum.vhd",
-      "impl\/vhdl\/start_for_accumulHfu.vhd",
-      "impl\/vhdl\/start_for_colStreGfk.vhd",
-      "impl\/vhdl\/start_for_feedbacEe0.vhd",
-      "impl\/vhdl\/start_for_findStrIfE.vhd",
-      "impl\/vhdl\/start_for_rotateSDeQ.vhd",
-      "impl\/vhdl\/start_for_rwSliceFfa.vhd",
+      "impl\/vhdl\/start_for_accumulNgs.vhd",
+      "impl\/vhdl\/start_for_accumulPgM.vhd",
+      "impl\/vhdl\/start_for_accumulRg6.vhd",
+      "impl\/vhdl\/start_for_colStreKfY.vhd",
+      "impl\/vhdl\/start_for_colStreLf8.vhd",
+      "impl\/vhdl\/start_for_colStreMgi.vhd",
+      "impl\/vhdl\/start_for_feedbacIfE.vhd",
+      "impl\/vhdl\/start_for_findStrOgC.vhd",
+      "impl\/vhdl\/start_for_findStrQgW.vhd",
+      "impl\/vhdl\/start_for_findStrShg.vhd",
+      "impl\/vhdl\/start_for_rotateSHfu.vhd",
+      "impl\/vhdl\/start_for_rwSliceJfO.vhd",
       "impl\/vhdl\/parseEvents.vhd"
     ],
     "Verilog": [
       "impl\/verilog\/accumulateStream.v",
+      "impl\/verilog\/accumulateStreamScal.v",
+      "impl\/verilog\/accumulateStreamScal_1.v",
       "impl\/verilog\/colSADSum.v",
       "impl\/verilog\/colStreamToColSum.v",
+      "impl\/verilog\/colStreamToColSumSca.v",
+      "impl\/verilog\/colStreamToColSumSca_1.v",
       "impl\/verilog\/colStreamToColSumyd2.v",
       "impl\/verilog\/colStreamToColSumzec.v",
       "impl\/verilog\/colZeroCnt.v",
@@ -241,17 +166,21 @@
       "impl\/verilog\/fifo_w30_d7_A.v",
       "impl\/verilog\/fifo_w32_d0_A.v",
       "impl\/verilog\/fifo_w42_d2_A.v",
+      "impl\/verilog\/fifo_w68_d2_A.v",
       "impl\/verilog\/fifo_w68_d2_S.v",
+      "impl\/verilog\/fifo_w68_d6_A.v",
       "impl\/verilog\/fifo_w68_d6_S.v",
       "impl\/verilog\/fifo_w112_d2_S.v",
       "impl\/verilog\/findStreamMin.v",
+      "impl\/verilog\/findStreamMinScale1.v",
+      "impl\/verilog\/findStreamMinScale2.v",
       "impl\/verilog\/getXandY7.v",
       "impl\/verilog\/min.v",
-      "impl\/verilog\/parseEvents_ama_aAem.v",
+      "impl\/verilog\/parseEvents_ama_aEe0.v",
       "impl\/verilog\/parseEvents_AXILiteS_s_axi.v",
       "impl\/verilog\/parseEvents_gmem_m_axi.v",
-      "impl\/verilog\/parseEvents_mul_mBew.v",
-      "impl\/verilog\/parseEvents_mul_mCeG.v",
+      "impl\/verilog\/parseEvents_mul_mFfa.v",
+      "impl\/verilog\/parseEvents_mul_mGfk.v",
       "impl\/verilog\/parseEvents_mux_4wdI.v",
       "impl\/verilog\/parseEvents_mux_8jbC.v",
       "impl\/verilog\/parseEvents_sub_5xdS.v",
@@ -267,12 +196,18 @@
       "impl\/verilog\/rwSlices_glPLSlicsc4_ram.dat",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/sadSum.v",
-      "impl\/verilog\/start_for_accumulHfu.v",
-      "impl\/verilog\/start_for_colStreGfk.v",
-      "impl\/verilog\/start_for_feedbacEe0.v",
-      "impl\/verilog\/start_for_findStrIfE.v",
-      "impl\/verilog\/start_for_rotateSDeQ.v",
-      "impl\/verilog\/start_for_rwSliceFfa.v",
+      "impl\/verilog\/start_for_accumulNgs.v",
+      "impl\/verilog\/start_for_accumulPgM.v",
+      "impl\/verilog\/start_for_accumulRg6.v",
+      "impl\/verilog\/start_for_colStreKfY.v",
+      "impl\/verilog\/start_for_colStreLf8.v",
+      "impl\/verilog\/start_for_colStreMgi.v",
+      "impl\/verilog\/start_for_feedbacIfE.v",
+      "impl\/verilog\/start_for_findStrOgC.v",
+      "impl\/verilog\/start_for_findStrQgW.v",
+      "impl\/verilog\/start_for_findStrShg.v",
+      "impl\/verilog\/start_for_rotateSHfu.v",
+      "impl\/verilog\/start_for_rwSliceJfO.v",
       "impl\/verilog\/parseEvents.v"
     ],
     "SwDriver": [
@@ -1065,7 +1000,7 @@
       "ModuleName": "parseEvents",
       "Instances": [{
           "ModuleName": "dataflow_parent_loop_1",
-          "InstanceName": "grp_dataflow_parent_loop_1_fu_160",
+          "InstanceName": "grp_dataflow_parent_loop_1_fu_180",
           "Instances": [{
               "ModuleName": "dataflow_in_loop_par",
               "InstanceName": "dataflow_in_loop_par_U0",
@@ -1073,6 +1008,150 @@
                 {
                   "ModuleName": "colStreamToColSum",
                   "InstanceName": "colStreamToColSum_U0",
+                  "Instances": [
+                    {
+                      "ModuleName": "colSADSum",
+                      "InstanceName": "grp_colSADSum_fu_349",
+                      "Instances": [
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_240",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_288",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_336",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_384",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_432",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_480",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_528",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        }
+                      ]
+                    },
+                    {
+                      "ModuleName": "colZeroCnt",
+                      "InstanceName": "grp_colZeroCnt_fu_381"
+                    }
+                  ]
+                },
+                {
+                  "ModuleName": "colStreamToColSumSca_1",
+                  "InstanceName": "colStreamToColSumSca_1_U0",
+                  "Instances": [
+                    {
+                      "ModuleName": "colSADSum",
+                      "InstanceName": "grp_colSADSum_fu_349",
+                      "Instances": [
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_240",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_288",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_336",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_384",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_432",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_480",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        },
+                        {
+                          "ModuleName": "sad",
+                          "InstanceName": "grp_sad_fu_528",
+                          "Instances": [{
+                              "ModuleName": "sadSum",
+                              "InstanceName": "grp_sadSum_fu_200"
+                            }]
+                        }
+                      ]
+                    },
+                    {
+                      "ModuleName": "colZeroCnt",
+                      "InstanceName": "grp_colZeroCnt_fu_381"
+                    }
+                  ]
+                },
+                {
+                  "ModuleName": "colStreamToColSumSca",
+                  "InstanceName": "colStreamToColSumSca_U0",
                   "Instances": [
                     {
                       "ModuleName": "colSADSum",
@@ -1155,11 +1234,27 @@
                     }]
                 },
                 {
+                  "ModuleName": "accumulateStreamScal_1",
+                  "InstanceName": "accumulateStreamScal_1_U0",
+                  "Instances": [{
+                      "ModuleName": "min",
+                      "InstanceName": "grp_min_fu_273"
+                    }]
+                },
+                {
+                  "ModuleName": "accumulateStreamScal",
+                  "InstanceName": "accumulateStreamScal_U0",
+                  "Instances": [{
+                      "ModuleName": "min",
+                      "InstanceName": "grp_min_fu_273"
+                    }]
+                },
+                {
                   "ModuleName": "feedbackWrapperAndOu",
                   "InstanceName": "feedbackWrapperAndOu_U0",
                   "Instances": [{
                       "ModuleName": "feedback",
-                      "InstanceName": "grp_feedback_fu_147"
+                      "InstanceName": "grp_feedback_fu_185"
                     }]
                 },
                 {
@@ -1169,6 +1264,14 @@
                 {
                   "ModuleName": "findStreamMin",
                   "InstanceName": "findStreamMin_U0"
+                },
+                {
+                  "ModuleName": "findStreamMinScale1",
+                  "InstanceName": "findStreamMinScale1_U0"
+                },
+                {
+                  "ModuleName": "findStreamMinScale2",
+                  "InstanceName": "findStreamMinScale2_U0"
                 },
                 {
                   "ModuleName": "getXandY7",
@@ -1253,8 +1356,8 @@
           }],
         "Area": {
           "BRAM_18K": "124",
-          "FF": "711",
-          "LUT": "1628",
+          "FF": "1272",
+          "LUT": "2447",
           "DSP48E": "0"
         }
       },
@@ -1447,6 +1550,174 @@
           "DSP48E": "0"
         }
       },
+      "colStreamToColSumSca_1": {
+        "Latency": {
+          "LatencyBest": "82",
+          "LatencyAvg": "82",
+          "LatencyWorst": "83",
+          "PipelineII": "77",
+          "PipelineDepth": "",
+          "PipelineType": "loop rewind"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.44"
+        },
+        "Loops": [{
+            "Name": "colStreamToColSum_label1_colStreamToColSum_label2",
+            "TripCount": "77",
+            "Latency": "82",
+            "PipelineII": "1",
+            "PipelineDepth": "7"
+          }],
+        "Area": {
+          "BRAM_18K": "0",
+          "DSP48E": "35",
+          "FF": "2346",
+          "LUT": "4688"
+        }
+      },
+      "accumulateStreamScal_1": {
+        "Latency": {
+          "LatencyBest": "79",
+          "LatencyAvg": "79",
+          "LatencyWorst": "80",
+          "PipelineII": "77",
+          "PipelineDepth": "",
+          "PipelineType": "loop rewind"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "7.86"
+        },
+        "Loops": [{
+            "Name": "L_accumulateStream_label3",
+            "TripCount": "77",
+            "Latency": "79",
+            "PipelineII": "1",
+            "PipelineDepth": "4"
+          }],
+        "Area": {
+          "BRAM_18K": "0",
+          "FF": "617",
+          "LUT": "1668",
+          "DSP48E": "0"
+        }
+      },
+      "findStreamMinScale1": {
+        "Latency": {
+          "LatencyBest": "8",
+          "LatencyAvg": "8",
+          "LatencyWorst": "8",
+          "PipelineII": "8",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.71"
+        },
+        "Loops": [{
+            "Name": "findStreamMin_label4",
+            "TripCount": "7",
+            "Latency": "7",
+            "PipelineII": "",
+            "PipelineDepth": "1"
+          }],
+        "Area": {
+          "FF": "27",
+          "LUT": "165",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
+        }
+      },
+      "colStreamToColSumSca": {
+        "Latency": {
+          "LatencyBest": "82",
+          "LatencyAvg": "82",
+          "LatencyWorst": "83",
+          "PipelineII": "77",
+          "PipelineDepth": "",
+          "PipelineType": "loop rewind"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.44"
+        },
+        "Loops": [{
+            "Name": "colStreamToColSum_label1_colStreamToColSum_label2",
+            "TripCount": "77",
+            "Latency": "82",
+            "PipelineII": "1",
+            "PipelineDepth": "7"
+          }],
+        "Area": {
+          "BRAM_18K": "0",
+          "DSP48E": "35",
+          "FF": "2346",
+          "LUT": "4688"
+        }
+      },
+      "accumulateStreamScal": {
+        "Latency": {
+          "LatencyBest": "79",
+          "LatencyAvg": "79",
+          "LatencyWorst": "80",
+          "PipelineII": "77",
+          "PipelineDepth": "",
+          "PipelineType": "loop rewind"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "7.86"
+        },
+        "Loops": [{
+            "Name": "L_accumulateStream_label3",
+            "TripCount": "77",
+            "Latency": "79",
+            "PipelineII": "1",
+            "PipelineDepth": "4"
+          }],
+        "Area": {
+          "BRAM_18K": "0",
+          "FF": "617",
+          "LUT": "1668",
+          "DSP48E": "0"
+        }
+      },
+      "findStreamMinScale2": {
+        "Latency": {
+          "LatencyBest": "8",
+          "LatencyAvg": "8",
+          "LatencyWorst": "8",
+          "PipelineII": "8",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.71"
+        },
+        "Loops": [{
+            "Name": "findStreamMin_label4",
+            "TripCount": "7",
+            "Latency": "7",
+            "PipelineII": "",
+            "PipelineDepth": "1"
+          }],
+        "Area": {
+          "FF": "27",
+          "LUT": "165",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
+        }
+      },
       "feedback": {
         "Latency": {
           "LatencyBest": "2",
@@ -1495,8 +1766,8 @@
         },
         "Area": {
           "DSP48E": "3",
-          "FF": "244",
-          "LUT": "725",
+          "FF": "283",
+          "LUT": "883",
           "BRAM_18K": "0"
         }
       },
@@ -1516,9 +1787,9 @@
         },
         "Area": {
           "BRAM_18K": "124",
-          "DSP48E": "38",
-          "FF": "4505",
-          "LUT": "10344"
+          "DSP48E": "108",
+          "FF": "11185",
+          "LUT": "25373"
         }
       },
       "dataflow_parent_loop_1": {
@@ -1550,9 +1821,9 @@
           }],
         "Area": {
           "BRAM_18K": "124",
-          "DSP48E": "38",
-          "FF": "4539",
-          "LUT": "10408"
+          "DSP48E": "108",
+          "FF": "11219",
+          "LUT": "25437"
         }
       },
       "parseEvents": {
@@ -1573,16 +1844,16 @@
         },
         "Area": {
           "BRAM_18K": "132",
-          "DSP48E": "38",
-          "FF": "5176",
-          "LUT": "11147"
+          "DSP48E": "108",
+          "FF": "11856",
+          "LUT": "26176"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2018-11-14 15:27:46 +0100",
+    "Time": "2018-11-15 11:56:54 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

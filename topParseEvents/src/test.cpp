@@ -941,133 +941,48 @@ int main(int argc, char *argv[])
 	int retval=0;
 
 	/******************* Test parseEvents module from random value**************************/
-//	int32_t eventCnt = 500;
-//	uint64_t data[eventCnt];
-//	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
-//
-//	ap_int<16> miniSumRet;
-//	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-//	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
-//
-//	ap_uint<64> x, y;
-//	ap_uint<1> pol;
-//	sliceIdx_t idx;
-//
-//	for(int k = 0; k < TEST_TIMES; k++)
-//	{
-//		cout << "Test " << k << ":" << endl;
-//
-//	    int err_cnt = 0;
-//
-//		idx = sliceIdx_t(idx - 1);
-//
-//		for (int i = 0; i < eventCnt; i++)
-//		{
-//			x = rand()%50 + 10;
-//			y = rand()%50 + 10;
-//			pol = rand()%2;
-////			idx = rand()%3;
-//	//		x = 255;
-//	//		y = 240;
-////			cout << "x : " << x << endl;
-////			cout << "y : " << y << endl;
-////			cout << "idx : " << idx << endl;
-//
-//			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
-////			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
-//		}
-//
-//
-//		parseEventsSW(data, eventCnt, eventSliceSW);
-//		parseEvents(data, eventCnt, eventSlice);
-//
-//		for (int j = 0; j < eventCnt; j++)
-//		{
-//			if (eventSlice[j] != eventSliceSW[j])
-//			{
-//				std::cout << "eventSliceSW is: " << eventSliceSW[j] << std::endl;
-//				std::cout << "eventSlice is: " << eventSlice[j] << std::endl;
-//
-//				err_cnt++;
-//				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
-//			}
-//		}
-//
-//		if(err_cnt == 0)
-//		{
-//			cout << "Test " << k << " passed." << endl;
-//		}
-//		total_err_cnt += err_cnt;
-//		cout << endl;
-//	}
-
-	/******************* Test parseEvents module from specific file**************************/
 	int32_t eventCnt = 500;
 	uint64_t data[eventCnt];
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
 
-    int startLine = 0;
+	ap_int<16> miniSumRet;
+	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-    ofstream resultfile;
-    resultfile.open ("testResult.txt");
+	ap_uint<64> x, y;
+	ap_uint<1> pol;
+	sliceIdx_t idx;
 
-    for(int k = 0; k < TEST_TIMES; k++)
-    {
-    	cout << "Test " << k << ":" << endl;
+	for(int k = 0; k < TEST_TIMES; k++)
+	{
+		cout << "Test " << k << ":" << endl;
 
-		int err_cnt = 0;
+	    int err_cnt = 0;
 
-	    ifstream file("pig-withOFResult_areaThr_1000-OFResult.txt");
-	    string str;
+		idx = sliceIdx_t(idx - 1);
 
-	    // Nothing is executed until we arrived the desired line.
-	    for (int lineno = 0; getline (file,str) && lineno < startLine; lineno++);
+		for (int i = 0; i < eventCnt; i++)
+		{
+			x = rand()%50 + 40;
+			y = rand()%50 + 40;
+			pol = rand()%2;
+//			idx = rand()%3;
+	//		x = 255;
+	//		y = 240;
+//			cout << "x : " << x << endl;
+//			cout << "y : " << y << endl;
+//			cout << "idx : " << idx << endl;
 
-    	int lineCnt = 0;
-        std::cout << "Start reading line: " << startLine << std::endl;
-        while (getline(file, str))
-        {
-    	   stringstream stream(str);
-    	   uint64_t ts;
-    	   int x;
-    	   int y;
-    	   int polarity;
-    	   int OF_x;
-    	   int OF_y;
-    	   stream >> ts;
-    	   stream >> x;
-    	   stream >> y;
-    	   stream >> polarity;
-    	   stream >> OF_x;
-    	   stream >> OF_y;
+			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
+//			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
+		}
 
-    	   // y = DVS_HEIGHT -1 - y;   // OpenCV and jaer has inverse y coordinate.
-
-    	   if( y >= DVS_HEIGHT || y < 0 )  std::cout << "ts is :" << ts << "\t x is: " << x << "\t y is :" << y << "\t pol is:" << polarity << std::endl;
-    	   if( x >= DVS_WIDTH || x < 0 )  std::cout << "ts is :" << ts << "\t x is: " << x << "\t y is :" << y << "\t pol is:" << polarity << std::endl;
-
-    	   uint64_t temp = 0;
-    	   temp = (ts << 32) + ((3 - OF_y) << 29) + ((3 - OF_x) << 26) + (x << 17) + (y << 2) + (polarity << 1) + 1;
-    	   data[lineCnt] = temp;
-
-    	   if(lineCnt >= eventCnt)
-    	   {
-    		   break;
-    	   }
-    	   lineCnt++;
-        }
-
-        startLine += eventCnt;
 
 		parseEventsSW(data, eventCnt, eventSliceSW);
 		parseEvents(data, eventCnt, eventSlice);
 
 		for (int j = 0; j < eventCnt; j++)
 		{
-			resultfile << (startLine - eventCnt + j) << (eventSlice[j] & 0xff) << " " << ((eventSlice[j] >> 8) & 0xff) << " "
-					<< ((eventSlice[j] >> 16) & 0x1) << " " <<  ((eventSlice[j] >> 17) & 0x7) << " "
-					<<  ((eventSlice[j] >> 20) & 0x7) << std::endl;
-
 			if (eventSlice[j] != eventSliceSW[j])
 			{
 				std::cout << "eventSliceSW is: " << eventSliceSW[j] << std::endl;
@@ -1086,7 +1001,96 @@ int main(int argc, char *argv[])
 		cout << endl;
 	}
 
-	resultfile.close();
+	/******************* Test parseEvents module from specific file**************************/
+//	int32_t eventCnt = 500;
+//	uint64_t data[eventCnt];
+//	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
+//
+//    int startLine = 0;
+//
+//    ofstream resultfile;
+//    resultfile.open ("testResult.txt");
+//
+//    for(int k = 0; k < TEST_TIMES; k++)
+//    {
+//    	cout << "Test " << k << ":" << endl;
+//
+//		int err_cnt = 0;
+//
+//	    ifstream file("box_trans-withOFResult_areaThr_1000_hardware_order_mutiscale-OFResult.txt");
+//	    string str;
+//
+//	    // Nothing is executed until we arrived the desired line.
+//	    for (int lineno = 0; getline (file,str) && lineno < startLine; lineno++);
+//
+//    	int lineCnt = 0;
+//        std::cout << "Start reading line: " << startLine << std::endl;
+//        while (getline(file, str))
+//        {
+//    	   stringstream stream(str);
+//    	   uint64_t ts;
+//			int x;
+//			int y;
+//			int polarity;
+//			int OF_x;
+//			int OF_y;
+//			int OF_scale;
+//			stream >> ts;
+//			stream >> x;
+//			stream >> y;
+//			stream >> polarity;
+//			stream >> OF_x;
+//			stream >> OF_y;
+//			stream >> OF_scale;
+//			OF_x = (OF_x >> OF_scale);
+//			OF_y = (OF_y >> OF_scale);
+//
+//			// y = DVS_HEIGHT -1 - y;   // OpenCV and jaer has inverse y coordinate.
+//
+//			if( y >= DVS_HEIGHT || y < 0 )  std::cout << "ts is :" << ts << "\t x is: " << x << "\t y is :" << y << "\t pol is:" << polarity << std::endl;
+//			if( x >= DVS_WIDTH || x < 0 )  std::cout << "ts is :" << ts << "\t x is: " << x << "\t y is :" << y << "\t pol is:" << polarity << std::endl;
+//
+//			uint64_t temp = 0;
+//			temp = (ts << 32) + ((3 - OF_y) << 29) + ((3 - OF_x) << 26) + (x << 17) + (OF_scale << 14) + (y << 2) + (polarity << 1) + 1;
+//			data[lineCnt] = temp;
+//
+//			if(lineCnt >= eventCnt)
+//			{
+//				break;
+//			}
+//			lineCnt++;
+//        }
+//
+//        startLine += eventCnt;
+//
+//		parseEventsSW(data, eventCnt, eventSliceSW);
+//		parseEvents(data, eventCnt, eventSlice);
+//
+//		for (int j = 0; j < eventCnt; j++)
+//		{
+//			resultfile << (startLine - eventCnt + j) << (eventSlice[j] & 0xff) << " " << ((eventSlice[j] >> 8) & 0xff) << " "
+//					<< ((eventSlice[j] >> 16) & 0x1) << " " <<  ((eventSlice[j] >> 17) & 0x7) << " "
+//					<<  ((eventSlice[j] >> 20) & 0x7) << std::endl;
+//
+//			if (eventSlice[j] != eventSliceSW[j])
+//			{
+//				std::cout << "eventSliceSW is: " << eventSliceSW[j] << std::endl;
+//				std::cout << "eventSlice is: " << eventSlice[j] << std::endl;
+//
+//				err_cnt++;
+//				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+//			}
+//		}
+//
+//		if(err_cnt == 0)
+//		{
+//			cout << "Test " << k << " passed." << endl;
+//		}
+//		total_err_cnt += err_cnt;
+//		cout << endl;
+//	}
+//
+//	resultfile.close();
 
 
 //		/******************* Test feedback module **************************/
