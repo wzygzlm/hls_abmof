@@ -86,4 +86,8 @@ miniBlockSAD/solution1/syn
 miniBlockSAD/solution1/.autopilot
 miniBlockSAD/solution1/csim
 miniBlockSAD/solution1/sim
-miniBlockSAD/solution1/impl
+hls_fastCorner/solution1/syn
+hls_fastCorner/solution1/.autopilot
+hls_fastCorner/solution1/csim
+hls_fastCorner/solution1/sim
+
