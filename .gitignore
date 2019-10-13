@@ -90,4 +90,15 @@ hls_fastCorner/solution1/syn
 hls_fastCorner/solution1/.autopilot
 hls_fastCorner/solution1/csim
 hls_fastCorner/solution1/sim
-
+EventStreamToFrameStream/solution1/syn
+EventStreamToFrameStream/solution1/.autopilot
+EventStreamToFrameStream/solution1/csim
+EventStreamToFrameStream/solution1/sim
+EventStreamToFrameStream/solution2/syn
+EventStreamToFrameStream/solution2/.autopilot
+EventStreamToFrameStream/solution2/csim
+EventStreamToFrameStream/solution2/sim
+EventStreamToFrameStream/minizedSolution/syn
+EventStreamToFrameStream/minizedSolution/.autopilot
+EventStreamToFrameStream/minizedSolution/csim
+EventStreamToFrameStream/minizedSolution/sim

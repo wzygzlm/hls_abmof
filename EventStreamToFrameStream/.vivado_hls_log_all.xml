@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vivadoHLSLog:LogRoot xmlns:vivadoHLSLog="www.xilinx.com/vivadoHLSLog">
+  <errorLogs>
+    <logs>
+      <synLog/>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
+    </logs>
+  </errorLogs>
+  <warningLogs>
+    <logs>
+      <synLog>
+        <logs message="WARNING: [RTGEN 206-101] Register 'evCntReg_V' is power-on initialization." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:23.954+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'startY_V' is power-on initialization." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:23.791+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'startX_V' is power-on initialization." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:23.788+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'cntReg_V' is power-on initialization." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:23.784+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'vgaOutputEn' is power-on initialization." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:23.780+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'vCntReg_V' is power-on initialization." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:23.774+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'hCntReg_V' is power-on initialization." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:23.770+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'currentStoreSliceIdx' is power-on initialization." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:23.765+0200" type="Warning"/>
+        <logs message="WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glDVSSlice.V.0'." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:22.818+0200" type="Warning"/>
+        <logs message="WARNING: [ANALYSIS 214-52] Found false inter dependency for variable 'glDVSSlice.V.1'." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:22.403+0200" type="Warning"/>
+        <logs message="WARNING: [SYNCHK 200-23] EventStreamToFrameStream/src/main.cpp:27: variable-indexed range selection may cause suboptimal QoR." projectName="EventStreamToFrameStream" solutionName="solution1" date="2019-10-13T09:49:20.081+0200" type="Warning"/>
+      </synLog>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
+    </logs>
+  </warningLogs>
+</vivadoHLSLog:LogRoot>
