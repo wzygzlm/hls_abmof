@@ -454,6 +454,7 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 			resetData = glDVSSlice[currentLoadSliceIdx][vCntReg/RESHAPE_FACTOR][hCntReg];
 
 			vgaReadPixVal = readOneDataFromCol(resetData, vCntReg%RESHAPE_FACTOR);
+			if(vgaReadPixVal >= 0xf) vgaReadPixVal = 0xff;
 			writeOneDataToCol(&resetData, vCntReg%RESHAPE_FACTOR, ap_uint<TS_TYPE_BIT_WIDTH>(0));
 			glDVSSlice[currentLoadSliceIdx][vCntReg/RESHAPE_FACTOR][hCntReg] = resetData;
 		}
@@ -475,6 +476,7 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 			resetData = glDVSSlice[currentLoadSliceIdx][vCntReg/RESHAPE_FACTOR][hCntReg];
 
 			vgaReadPixVal = readOneDataFromCol(resetData, vCntReg%RESHAPE_FACTOR);
+			if(vgaReadPixVal >= 0xf) vgaReadPixVal = 0xff;
 			writeOneDataToCol(&resetData, vCntReg%RESHAPE_FACTOR, ap_uint<TS_TYPE_BIT_WIDTH>(0));
 			glDVSSlice[currentLoadSliceIdx][vCntReg/RESHAPE_FACTOR][hCntReg] = resetData;
 		}
@@ -486,7 +488,23 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	{
 		ap_uint<24> pixVal;
 		pixVal = 0xff << 16;
-		if((ctrl & 0x02) == 0x02)
+		if((ctrl & 0x20) == 0x20)
+		{
+			pixVal = (ap_uint<24>(vgaReadPixVal) << 0);
+		}
+		if((ctrl & 0x10) == 0x10)
+		{
+			pixVal = (ap_uint<24>(vgaReadPixVal) << 4);
+		}
+		else if((ctrl & 0x08) == 0x08)
+		{
+			pixVal = (ap_uint<24>(vgaReadPixVal) << 8);
+		}
+		else if((ctrl & 0x04) == 0x04)
+		{
+			pixVal = (ap_uint<24>(vgaReadPixVal) << 12);
+		}
+		else if((ctrl & 0x02) == 0x02)
 		{
 			pixVal = (ap_uint<24>(vgaReadPixVal) << 16);
 		}
