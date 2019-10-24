@@ -20,12 +20,12 @@ ap_uint<TS_TYPE_BIT_WIDTH> readOneDataFromCol(col_pix_t colData, ap_uint<8> idx)
 #pragma HLS UNROLL
 		const int bitOffset = LOG_TS_TYPE_BIT_WIDTH;   // This value should be equal to log(TS_TYPE_BIT_WIDTH)
 		ap_uint<8 + bitOffset> colIdx;
-		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
-		colIdx.range(8 + bitOffset - 1, bitOffset) = ap_uint<8 + bitOffset>(idx * TS_TYPE_BIT_WIDTH).range(8 + bitOffset - 1, bitOffset);
-		colIdx.range(bitOffset - 1, 0) = ap_uint<bitOffset>(yIndex);
+//		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
+//		colIdx.range(8 + bitOffset - 1, bitOffset) = ap_uint<8 + bitOffset>(idx * TS_TYPE_BIT_WIDTH).range(8 + bitOffset - 1, bitOffset);
+//		colIdx.range(bitOffset - 1, 0) = ap_uint<bitOffset>(yIndex);
 
-		retData[yIndex] = colData[colIdx];
-//		retData[yIndex] = colData[ap_uint<TS_TYPE_BIT_WIDTH>_BIT_WIDTH*idx + yIndex];
+//		retData[yIndex] = colData[colIdx];
+		retData[yIndex] = colData[TS_TYPE_BIT_WIDTH * idx + yIndex];
 	}
 	return retData;
 }
@@ -38,11 +38,12 @@ void writeOneDataToCol(col_pix_t *colData, ap_uint<8> idx, ap_uint<TS_TYPE_BIT_W
 #pragma HLS UNROLL
 		const int bitOffset = LOG_TS_TYPE_BIT_WIDTH;   // This value should be equal to log(TS_TYPE_BIT_WIDTH)
 		ap_uint<8 + bitOffset> colIdx;
-		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
-		colIdx.range(8 + bitOffset - 1, bitOffset) = ap_uint<8 + bitOffset>(idx * TS_TYPE_BIT_WIDTH).range(8 + bitOffset - 1, bitOffset);
-		colIdx.range(bitOffset - 1, 0) = ap_uint<bitOffset>(yIndex);
+//		// Concatenate and bit shift rather than multiple and accumulation (MAC) can save area.
+//		colIdx.range(8 + bitOffset - 1, bitOffset) = ap_uint<8 + bitOffset>(idx * TS_TYPE_BIT_WIDTH).range(8 + bitOffset - 1, bitOffset);
+//		colIdx.range(bitOffset - 1, 0) = ap_uint<bitOffset>(yIndex);
 
-		(*colData)[colIdx] = toWriteData[yIndex];
+//		(*colData)[colIdx] = toWriteData[yIndex];
+		(*colData)[TS_TYPE_BIT_WIDTH * idx + yIndex] = toWriteData[yIndex];
 	}
 }
 
@@ -362,29 +363,23 @@ void testVGAFrame(int testMode, hls::stream< rgbFrameStream_t > &frameStream)
 
 void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls::stream< ap_uint<16> > &yStream,
 //		hls::stream< ap_uint<16> > &polStream, hls::stream< ap_uint<32> > &tsStream,
-		ap_uint<16> configRegs, ap_uint<32> ctrl,
-		ap_uint<64> *count, ap_uint<1> *vgaEn, ap_uint<16> *vCnt, ap_uint<16> *hCnt, ap_uint<16> *regX, ap_uint<16> *regY, ap_uint<1> *skipFlgOutput, ap_uint<1> *currentIdx,
+		ap_uint<64> *count, ap_uint<1> *vgaEn, ap_uint<16> *vCnt, ap_uint<16> *hCnt, ap_uint<16> *regX, ap_uint<16> *regY,
 		hls::stream< rgbFrameStream_t > &frameStream
 		)
 {
-//#pragma HLS INTERFACE ap_ctrl_chain port=return
-#pragma HLS INTERFACE s_axilite register port=ctrl bundle=config
-#pragma HLS INTERFACE s_axilite register port=configRegs bundle=config
-//#pragma HLS INTERFACE s_axilite register port=return bundle=config
+#pragma HLS DEPENDENCE variable=glDVSSlice intra true
 #pragma HLS INTERFACE axis register both port=frameStream
 #pragma HLS ARRAY_PARTITION variable=glDVSSlice complete dim=1
 #pragma HLS DEPENDENCE variable=glDVSSlice inter false
-#pragma HLS DEPENDENCE variable=glDVSSlice intra true
 #pragma HLS RESOURCE variable=glDVSSlice core=RAM_T2P_BRAM
 #pragma HLS PIPELINE
 #pragma HLS INTERFACE axis register both port=yStream
 #pragma HLS INTERFACE axis register both port=xStream
 
-	static ap_uint<32> cntReg = 0;
+	static ap_uint<64> cntReg = 0;
 	static ap_uint<64> evCntReg = 0;
 
 	static ap_uint<12> hCntReg = 0, vCntReg = 0;   // Counter for VGA.
-	static ap_uint<12> hRdCntReg = 0, vRdCntReg = 0;  // For VGA sub-sample display
 	static bool vgaOutputEn = false;
 
 	static ap_uint<1> currentStoreSliceIdx = 0;
@@ -393,19 +388,10 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	static ap_uint<16> fakeX, fakeY;
 	static ap_uint<16> startX = 0, startY = 0;
 
-	static ap_uint<16> sliceDurationMs = 10;
-
-	if(ctrl & 0x1)
-	{
-		sliceDurationMs = configRegs;
-		ctrl = ctrl & ~(0x1);
-	}
-
 	/* Local variables */
 	ap_uint<16> x, y;
 	bool skipFlag = false;
-
-	if(!(xStream.read_nb(x)) || !(yStream.read_nb(y)))   // If any read of them failed, then skip.
+	if(!xStream.read_nb(x) || !yStream.read_nb(y))
 	{
 		skipFlag = true;
 	}
@@ -435,8 +421,6 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	col_pix_t tmpData, resetData;
 	/* Writing it in this split form rather than combination form could avoid generating a big select operator */
 	currentLoadSliceIdx = ~currentStoreSliceIdx;
-	hRdCntReg = hCntReg;
-	vRdCntReg = vCntReg;
 	if(currentStoreSliceIdx == 0)
 	{
 		tmpData = glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y];
@@ -486,14 +470,14 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	{
 		ap_uint<24> pixVal;
 		pixVal = 0xff << 16;
-		if((ctrl & 0x02) == 0x02)
-		{
-			pixVal = (ap_uint<24>(vgaReadPixVal) << 16);
-		}
-		else
-		{
+//		if(currentStoreSliceIdx == 0)
+//		{
 			pixVal = (ap_uint<24>(vgaReadPixVal) << 20);
-		}
+//		}
+//		else
+//		{
+//			pixVal = (ap_uint<24>(vgaReadPixVal) << 8);
+//		}
 
 		if(hCntReg == 799)
 		{
@@ -536,9 +520,9 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	}
 
 	ap_uint<32> evCntRegReg = cntReg%0x100000;
-	if(cntReg == 100000 * sliceDurationMs )   // Some condition is satisfied, rotate slice and enable VGA output.
+	if(evCntRegReg == 0)   // Some condition is satisfied, rotate slice and enable VGA output.
 	{
-		cntReg = 0;
+//		cntReg = 0;
 		if(startX >= 200)
 		{
 			startX = 0;
@@ -569,6 +553,4 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	*hCnt = hCntReg;
 	*regX = x;
 	*regY = y;
-	*skipFlgOutput = skipFlag;
-	*currentIdx = currentStoreSliceIdx;
 }

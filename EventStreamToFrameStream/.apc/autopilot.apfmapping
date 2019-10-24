@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
   <source>
+    <originFiles name="national_flag.c" path="E:\xfOpenCV\hls_2018_1\EventStreamToFrameStream\src\national_flag.c"/>
     <originFiles name="minizedVersion.cpp" path="E:\xfOpenCV\hls_2018_1\EventStreamToFrameStream\src\minizedVersion.cpp"/>
     <originFiles name="main.cpp" path="E:\xfOpenCV\hls_2018_1\EventStreamToFrameStream\src\main.cpp"/>
-    <originFiles name="national_flag.c" path="E:\xfOpenCV\hls_2018_1\EventStreamToFrameStream\src\national_flag.c"/>
   </source>
   <testbench>
     <originFiles name="test.cpp" path="E:\xfOpenCV\hls_2018_1\EventStreamToFrameStream\src\test.cpp"/>
