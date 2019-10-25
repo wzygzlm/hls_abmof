@@ -384,7 +384,7 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	static ap_uint<64> evCntReg = 0;
 
 	static ap_uint<12> hCntReg = 0, vCntReg = 0;   // Counter for VGA.
-	static ap_uint<12> hRdCntReg = 0, vRdCntReg = 0;  // For VGA sub-sample display
+
 	static bool vgaOutputEn = false;
 
 	static ap_uint<1> currentStoreSliceIdx = 0;
@@ -437,10 +437,14 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 
 	ap_uint<TS_TYPE_BIT_WIDTH> tmpPixVal, vgaReadPixVal = 0;
 	col_pix_t tmpData, resetData;
+	ap_uint<12> hRdCntReg, vRdCntReg;  // For VGA sub-sample display
+	ap_uint<12> hRdCntModReg, vRdCntModReg;
 	/* Writing it in this split form rather than combination form could avoid generating a big select operator */
 	currentLoadSliceIdx = ~currentStoreSliceIdx;
-	hRdCntReg = hCntReg;
-	vRdCntReg = vCntReg;
+	hRdCntReg = hCntReg/2;
+	vRdCntReg = vCntReg/2;
+	hRdCntModReg = hCntReg - 2 * hRdCntReg;
+	vRdCntModReg = vCntReg - 2 * vRdCntReg;
 	if(currentStoreSliceIdx == 0)
 	{
 		tmpData = glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y];
@@ -449,17 +453,22 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 		writeOneDataToCol(&tmpData, x%RESHAPE_FACTOR, tmpPixVal);
 		glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y] = tmpData;
 
-		if(vCntReg >= 260 || hCntReg >= 346)
+		if(vRdCntReg >= 260 || hRdCntReg >= 346)
 		{
 			vgaReadPixVal = 0xaa;
 		}
 		else
 		{
-			resetData = glDVSSlice[currentLoadSliceIdx][vCntReg/RESHAPE_FACTOR][hCntReg];
-			vgaReadPixVal = readOneDataFromCol(resetData, vCntReg%RESHAPE_FACTOR);
+			resetData = glDVSSlice[currentLoadSliceIdx][vRdCntReg/RESHAPE_FACTOR][hRdCntReg];
+			vgaReadPixVal = readOneDataFromCol(resetData, vRdCntReg%RESHAPE_FACTOR);
 			if(vgaReadPixVal > 0) vgaReadPixVal = 0xff;
-			writeOneDataToCol(&resetData, vCntReg%RESHAPE_FACTOR, 0);
-			glDVSSlice[currentLoadSliceIdx][vCntReg/RESHAPE_FACTOR][hCntReg] = resetData;
+		}
+
+		// This is the final sub-sampled pixel that will use this block address. Now we can reset it safely.
+		if(hRdCntModReg == 1 && vRdCntModReg == 1)
+		{
+			writeOneDataToCol(&resetData, vRdCntReg%RESHAPE_FACTOR, 0);
+			glDVSSlice[currentLoadSliceIdx][vRdCntReg/RESHAPE_FACTOR][hRdCntReg] = resetData;
 		}
 	}
 	else
@@ -470,17 +479,22 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 		writeOneDataToCol(&tmpData, x%RESHAPE_FACTOR, tmpPixVal);
 		glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y] = tmpData;
 
-		if(vCntReg >= 260 || hCntReg >= 346)
+		if(vRdCntReg >= 260 || hRdCntReg >= 346)
 		{
 			vgaReadPixVal = 0xaa;
 		}
 		else
 		{
-			resetData = glDVSSlice[currentLoadSliceIdx][vCntReg/RESHAPE_FACTOR][hCntReg];
-			vgaReadPixVal = readOneDataFromCol(resetData, vCntReg%RESHAPE_FACTOR);
+			resetData = glDVSSlice[currentLoadSliceIdx][vRdCntReg/RESHAPE_FACTOR][hRdCntReg];
+			vgaReadPixVal = readOneDataFromCol(resetData, vRdCntReg%RESHAPE_FACTOR);
 			if(vgaReadPixVal > 0) vgaReadPixVal = 0xff;
-			writeOneDataToCol(&resetData, vCntReg%RESHAPE_FACTOR, 0);
-			glDVSSlice[currentLoadSliceIdx][vCntReg/RESHAPE_FACTOR][hCntReg] = resetData;
+		}
+
+		// This is the final sub-sampled pixel that will use this block address. Now we can reset it safely.
+		if(hRdCntModReg == 1 && vRdCntModReg == 1)
+		{
+			writeOneDataToCol(&resetData, vRdCntReg%RESHAPE_FACTOR, 0);
+			glDVSSlice[currentLoadSliceIdx][vRdCntReg/RESHAPE_FACTOR][hRdCntReg] = resetData;
 		}
 	}
 
