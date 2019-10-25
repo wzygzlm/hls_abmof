@@ -101,15 +101,6 @@
           "Width": "64"
         }}
     },
-    "currentIdx_V": {
-      "type": "data",
-      "dir": "out",
-      "width": "1",
-      "ctype": {"DATA": {
-          "Type": "integer unsigned",
-          "Width": "1"
-        }}
-    },
     "frameStream": {
       "type": "axi4stream",
       "mode": "master",
@@ -529,15 +520,6 @@
       "dir": "out",
       "width": "1"
     },
-    "currentIdx_V": {
-      "dir": "out",
-      "width": "1",
-      "isVector": "true"
-    },
-    "currentIdx_V_ap_vld": {
-      "dir": "out",
-      "width": "1"
-    },
     "frameStream_TDATA": {
       "dir": "out",
       "width": "24"
@@ -648,13 +630,6 @@
       "handshakeRef": "ap_vld",
       "firstOutLatency": "6"
     },
-    "currentIdx_V": {
-      "interfaceRef": "currentIdx_V",
-      "dir": "out",
-      "dataWidth": "1",
-      "handshakeRef": "ap_vld",
-      "firstOutLatency": "6"
-    },
     "frameStream_V_data_V": {
       "interfaceRef": "frameStream",
       "dir": "out",
@@ -705,14 +680,14 @@
         "Area": {
           "BRAM_18K": "228",
           "DSP48E": "1",
-          "FF": "1368",
-          "LUT": "1628"
+          "FF": "1361",
+          "LUT": "1607"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2019-10-24 15:23:46 +0200",
+    "Time": "2019-10-25 18:22:45 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
