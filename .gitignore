@@ -90,6 +90,11 @@ hls_fastCorner/solution1/syn
 hls_fastCorner/solution1/.autopilot
 hls_fastCorner/solution1/csim
 hls_fastCorner/solution1/sim
+abmofStream/solution1/syn
+abmofStream/solution1/.autopilot
+abmofStream/solution1/csim
+abmofStream/solution1/sim
+abmofStream/solution1/impl
 EventStreamToFrameStream/solution1/syn
 EventStreamToFrameStream/solution1/.autopilot
 EventStreamToFrameStream/solution1/csim
