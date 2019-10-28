@@ -157,6 +157,15 @@
           "Width": "16"
         }}
     },
+    "polReg": {
+      "type": "data",
+      "dir": "out",
+      "width": "8",
+      "ctype": {"DATA": {
+          "Type": "integer signed",
+          "Width": "8"
+        }}
+    },
     "regX_V": {
       "type": "data",
       "dir": "out",
@@ -511,6 +520,14 @@
       "dir": "out",
       "width": "1"
     },
+    "polReg": {
+      "dir": "out",
+      "width": "8"
+    },
+    "polReg_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
     "skipFlgOutput_V": {
       "dir": "out",
       "width": "1",
@@ -623,6 +640,13 @@
       "handshakeRef": "ap_vld",
       "firstOutLatency": "6"
     },
+    "polReg": {
+      "interfaceRef": "polReg",
+      "dir": "out",
+      "dataWidth": "8",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "6"
+    },
     "skipFlgOutput_V": {
       "interfaceRef": "skipFlgOutput_V",
       "dir": "out",
@@ -680,14 +704,14 @@
         "Area": {
           "BRAM_18K": "228",
           "DSP48E": "1",
-          "FF": "1371",
-          "LUT": "1676"
+          "FF": "1404",
+          "LUT": "1650"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2019-10-28 11:03:17 +0100",
+    "Time": "2019-10-28 16:38:27 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

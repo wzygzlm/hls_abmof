@@ -363,7 +363,7 @@ void testVGAFrame(int testMode, hls::stream< rgbFrameStream_t > &frameStream)
 void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls::stream< ap_uint<16> > &yStream,
 //		hls::stream< ap_uint<16> > &polStream, hls::stream< ap_uint<32> > &tsStream,
 		ap_uint<16> configRegs, ap_uint<32> ctrl,
-		ap_uint<64> *count, ap_uint<1> *vgaEn, ap_uint<16> *vCnt, ap_uint<16> *hCnt, ap_uint<16> *regX, ap_uint<16> *regY, ap_uint<1> *skipFlgOutput,
+		ap_uint<64> *count, ap_uint<1> *vgaEn, ap_uint<16> *vCnt, ap_uint<16> *hCnt, ap_uint<16> *regX, ap_uint<16> *regY, int8_t *polReg, ap_uint<1> *skipFlgOutput,
 		hls::stream< rgbFrameStream_t > &frameStream
 		)
 {
@@ -407,12 +407,15 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 
 	/* Local variables */
 	ap_uint<16> x, y;
+	int8_t  pol;
 	bool skipFlag = false;
 
 	if(!(xStream.read_nb(x)) || !(yStream.read_nb(y)))   // If any read of them failed, then skip.
 	{
 		skipFlag = true;
 	}
+	pol = (x[12] == 1) ? 1 : -1;    // Polarity is stored in the 12th bit of x address and we convert it to 1 or -1.
+	x = ap_uint<16>(x.range(11, 0));             // Polarity information is extracted, and now store the valid x address.
 
 //	if(fakeY >= startY + 20)
 //	{
@@ -435,7 +438,7 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 //	y = fakeY;
 //	skipFlag = false;
 
-	ap_uint<TS_TYPE_BIT_WIDTH> tmpPixVal, vgaReadPixVal = 0;
+	ap_int<TS_TYPE_BIT_WIDTH> tmpPixVal, vgaReadPixVal = 0;
 	col_pix_t tmpData, resetData;
 	ap_uint<12> hRdCntReg, vRdCntReg;  // For VGA sub-sample display
 	ap_uint<12> hRdCntModReg, vRdCntModReg;
@@ -449,7 +452,7 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	{
 		tmpData = glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y];
 		tmpPixVal = readOneDataFromCol(tmpData, x%RESHAPE_FACTOR);
-		tmpPixVal = (skipFlag) ? tmpPixVal : (ap_uint<TS_TYPE_BIT_WIDTH>(tmpPixVal + 1));
+		tmpPixVal = (skipFlag) ? tmpPixVal : (ap_int<TS_TYPE_BIT_WIDTH>(tmpPixVal + pol));
 		writeOneDataToCol(&tmpData, x%RESHAPE_FACTOR, tmpPixVal);
 		glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y] = tmpData;
 
@@ -462,6 +465,7 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 			resetData = glDVSSlice[currentLoadSliceIdx][vRdCntReg/RESHAPE_FACTOR][hRdCntReg];
 			vgaReadPixVal = readOneDataFromCol(resetData, vRdCntReg%RESHAPE_FACTOR);
 			if(vgaReadPixVal > 0) vgaReadPixVal = vgaReadPixVal + ((ctrl & 0xff00) >> 8);
+			else if(vgaReadPixVal < 0) vgaReadPixVal = vgaReadPixVal - ((ctrl & 0xff00) >> 8);
 //			if(vgaReadPixVal > 0) vgaReadPixVal = 0xff;
 		}
 
@@ -476,7 +480,7 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	{
 		tmpData = glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y];
 		tmpPixVal = readOneDataFromCol(tmpData, x%RESHAPE_FACTOR);
-		tmpPixVal = (skipFlag) ? tmpPixVal : (ap_uint<TS_TYPE_BIT_WIDTH>(tmpPixVal + 1));
+		tmpPixVal = (skipFlag) ? tmpPixVal : (ap_int<TS_TYPE_BIT_WIDTH>(tmpPixVal + pol));
 		writeOneDataToCol(&tmpData, x%RESHAPE_FACTOR, tmpPixVal);
 		glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y] = tmpData;
 
@@ -489,6 +493,7 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 			resetData = glDVSSlice[currentLoadSliceIdx][vRdCntReg/RESHAPE_FACTOR][hRdCntReg];
 			vgaReadPixVal = readOneDataFromCol(resetData, vRdCntReg%RESHAPE_FACTOR);
 			if(vgaReadPixVal > 0) vgaReadPixVal = vgaReadPixVal + ((ctrl & 0xff00) >> 8);
+			else if(vgaReadPixVal < 0) vgaReadPixVal = vgaReadPixVal - ((ctrl & 0xff00) >> 8);
 //			if(vgaReadPixVal > 0) vgaReadPixVal = 0xff;
 		}
 
@@ -506,30 +511,41 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	{
 		ap_uint<24> pixVal;
 		pixVal = 0xff << 16;
-		if((ctrl & 0x20) == 0x20)
+		if(vgaReadPixVal < 0)     // Display in Green for negative events
 		{
-			pixVal = (ap_uint<24>(vgaReadPixVal) << 0);
+			vgaReadPixVal=-vgaReadPixVal;
+			pixVal = vgaReadPixVal.range(3,0);
+			pixVal = (ap_uint<24>(pixVal) << 4);
 		}
-		if((ctrl & 0x10) == 0x10)
+		else                     // Display in Red for positive events
 		{
-			pixVal = (ap_uint<24>(vgaReadPixVal) << 4);
+			pixVal = vgaReadPixVal.range(3,0);
+			pixVal = (ap_uint<24>(pixVal) << 20);
 		}
-		else if((ctrl & 0x08) == 0x08)
-		{
-			pixVal = (ap_uint<24>(vgaReadPixVal) << 8);
-		}
-		else if((ctrl & 0x04) == 0x04)
-		{
-			pixVal = (ap_uint<24>(vgaReadPixVal) << 12);
-		}
-		else if((ctrl & 0x02) == 0x02)
-		{
-			pixVal = (ap_uint<24>(vgaReadPixVal) << 16);
-		}
-		else
-		{
-			pixVal = (ap_uint<24>(vgaReadPixVal) << 20);
-		}
+//		if((ctrl & 0x20) == 0x20)
+//		{
+//			pixVal = (ap_uint<24>(pixVal) << 0);
+//		}
+//		if((ctrl & 0x10) == 0x10)
+//		{
+//			pixVal = (ap_uint<24>(pixVal) << 4);
+//		}
+//		else if((ctrl & 0x08) == 0x08)
+//		{
+//			pixVal = (ap_uint<24>(pixVal) << 8);
+//		}
+//		else if((ctrl & 0x04) == 0x04)
+//		{
+//			pixVal = (ap_uint<24>(pixVal) << 12);
+//		}
+//		else if((ctrl & 0x02) == 0x02)
+//		{
+//			pixVal = (ap_uint<24>(pixVal) << 16);
+//		}
+//		else
+//		{
+//			pixVal = (ap_uint<24>(pixVal) << 20);
+//		}
 
 		if(hCntReg == 799)
 		{
@@ -605,5 +621,6 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	*hCnt = hCntReg;
 	*regX = x;
 	*regY = y;
+	*polReg = pol;
 	*skipFlgOutput = skipFlag;
 }
