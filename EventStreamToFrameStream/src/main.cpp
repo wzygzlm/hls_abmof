@@ -461,7 +461,8 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 		{
 			resetData = glDVSSlice[currentLoadSliceIdx][vRdCntReg/RESHAPE_FACTOR][hRdCntReg];
 			vgaReadPixVal = readOneDataFromCol(resetData, vRdCntReg%RESHAPE_FACTOR);
-			if(vgaReadPixVal > 0) vgaReadPixVal = 0xff;
+			if(vgaReadPixVal > 0) vgaReadPixVal = vgaReadPixVal + ((ctrl & 0xff00) >> 8);
+//			if(vgaReadPixVal > 0) vgaReadPixVal = 0xff;
 		}
 
 		// This is the final sub-sampled pixel that will use this block address. Now we can reset it safely.
@@ -487,7 +488,8 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 		{
 			resetData = glDVSSlice[currentLoadSliceIdx][vRdCntReg/RESHAPE_FACTOR][hRdCntReg];
 			vgaReadPixVal = readOneDataFromCol(resetData, vRdCntReg%RESHAPE_FACTOR);
-			if(vgaReadPixVal > 0) vgaReadPixVal = 0xff;
+			if(vgaReadPixVal > 0) vgaReadPixVal = vgaReadPixVal + ((ctrl & 0xff00) >> 8);
+//			if(vgaReadPixVal > 0) vgaReadPixVal = 0xff;
 		}
 
 		// This is the final sub-sampled pixel that will use this block address. Now we can reset it safely.
