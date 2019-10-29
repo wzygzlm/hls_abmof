@@ -1,4 +1,5 @@
 vivado_hls.log
+*~
 abmofParseEvents_SmallBitWidth/solution1/impl
 abmofParseEvents_SmallBitWidth/solution1/syn
 abmofParseEvents_SmallBitWidth/solution1/.autopilot
@@ -110,3 +111,8 @@ EventStreamToFrameStream/minizedSolution/.autopilot
 EventStreamToFrameStream/minizedSolution/csim
 EventStreamToFrameStream/minizedSolution/sim
 EventStreamToFrameStream/minizedSolution/impl
+eventFIFOtoStream/solution1/syn
+eventFIFOtoStream/solution1/.autopilot
+eventFIFOtoStream/solution1/csim
+eventFIFOtoStream/solution1/sim
+eventFIFOtoStream/solution1/impl
