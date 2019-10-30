@@ -20,7 +20,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "1",
-    "Latency": "2",
+    "Latency": "3",
     "Uncertainty": "1.25"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -87,6 +87,15 @@
       "ctype": {"DATA": {
           "Type": "integer unsigned",
           "Width": "8"
+        }}
+    },
+    "tsRegReg_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "64",
+      "ctype": {"DATA": {
+          "Type": "integer unsigned",
+          "Width": "64"
         }}
     },
     "tsStreamOut_V_V": {
@@ -249,6 +258,14 @@
     "yRegReg_V_ap_vld": {
       "dir": "out",
       "width": "1"
+    },
+    "tsRegReg_V": {
+      "dir": "out",
+      "width": "64"
+    },
+    "tsRegReg_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
     }
   },
   "CPorts": {
@@ -263,59 +280,66 @@
     "tsStreamOut_V_V": {
       "interfaceRef": "tsStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "1"
+      "firstOutLatency": "2"
     },
     "yStreamOut_V_V": {
       "interfaceRef": "yStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "1"
+      "firstOutLatency": "2"
     },
     "xStreamOut_V_V": {
       "interfaceRef": "xStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "1"
+      "firstOutLatency": "2"
     },
     "stateReg_V": {
       "interfaceRef": "stateReg_V",
       "dir": "out",
       "dataWidth": "8",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "2"
+      "firstOutLatency": "3"
     },
     "xRegReg_V": {
       "interfaceRef": "xRegReg_V",
       "dir": "out",
       "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "2"
+      "firstOutLatency": "3"
     },
     "yRegReg_V": {
       "interfaceRef": "yRegReg_V",
       "dir": "out",
       "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "2"
+      "firstOutLatency": "3"
+    },
+    "tsRegReg_V": {
+      "interfaceRef": "tsRegReg_V",
+      "dir": "out",
+      "dataWidth": "64",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "3"
     }
   },
   "ModuleInfo": {
     "Hierarchy": {"ModuleName": "EVRawStreamToXYTSStream"},
     "Metrics": {"EVRawStreamToXYTSStream": {
         "Latency": {
-          "LatencyBest": "2",
-          "LatencyAvg": "2",
-          "LatencyWorst": "2",
+          "LatencyBest": "3",
+          "LatencyAvg": "3",
+          "LatencyWorst": "3",
           "PipelineII": "1",
-          "PipelineDepth": "3",
+          "PipelineDepth": "4",
           "PipelineType": "function"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "1.25",
-          "Estimate": "6.41"
+          "Estimate": "6.50"
         },
         "Area": {
-          "FF": "331",
-          "LUT": "273",
+          "FF": "336",
+          "LUT": "298",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -323,7 +347,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2019-10-29 17:37:32 +0100",
+    "Time": "2019-10-30 20:06:27 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

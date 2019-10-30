@@ -12,11 +12,11 @@
   <warningLogs>
     <logs>
       <synLog>
-        <logs message="WARNING: [RTGEN 206-101] Register 'ts_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-10-29T17:37:31.423+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'x_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-10-29T17:37:31.339+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'y_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-10-29T17:37:31.327+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'state_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-10-29T17:37:31.321+0100" type="Warning"/>
-        <logs message="WARNING: [SYNCHK 200-77] Found opaque type argument 'polStreamOut' of top function 'EVRawStreamToXYTSStream'. Possible causes are: (1) the argument is passed by reference; (2) the argument is never used in the function; (3) the argument is of templated class type. " projectName="eventFIFOtoStream" solutionName="solution1" date="2019-10-29T17:37:29.906+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'y_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-10-30T20:06:26.331+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'x_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-10-30T20:06:26.306+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'ts_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-10-30T20:06:26.301+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'state_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-10-30T20:06:26.297+0100" type="Warning"/>
+        <logs message="WARNING: [SYNCHK 200-77] Found opaque type argument 'polStreamOut' of top function 'EVRawStreamToXYTSStream'. Possible causes are: (1) the argument is passed by reference; (2) the argument is never used in the function; (3) the argument is of templated class type. " projectName="eventFIFOtoStream" solutionName="solution1" date="2019-10-30T20:06:24.996+0100" type="Warning"/>
       </synLog>
       <simLog/>
       <mgLog/>

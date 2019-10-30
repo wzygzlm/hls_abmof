@@ -205,7 +205,7 @@ void AERReadFIFOdata(ap_uint<16> *eventFIFOIn, hls::stream< ap_uint<16> > &event
 }
 
 void EVRawStreamToXYTSStream(ap_uint<16> *eventFIFOIn,
-		ap_uint<8> *stateReg, ap_uint<16> *xRegReg,  ap_uint<16> *yRegReg,
+		ap_uint<8> *stateReg, ap_uint<16> *xRegReg,  ap_uint<16> *yRegReg, ap_uint<64> *tsRegReg,
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut)
 {
 #pragma HLS PIPELINE
@@ -222,6 +222,11 @@ void EVRawStreamToXYTSStream(ap_uint<16> *eventFIFOIn,
 	static ap_uint<1> pol;
 
 	ap_uint<16> data = *eventFIFOIn++;
+
+	*stateReg = state;
+	*tsRegReg = ts;
+	*xRegReg = x;
+	*yRegReg = y;
 
 	switch(state)
 	{
@@ -244,7 +249,6 @@ void EVRawStreamToXYTSStream(ap_uint<16> *eventFIFOIn,
 		{
 			x = (ap_uint<16>)data.range(12, 0);    // Store the x address. Polarity is also packaged into xStream.
 			state = 3;
-
 		}
 		break;
 	case 3:
@@ -252,13 +256,28 @@ void EVRawStreamToXYTSStream(ap_uint<16> *eventFIFOIn,
 		tsStreamOut << ts;
 		yStreamOut << y;
 		xStreamOut << x;
-		state = 0;
+
+		if(data[15] == 1)
+		{
+			ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
+			state = 1;
+		}
+		else if(data.range(14, 12) == 1)
+		{
+			y = (ap_uint<16>)data.range(11, 0);            // Store the y address
+			state = 2;
+		}
+		else if(data.range(14, 12) == 2 || data.range(14, 12) == 3)
+		{
+			x = (ap_uint<16>)data.range(12, 0);    // Store the x address. Polarity is also packaged into xStream.
+			state = 3;
+		}
+		else
+		{
+			state = 0;
+		}
 		break;
 	case 4:
 		state = 0;
 	}
-
-	*stateReg = state;
-	*xRegReg = x;
-	*yRegReg = y;
 }
