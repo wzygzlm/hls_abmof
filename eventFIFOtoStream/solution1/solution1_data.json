@@ -67,6 +67,15 @@
       "polarity": "ACTIVE_LOW",
       "ctype": {"RST": {"Type": "bool"}}
     },
+    "dataReg_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "16",
+      "ctype": {"DATA": {
+          "Type": "integer unsigned",
+          "Width": "16"
+        }}
+    },
     "eventFIFOIn_V": {
       "type": "ap_fifo",
       "fifo_width": "16",
@@ -83,10 +92,10 @@
     "stateReg_V": {
       "type": "data",
       "dir": "out",
-      "width": "8",
+      "width": "4",
       "ctype": {"DATA": {
           "Type": "integer unsigned",
-          "Width": "8"
+          "Width": "4"
         }}
     },
     "tsRegReg_V": {
@@ -237,7 +246,7 @@
     },
     "stateReg_V": {
       "dir": "out",
-      "width": "8"
+      "width": "4"
     },
     "stateReg_V_ap_vld": {
       "dir": "out",
@@ -264,6 +273,14 @@
       "width": "64"
     },
     "tsRegReg_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
+    "dataReg_V": {
+      "dir": "out",
+      "width": "16"
+    },
+    "dataReg_V_ap_vld": {
       "dir": "out",
       "width": "1"
     }
@@ -295,7 +312,7 @@
     "stateReg_V": {
       "interfaceRef": "stateReg_V",
       "dir": "out",
-      "dataWidth": "8",
+      "dataWidth": "4",
       "handshakeRef": "ap_vld",
       "firstOutLatency": "3"
     },
@@ -319,6 +336,13 @@
       "dataWidth": "64",
       "handshakeRef": "ap_vld",
       "firstOutLatency": "3"
+    },
+    "dataReg_V": {
+      "interfaceRef": "dataReg_V",
+      "dir": "out",
+      "dataWidth": "16",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "3"
     }
   },
   "ModuleInfo": {
@@ -335,19 +359,19 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "1.25",
-          "Estimate": "6.50"
+          "Estimate": "6.55"
         },
         "Area": {
-          "FF": "336",
-          "LUT": "298",
           "BRAM_18K": "0",
+          "FF": "388",
+          "LUT": "417",
           "DSP48E": "0"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2019-10-30 20:06:27 +0100",
+    "Time": "2019-10-30 21:51:50 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

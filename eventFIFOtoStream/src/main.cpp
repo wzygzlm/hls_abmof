@@ -205,7 +205,7 @@ void AERReadFIFOdata(ap_uint<16> *eventFIFOIn, hls::stream< ap_uint<16> > &event
 }
 
 void EVRawStreamToXYTSStream(ap_uint<16> *eventFIFOIn,
-		ap_uint<8> *stateReg, ap_uint<16> *xRegReg,  ap_uint<16> *yRegReg, ap_uint<64> *tsRegReg,
+		ap_uint<4> *stateReg, ap_uint<16> *xRegReg,  ap_uint<16> *yRegReg, ap_uint<64> *tsRegReg, ap_uint<16> *dataReg,
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut)
 {
 #pragma HLS PIPELINE
@@ -216,7 +216,7 @@ void EVRawStreamToXYTSStream(ap_uint<16> *eventFIFOIn,
 #pragma HLS INTERFACE axis register both port=tsStreamOut
 
 	/* Registers for this module */
-	static ap_uint<8> state = 0; // 0: idle, 1: got ts, 2: got y, 3: got x, 4: output
+	static ap_uint<4> state = 0; // 0: idle, 1: got ts, 2: got y, 3: got x, 4: output
 	static ap_uint<64> ts;
 	static ap_uint<16> x, y;
 	static ap_uint<1> pol;
@@ -227,10 +227,11 @@ void EVRawStreamToXYTSStream(ap_uint<16> *eventFIFOIn,
 	*tsRegReg = ts;
 	*xRegReg = x;
 	*yRegReg = y;
+	*dataReg = data;
 
 	switch(state)
 	{
-	case 0:
+	case 0:                                         // Idle state, wait until valid ts come in.
 		if(data[15] == 1)
 		{
 			ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
@@ -277,7 +278,26 @@ void EVRawStreamToXYTSStream(ap_uint<16> *eventFIFOIn,
 			state = 0;
 		}
 		break;
-	case 4:
-		state = 0;
+	default:                                     // This state should never be hit, but we still need to check the data here.
+		if(data[15] == 1)
+		{
+			ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
+			state = 1;
+		}
+		else if(data.range(14, 12) == 1)
+		{
+			y = (ap_uint<16>)data.range(11, 0);            // Store the y address
+			state = 2;
+		}
+		else if(data.range(14, 12) == 2 || data.range(14, 12) == 3)
+		{
+			x = (ap_uint<16>)data.range(12, 0);    // Store the x address. Polarity is also packaged into xStream.
+			state = 3;
+		}
+		else
+		{
+			state = 0;
+		}
+		break;
 	}
 }
