@@ -12,15 +12,13 @@
     "Package": "ffg900",
     "Speed": "-1"
   },
-  "HlsSolution": {
-    
-  },
+  "HlsSolution": {"Directives": ["interface EVRawStreamToXYTSStream {{ap_none positionBoolean0mode} {port positionBooleanTextRequiredeventFIFORd}} {}"]},
   "ClockInfo": {
     "ClockName": "ap_clk",
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "1",
-    "Latency": "3",
+    "Latency": "2",
     "Uncertainty": "1.25"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -76,18 +74,41 @@
           "Width": "16"
         }}
     },
+    "eventFIFOEmpty_V": {
+      "type": "data",
+      "dir": "in",
+      "width": "1",
+      "ctype": {"DATA": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        }}
+    },
     "eventFIFOIn_V": {
-      "type": "ap_fifo",
-      "fifo_width": "16",
-      "fifo_type": "read",
-      "ctype": {
-        "RD_DATA": {
+      "type": "data",
+      "dir": "in",
+      "width": "16",
+      "ctype": {"DATA": {
           "Type": "integer unsigned",
           "Width": "16"
-        },
-        "EMPTY_N": {"Type": "bool"},
-        "RD_EN": {"Type": "bool"}
-      }
+        }}
+    },
+    "eventFIFORd_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "1",
+      "ctype": {"DATA": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        }}
+    },
+    "getDataStateReg_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "4",
+      "ctype": {"DATA": {
+          "Type": "integer unsigned",
+          "Width": "4"
+        }}
     },
     "stateReg_V": {
       "type": "data",
@@ -196,18 +217,6 @@
       "dir": "out",
       "width": "1"
     },
-    "eventFIFOIn_V_dout": {
-      "dir": "in",
-      "width": "16"
-    },
-    "eventFIFOIn_V_empty_n": {
-      "dir": "in",
-      "width": "1"
-    },
-    "eventFIFOIn_V_read": {
-      "dir": "out",
-      "width": "1"
-    },
     "tsStreamOut_V_V_TREADY": {
       "dir": "in",
       "width": "1"
@@ -244,11 +253,33 @@
       "dir": "out",
       "width": "1"
     },
+    "eventFIFOIn_V": {
+      "dir": "in",
+      "width": "16"
+    },
+    "eventFIFOEmpty_V": {
+      "dir": "in",
+      "width": "1",
+      "isVector": "true"
+    },
+    "eventFIFORd_V": {
+      "dir": "out",
+      "width": "1",
+      "isVector": "true"
+    },
     "stateReg_V": {
       "dir": "out",
       "width": "4"
     },
     "stateReg_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
+    "getDataStateReg_V": {
+      "dir": "out",
+      "width": "4"
+    },
+    "getDataStateReg_V_ap_vld": {
       "dir": "out",
       "width": "1"
     },
@@ -290,88 +321,110 @@
       "interfaceRef": "ap_ctrl",
       "dir": "out"
     },
-    "eventFIFOIn_V": {
-      "interfaceRef": "eventFIFOIn_V",
-      "dir": "in"
-    },
     "tsStreamOut_V_V": {
       "interfaceRef": "tsStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "2"
+      "firstOutLatency": "1"
     },
     "yStreamOut_V_V": {
       "interfaceRef": "yStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "2"
+      "firstOutLatency": "1"
     },
     "xStreamOut_V_V": {
       "interfaceRef": "xStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "2"
+      "firstOutLatency": "1"
+    },
+    "eventFIFOIn_V": {
+      "interfaceRef": "eventFIFOIn_V",
+      "dir": "in",
+      "dataWidth": "16",
+      "handshakeRef": "ap_none"
+    },
+    "eventFIFOEmpty_V": {
+      "interfaceRef": "eventFIFOEmpty_V",
+      "dir": "in",
+      "dataWidth": "1",
+      "handshakeRef": "ap_none"
+    },
+    "eventFIFORd_V": {
+      "interfaceRef": "eventFIFORd_V",
+      "dir": "out",
+      "dataWidth": "1",
+      "handshakeRef": "ap_none",
+      "firstOutLatency": "0"
     },
     "stateReg_V": {
       "interfaceRef": "stateReg_V",
       "dir": "out",
       "dataWidth": "4",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "3"
+      "firstOutLatency": "2"
+    },
+    "getDataStateReg_V": {
+      "interfaceRef": "getDataStateReg_V",
+      "dir": "out",
+      "dataWidth": "4",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "2"
     },
     "xRegReg_V": {
       "interfaceRef": "xRegReg_V",
       "dir": "out",
       "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "3"
+      "firstOutLatency": "2"
     },
     "yRegReg_V": {
       "interfaceRef": "yRegReg_V",
       "dir": "out",
       "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "3"
+      "firstOutLatency": "2"
     },
     "tsRegReg_V": {
       "interfaceRef": "tsRegReg_V",
       "dir": "out",
       "dataWidth": "64",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "3"
+      "firstOutLatency": "2"
     },
     "dataReg_V": {
       "interfaceRef": "dataReg_V",
       "dir": "out",
       "dataWidth": "16",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "3"
+      "firstOutLatency": "2"
     }
   },
   "ModuleInfo": {
     "Hierarchy": {"ModuleName": "EVRawStreamToXYTSStream"},
     "Metrics": {"EVRawStreamToXYTSStream": {
         "Latency": {
-          "LatencyBest": "3",
-          "LatencyAvg": "3",
-          "LatencyWorst": "3",
+          "LatencyBest": "2",
+          "LatencyAvg": "2",
+          "LatencyWorst": "2",
           "PipelineII": "1",
-          "PipelineDepth": "4",
+          "PipelineDepth": "3",
           "PipelineType": "function"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "1.25",
-          "Estimate": "6.55"
+          "Estimate": "3.09"
         },
         "Area": {
+          "FF": "403",
+          "LUT": "266",
           "BRAM_18K": "0",
-          "FF": "388",
-          "LUT": "417",
           "DSP48E": "0"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2019-10-30 21:51:50 +0100",
+    "Time": "2019-10-31 20:47:10 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
