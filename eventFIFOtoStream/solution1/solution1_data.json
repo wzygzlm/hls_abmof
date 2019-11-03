@@ -36,8 +36,8 @@
   },
   "Files": {
     "CSource": [
-      "..\/src\/main.cpp",
-      "..\/src\/protocolTest.c"
+      "..\/src\/protocolTest.c",
+      "..\/src\/main.cpp"
     ],
     "Vhdl": ["impl\/vhdl\/EVMUXDataToXYTSStream.vhd"],
     "Verilog": ["impl\/verilog\/EVMUXDataToXYTSStream.v"],
@@ -52,7 +52,7 @@
     "ap_clk": {
       "type": "clock",
       "ctype": {"CLK": {"Type": "bool"}},
-      "buses": "tsStreamOut_V_V yStreamOut_V_V xStreamOut_V_V",
+      "buses": "tsStreamOut_V_V yStreamOut_V_V xStreamOut_V_V polStreamOut_V_V",
       "reset": "ap_rst_n"
     },
     "ap_ctrl": {
@@ -97,6 +97,31 @@
           "Width": "16"
         }}
     },
+    "polRegReg_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "1",
+      "ctype": {"DATA": {
+          "Type": "integer unsigned",
+          "Width": "1"
+        }}
+    },
+    "polStreamOut_V_V": {
+      "type": "axi4stream",
+      "mode": "master",
+      "port_prefix": "polStreamOut_V_V",
+      "has_tready": "1",
+      "ctype": {
+        "TREADY": {"Type": "bool"},
+        "TDATA": {
+          "Type": "integer unsigned",
+          "Width": "1",
+          "Bits": "8"
+        },
+        "TVALID": {"Type": "bool"}
+      },
+      "port_width": {"TDATA": "8"}
+    },
     "tsRegReg_V": {
       "type": "data",
       "dir": "out",
@@ -120,6 +145,15 @@
         "TVALID": {"Type": "bool"}
       },
       "port_width": {"TDATA": "64"}
+    },
+    "tsWrapRegReg_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "48",
+      "ctype": {"DATA": {
+          "Type": "integer unsigned",
+          "Width": "48"
+        }}
     },
     "xRegReg_V": {
       "type": "data",
@@ -231,6 +265,18 @@
       "dir": "out",
       "width": "1"
     },
+    "polStreamOut_V_V_TREADY": {
+      "dir": "in",
+      "width": "1"
+    },
+    "polStreamOut_V_V_TDATA": {
+      "dir": "out",
+      "width": "8"
+    },
+    "polStreamOut_V_V_TVALID": {
+      "dir": "out",
+      "width": "1"
+    },
     "eventFIFOIn_V": {
       "dir": "in",
       "width": "16"
@@ -239,6 +285,14 @@
       "dir": "in",
       "width": "1",
       "isVector": "true"
+    },
+    "dataReg_V": {
+      "dir": "out",
+      "width": "16"
+    },
+    "dataReg_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
     },
     "xRegReg_V": {
       "dir": "out",
@@ -264,11 +318,20 @@
       "dir": "out",
       "width": "1"
     },
-    "dataReg_V": {
+    "polRegReg_V": {
       "dir": "out",
-      "width": "16"
+      "width": "1",
+      "isVector": "true"
     },
-    "dataReg_V_ap_vld": {
+    "polRegReg_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
+    "tsWrapRegReg_V": {
+      "dir": "out",
+      "width": "48"
+    },
+    "tsWrapRegReg_V_ap_vld": {
       "dir": "out",
       "width": "1"
     }
@@ -293,6 +356,11 @@
       "dir": "out",
       "firstOutLatency": "0"
     },
+    "polStreamOut_V_V": {
+      "interfaceRef": "polStreamOut_V_V",
+      "dir": "out",
+      "firstOutLatency": "0"
+    },
     "eventFIFOIn_V": {
       "interfaceRef": "eventFIFOIn_V",
       "dir": "in",
@@ -304,6 +372,13 @@
       "dir": "in",
       "dataWidth": "1",
       "handshakeRef": "ap_none"
+    },
+    "dataReg_V": {
+      "interfaceRef": "dataReg_V",
+      "dir": "out",
+      "dataWidth": "16",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "1"
     },
     "xRegReg_V": {
       "interfaceRef": "xRegReg_V",
@@ -326,10 +401,17 @@
       "handshakeRef": "ap_vld",
       "firstOutLatency": "1"
     },
-    "dataReg_V": {
-      "interfaceRef": "dataReg_V",
+    "polRegReg_V": {
+      "interfaceRef": "polRegReg_V",
       "dir": "out",
-      "dataWidth": "16",
+      "dataWidth": "1",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "1"
+    },
+    "tsWrapRegReg_V": {
+      "interfaceRef": "tsWrapRegReg_V",
+      "dir": "out",
+      "dataWidth": "48",
       "handshakeRef": "ap_vld",
       "firstOutLatency": "1"
     }
@@ -348,11 +430,11 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "1.25",
-          "Estimate": "3.09"
+          "Estimate": "4.87"
         },
         "Area": {
-          "FF": "297",
-          "LUT": "227",
+          "FF": "481",
+          "LUT": "351",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -360,7 +442,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2019-11-02 21:27:53 +0100",
+    "Time": "2019-11-03 20:24:23 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

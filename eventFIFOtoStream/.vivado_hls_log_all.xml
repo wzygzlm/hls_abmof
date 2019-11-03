@@ -12,10 +12,11 @@
   <warningLogs>
     <logs>
       <synLog>
-        <logs message="WARNING: [RTGEN 206-101] Register 'x_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-02T21:27:51.904+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'y_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-02T21:27:51.881+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'ts_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-02T21:27:51.876+0100" type="Warning"/>
-        <logs message="WARNING: [SYNCHK 200-77] Found opaque type argument 'polStreamOut' of top function 'EVMUXDataToXYTSStream'. Possible causes are: (1) the argument is passed by reference; (2) the argument is never used in the function; (3) the argument is of templated class type. " projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-02T21:27:50.397+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'pol_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-03T20:24:21.605+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'x_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-03T20:24:21.565+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'y_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-03T20:24:21.559+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'ts_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-03T20:24:21.555+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'tsWrap_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-03T20:24:21.550+0100" type="Warning"/>
       </synLog>
       <simLog/>
       <mgLog/>

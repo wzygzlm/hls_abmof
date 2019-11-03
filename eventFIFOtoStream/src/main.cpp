@@ -208,9 +208,10 @@ void AERReadFIFOdata(ap_uint<16> *eventFIFOIn, hls::stream< ap_uint<16> > &event
 enum tState {stIdle, stFIFORead, stGetData, stGetTs, stGetY, stGetX, stOutput, stNextDataDecision};
 
 void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIFODataValid,
-		ap_uint<16> *xRegReg,  ap_uint<16> *yRegReg, ap_uint<64> *tsRegReg, volatile ap_uint<16> *dataReg,
+		volatile ap_uint<16> *dataReg, ap_uint<16> *xRegReg,  ap_uint<16> *yRegReg, ap_uint<64> *tsRegReg, ap_uint<1> *polRegReg, ap_uint<48> *tsWrapRegReg,
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut)
 {
+#pragma HLS INTERFACE axis register both port=polStreamOut
 #pragma HLS LATENCY min=0 max=1
 #pragma HLS INTERFACE ap_none port=eventFIFOIn
 #pragma HLS INTERFACE ap_none port=eventFIFODataValid
@@ -221,6 +222,7 @@ void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIF
 #pragma HLS INTERFACE axis register both port=tsStreamOut
 
 	static ap_uint<64> ts;
+	static ap_uint<48> tsWrap;
 	static ap_uint <16> x;
 	static ap_uint<16> y;
 	static ap_uint<1> pol;
@@ -233,7 +235,7 @@ void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIF
 
 		if(data[15] == 1)
 		{
-			ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
+			ts = (tsWrap << 15) + (ap_uint<64>)data.range(14, 0);    // Store the ts
 		}
 		else if(data.range(14, 12) == 1)
 		{
@@ -241,18 +243,26 @@ void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIF
 		}
 		else if(data.range(14, 12) == 2 || data.range(14, 12) == 3)
 		{
-			x = (ap_uint<16>)data.range(12, 0);    // Store the x address. Polarity is also packaged into xStream.
+			x = (ap_uint<16>)data.range(11, 0);    // Store the x address. Polarity is also packaged into xStream.
+			pol = data[12];
 
 			/* Now we can output all the data simultaneously */
 			tsStreamOut << ts;
 			yStreamOut << y;
 			xStreamOut << x;
+			polStreamOut << pol;
+		}
+		else if(data.range(14, 12) == 7)
+		{
+			tsWrap += (ap_uint<48>)data.range(11, 0);
 		}
 	}
 
 	*tsRegReg = ts;
 	*xRegReg = x;
 	*yRegReg = y;
+	*polRegReg = pol;
+	*tsWrapRegReg = tsWrap;
 	*dataReg = data;
 }
 
