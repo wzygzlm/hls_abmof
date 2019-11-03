@@ -9,7 +9,7 @@
         <clock name="default" period="10"/>
     </clockList>
     <config>
-        <schedule model="EVRawStreamToXYTSStream"/>
+        <schedule model="EVMUXDataToXYTSStream"/>
     </config>
     <UIConfigurations>
         <UIAutosynConf hideTrivialOp="true" isBasedOnBoard="false" isSolutionDirty="false" isStopAskAgain="false" showDetailDesignViewer="false">

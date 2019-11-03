@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
   <source>
+    <originFiles name="protocolTest.c" path="E:\xfOpenCV\hls_2018_1\eventFIFOtoStream\src\protocolTest.c"/>
     <originFiles name="main.h" path="E:\xfOpenCV\hls_2018_1\eventFIFOtoStream\src\main.h"/>
     <originFiles name="main.cpp" path="E:\xfOpenCV\hls_2018_1\eventFIFOtoStream\src\main.cpp"/>
   </source>

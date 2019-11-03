@@ -4,6 +4,7 @@
 #include "hls_stream.h"
 #include "assert.h"
 #include "main.h"
+#include "systemc.h"
 
 
 ap_uint<TS_TYPE_BIT_WIDTH> readOneDataFromCol(col_pix_t colData, ap_uint<8> idx)
@@ -206,59 +207,30 @@ void AERReadFIFOdata(ap_uint<16> *eventFIFOIn, hls::stream< ap_uint<16> > &event
 
 enum tState {stIdle, stFIFORead, stGetData, stGetTs, stGetY, stGetX, stOutput, stNextDataDecision};
 
-void EVRawStreamToXYTSStream(ap_uint<16> eventFIFOIn, ap_uint<1> eventFIFOEmpty, ap_uint<1> *eventFIFORd,
-		ap_uint<4> *stateReg, ap_uint<4> *getDataStateReg, ap_uint<16> *xRegReg,  ap_uint<16> *yRegReg, ap_uint<64> *tsRegReg, ap_uint<16> *dataReg,
+void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIFODataValid,
+		ap_uint<16> *xRegReg,  ap_uint<16> *yRegReg, ap_uint<64> *tsRegReg, volatile ap_uint<16> *dataReg,
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut)
 {
-//#pragma HLS LATENCY min=1 max=1
+#pragma HLS LATENCY min=0 max=1
+#pragma HLS INTERFACE ap_none port=eventFIFOIn
+#pragma HLS INTERFACE ap_none port=eventFIFODataValid
 #pragma HLS PIPELINE
 #pragma HLS INTERFACE ap_ctrl_hs port=return
 #pragma HLS INTERFACE axis register both port=xStreamOut
 #pragma HLS INTERFACE axis register both port=yStreamOut
 #pragma HLS INTERFACE axis register both port=tsStreamOut
 
-	/* Registers for this module */
-	static tState state = stIdle, getDataState = stGetTs;
 	static ap_uint<64> ts;
-	static ap_uint<16> x, y;
+	static ap_uint <16> x;
+	static ap_uint<16> y;
 	static ap_uint<1> pol;
 
-	static ap_uint<16> data;
+	ap_uint<16> data = 0;
 
-	*stateReg = state;
-	*getDataStateReg = getDataState;
-
-	ap_uint<1> rdReg = 0;
-
-	switch(state)
+	if(eventFIFODataValid == 1)
 	{
-	case stIdle:
-		data = 0;
-		Region:
-		{
-/* creates a code region and groups signals that need to change in the
- * same clock cycle by specifying zero latency
- */
-#pragma HLS LATENCY min=0 max=0
-			if(eventFIFOEmpty == 1)
-			{
-				*eventFIFORd = 1;   // Enable it for one cycle to make sure only one data is output
-				state = stGetData;
-			}
-			else
-			{
-				*eventFIFORd = 0;
-			}
-		}
-		break;
-	case stFIFORead:
-		*eventFIFORd = 1;   // Enable it for one cycle to make sure only one data is output
-		state = stGetData;
-		break;
-	case stGetData:
-		*eventFIFORd = 0;
 		data = eventFIFOIn;
-//		state = getDataState;
+
 		if(data[15] == 1)
 		{
 			ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
@@ -276,87 +248,213 @@ void EVRawStreamToXYTSStream(ap_uint<16> eventFIFOIn, ap_uint<1> eventFIFOEmpty,
 			yStreamOut << y;
 			xStreamOut << x;
 		}
-
-		state = stIdle;     // Go back to wait a new valid data.
-
-		break;
-//	case stGetTs:                                         // Idle state, wait until valid ts come in.
-//		state = stIdle;     // Go back to wait a new valid data.
-//
-//		if(data[15] == 1)
-//		{
-//			ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
-//			getDataState = stGetY;
-//		}
-//		break;
-//	case stGetY:
-//		state = stIdle;     // Go back to wait a new valid data.
-//
-//		if(data.range(14, 12) == 1)
-//		{
-//			y = (ap_uint<16>)data.range(11, 0);            // Store the y address
-//			getDataState = stGetX;
-//		}
-//		break;
-//	case stGetX:
-//		state = stIdle;     // Go back to wait a new valid data.
-//
-//		if(data.range(14, 12) == 2 || data.range(14, 12) == 3)
-//		{
-//			x = (ap_uint<16>)data.range(12, 0);    // Store the x address. Polarity is also packaged into xStream.
-//			state = stOutput;
-//		}
-//
-//		break;
-//	case stOutput:
-//
-//		/* Now we can output all the data simultaneously */
-//		tsStreamOut << ts;
-//		yStreamOut << y;
-//		xStreamOut << x;
-//
-//		getDataState = stNextDataDecision;
-//		state = stIdle;     // Go back to wait a new valid data.
-//		break;
-//
-//	/* When this state is entered, it means that at least one ts, y, x have been obtained.
-//	 * The next data state will depend on the new data.
-//	 */
-//	case stNextDataDecision:
-//		state = stIdle;     // Go back to wait a new valid data.
-//
-//		if(data[15] == 1)
-//		{
-//			ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
-//			getDataState = stGetY;
-//		}
-//		else if(data.range(14, 12) == 1)
-//		{
-//			y = (ap_uint<16>)data.range(11, 0);            // Store the y address
-//			getDataState = stGetX;
-//		}
-//		else if(data.range(14, 12) == 2 || data.range(14, 12) == 3)
-//		{
-//			x = (ap_uint<16>)data.range(12, 0);    // Store the x address. Polarity is also packaged into xStream.
-//			state = stOutput;
-//		}
-//		else
-//		{
-//			getDataState = stNextDataDecision;
-//		}
-//		break;
-	default:                                     // This state should never be hit
-		/* Initialize it and back to stIdle, the next data should fetch is the ts data */
-		getDataState = stGetTs;
-		state = stIdle;
-		break;
 	}
-
 
 	*tsRegReg = ts;
 	*xRegReg = x;
 	*yRegReg = y;
 	*dataReg = data;
+}
 
-//	*eventFIFORd = rdReg;
+void EVRawStreamToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIFOEmpty, ap_uint<1> *eventFIFORd,
+		ap_uint<4> *stateReg, ap_uint<16> *xRegReg,  ap_uint<16> *yRegReg, ap_uint<64> *tsRegReg, ap_uint<16> *dataReg,
+		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut)
+{
+#pragma HLS LATENCY min=1 max=1
+#pragma HLS INTERFACE ap_none port=eventFIFORd
+#pragma HLS PIPELINE
+#pragma HLS INTERFACE ap_ctrl_hs port=return
+#pragma HLS INTERFACE axis register both port=xStreamOut
+#pragma HLS INTERFACE axis register both port=yStreamOut
+#pragma HLS INTERFACE axis register both port=tsStreamOut
+
+	/* Registers for this module */
+	static tState state = stIdle, getDataState = stGetTs;
+	static ap_uint<64> ts;
+	static ap_uint <16> x;
+	static ap_uint<16> y;
+	static ap_uint<1> pol;
+
+	static ap_uint<16> data;
+
+	*stateReg = state;
+//	*getDataStateReg = getDataState;
+
+	ap_uint<1> rdReg = 0;
+	ap_uint<1> outputEn = 0;
+//	data = 0;
+
+	ZeroLatencyRegion:
+	{
+	//* creates a code region and groups signals that need to change in the
+	// * same clock cycle by specifying zero latency
+	#pragma HLS LATENCY min=0 max=0
+		if(eventFIFOEmpty == 1)
+		{
+			*eventFIFORd = 1;   // Enable it for one cycle to make sure only one data is output
+
+			data = eventFIFOIn; // FIFO will keep the last valid data until a new read is triggered, here we read the latest old data.
+
+			if(data[15] == 1)
+			{
+				ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
+			}
+			else if(data.range(14, 12) == 1)
+			{
+				y = (ap_uint<16>)data.range(11, 0);            // Store the y address
+			}
+			else if(data.range(14, 12) == 2 || data.range(14, 12) == 3)
+			{
+				x = (ap_uint<16>)data.range(12, 0);    // Store the x address. Polarity is also packaged into xStream.
+				outputEn = 1;
+
+			//			/* Now we can output all the data simultaneously */
+			//			tsStreamOut << ts;
+			//			yStreamOut << y;
+			//			xStreamOut << x;
+			}
+		}
+		else
+		{
+			*eventFIFORd = 0;
+		}
+	}
+
+
+	if(outputEn == 1)
+	{
+		tsStreamOut << ts;
+		yStreamOut << y;
+		xStreamOut << x;
+	}
+
+
+
+//	switch(state)
+//	{
+//	case stIdle:
+//		Region:
+//		{
+///* creates a code region and groups signals that need to change in the
+// * same clock cycle by specifying zero latency
+// */
+//#pragma HLS LATENCY min=0 max=0
+//			if(eventFIFOEmpty == 1)
+//			{
+//				*eventFIFORd = 1;   // Enable it for one cycle to make sure only one data is output
+//				state = stGetData;
+//			}
+//			else
+//			{
+//				*eventFIFORd = 0;
+//			}
+//		}
+//		break;
+//	case stFIFORead:
+//		*eventFIFORd = 1;   // Enable it for one cycle to make sure only one data is output
+//		state = stGetData;
+//		break;
+//	case stGetData:
+//		{
+//#pragma HLS LATENCY min=0 max=0
+//			*eventFIFORd = 0;
+//			data = eventFIFOIn;
+//	//		state = getDataState;
+//			if(data[15] == 1)
+//			{
+//				ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
+//			}
+//			else if(data.range(14, 12) == 1)
+//			{
+//				y = (ap_uint<16>)data.range(11, 0);            // Store the y address
+//			}
+//			else if(data.range(14, 12) == 2 || data.range(14, 12) == 3)
+//			{
+//				x = (ap_uint<16>)data.range(12, 0);    // Store the x address. Polarity is also packaged into xStream.
+//
+//				outputEn = 1;
+////				/* Now we can output all the data simultaneously */
+////				tsStreamOut << ts;
+////				yStreamOut << y;
+////				xStreamOut << x;
+//			}
+//			state = stIdle;     // Go back to wait a new valid data.
+//		}
+//		break;
+//////	case stGetTs:                                         // Idle state, wait until valid ts come in.
+//////		state = stIdle;     // Go back to wait a new valid data.
+//////
+//////		if(data[15] == 1)
+//////		{
+//////			ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
+//////			getDataState = stGetY;
+//////		}
+//////		break;
+//////	case stGetY:
+//////		state = stIdle;     // Go back to wait a new valid data.
+//////
+//////		if(data.range(14, 12) == 1)
+//////		{
+//////			y = (ap_uint<16>)data.range(11, 0);            // Store the y address
+//////			getDataState = stGetX;
+//////		}
+//////		break;
+//////	case stGetX:
+//////		state = stIdle;     // Go back to wait a new valid data.
+//////
+//////		if(data.range(14, 12) == 2 || data.range(14, 12) == 3)
+//////		{
+//////			x = (ap_uint<16>)data.range(12, 0);    // Store the x address. Polarity is also packaged into xStream.
+//////			state = stOutput;
+//////		}
+//////
+//////		break;
+//////	case stOutput:
+//////
+//////		/* Now we can output all the data simultaneously */
+//////		tsStreamOut << ts;
+//////		yStreamOut << y;
+//////		xStreamOut << x;
+//////
+//////		getDataState = stNextDataDecision;
+//////		state = stIdle;     // Go back to wait a new valid data.
+//////		break;
+//////
+//////	/* When this state is entered, it means that at least one ts, y, x have been obtained.
+//////	 * The next data state will depend on the new data.
+//////	 */
+//////	case stNextDataDecision:
+//////		state = stIdle;     // Go back to wait a new valid data.
+//////
+//////		if(data[15] == 1)
+//////		{
+//////			ts = (ap_uint<64>)data.range(14, 0);    // Store the ts
+//////			getDataState = stGetY;
+//////		}
+//////		else if(data.range(14, 12) == 1)
+//////		{
+//////			y = (ap_uint<16>)data.range(11, 0);            // Store the y address
+//////			getDataState = stGetX;
+//////		}
+//////		else if(data.range(14, 12) == 2 || data.range(14, 12) == 3)
+//////		{
+//////			x = (ap_uint<16>)data.range(12, 0);    // Store the x address. Polarity is also packaged into xStream.
+//////			state = stOutput;
+//////		}
+//////		else
+//////		{
+//////			getDataState = stNextDataDecision;
+//////		}
+//////		break;
+//	default:                                     // This state should never be hit
+//		/* Initialize it and back to stIdle, the next data should fetch is the ts data */
+//		getDataState = stGetTs;
+//		state = stIdle;
+//		break;
+//	}
+
+	*tsRegReg = ts;
+	*xRegReg = x;
+	*yRegReg = y;
+	*dataReg = data;
 }

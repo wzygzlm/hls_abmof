@@ -52,6 +52,11 @@
 			<location>E:/xfOpenCV/hls_2018_1/eventFIFOtoStream/src/main.h</location>
 		</link>
 		<link>
+			<name>source/protocolTest.c</name>
+			<type>1</type>
+			<location>E:/xfOpenCV/hls_2018_1/eventFIFOtoStream/src/protocolTest.c</location>
+		</link>
+		<link>
 			<name>testbench/test.cpp</name>
 			<type>1</type>
 			<location>E:/xfOpenCV/hls_2018_1/eventFIFOtoStream/src/test.cpp</location>
