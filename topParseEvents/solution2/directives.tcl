@@ -4,13 +4,6 @@
 ## Copyright (C) 1986-2018 Xilinx, Inc. All Rights Reserved.
 ############################################################
 set_directive_interface -mode ap_fifo -depth 500 "parseEvents" dataStream
-set_directive_pipeline "getXandY/getXandYLoop"
-set_directive_loop_tripcount -min 1 -max 10000 "getXandY/getXandYLoop"
-set_directive_loop_tripcount -min 1 -max 10000 "rwSlices/rwSlicesLoop"
-set_directive_pipeline "rwSlices/resetLoop"
-set_directive_loop_tripcount -min 1 -max 10000 "miniSADSumWrapper/wrapperLoop"
-set_directive_loop_tripcount -min 1 -max 10000 "outputResult/outputLoop"
-set_directive_pipeline "outputResult/outputLoop"
 set_directive_interface -mode ap_fifo -depth 1000 "testRwslices" data
 set_directive_interface -mode ap_fifo -depth 17000 "testRwslices" refData
 set_directive_interface -mode ap_fifo -depth 17000 "testRwslices" tagData
@@ -23,7 +16,6 @@ set_directive_pipeline "testRwslices/writeFromStream"
 set_directive_loop_tripcount -min 1 -max 170000 "testRwslices/writeFromStream"
 set_directive_interface -mode s_axilite -register "parseEvents"
 set_directive_interface -mode ap_fifo "getXandY" data
-set_directive_pipeline "feedbackWrapper/feedbackWrapperLoop"
 set_directive_pipeline "rwSlicesAndColStreams/rwSlicesLoop"
 set_directive_pipeline "rwSlicesAndColStreams/GenerateStreamLoop"
 set_directive_dataflow "rwSlicesAndColStreams"

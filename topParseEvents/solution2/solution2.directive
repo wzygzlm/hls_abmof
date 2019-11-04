@@ -7,39 +7,6 @@
                 <option name="port" value="dataStream" positionalBoolean="4"/>
             </pragma>
         </directive>
-        <directive functionName="getXandY" label="getXandYLoop" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
-        <directive functionName="getXandY" label="getXandYLoop" functionLabel="">
-            <pragma name="LOOP_TRIPCOUNT">
-                <option name="min" value="1"/>
-                <option name="max" value="10000"/>
-            </pragma>
-        </directive>
-        <directive functionName="rwSlices" label="rwSlicesLoop" functionLabel="">
-            <pragma name="LOOP_TRIPCOUNT">
-                <option name="min" value="1"/>
-                <option name="max" value="10000"/>
-            </pragma>
-        </directive>
-        <directive functionName="rwSlices" label="resetLoop" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
-        <directive functionName="miniSADSumWrapper" label="wrapperLoop" functionLabel="">
-            <pragma name="LOOP_TRIPCOUNT">
-                <option name="min" value="1"/>
-                <option name="max" value="10000"/>
-            </pragma>
-        </directive>
-        <directive functionName="outputResult" label="outputLoop" functionLabel="">
-            <pragma name="LOOP_TRIPCOUNT">
-                <option name="min" value="1"/>
-                <option name="max" value="10000"/>
-            </pragma>
-        </directive>
-        <directive functionName="outputResult" label="outputLoop" functionLabel="">
-            <pragma name="PIPELINE"/>
-        </directive>
         <directive functionName="testRwslices" label="" functionLabel="">
             <pragma name="INTERFACE">
                 <option name="ap_fifo" value="" positionalBoolean="mode"/>
@@ -109,9 +76,6 @@
                 <option name="ap_fifo" value="" positionalBoolean="mode"/>
                 <option name="port" value="data" positionalBoolean="4"/>
             </pragma>
-        </directive>
-        <directive functionName="feedbackWrapper" label="feedbackWrapperLoop" functionLabel="">
-            <pragma name="PIPELINE"/>
         </directive>
         <directive functionName="rwSlicesAndColStreams" label="rwSlicesLoop" functionLabel="">
             <pragma name="PIPELINE"/>
