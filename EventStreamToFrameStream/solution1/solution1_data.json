@@ -74,7 +74,7 @@
     "ap_clk": {
       "type": "clock",
       "ctype": {"CLK": {"Type": "bool"}},
-      "buses": "s_axi_config frameStream xStream_V_V yStream_V_V polStream_V_V",
+      "buses": "s_axi_config frameStream xStream_V_V yStream_V_V polStream_V_V tsStream_V_V",
       "reset": "ap_rst_n"
     },
     "ap_ctrl": {
@@ -308,6 +308,21 @@
           "Width": "1"
         }}
     },
+    "tsStream_V_V": {
+      "type": "axi4stream",
+      "mode": "slave",
+      "port_prefix": "tsStream_V_V",
+      "has_tready": "1",
+      "ctype": {
+        "TDATA": {
+          "Type": "integer unsigned",
+          "Width": "32"
+        },
+        "TVALID": {"Type": "bool"},
+        "TREADY": {"Type": "bool"}
+      },
+      "port_width": {"TDATA": "32"}
+    },
     "vCnt_V": {
       "type": "data",
       "dir": "out",
@@ -499,6 +514,18 @@
       "dir": "out",
       "width": "1"
     },
+    "tsStream_V_V_TDATA": {
+      "dir": "in",
+      "width": "32"
+    },
+    "tsStream_V_V_TVALID": {
+      "dir": "in",
+      "width": "1"
+    },
+    "tsStream_V_V_TREADY": {
+      "dir": "out",
+      "width": "1"
+    },
     "count_V": {
       "dir": "out",
       "width": "64"
@@ -631,6 +658,10 @@
       "interfaceRef": "polStream_V_V",
       "dir": "in"
     },
+    "tsStream_V_V": {
+      "interfaceRef": "tsStream_V_V",
+      "dir": "in"
+    },
     "count_V": {
       "interfaceRef": "count_V",
       "dir": "out",
@@ -737,14 +768,14 @@
         "Area": {
           "BRAM_18K": "228",
           "DSP48E": "1",
-          "FF": "1417",
-          "LUT": "1699"
+          "FF": "1582",
+          "LUT": "1778"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2019-11-03 20:01:35 +0100",
+    "Time": "2019-11-03 21:00:41 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

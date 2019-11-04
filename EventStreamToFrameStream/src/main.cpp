@@ -360,14 +360,21 @@ void testVGAFrame(int testMode, hls::stream< rgbFrameStream_t > &frameStream)
 }
 
 
+/*
+ * ctrl: 0-7: reserved;
+ *       8-15: basic value of color pixels;
+ *       16: display accumulate events (0) or arbitrary data (1);
+ */
+
 void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls::stream< ap_uint<16> > &yStream,
 		hls::stream< ap_uint<1> > &polStream,
-//		hls::stream< ap_uint<32> > &tsStream,
+		hls::stream< ap_uint<32> > &tsStream,
 		ap_uint<16> configRegs, ap_uint<32> ctrl,
 		ap_uint<64> *count, ap_uint<1> *vgaEn, ap_uint<16> *vCnt, ap_uint<16> *hCnt, ap_uint<16> *regX, ap_uint<16> *regY, ap_uint<1> *polReg, ap_uint<1> *skipFlgOutput,
 		hls::stream< rgbFrameStream_t > &frameStream
 		)
 {
+#pragma HLS INTERFACE axis register both port=tsStream
 #pragma HLS INTERFACE axis register both port=polStream
 //#pragma HLS INTERFACE ap_ctrl_chain port=return
 #pragma HLS INTERFACE s_axilite register port=ctrl bundle=config
@@ -410,6 +417,7 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	/* Local variables */
 	ap_uint<16> x, y;
 	ap_uint<1> pol;
+	ap_uint<32> ts = 0;
 	bool skipFlag = false;
 
 	if(!(xStream.read_nb(x)) || !(yStream.read_nb(y)))   // If any read of them failed, then skip.
@@ -419,6 +427,7 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 	else
 	{
 		polStream >> pol;
+		tsStream >> ts;
 	}
 	int8_t polVal = (pol == (ap_uint<1>)1) ? 1 : -1;    //  Convert unsigned polarity to 1 or -1.
 	x = ap_uint<16>(x.range(11, 0));             // Polarity information is extracted, and now store the valid x address.
@@ -459,6 +468,10 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 		tmpData = glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y];
 		tmpPixVal = readOneDataFromCol(tmpData, x%RESHAPE_FACTOR);
 		tmpPixVal = (skipFlag) ? tmpPixVal : (ap_int<TS_TYPE_BIT_WIDTH>(tmpPixVal + polVal));
+		if((ctrl & 0x10000) == 0x10000)
+		{
+			tmpPixVal = ts;
+		}
 		writeOneDataToCol(&tmpData, x%RESHAPE_FACTOR, tmpPixVal);
 		glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y] = tmpData;
 
@@ -487,6 +500,10 @@ void eventStreamToConstEncntFrameStream(hls::stream< ap_uint<16> > &xStream, hls
 		tmpData = glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y];
 		tmpPixVal = readOneDataFromCol(tmpData, x%RESHAPE_FACTOR);
 		tmpPixVal = (skipFlag) ? tmpPixVal : (ap_int<TS_TYPE_BIT_WIDTH>(tmpPixVal + polVal));
+		if((ctrl & 0x10000) == 0x10000)
+		{
+			tmpPixVal = ts;
+		}
 		writeOneDataToCol(&tmpData, x%RESHAPE_FACTOR, tmpPixVal);
 		glDVSSlice[currentStoreSliceIdx][x/RESHAPE_FACTOR][y] = tmpData;
 
