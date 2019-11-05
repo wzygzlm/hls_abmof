@@ -12,11 +12,13 @@
   <warningLogs>
     <logs>
       <synLog>
-        <logs message="WARNING: [RTGEN 206-101] Register 'pol_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-03T20:24:21.605+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'x_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-03T20:24:21.565+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'y_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-03T20:24:21.559+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'ts_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-03T20:24:21.555+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'tsWrap_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-03T20:24:21.550+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'pol_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-05T09:52:57.060+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'x_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-05T09:52:57.054+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'statusStatColNum' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-05T09:52:57.048+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'statusStatRowNum' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-05T09:52:57.043+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'y_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-05T09:52:57.037+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'ts_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-05T09:52:57.032+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'tsWrap_V' is power-on initialization." projectName="eventFIFOtoStream" solutionName="solution1" date="2019-11-05T09:52:57.026+0100" type="Warning"/>
       </synLog>
       <simLog/>
       <mgLog/>

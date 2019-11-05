@@ -207,10 +207,17 @@ void AERReadFIFOdata(ap_uint<16> *eventFIFOIn, hls::stream< ap_uint<16> > &event
 
 enum tState {stIdle, stFIFORead, stGetData, stGetTs, stGetY, stGetX, stOutput, stNextDataDecision};
 
-void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIFODataValid,
+typedef struct
+{
+	uint64_t rowNum;
+	uint64_t colNum;
+} status_t;
+
+void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIFODataValid, status_t *status,
 		volatile ap_uint<16> *dataReg, ap_uint<16> *xRegReg,  ap_uint<16> *yRegReg, ap_uint<64> *tsRegReg, ap_uint<1> *polRegReg, ap_uint<48> *tsWrapRegReg,
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut)
 {
+#pragma HLS INTERFACE s_axilite register port=status bundle=config
 #pragma HLS INTERFACE axis register both port=polStreamOut
 #pragma HLS LATENCY min=0 max=1
 #pragma HLS INTERFACE ap_none port=eventFIFOIn
@@ -227,6 +234,9 @@ void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIF
 	static ap_uint<16> y;
 	static ap_uint<1> pol;
 
+	static uint64_t statusStatRowNum;
+	static uint64_t statusStatColNum;
+
 	ap_uint<16> data = 0;
 
 	if(eventFIFODataValid == 1)
@@ -240,11 +250,13 @@ void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIF
 		else if(data.range(14, 12) == 1)
 		{
 			y = (ap_uint<16>)data.range(11, 0);            // Store the y address
+			statusStatRowNum++;
 		}
 		else if(data.range(14, 12) == 2 || data.range(14, 12) == 3)
 		{
 			x = (ap_uint<16>)data.range(11, 0);    // Store the x address. Polarity is also packaged into xStream.
 			pol = data[12];
+			statusStatColNum++;
 
 			/* Now we can output all the data simultaneously */
 			tsStreamOut << ts;
@@ -264,6 +276,8 @@ void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIF
 	*polRegReg = pol;
 	*tsWrapRegReg = tsWrap;
 	*dataReg = data;
+	status->rowNum = statusStatRowNum;
+	status->colNum = statusStatColNum;
 }
 
 void EVRawStreamToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIFOEmpty, ap_uint<1> *eventFIFORd,
