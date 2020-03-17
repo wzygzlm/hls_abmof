@@ -116,3 +116,8 @@ eventFIFOtoStream/solution1/.autopilot
 eventFIFOtoStream/solution1/csim
 eventFIFOtoStream/solution1/sim
 eventFIFOtoStream/solution1/impl
+**/syn
+**/.autopilot
+**/csim
+**/sim
+**/impl

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vivadoHLSLog:LogRoot xmlns:vivadoHLSLog="www.xilinx.com/vivadoHLSLog">
+  <errorLogs>
+    <logs>
+      <synLog/>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
+    </logs>
+  </errorLogs>
+  <warningLogs>
+    <logs>
+      <synLog>
+        <logs message="WARNING: [RTGEN 206-101] Register 'tsWrap_V' is power-on initialization." projectName="evStreamToRawFIFO" solutionName="solution1" date="2020-03-06T12:53:00.497+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'glLastY_V' is power-on initialization." projectName="evStreamToRawFIFO" solutionName="solution1" date="2020-03-06T12:53:00.191+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'glLastTS_V' is power-on initialization." projectName="evStreamToRawFIFO" solutionName="solution1" date="2020-03-06T12:53:00.154+0100" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-631] Renaming function 'XYTSStreamToRawStream' to 'XYTSStreamToRawStrea' (evStreamToRawFIFO/src/main.cpp:22:1)" projectName="evStreamToRawFIFO" solutionName="solution1" date="2020-03-06T12:52:59.446+0100" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-803] Cannot specify interface mode 'axis' (evStreamToRawFIFO/src/main.cpp:115:1) on argument 'streamIn.V.V' (evStreamToRawFIFO/src/main.cpp:111). This interface directive will be discarded. Please apply it on an argument of top module." projectName="evStreamToRawFIFO" solutionName="solution1" date="2020-03-06T12:52:58.668+0100" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-803] Cannot specify interface mode 'axis' (evStreamToRawFIFO/src/main.cpp:28:1) on argument 'streamOut.V.V' (evStreamToRawFIFO/src/main.cpp:16). This interface directive will be discarded. Please apply it on an argument of top module." projectName="evStreamToRawFIFO" solutionName="solution1" date="2020-03-06T12:52:58.510+0100" type="Warning"/>
+      </synLog>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
+    </logs>
+  </warningLogs>
+</vivadoHLSLog:LogRoot>
