@@ -4,3 +4,6 @@
 [submodule "hls_fastCorner"]
 	path = hls_fastCorner
 	url = https://github.com/wzygzlm/hls_fastCorner.git
+[submodule "evRawFIFOtoRawStream"]
+	path = evRawFIFOtoRawStream
+	url = https://github.com/wzygzlm/evRawFIFOtoRawStream.git
