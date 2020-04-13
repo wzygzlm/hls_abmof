@@ -8,7 +8,7 @@ using namespace std;
 #include "abmofAccel.h"
 #include "time.h"
 
-#define TEST_TIMES 20
+#define TEST_TIMES 10
 
 static col_pix_t slicesSW[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static col_pix_t slicesScale1SW[SLICES_NUMBER][SLICE_WIDTH/2][SLICE_HEIGHT/COMBINED_PIXELS/2];
@@ -688,7 +688,7 @@ static void feedbackSW(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateF
 
 			if(avgMatchDistance > avgTargetDistance )
 			{
-//				areaEventThrSW -= areaEventThrSW * 3/64;
+				areaEventThrSW -= areaEventThrSW * 3/64;
 				if (areaEventThrSW <= 100)
 				{
 					areaEventThrSW = 100;
@@ -698,10 +698,10 @@ static void feedbackSW(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateF
 			else if (avgMatchDistance < avgTargetDistance)
 			{
 
-//				areaEventThrSW += areaEventThrSW *3/64;
-				if (areaEventThrSW >= 1000)
+				areaEventThrSW += areaEventThrSW *3/64;
+				if (areaEventThrSW >= 1500)
 				{
-					areaEventThrSW = 1000;
+					areaEventThrSW = 1500;
 				}
 				std::cout << "AreaEventThr is increased. New areaEventThr from SW is: " << areaEventThrSW << std::endl;
 			}
@@ -941,7 +941,10 @@ int main(int argc, char *argv[])
 	int retval=0;
 
 	/******************* Test EVABMOFStream module from random value**************************/
-	int32_t eventCnt = 500;
+	srand(0);
+//	srand((unsigned)time(NULL));
+
+	int32_t eventCnt = 8000;
 	uint64_t data[eventCnt];
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
 
@@ -1001,10 +1004,6 @@ int main(int argc, char *argv[])
 //			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
 		}
 
-		for (int i = 0; i < eventCnt; i++)
-		{
-
-		}
 		parseEventsSW(data, eventCnt, eventSliceSW);
 
 		for (int j = 0; j < eventCnt; j++)

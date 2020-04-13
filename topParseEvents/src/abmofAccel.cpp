@@ -10,6 +10,8 @@ static col_pix_t glPLSlicesScale2[SLICES_NUMBER][SLICE_WIDTH/4][SLICE_HEIGHT/COM
 static sliceIdx_t glPLActiveSliceIdx = 0, glPLTminus1SliceIdx, glPLTminus2SliceIdx;
 static uint16_t eventIterSize = 100;
 
+static hls::stream<uint16_t> glThrStream("glThresholdStream");
+
 #define INPUT_COLS 4
 
 void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
@@ -564,7 +566,7 @@ apUint1_t glRotateFlg = 0;
 uint16_t areaEventThrBak = areaEventThr;
 static uint32_t lastTsHW = 0, currentTsHW = 0;
 static ap_uint<9> deltaTsHW;
-void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream, hls::stream<uint32_t> &tsInStream, hls::stream<uint16_t> &thrStream,
+void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream, hls::stream<uint32_t> &tsInStream,
 				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream,
 				 hls::stream<sliceIdx_t> &idxStream)
 {
@@ -582,9 +584,10 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 	c = c + 1;
 	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
 
-	uint16_t tmpThr = 1000;
+	static uint16_t tmpThr = 1000;
 
-	if (!thrStream.empty()) tmpThr = thrStream.read();
+	if (!glThrStream.empty())	tmpThr = glThrStream.read();
+
 
 	glRotateFlg = 0;
 	// The area threshold reached, rotate the slice index and clear the areaEventRegs.
@@ -1634,7 +1637,7 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
 			uint16_t deltaThr = areaEventThr * 3 / 64;
 			if(avgMatchMul > avgTargetMul )
 			{
-//				areaEventThr -= deltaThr;
+				areaEventThr -= deltaThr;
 				if (areaEventThr <= 100)
 				{
 					areaEventThr = 100;
@@ -1644,10 +1647,10 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
 			}
 			else if (avgMatchMul < avgTargetMul)
 			{
-//				areaEventThr += deltaThr;
-				if (areaEventThr >= 1000)
+				areaEventThr += deltaThr;
+				if (areaEventThr >= 1500)
 				{
-					areaEventThr = 1000;
+					areaEventThr = 1500;
 				}
 //            	areaEventThr += 50;
 				std::cout << "AreaEventThr is increased. New areaEventThr from HW is: " << areaEventThr << std::endl;
@@ -1707,7 +1710,10 @@ void feedbackWrapperAndOutputResult(hls::stream<apUint15_t> &miniSumStreamScale0
 
 	feedback(miniRet, tmpOF, glRotateFlg, &tmpThr);
 
-	thrStream.write(tmpThr);
+	if(glRotateFlg)
+	{
+		thrStream.write(tmpThr);
+	}
 
 	ap_uint<32> output = (deltaTsHW, (tmpOF, tmp1));
 //		std :: cout << "tmp1 is "  << std::hex << tmp1 << std :: endl;
@@ -1879,7 +1885,7 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 
 			// With feedback
 			getXandY(dataStream++, xInStream, yInStream, tsInStream, pktEventDataStream);
-			rotateSlice(xInStream, yInStream, tsInStream, thrStream, xOutStream, yOutStream, idxStream);
+			rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
 			rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn, refStreamScale1, tagStreamInScale1, refStreamScale2, tagStreamInScale2);
 
 			colStreamToColSum(refStream, tagStreamIn, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
@@ -1960,7 +1966,6 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 						hls::stream<apUint15_t> &miniSumStreamScale0, hls::stream<apUint6_t> &OFRetStreamScale0,
 						hls::stream<apUint15_t> &miniSumStreamScale1, hls::stream<apUint6_t> &OFRetStreamScale1,
 						hls::stream<apUint15_t> &miniSumStreamScale2, hls::stream<apUint6_t> &OFRetStreamScale2,
-						hls::stream<uint16_t> &thrStream,
 						hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut,
 						hls::stream< ap_uint<1> > &polStreamOut,
 						hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<8> > &custDataStreamOut)
@@ -1969,7 +1974,7 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 	packetEventDataStream >> tmpOutput;
 	ap_uint<16> x;
 	ap_uint<16> y;
-	ap_uint<32> ts;
+	ap_uint<64> ts;
 	ap_uint<1> pol;
 
 	y = tmpOutput.range(31, 16);
@@ -2017,7 +2022,10 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 
 	feedback(miniRet, tmpOF, glRotateFlg, &tmpThr);
 
-	thrStream.write(tmpThr);
+	if(glRotateFlg)
+	{
+		glThrStream.write(tmpThr);
+	}
 
 	xStreamOut << x;
 	yStreamOut << y;
@@ -2120,7 +2128,7 @@ void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<1
     glConfig = config;
     *status= (ap_uint<32>)deltaTsHW;
 	truncateStream(xStreamIn, yStreamIn, polStreamIn, tsStreamIn, xInStream, yInStream, tsInStream, pktEventDataStream);
-	rotateSlice(xInStream, yInStream, tsInStream, thrStream, xOutStream, yOutStream, idxStream);
+	rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
 	rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn, refStreamScale1, tagStreamInScale1, refStreamScale2, tagStreamInScale2);
 
 	colStreamToColSum(refStream, tagStreamIn, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
@@ -2138,7 +2146,6 @@ void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<1
 								   miniSumStreamScale0, OFRetStreamScale0,
 								   miniSumStreamScale1, OFRetStreamScale1,
 								   miniSumStreamScale2, OFRetStreamScale2,
-								   thrStream,
 								   xStreamOut, yStreamOut, polStreamOut, tsStreamOut, pixelDataStream);
 
 }
@@ -2232,7 +2239,7 @@ void EVABMOFStreamNoConfigNoStaus(hls::stream< ap_uint<16> > &xStreamIn, hls::st
 						  refTagValidCntSumStreamScale2("refTagValidCntSumStreamScale2");
 
 	truncateStream(xStreamIn, yStreamIn, polStreamIn, tsStreamIn, xInStream, yInStream, tsInStream, pktEventDataStream);
-	rotateSlice(xInStream, yInStream, tsInStream, thrStream, xOutStream, yOutStream, idxStream);
+	rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
 	rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn, refStreamScale1, tagStreamInScale1, refStreamScale2, tagStreamInScale2);
 
 	colStreamToColSum(refStream, tagStreamIn, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
@@ -2250,7 +2257,6 @@ void EVABMOFStreamNoConfigNoStaus(hls::stream< ap_uint<16> > &xStreamIn, hls::st
 								   miniSumStreamScale0, OFRetStreamScale0,
 								   miniSumStreamScale1, OFRetStreamScale1,
 								   miniSumStreamScale2, OFRetStreamScale2,
-								   thrStream,
 								   xStreamOut, yStreamOut, polStreamOut, tsStreamOut, pixelDataStream);
 
 }
