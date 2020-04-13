@@ -940,7 +940,7 @@ int main(int argc, char *argv[])
     int total_err_cnt = 0;
 	int retval=0;
 
-	/******************* Test parseEvents module from random value**************************/
+	/******************* Test EVABMOFStream module from random value**************************/
 	int32_t eventCnt = 500;
 	uint64_t data[eventCnt];
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
@@ -952,6 +952,16 @@ int main(int argc, char *argv[])
 	ap_uint<64> x, y;
 	ap_uint<1> pol;
 	sliceIdx_t idx;
+
+	ap_uint<16> x_out[eventCnt], y_out[eventCnt];
+	ap_uint<64> ts_out[eventCnt];
+	ap_uint<1>  pol_out[eventCnt];
+	ap_uint<8> retData[eventCnt];
+
+	hls::stream< ap_uint<16> > xStreamIn("xStreamIn"), yStreamIn("yStreamIn"), xStreamOut("xStreamOut"), yStreamOut("yStreamOut");
+	hls::stream< ap_uint<64> > tsStreamIn("tsStreamIn"), tsStreamOut("tsStreamOut");
+	hls::stream< ap_uint<1> > polStreamIn("polStreamIn"), polStreamOut("polStreamOut");
+	hls::stream< ap_uint<8> > miscDataStream("miscDataStream");
 
 	for(int k = 0; k < TEST_TIMES; k++)
 	{
@@ -973,20 +983,38 @@ int main(int argc, char *argv[])
 //			cout << "y : " << y << endl;
 //			cout << "idx : " << idx << endl;
 
+			xStreamIn << x;
+			yStreamIn << y;
+			tsStreamIn << 0;
+			polStreamIn << pol;
+
+			EVABMOFStreamNoConfigNoStaus(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
+					xStreamOut, yStreamOut, tsStreamOut, polStreamOut, miscDataStream);
+
+			xStreamOut >> x_out[i];
+			yStreamOut >> y_out[i];
+			tsStreamOut >> ts_out[i];
+			polStreamOut >> pol_out[i];
+			miscDataStream >> retData[i];
+
 			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
 //			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
 		}
 
+		for (int i = 0; i < eventCnt; i++)
+		{
 
+		}
 		parseEventsSW(data, eventCnt, eventSliceSW);
-		parseEvents(data, eventCnt, eventSlice);
 
 		for (int j = 0; j < eventCnt; j++)
 		{
-			if (eventSlice[j] != eventSliceSW[j])
+			ap_uint<32> tmpData = eventSliceSW[j];
+			ap_uint<6> tmpOF = tmpData.range(22, 17);
+			if (retData[j] != tmpOF)
 			{
-				std::cout << "eventSliceSW is: " << eventSliceSW[j] << std::endl;
-				std::cout << "eventSlice is: " << eventSlice[j] << std::endl;
+				std::cout << "OF for eventSliceSW is: " << tmpOF << std::endl;
+				std::cout << "OF for eventSlice is: " << retData[j] << std::endl;
 
 				err_cnt++;
 				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
@@ -1000,6 +1028,67 @@ int main(int argc, char *argv[])
 		total_err_cnt += err_cnt;
 		cout << endl;
 	}
+
+//	/******************* Test parseEvents module from random value**************************/
+//	int32_t eventCnt = 500;
+//	uint64_t data[eventCnt];
+//	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
+//
+//	ap_int<16> miniSumRet;
+//	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//
+//	ap_uint<64> x, y;
+//	ap_uint<1> pol;
+//	sliceIdx_t idx;
+//
+//	for(int k = 0; k < TEST_TIMES; k++)
+//	{
+//		cout << "Test " << k << ":" << endl;
+//
+//	    int err_cnt = 0;
+//
+//		idx = sliceIdx_t(idx - 1);
+//
+//		for (int i = 0; i < eventCnt; i++)
+//		{
+//			x = rand()%50 + 40;
+//			y = rand()%50 + 40;
+//			pol = rand()%2;
+////			idx = rand()%3;
+//	//		x = 255;
+//	//		y = 240;
+////			cout << "x : " << x << endl;
+////			cout << "y : " << y << endl;
+////			cout << "idx : " << idx << endl;
+//
+//			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
+////			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
+//		}
+//
+//
+//		parseEventsSW(data, eventCnt, eventSliceSW);
+//		parseEvents(data, eventCnt, eventSlice);
+//
+//		for (int j = 0; j < eventCnt; j++)
+//		{
+//			if (eventSlice[j] != eventSliceSW[j])
+//			{
+//				std::cout << "eventSliceSW is: " << eventSliceSW[j] << std::endl;
+//				std::cout << "eventSlice is: " << eventSlice[j] << std::endl;
+//
+//				err_cnt++;
+//				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+//			}
+//		}
+//
+//		if(err_cnt == 0)
+//		{
+//			cout << "Test " << k << " passed." << endl;
+//		}
+//		total_err_cnt += err_cnt;
+//		cout << endl;
+//	}
 
 	/******************* Test parseEvents module from specific file**************************/
 //	int32_t eventCnt = 500;

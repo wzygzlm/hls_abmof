@@ -6,7 +6,7 @@
         <DownStreamTool name=""/>
     </downStreamTool>
     <config>
-        <schedule model="parseEvents"/>
+        <schedule model="EVABMOFStream"/>
         <config_dataflow default_channel="fifo" fifo_depth="0"/>
     </config>
     <UIConfigurations>
