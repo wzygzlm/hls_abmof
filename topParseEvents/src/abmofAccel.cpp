@@ -1968,7 +1968,7 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 						hls::stream<apUint15_t> &miniSumStreamScale2, hls::stream<apUint6_t> &OFRetStreamScale2,
 						hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut,
 						hls::stream< ap_uint<1> > &polStreamOut,
-						hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<8> > &custDataStreamOut)
+						hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<10> > &custDataStreamOut)
 {
 	ap_uint<96> tmpOutput;
 	packetEventDataStream >> tmpOutput;
@@ -2022,21 +2022,28 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 
 	feedback(miniRet, tmpOF, glRotateFlg, &tmpThr);
 
+	ap_uint<12> custData;
 	if(glRotateFlg)
 	{
 		glThrStream.write(tmpThr);
+		custData[9] = 1;
+		custData.range(8, 0) = deltaTsHW;
+	}
+	else
+	{
+		custData = tmpOF;
 	}
 
 	xStreamOut << x;
 	yStreamOut << y;
 	polStreamOut << pol;
 	tsStreamOut << ts;
-	custDataStreamOut << (ap_uint<8>)tmpOF;
+	custDataStreamOut << custData;
 }
 
 void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn, hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
-		hls::stream< ap_uint<8> > &pixelDataStream,
+		hls::stream< ap_uint<10> > &pixelDataStream,
 		ap_uint<32> config, ap_uint<32> *status)
 {
 #pragma HLS INTERFACE s_axilite port=config bundle=config
@@ -2152,7 +2159,7 @@ void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<1
 
 void EVABMOFStreamNoConfigNoStaus(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn, hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
-		hls::stream< ap_uint<8> > &pixelDataStream)
+		hls::stream< ap_uint<10> > &pixelDataStream)
 {
 #pragma HLS INTERFACE axis register both port=tsStreamOut
 #pragma HLS INTERFACE axis register both port=polStreamOut

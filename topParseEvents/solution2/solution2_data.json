@@ -82,6 +82,7 @@
       "impl\/vhdl\/fifo_w6_d0_A.vhd",
       "impl\/vhdl\/fifo_w6_d2_A.vhd",
       "impl\/vhdl\/fifo_w8_d0_A.vhd",
+      "impl\/vhdl\/fifo_w9_d6_A.vhd",
       "impl\/vhdl\/fifo_w15_d2_S.vhd",
       "impl\/vhdl\/fifo_w16_d0_A.vhd",
       "impl\/vhdl\/fifo_w32_d0_A.vhd",
@@ -145,6 +146,7 @@
       "impl\/verilog\/fifo_w6_d0_A.v",
       "impl\/verilog\/fifo_w6_d2_A.v",
       "impl\/verilog\/fifo_w8_d0_A.v",
+      "impl\/verilog\/fifo_w9_d6_A.v",
       "impl\/verilog\/fifo_w15_d2_S.v",
       "impl\/verilog\/fifo_w16_d0_A.v",
       "impl\/verilog\/fifo_w32_d0_A.v",
@@ -223,12 +225,13 @@
       "ctype": {
         "TDATA": {
           "Type": "integer unsigned",
-          "Width": "8"
+          "Width": "10",
+          "Bits": "16"
         },
         "TVALID": {"Type": "bool"},
         "TREADY": {"Type": "bool"}
       },
-      "port_width": {"TDATA": "8"}
+      "port_width": {"TDATA": "16"}
     },
     "polStreamIn_V_V": {
       "type": "axi4stream",
@@ -452,7 +455,7 @@
     },
     "pixelDataStream_V_V_TDATA": {
       "dir": "out",
-      "width": "8"
+      "width": "16"
     },
     "pixelDataStream_V_V_TVALID": {
       "dir": "out",
@@ -787,7 +790,7 @@
           "InstanceName": "feedbackAndCombineOu_U0",
           "Instances": [{
               "ModuleName": "feedback",
-              "InstanceName": "grp_feedback_fu_194"
+              "InstanceName": "grp_feedback_fu_217"
             }]
         },
         {
@@ -858,8 +861,8 @@
             "PipelineDepth": "1"
           }],
         "Area": {
-          "FF": "350",
-          "LUT": "514",
+          "FF": "478",
+          "LUT": "566",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1297,8 +1300,8 @@
         },
         "Area": {
           "DSP48E": "3",
-          "FF": "724",
-          "LUT": "1113",
+          "FF": "759",
+          "LUT": "1140",
           "BRAM_18K": "0"
         }
       },
@@ -1319,15 +1322,15 @@
         "Area": {
           "BRAM_18K": "124",
           "DSP48E": "108",
-          "FF": "14073",
-          "LUT": "26292"
+          "FF": "14241",
+          "LUT": "26393"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-04-13 19:16:40 +0200",
+    "Time": "2020-04-13 23:18:29 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

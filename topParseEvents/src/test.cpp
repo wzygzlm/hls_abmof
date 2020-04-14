@@ -944,7 +944,7 @@ int main(int argc, char *argv[])
 	srand(0);
 //	srand((unsigned)time(NULL));
 
-	int32_t eventCnt = 8000;
+	int32_t eventCnt = 4000;
 	uint64_t data[eventCnt];
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
 
@@ -953,18 +953,21 @@ int main(int argc, char *argv[])
 	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
 	ap_uint<64> x, y;
+	ap_uint<64> ts[eventCnt];
 	ap_uint<1> pol;
 	sliceIdx_t idx;
+
+    uint64_t lastMaxTs = 0;  // Record last maximum ts to make all the ts are monotonic.
 
 	ap_uint<16> x_out[eventCnt], y_out[eventCnt];
 	ap_uint<64> ts_out[eventCnt];
 	ap_uint<1>  pol_out[eventCnt];
-	ap_uint<8> retData[eventCnt];
+	ap_uint<10> retData[eventCnt];
 
 	hls::stream< ap_uint<16> > xStreamIn("xStreamIn"), yStreamIn("yStreamIn"), xStreamOut("xStreamOut"), yStreamOut("yStreamOut");
 	hls::stream< ap_uint<64> > tsStreamIn("tsStreamIn"), tsStreamOut("tsStreamOut");
 	hls::stream< ap_uint<1> > polStreamIn("polStreamIn"), polStreamOut("polStreamOut");
-	hls::stream< ap_uint<8> > miscDataStream("miscDataStream");
+	hls::stream< ap_uint<10> > miscDataStream("miscDataStream");
 
 	for(int k = 0; k < TEST_TIMES; k++)
 	{
@@ -973,6 +976,13 @@ int main(int argc, char *argv[])
 	    int err_cnt = 0;
 
 		idx = sliceIdx_t(idx - 1);
+
+		for (int m = 0; m < eventCnt; m++)
+		{
+			ts[m]  = rand() + lastMaxTs;
+		}
+		sort(ts, ts+eventCnt);
+		lastMaxTs = ts[eventCnt -1];
 
 		for (int i = 0; i < eventCnt; i++)
 		{
@@ -988,7 +998,7 @@ int main(int argc, char *argv[])
 
 			xStreamIn << x;
 			yStreamIn << y;
-			tsStreamIn << 0;
+			tsStreamIn << ts[i];
 			polStreamIn << pol;
 
 			EVABMOFStreamNoConfigNoStaus(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
@@ -1000,7 +1010,7 @@ int main(int argc, char *argv[])
 			polStreamOut >> pol_out[i];
 			miscDataStream >> retData[i];
 
-			data[i] = (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
+			data[i] = (uint64_t)(ts[i] << 32) + (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
 //			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
 		}
 
@@ -1010,7 +1020,14 @@ int main(int argc, char *argv[])
 		{
 			ap_uint<32> tmpData = eventSliceSW[j];
 			ap_uint<6> tmpOF = tmpData.range(22, 17);
-			if (retData[j] != tmpOF)
+			ap_uint<9> deltaTs = tmpData.range(31, 23);
+
+			if(j == 0)
+			{
+				std::cout << "deltaTs from SW at index j = 0 is : " << deltaTs << std::endl;
+			}
+			if (((retData[j].bit(9) == 0) && (retData[j].range(8, 0) != tmpOF))
+					|| ((retData[j].bit(9) == 1) && (retData[j].range(8, 0) != deltaTs)))
 			{
 				std::cout << "OF for eventSliceSW is: " << tmpOF << std::endl;
 				std::cout << "OF for eventSlice is: " << retData[j] << std::endl;

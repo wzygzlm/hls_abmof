@@ -14,7 +14,7 @@ create_clock -period 10 -name default
 set_clock_uncertainty 0.1
 config_dataflow -default_channel fifo -fifo_depth 0
 source "./topParseEvents/solution1/directives.tcl"
-csim_design
+csim_design -setup
 csynth_design
 cosim_design -trace_level all
 export_design -rtl verilog -format ip_catalog

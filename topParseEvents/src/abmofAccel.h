@@ -83,5 +83,5 @@ void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventS
 
 void EVABMOFStreamNoConfigNoStaus(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn, hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
-		hls::stream< ap_uint<8> > &pixelDataStream);
+		hls::stream< ap_uint<10> > &pixelDataStream);
 #endif
