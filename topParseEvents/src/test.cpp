@@ -916,6 +916,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		ap_int<9> tmp2 = miniRet.range(8, 0);
         ap_uint<9> delataTs = ((currentTs - lastTs) >> 9); 
 		apUint6_t tmpOF = OFRet;
+		if(tmpOF == 0x3f) tmpOF = 0;
 		ap_uint<32> output = (delataTs, (tmpOF, tmp1));
 		*eventSlice++ = output.to_int();
 
@@ -1026,7 +1027,7 @@ int main(int argc, char *argv[])
 			{
 				std::cout << "deltaTs from SW at index j = 0 is : " << deltaTs << std::endl;
 			}
-			if (((retData[j].bit(9) == 0) && (retData[j].range(8, 0) != tmpOF))
+			if (((retData[j].bit(9) == 0) && (retData[j].range(6, 0) != tmpOF))
 					|| ((retData[j].bit(9) == 1) && (retData[j].range(8, 0) != deltaTs)))
 			{
 				std::cout << "OF for eventSliceSW is: " << tmpOF << std::endl;
