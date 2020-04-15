@@ -565,7 +565,7 @@ apUint1_t glRotateFlg = 0;
 // Remember to update this value when areaEventThr is updated.
 uint16_t areaEventThrBak = areaEventThr;
 static uint32_t lastTsHW = 0, currentTsHW = 0;
-static ap_uint<9> deltaTsHW;
+static ap_uint<9> deltaTsHW, deltaTsHWBak;
 void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStream, hls::stream<uint32_t> &tsInStream,
 				 hls::stream<uint8_t> &xOutStream, hls::stream<uint8_t> &yOutStream,
 				 hls::stream<sliceIdx_t> &idxStream)
@@ -628,6 +628,7 @@ void rotateSlice(hls::stream<uint8_t>  &xInStream, hls::stream<uint8_t> &yInStre
 	yOutStream.write(y);
 	idxStream.write(glPLActiveSliceIdx);
 	deltaTsHW = ((currentTsHW - lastTsHW) >> 9);
+	deltaTsHWBak = deltaTsHW;
 }
 
 
@@ -2031,7 +2032,8 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 	}
 	else
 	{
-		custData = tmpOF;
+		custData.range(8, 7) = scaleRet;
+		custData.range(6, 0) = (tmpOF == 0x3f) ? apUint6_t(0) : tmpOF;
 	}
 
 	xStreamOut << x;
@@ -2046,8 +2048,8 @@ void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<1
 		hls::stream< ap_uint<10> > &pixelDataStream,
 		ap_uint<32> config, ap_uint<32> *status)
 {
-#pragma HLS INTERFACE s_axilite port=config bundle=config
-#pragma HLS INTERFACE s_axilite port=status bundle=config
+//#pragma HLS INTERFACE s_axilite port=config bundle=config
+//#pragma HLS INTERFACE s_axilite port=status bundle=config
 #pragma HLS INTERFACE axis register both port=tsStreamOut
 #pragma HLS INTERFACE axis register both port=polStreamOut
 #pragma HLS INTERFACE axis register both port=yStreamOut
@@ -2133,7 +2135,8 @@ void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<1
 						  refTagValidCntSumStreamScale2("refTagValidCntSumStreamScale2");
 
     glConfig = config;
-    *status= (ap_uint<32>)deltaTsHW;
+    (*status).range(31, 16) = areaEventThrBak;
+    (*status).range(15, 0) = deltaTsHWBak;
 	truncateStream(xStreamIn, yStreamIn, polStreamIn, tsStreamIn, xInStream, yInStream, tsInStream, pktEventDataStream);
 	rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
 	rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn, refStreamScale1, tagStreamInScale1, refStreamScale2, tagStreamInScale2);

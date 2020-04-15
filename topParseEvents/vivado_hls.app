@@ -1,4 +1,4 @@
-<project xmlns="com.autoesl.autopilot.project" name="topParseEvents" top="EVABMOFStreamNoConfigNoStaus">
+<project xmlns="com.autoesl.autopilot.project" name="topParseEvents" top="EVABMOFStream">
     <includePaths/>
     <libraryPaths/>
     <Simulation>
