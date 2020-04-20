@@ -7,28 +7,31 @@ using namespace std;
 #include "ap_fixed.h"
 #include "abmofAccel.h"
 #include "time.h"
+#include<stdio.h>
 
-#define TEST_TIMES 10
+#define TEST_TIMES 50
 
 static col_pix_t slicesSW[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static col_pix_t slicesScale1SW[SLICES_NUMBER][SLICE_WIDTH/2][SLICE_HEIGHT/COMBINED_PIXELS/2];
 static col_pix_t slicesScale2SW[SLICES_NUMBER][SLICE_WIDTH/4][SLICE_HEIGHT/COMBINED_PIXELS/4];
 static sliceIdx_t glPLActiveSliceIdxSW = 0;
 
-void resetPixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
+float glValidPixOccupancy = 0.01;
+
+void resetPixSW(ap_uint<10> x, ap_uint<10> y, sliceIdx_t sliceIdx)
 {
 	slicesSW[sliceIdx][x][y/COMBINED_PIXELS] = 0;
 	slicesScale1SW[sliceIdx][x/2][y/COMBINED_PIXELS/2] = 0;
 	slicesScale2SW[sliceIdx][x/4][y/COMBINED_PIXELS/4] = 0;
 }
 
-void writePixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
+void writePixSW(ap_uint<10> x, ap_uint<10> y, sliceIdx_t sliceIdx)
 {
     // write scale 0
 	int8_t yNewIdx = y%COMBINED_PIXELS;
 //	cout << "Data before write : " << slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
 	pix_t tmp = slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx);
-    if (tmp >= (ap_uint< BITS_PER_PIXEL - 1 >(0xff))) tmp = (ap_uint< BITS_PER_PIXEL - 1 >(0xff));
+    if (tmp >= (ap_uint< BITS_PER_PIXEL >(0xff))) tmp = (ap_uint< BITS_PER_PIXEL >(0xff));
     else tmp += 1;
 	slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) = tmp;
 //	cout << "Data after write : " << slicesSW[sliceIdx][x][y/COMBINED_PIXELS].range(4 * yNewIdx + 3, 4 * yNewIdx) << endl;
@@ -39,7 +42,7 @@ void writePixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 	int8_t yNewIdxScale1 = yScale1%COMBINED_PIXELS;
 //	cout << "Data before write : " << slicesScale1SW[sliceIdx][xScale1][yScale1/COMBINED_PIXELS].range(4 * yNewIdxScale1 + 3, 4 * yNewIdxScale1) << endl;
 	pix_t tmpScale1 = slicesScale1SW[sliceIdx][xScale1][yScale1/COMBINED_PIXELS].range(4 * yNewIdxScale1 + 3, 4 * yNewIdxScale1);
-    if (tmpScale1 >= (ap_uint< BITS_PER_PIXEL - 1 >(0xff))) tmpScale1 = (ap_uint< BITS_PER_PIXEL - 1 >(0xff));
+    if (tmpScale1 >= (ap_uint< BITS_PER_PIXEL >(0xff))) tmpScale1 = (ap_uint< BITS_PER_PIXEL >(0xff));
     else tmpScale1 += 1;
 	slicesScale1SW[sliceIdx][xScale1][yScale1/COMBINED_PIXELS].range(4 * yNewIdxScale1 + 3, 4 * yNewIdxScale1) = tmpScale1;
 //	cout << "Data after write : " << slicesScale1SW[sliceIdx][xScale1][yScale1/COMBINED_PIXELS].range(4 * yNewIdxScale1 + 3, 4 * yNewIdxScale1) << endl;
@@ -50,19 +53,19 @@ void writePixSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx)
 	int8_t yNewIdxScale2 = yScale2%COMBINED_PIXELS;
 //	cout << "Data before write : " << slicesScale2SW[sliceIdx][xScale2][yScale2/COMBINED_PIXELS].range(4 * yNewIdxScale2 + 3, 4 * yNewIdxScale2) << endl;
 	pix_t tmpScale2 = slicesScale2SW[sliceIdx][xScale2][yScale2/COMBINED_PIXELS].range(4 * yNewIdxScale2 + 3, 4 * yNewIdxScale2);
-    if (tmpScale2 >= (ap_uint< BITS_PER_PIXEL - 1 >(0xff))) tmpScale2 = (ap_uint< BITS_PER_PIXEL - 1 >(0xff));
+    if (tmpScale2 >= (ap_uint< BITS_PER_PIXEL >(0xff))) tmpScale2 = (ap_uint< BITS_PER_PIXEL >(0xff));
     else tmpScale2 += 1;
 	slicesScale2SW[sliceIdx][xScale2][yScale2/COMBINED_PIXELS].range(4 * yNewIdxScale2 + 3, 4 * yNewIdxScale2) = tmpScale2;
 //	cout << "Data after write : " << slicesScale2SW[sliceIdx][xScale2][yScale2/COMBINED_PIXELS].range(4 * yNewIdxScale2 + 3, 4 * yNewIdxScale2) << endl;
 }
 
-void readBlockColsSWScale0(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
+void readBlockColsSWScale0(ap_uint<10> x, ap_uint<10> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
 		pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 
 	two_cols_pix_t refColData;
     two_cols_pix_t tagColData;
-    ap_uint<3> neighboryOffset;
+    ap_uint<8> neighboryOffset;
     if ( y%COMBINED_PIXELS < BLOCK_SIZE/2 + SEARCH_DISTANCE )
     {
         neighboryOffset = y/COMBINED_PIXELS - 1;
@@ -105,14 +108,14 @@ void readBlockColsSWScale0(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, s
 	}
 }
 
-void readBlockColsSWScale1(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
+void readBlockColsSWScale1(ap_uint<10> x, ap_uint<10> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
 		pix_t refColScale1[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagColScale1[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 	two_cols_pix_t refColDataScale1;
     two_cols_pix_t tagColDataScale1;
-    ap_uint<3> neighboryOffsetScale1;
-    ap_uint<8> xScale1 = x;
-    ap_uint<8> yScale1 = y;
+    ap_uint<8> neighboryOffsetScale1;
+    ap_uint<10> xScale1 = x;
+    ap_uint<10> yScale1 = y;
     if ( yScale1%COMBINED_PIXELS < BLOCK_SIZE/2 + SEARCH_DISTANCE )
     {
         neighboryOffsetScale1 = yScale1/COMBINED_PIXELS - 1;
@@ -154,14 +157,14 @@ void readBlockColsSWScale1(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, s
 	}
 }
 
-void readBlockColsSWScale2(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
+void readBlockColsSWScale2(ap_uint<10> x, ap_uint<10> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
 		pix_t refColScale2[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagColScale2[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 	two_cols_pix_t refColDataScale2;
     two_cols_pix_t tagColDataScale2;
-    ap_uint<3> neighboryOffsetScale2;
-    ap_uint<8> xScale2 = x;
-    ap_uint<8> yScale2 = y;
+    ap_uint<8> neighboryOffsetScale2;
+    ap_uint<10> xScale2 = x;
+    ap_uint<10> yScale2 = y;
     if ( yScale2%COMBINED_PIXELS < BLOCK_SIZE/2 + SEARCH_DISTANCE )
     {
         neighboryOffsetScale2 = yScale2/COMBINED_PIXELS - 1;
@@ -337,7 +340,7 @@ void blockSADSW(pix_t blockIn1[BLOCK_SIZE][BLOCK_SIZE], pix_t blockIn2[BLOCK_SIZ
     }
 
     // Remove outliers
-    int minValidPixNum = 0.02 * (BLOCK_SIZE * BLOCK_SIZE); 
+    int minValidPixNum = glValidPixOccupancy * (BLOCK_SIZE * BLOCK_SIZE);
     if (validPixRefBlockCnt < minValidPixNum || validPixTagBlockCnt < minValidPixNum || nonZeroMatchCnt < minValidPixNum)
     {
         tmpSum = 0x7fff;
@@ -411,8 +414,12 @@ void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
     
     *miniRet = tmpSum;
     *OFRet = tmpOF_y.concat(tmpOF_x);
-//	std::cout << "miniSumRetSW is: " << *miniRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
-//	std::cout << std::dec;    // Restore dec mode
+    if(printBlocksEnable == true)
+    {
+    	std::cout << "miniSumRetSW is: " << *miniRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
+    	std::cout << std::dec;    // Restore dec mode
+    }
+
 }
 
 
@@ -688,7 +695,7 @@ static void feedbackSW(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateF
 
 			if(avgMatchDistance > avgTargetDistance )
 			{
-				areaEventThrSW -= areaEventThrSW * 3/64;
+//				areaEventThrSW -= areaEventThrSW * 3/64;
 				if (areaEventThrSW <= 100)
 				{
 					areaEventThrSW = 100;
@@ -698,7 +705,7 @@ static void feedbackSW(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateF
 			else if (avgMatchDistance < avgTargetDistance)
 			{
 
-				areaEventThrSW += areaEventThrSW *3/64;
+//				areaEventThrSW += areaEventThrSW *3/64;
 				if (areaEventThrSW >= 1500)
 				{
 					areaEventThrSW = 1500;
@@ -715,7 +722,7 @@ static void feedbackSW(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateF
 
 
 uint32_t currentTs = 0, lastTs = 0;
-void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice)
+void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice, ap_uint<10> *custDataOut)
 {
 //	glPLActiveSliceIdxSW--;
 //	sliceIdx_t idx = glPLActiveSliceIdxSW;
@@ -724,10 +731,10 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 	for(int32_t i = 0; i < eventsArraySize; i++)
 	{
 		uint64_t tmp = *dataStream++;
-		ap_uint<8> xWr, yWr;
-		xWr = ((tmp) >> POLARITY_X_ADDR_SHIFT) & POLARITY_X_ADDR_MASK;
-		yWr = ((tmp) >> POLARITY_Y_ADDR_SHIFT) & POLARITY_Y_ADDR_MASK;
-		bool pol  = ((tmp) >> POLARITY_SHIFT) & POLARITY_MASK;
+		ap_uint<10> xWr, yWr;
+		xWr = ((tmp) & POLARITY_X_ADDR_MASK) >> POLARITY_X_ADDR_SHIFT;
+		yWr = ((tmp) & POLARITY_Y_ADDR_MASK) >> POLARITY_Y_ADDR_SHIFT;
+		bool pol  = ((tmp) & POLARITY_MASK) >> POLARITY_SHIFT;
 		uint64_t ts = tmp >> 32;
 
         /* These two values are only for debug and test */
@@ -764,7 +771,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
             for(int r = 0; r < 1; r++)
             {
                 cout << "Rotated successfully from SW!!!!" << endl;
-                cout << "x is: " << xWr << "\t y is: " << yWr << "\t idx is: " << glPLActiveSliceIdxSW << endl;
+                cout << "x is: " << xWr << "\t y is: " << yWr << "\t i is: " << i << "\t idx is: " << glPLActiveSliceIdxSW << endl;
                 cout << "delataTs is: " << ((currentTs - lastTs) >> 9) << endl;
             }
 
@@ -792,7 +799,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
                 }
             }
 
-           for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+           for (int16_t resetCnt = 0; resetCnt < SLICE_HEIGHT * SLICE_WIDTH / COMBINED_PIXELS; resetCnt = resetCnt + 2)
            {
                resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
                resetPixSW(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
@@ -872,9 +879,26 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		}
 
         bool printBlocksEnable = false;
+        if(xWr == 45 && yWr == 102) printBlocksEnable = false;
         miniBlockSADSW(block1Scale2, block2Scale2, printBlocksEnable, &miniRetScale2, &OFRetScale2);
         miniBlockSADSW(block1Scale1, block2Scale1, printBlocksEnable, &miniRetScale1, &OFRetScale1);
         miniBlockSADSW(block1, block2, printBlocksEnable, &miniRetScale0, &OFRetScale0);
+
+        if (xWr/4 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr/4 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH/4
+                || yWr/4 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr/4 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT/4) {
+        	miniRetScale2 = 0x3fff;
+        	OFRetScale2 = 0x3f;
+        }
+        if (xWr/2 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr/2 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH/2
+                || yWr/2 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr/2 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT/2) {
+        	miniRetScale1 = 0x3fff;
+        	OFRetScale1 = 0x3f;
+        }
+        if (xWr/1 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr/1 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH/1
+                || yWr/1 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr/1 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT/1) {
+        	miniRetScale0 = 0x3fff;
+        	OFRetScale0 = 0x3f;
+        }
 
         if(OFRetScale0 != 0x3f) miniRetScale0 = (miniRetScale0 << 4);
         if(OFRetScale1 != 0x3f) miniRetScale1 = (miniRetScale1 << 2);
@@ -916,8 +940,10 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		ap_int<9> tmp2 = miniRet.range(8, 0);
         ap_uint<9> delataTs = ((currentTs - lastTs) >> 9); 
 		apUint6_t tmpOF = OFRet;
-		if(tmpOF == 0x3f) tmpOF = 0;
-		ap_uint<32> output = (delataTs, (tmpOF, tmp1));
+		if(tmpOF == 0x3f) tmpOF = 0x1b; // 0x1b means both OF_x and OF_y are 3. Minus 3 to restore the real value.
+		ap_uint<32> output = (ap_uint<32>(yWr) << 16) + (xWr << 1) + pol;
+		ap_uint<10> custData = (rotateFlg, (scaleRet, tmpOF));
+		*custDataOut++ = custData;
 		*eventSlice++ = output.to_int();
 
         /* -----------------Feedback part------------------------ */
@@ -941,13 +967,21 @@ int main(int argc, char *argv[])
     int total_err_cnt = 0;
 	int retval=0;
 
-	/******************* Test EVABMOFStream module from random value**************************/
-	srand(0);
+	/******************* Test EVABMOFStream module from aedat file with GT**************************/
+//	srand(0);
 //	srand((unsigned)time(NULL));
+	FILE * fp;
 
-	int32_t eventCnt = 4000;
+	if((fp = fopen("E://xfOpenCV//hls_2018_1//topParseEvents//OFRet.bin","rb"))== NULL)
+	{
+		printf("can not open the file\n");
+		exit(0);
+	}
+
+	int32_t eventCnt = 8000;
 	uint64_t data[eventCnt];
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
+	ap_uint<10> custDataOutSW[eventCnt];
 
 	ap_int<16> miniSumRet;
 	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
@@ -987,9 +1021,18 @@ int main(int argc, char *argv[])
 
 		for (int i = 0; i < eventCnt; i++)
 		{
-			x = rand()%50 + 40;
-			y = rand()%50 + 40;
-			pol = rand()%2;
+			ap_uint<32> buf[2];
+			fread(buf, 4, 2, fp);
+	       	uint32_t data1 = ((uint32_t)(buf[0].range(7, 0)) << 24) + ((uint32_t)(buf[0].range(15, 8)) << 16) + ((uint32_t)(buf[0].range(23, 16)) << 8) + buf[0].range(31, 24);
+	       	uint32_t data2 = ((uint32_t)(buf[1].range(7, 0)) << 24) + ((uint32_t)(buf[1].range(15, 8)) << 16) + ((uint32_t)(buf[1].range(23, 16)) << 8) + buf[1].range(31, 24);
+
+	        x = ((data1) & POLARITY_X_ADDR_MASK) >> POLARITY_X_ADDR_SHIFT;
+			y = ((data1) & POLARITY_Y_ADDR_MASK) >> POLARITY_Y_ADDR_SHIFT;
+			pol  = ((data1) & POLARITY_MASK) >> POLARITY_SHIFT;
+			ts[i] = data2;
+
+			retData[i] = (data1 & 0x3ff);
+
 //			idx = rand()%3;
 	//		x = 255;
 	//		y = 240;
@@ -997,42 +1040,37 @@ int main(int argc, char *argv[])
 //			cout << "y : " << y << endl;
 //			cout << "idx : " << idx << endl;
 
-			xStreamIn << x;
-			yStreamIn << y;
-			tsStreamIn << ts[i];
-			polStreamIn << pol;
+//			xStreamIn << x;
+//			yStreamIn << y;
+//			tsStreamIn << ts[i];
+//			polStreamIn << pol;
+//
+//			EVABMOFStreamNoConfigNoStaus(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
+//					xStreamOut, yStreamOut, tsStreamOut, polStreamOut, miscDataStream);
+//
+//			xStreamOut >> x_out[i];
+//			yStreamOut >> y_out[i];
+//			tsStreamOut >> ts_out[i];
+//			polStreamOut >> pol_out[i];
+//			miscDataStream >> retData[i];
 
-			EVABMOFStreamNoConfigNoStaus(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
-					xStreamOut, yStreamOut, tsStreamOut, polStreamOut, miscDataStream);
-
-			xStreamOut >> x_out[i];
-			yStreamOut >> y_out[i];
-			tsStreamOut >> ts_out[i];
-			polStreamOut >> pol_out[i];
-			miscDataStream >> retData[i];
-
-			data[i] = (uint64_t)(ts[i] << 32) + (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
+			data[i] = (uint64_t)(ts[i] << 32) + (uint64_t)(x << POLARITY_X_ADDR_SHIFT) + (uint64_t)(y << POLARITY_Y_ADDR_SHIFT) + (pol << POLARITY_SHIFT);
 //			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
 		}
 
-		parseEventsSW(data, eventCnt, eventSliceSW);
+		parseEventsSW(data, eventCnt, eventSliceSW, custDataOutSW);
 
 		for (int j = 0; j < eventCnt; j++)
 		{
 			ap_uint<32> tmpData = eventSliceSW[j];
-			ap_uint<6> tmpOF = tmpData.range(22, 17);
-			ap_uint<9> deltaTs = tmpData.range(31, 23);
+			ap_uint<10> y = tmpData.range(25, 16);
+			ap_uint<10> x = tmpData.range(10, 1);
 
-			if(j == 0)
+			if ( (retData[j].range(7, 0) != custDataOutSW[j].range(7, 0)) )
 			{
-				std::cout << "deltaTs from SW at index j = 0 is : " << deltaTs << std::endl;
-			}
-			if (((retData[j].bit(9) == 0) && (retData[j].range(6, 0) != tmpOF))
-					|| ((retData[j].bit(9) == 1) && (retData[j].range(8, 0) != deltaTs)))
-			{
-				std::cout << "OF for eventSliceSW is: " << tmpOF << std::endl;
-				std::cout << "OF for eventSlice is: " << retData[j] << std::endl;
-
+				std::cout << "OF for eventSliceSW is: " << hex << custDataOutSW[j] << std::endl;
+				std::cout << "OF for eventSlice is: " << hex << retData[j] << std::endl;
+				cout << dec;
 				err_cnt++;
 				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
 			}
@@ -1045,6 +1083,111 @@ int main(int argc, char *argv[])
 		total_err_cnt += err_cnt;
 		cout << endl;
 	}
+
+//	/******************* Test EVABMOFStream module from random value**************************/
+//	srand(0);
+////	srand((unsigned)time(NULL));
+//
+//	int32_t eventCnt = 4000;
+//	uint64_t data[eventCnt];
+//	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
+//
+//	ap_int<16> miniSumRet;
+//	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+//
+//	ap_uint<64> x, y;
+//	ap_uint<64> ts[eventCnt];
+//	ap_uint<1> pol;
+//	sliceIdx_t idx;
+//
+//    uint64_t lastMaxTs = 0;  // Record last maximum ts to make all the ts are monotonic.
+//
+//	ap_uint<16> x_out[eventCnt], y_out[eventCnt];
+//	ap_uint<64> ts_out[eventCnt];
+//	ap_uint<1>  pol_out[eventCnt];
+//	ap_uint<10> retData[eventCnt];
+//
+//	hls::stream< ap_uint<16> > xStreamIn("xStreamIn"), yStreamIn("yStreamIn"), xStreamOut("xStreamOut"), yStreamOut("yStreamOut");
+//	hls::stream< ap_uint<64> > tsStreamIn("tsStreamIn"), tsStreamOut("tsStreamOut");
+//	hls::stream< ap_uint<1> > polStreamIn("polStreamIn"), polStreamOut("polStreamOut");
+//	hls::stream< ap_uint<10> > miscDataStream("miscDataStream");
+//
+//	for(int k = 0; k < TEST_TIMES; k++)
+//	{
+//		cout << "Test " << k << ":" << endl;
+//
+//	    int err_cnt = 0;
+//
+//		idx = sliceIdx_t(idx - 1);
+//
+//		for (int m = 0; m < eventCnt; m++)
+//		{
+//			ts[m]  = rand() + lastMaxTs;
+//		}
+//		sort(ts, ts+eventCnt);
+//		lastMaxTs = ts[eventCnt -1];
+//
+//		for (int i = 0; i < eventCnt; i++)
+//		{
+//			x = rand()%50 + 40;
+//			y = rand()%50 + 40;
+//			pol = rand()%2;
+////			idx = rand()%3;
+//	//		x = 255;
+//	//		y = 240;
+////			cout << "x : " << x << endl;
+////			cout << "y : " << y << endl;
+////			cout << "idx : " << idx << endl;
+//
+//			xStreamIn << x;
+//			yStreamIn << y;
+//			tsStreamIn << ts[i];
+//			polStreamIn << pol;
+//
+//			EVABMOFStreamNoConfigNoStaus(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
+//					xStreamOut, yStreamOut, tsStreamOut, polStreamOut, miscDataStream);
+//
+//			xStreamOut >> x_out[i];
+//			yStreamOut >> y_out[i];
+//			tsStreamOut >> ts_out[i];
+//			polStreamOut >> pol_out[i];
+//			miscDataStream >> retData[i];
+//
+//			data[i] = (uint64_t)(ts[i] << 32) + (uint64_t)(x << 17) + (uint64_t)(y << 2) + (pol << 1);
+////			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
+//		}
+//
+//		parseEventsSW(data, eventCnt, eventSliceSW);
+//
+//		for (int j = 0; j < eventCnt; j++)
+//		{
+//			ap_uint<32> tmpData = eventSliceSW[j];
+//			ap_uint<6> tmpOF = tmpData.range(22, 17);
+//			ap_uint<9> deltaTs = tmpData.range(31, 23);
+//
+//			if(j == 0)
+//			{
+//				std::cout << "deltaTs from SW at index j = 0 is : " << deltaTs << std::endl;
+//			}
+//			if (((retData[j].bit(9) == 0) && (retData[j].range(6, 0) != tmpOF))
+//					|| ((retData[j].bit(9) == 1) && (retData[j].range(8, 0) != deltaTs)))
+//			{
+//				std::cout << "OF for eventSliceSW is: " << tmpOF << std::endl;
+//				std::cout << "OF for eventSlice is: " << retData[j] << std::endl;
+//
+//				err_cnt++;
+//				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+//			}
+//		}
+//
+//		if(err_cnt == 0)
+//		{
+//			cout << "Test " << k << " passed." << endl;
+//		}
+//		total_err_cnt += err_cnt;
+//		cout << endl;
+//	}
 
 //	/******************* Test parseEvents module from random value**************************/
 //	int32_t eventCnt = 500;
