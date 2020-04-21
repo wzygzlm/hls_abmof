@@ -47,6 +47,7 @@ typedef ap_uint<6> apUint6_t;
 typedef ap_uint<1> apUint1_t;
 typedef ap_uint<16 * (2 * SEARCH_DISTANCE + 1)> apUint112_t;
 typedef ap_uint<6 * (2 * SEARCH_DISTANCE + 1)> apUint42_t;
+typedef ap_uint<10> apUint10_t;
 
 #define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
 #define PIXS_PER_COL (SLICE_HEIGHT/COMBINED_PIXELS)
@@ -81,6 +82,16 @@ void testTemp(uint64_t * data, sliceIdx_t idx, int16_t eventCnt,
 void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint16_t *thrRet);
 
 void parseEvents(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice);
+
+void rwSlices(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream, hls::stream<sliceIdx_t> &idxStream,
+			  hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut,
+			  hls::stream<apIntBlockCol_t> &refStreamOutScale1, hls::stream<apIntBlockCol_t> &tagStreamOutScale1,
+			  hls::stream<apIntBlockCol_t> &refStreamOutScale2, hls::stream<apIntBlockCol_t> &tagStreamOutScale2);
+
+void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn, hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
+		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
+		hls::stream< ap_uint<10> > &pixelDataStream,
+		ap_uint<32> config, ap_uint<32> *status);
 
 void EVABMOFStreamNoConfigNoStaus(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn, hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,

@@ -344,7 +344,7 @@ void blockSADSW(pix_t blockIn1[BLOCK_SIZE][BLOCK_SIZE], pix_t blockIn2[BLOCK_SIZ
     if (validPixRefBlockCnt < minValidPixNum || validPixTagBlockCnt < minValidPixNum || nonZeroMatchCnt < minValidPixNum)
     {
         tmpSum = 0x7fff;
-    } 
+    }
     *sumRet = tmpSum;
 }
 
@@ -879,7 +879,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		}
 
         bool printBlocksEnable = false;
-        if(xWr == 45 && yWr == 102) printBlocksEnable = false;
+        if(xWr == 211 && yWr == 242) printBlocksEnable = false;
         miniBlockSADSW(block1Scale2, block2Scale2, printBlocksEnable, &miniRetScale2, &OFRetScale2);
         miniBlockSADSW(block1Scale1, block2Scale1, printBlocksEnable, &miniRetScale1, &OFRetScale1);
         miniBlockSADSW(block1, block2, printBlocksEnable, &miniRetScale0, &OFRetScale0);
@@ -978,7 +978,7 @@ int main(int argc, char *argv[])
 		exit(0);
 	}
 
-	int32_t eventCnt = 8000;
+	int32_t eventCnt = 4000;
 	uint64_t data[eventCnt];
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
 	ap_uint<10> custDataOutSW[eventCnt];
@@ -994,10 +994,13 @@ int main(int argc, char *argv[])
 
     uint64_t lastMaxTs = 0;  // Record last maximum ts to make all the ts are monotonic.
 
+    ap_uint<32> config, status;
+
 	ap_uint<16> x_out[eventCnt], y_out[eventCnt];
 	ap_uint<64> ts_out[eventCnt];
 	ap_uint<1>  pol_out[eventCnt];
 	ap_uint<10> retData[eventCnt];
+	ap_uint<10> GTData[eventCnt];
 
 	hls::stream< ap_uint<16> > xStreamIn("xStreamIn"), yStreamIn("yStreamIn"), xStreamOut("xStreamOut"), yStreamOut("yStreamOut");
 	hls::stream< ap_uint<64> > tsStreamIn("tsStreamIn"), tsStreamOut("tsStreamOut");
@@ -1031,7 +1034,7 @@ int main(int argc, char *argv[])
 			pol  = ((data1) & POLARITY_MASK) >> POLARITY_SHIFT;
 			ts[i] = data2;
 
-			retData[i] = (data1 & 0x3ff);
+			GTData[i] = (data1 & 0x3ff);
 
 //			idx = rand()%3;
 	//		x = 255;
@@ -1040,19 +1043,20 @@ int main(int argc, char *argv[])
 //			cout << "y : " << y << endl;
 //			cout << "idx : " << idx << endl;
 
-//			xStreamIn << x;
-//			yStreamIn << y;
-//			tsStreamIn << ts[i];
-//			polStreamIn << pol;
-//
-//			EVABMOFStreamNoConfigNoStaus(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
-//					xStreamOut, yStreamOut, tsStreamOut, polStreamOut, miscDataStream);
-//
-//			xStreamOut >> x_out[i];
-//			yStreamOut >> y_out[i];
-//			tsStreamOut >> ts_out[i];
-//			polStreamOut >> pol_out[i];
-//			miscDataStream >> retData[i];
+			xStreamIn << x;
+			yStreamIn << y;
+			tsStreamIn << ts[i];
+			polStreamIn << pol;
+
+			EVABMOFStream(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
+					xStreamOut, yStreamOut, tsStreamOut, polStreamOut, miscDataStream,
+					config, &status);
+
+			xStreamOut >> x_out[i];
+			yStreamOut >> y_out[i];
+			tsStreamOut >> ts_out[i];
+			polStreamOut >> pol_out[i];
+			miscDataStream >> retData[i];
 
 			data[i] = (uint64_t)(ts[i] << 32) + (uint64_t)(x << POLARITY_X_ADDR_SHIFT) + (uint64_t)(y << POLARITY_Y_ADDR_SHIFT) + (pol << POLARITY_SHIFT);
 //			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
@@ -1068,6 +1072,7 @@ int main(int argc, char *argv[])
 
 			if ( (retData[j].range(7, 0) != custDataOutSW[j].range(7, 0)) )
 			{
+                cout << "x is: " << x << "\t y is: " << y << endl;
 				std::cout << "OF for eventSliceSW is: " << hex << custDataOutSW[j] << std::endl;
 				std::cout << "OF for eventSlice is: " << hex << retData[j] << std::endl;
 				cout << dec;
