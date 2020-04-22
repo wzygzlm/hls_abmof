@@ -41,7 +41,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "99",
+    "Latency": "100",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -66,15 +66,15 @@
       "impl\/vhdl\/colStreamToColSum.vhd",
       "impl\/vhdl\/colStreamToColSumSca.vhd",
       "impl\/vhdl\/colStreamToColSumSca_1.vhd",
-      "impl\/vhdl\/colStreamToColSumyd2.vhd",
-      "impl\/vhdl\/colStreamToColSumzec.vhd",
+      "impl\/vhdl\/colStreamToColSumWhU.vhd",
+      "impl\/vhdl\/colStreamToColSumXh4.vhd",
       "impl\/vhdl\/colZeroCnt.vhd",
-      "impl\/vhdl\/EVABMOFStream_amaEe0.vhd",
-      "impl\/vhdl\/EVABMOFStream_mulFfa.vhd",
-      "impl\/vhdl\/EVABMOFStream_mulGfk.vhd",
-      "impl\/vhdl\/EVABMOFStream_muxjbC.vhd",
-      "impl\/vhdl\/EVABMOFStream_muxwdI.vhd",
-      "impl\/vhdl\/EVABMOFStream_subxdS.vhd",
+      "impl\/vhdl\/EVABMOFStream_ama2iS.vhd",
+      "impl\/vhdl\/EVABMOFStream_mul3i2.vhd",
+      "impl\/vhdl\/EVABMOFStream_mul4jc.vhd",
+      "impl\/vhdl\/EVABMOFStream_muxHfu.vhd",
+      "impl\/vhdl\/EVABMOFStream_muxUhA.vhd",
+      "impl\/vhdl\/EVABMOFStream_subVhK.vhd",
       "impl\/vhdl\/feedback.vhd",
       "impl\/vhdl\/feedback_OFRetRegs.vhd",
       "impl\/vhdl\/feedbackAndCombineOu.vhd",
@@ -83,8 +83,8 @@
       "impl\/vhdl\/fifo_w6_d0_A.vhd",
       "impl\/vhdl\/fifo_w6_d2_A.vhd",
       "impl\/vhdl\/fifo_w8_d0_A.vhd",
-      "impl\/vhdl\/fifo_w9_d6_A.vhd",
       "impl\/vhdl\/fifo_w9_d8_A.vhd",
+      "impl\/vhdl\/fifo_w10_d0_A.vhd",
       "impl\/vhdl\/fifo_w15_d2_S.vhd",
       "impl\/vhdl\/fifo_w16_d0_A.vhd",
       "impl\/vhdl\/fifo_w16_d3_A.vhd",
@@ -103,23 +103,23 @@
       "impl\/vhdl\/rotateSlice.vhd",
       "impl\/vhdl\/rotateSlice_areaEbkb.vhd",
       "impl\/vhdl\/rwSlices.vhd",
-      "impl\/vhdl\/rwSlices_glPLSlickbM.vhd",
-      "impl\/vhdl\/rwSlices_glPLSlicocq.vhd",
-      "impl\/vhdl\/rwSlices_glPLSlicsc4.vhd",
+      "impl\/vhdl\/rwSlices_glPLSlicIfE.vhd",
+      "impl\/vhdl\/rwSlices_glPLSlicMgi.vhd",
+      "impl\/vhdl\/rwSlices_glPLSlicQgW.vhd",
       "impl\/vhdl\/sad.vhd",
       "impl\/vhdl\/sadSum.vhd",
-      "impl\/vhdl\/start_for_accumulNgs.vhd",
-      "impl\/vhdl\/start_for_accumulPgM.vhd",
-      "impl\/vhdl\/start_for_accumulRg6.vhd",
-      "impl\/vhdl\/start_for_colStreKfY.vhd",
-      "impl\/vhdl\/start_for_colStreLf8.vhd",
-      "impl\/vhdl\/start_for_colStreMgi.vhd",
-      "impl\/vhdl\/start_for_feedbacIfE.vhd",
-      "impl\/vhdl\/start_for_findStrOgC.vhd",
-      "impl\/vhdl\/start_for_findStrQgW.vhd",
-      "impl\/vhdl\/start_for_findStrShg.vhd",
-      "impl\/vhdl\/start_for_rotateSHfu.vhd",
-      "impl\/vhdl\/start_for_rwSliceJfO.vhd",
+      "impl\/vhdl\/start_for_accumulbbk.vhd",
+      "impl\/vhdl\/start_for_accumulbdk.vhd",
+      "impl\/vhdl\/start_for_accumulbfk.vhd",
+      "impl\/vhdl\/start_for_colStre8jQ.vhd",
+      "impl\/vhdl\/start_for_colStre9j0.vhd",
+      "impl\/vhdl\/start_for_colStrebak.vhd",
+      "impl\/vhdl\/start_for_feedbac6jw.vhd",
+      "impl\/vhdl\/start_for_findStrbck.vhd",
+      "impl\/vhdl\/start_for_findStrbek.vhd",
+      "impl\/vhdl\/start_for_findStrbgk.vhd",
+      "impl\/vhdl\/start_for_rotateS5jm.vhd",
+      "impl\/vhdl\/start_for_rwSlice7jG.vhd",
       "impl\/vhdl\/truncateStream.vhd",
       "impl\/vhdl\/EVABMOFStream.vhd"
     ],
@@ -132,15 +132,15 @@
       "impl\/verilog\/colStreamToColSum.v",
       "impl\/verilog\/colStreamToColSumSca.v",
       "impl\/verilog\/colStreamToColSumSca_1.v",
-      "impl\/verilog\/colStreamToColSumyd2.v",
-      "impl\/verilog\/colStreamToColSumzec.v",
+      "impl\/verilog\/colStreamToColSumWhU.v",
+      "impl\/verilog\/colStreamToColSumXh4.v",
       "impl\/verilog\/colZeroCnt.v",
-      "impl\/verilog\/EVABMOFStream_amaEe0.v",
-      "impl\/verilog\/EVABMOFStream_mulFfa.v",
-      "impl\/verilog\/EVABMOFStream_mulGfk.v",
-      "impl\/verilog\/EVABMOFStream_muxjbC.v",
-      "impl\/verilog\/EVABMOFStream_muxwdI.v",
-      "impl\/verilog\/EVABMOFStream_subxdS.v",
+      "impl\/verilog\/EVABMOFStream_ama2iS.v",
+      "impl\/verilog\/EVABMOFStream_mul3i2.v",
+      "impl\/verilog\/EVABMOFStream_mul4jc.v",
+      "impl\/verilog\/EVABMOFStream_muxHfu.v",
+      "impl\/verilog\/EVABMOFStream_muxUhA.v",
+      "impl\/verilog\/EVABMOFStream_subVhK.v",
       "impl\/verilog\/feedback.v",
       "impl\/verilog\/feedback_OFRetRegs.v",
       "impl\/verilog\/feedback_OFRetRegs_ram.dat",
@@ -150,8 +150,8 @@
       "impl\/verilog\/fifo_w6_d0_A.v",
       "impl\/verilog\/fifo_w6_d2_A.v",
       "impl\/verilog\/fifo_w8_d0_A.v",
-      "impl\/verilog\/fifo_w9_d6_A.v",
       "impl\/verilog\/fifo_w9_d8_A.v",
+      "impl\/verilog\/fifo_w10_d0_A.v",
       "impl\/verilog\/fifo_w15_d2_S.v",
       "impl\/verilog\/fifo_w16_d0_A.v",
       "impl\/verilog\/fifo_w16_d3_A.v",
@@ -171,26 +171,26 @@
       "impl\/verilog\/rotateSlice_areaEbkb.v",
       "impl\/verilog\/rotateSlice_areaEbkb_ram.dat",
       "impl\/verilog\/rwSlices.v",
-      "impl\/verilog\/rwSlices_glPLSlickbM.v",
-      "impl\/verilog\/rwSlices_glPLSlickbM_ram.dat",
-      "impl\/verilog\/rwSlices_glPLSlicocq.v",
-      "impl\/verilog\/rwSlices_glPLSlicocq_ram.dat",
-      "impl\/verilog\/rwSlices_glPLSlicsc4.v",
-      "impl\/verilog\/rwSlices_glPLSlicsc4_ram.dat",
+      "impl\/verilog\/rwSlices_glPLSlicIfE.v",
+      "impl\/verilog\/rwSlices_glPLSlicIfE_ram.dat",
+      "impl\/verilog\/rwSlices_glPLSlicMgi.v",
+      "impl\/verilog\/rwSlices_glPLSlicMgi_ram.dat",
+      "impl\/verilog\/rwSlices_glPLSlicQgW.v",
+      "impl\/verilog\/rwSlices_glPLSlicQgW_ram.dat",
       "impl\/verilog\/sad.v",
       "impl\/verilog\/sadSum.v",
-      "impl\/verilog\/start_for_accumulNgs.v",
-      "impl\/verilog\/start_for_accumulPgM.v",
-      "impl\/verilog\/start_for_accumulRg6.v",
-      "impl\/verilog\/start_for_colStreKfY.v",
-      "impl\/verilog\/start_for_colStreLf8.v",
-      "impl\/verilog\/start_for_colStreMgi.v",
-      "impl\/verilog\/start_for_feedbacIfE.v",
-      "impl\/verilog\/start_for_findStrOgC.v",
-      "impl\/verilog\/start_for_findStrQgW.v",
-      "impl\/verilog\/start_for_findStrShg.v",
-      "impl\/verilog\/start_for_rotateSHfu.v",
-      "impl\/verilog\/start_for_rwSliceJfO.v",
+      "impl\/verilog\/start_for_accumulbbk.v",
+      "impl\/verilog\/start_for_accumulbdk.v",
+      "impl\/verilog\/start_for_accumulbfk.v",
+      "impl\/verilog\/start_for_colStre8jQ.v",
+      "impl\/verilog\/start_for_colStre9j0.v",
+      "impl\/verilog\/start_for_colStrebak.v",
+      "impl\/verilog\/start_for_feedbac6jw.v",
+      "impl\/verilog\/start_for_findStrbck.v",
+      "impl\/verilog\/start_for_findStrbek.v",
+      "impl\/verilog\/start_for_findStrbgk.v",
+      "impl\/verilog\/start_for_rotateS5jm.v",
+      "impl\/verilog\/start_for_rwSlice7jG.v",
       "impl\/verilog\/truncateStream.v",
       "impl\/verilog\/EVABMOFStream.v"
     ],
@@ -815,7 +815,7 @@
           "InstanceName": "accumulateStream_U0",
           "Instances": [{
               "ModuleName": "min",
-              "InstanceName": "grp_min_fu_275"
+              "InstanceName": "grp_min_fu_263"
             }]
         },
         {
@@ -823,7 +823,7 @@
           "InstanceName": "accumulateStreamScal_1_U0",
           "Instances": [{
               "ModuleName": "min",
-              "InstanceName": "grp_min_fu_275"
+              "InstanceName": "grp_min_fu_263"
             }]
         },
         {
@@ -831,7 +831,7 @@
           "InstanceName": "accumulateStreamScal_U0",
           "Instances": [{
               "ModuleName": "min",
-              "InstanceName": "grp_min_fu_275"
+              "InstanceName": "grp_min_fu_263"
             }]
         },
         {
@@ -839,7 +839,7 @@
           "InstanceName": "feedbackAndCombineOu_U0",
           "Instances": [{
               "ModuleName": "feedback",
-              "InstanceName": "grp_feedback_fu_226"
+              "InstanceName": "grp_feedback_fu_326"
             }]
         },
         {
@@ -913,30 +913,30 @@
       },
       "rotateSlice": {
         "Latency": {
-          "LatencyBest": "3",
-          "LatencyAvg": "8",
-          "LatencyWorst": "12",
-          "PipelineIIMin": "3",
-          "PipelineIIMax": "12",
-          "PipelineII": "3 ~ 12",
+          "LatencyBest": "4",
+          "LatencyAvg": "21",
+          "LatencyWorst": "37",
+          "PipelineIIMin": "4",
+          "PipelineIIMax": "37",
+          "PipelineII": "4 ~ 37",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.20"
+          "Estimate": "7.60"
         },
         "Loops": [{
             "Name": "rotateSliceResetLoop",
-            "TripCount": "8",
-            "Latency": "8",
+            "TripCount": "32",
+            "Latency": "32",
             "PipelineII": "1",
             "PipelineDepth": "1"
           }],
         "Area": {
-          "FF": "478",
-          "LUT": "575",
+          "FF": "1391",
+          "LUT": "1533",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -963,9 +963,9 @@
             "PipelineDepth": "5"
           }],
         "Area": {
-          "BRAM_18K": "124",
-          "FF": "3015",
-          "LUT": "2710",
+          "BRAM_18K": "348",
+          "FF": "3098",
+          "LUT": "2839",
           "DSP48E": "0"
         }
       },
@@ -1126,7 +1126,7 @@
         "Area": {
           "BRAM_18K": "0",
           "FF": "617",
-          "LUT": "1640",
+          "LUT": "1668",
           "DSP48E": "0"
         }
       },
@@ -1210,7 +1210,7 @@
         "Area": {
           "BRAM_18K": "0",
           "FF": "617",
-          "LUT": "1640",
+          "LUT": "1668",
           "DSP48E": "0"
         }
       },
@@ -1294,7 +1294,7 @@
         "Area": {
           "BRAM_18K": "0",
           "FF": "617",
-          "LUT": "1640",
+          "LUT": "1668",
           "DSP48E": "0"
         }
       },
@@ -1329,7 +1329,7 @@
       "feedback": {
         "Latency": {
           "LatencyBest": "2",
-          "LatencyAvg": "43",
+          "LatencyAvg": "45",
           "LatencyWorst": "53",
           "PipelineIIMin": "2",
           "PipelineIIMax": "53",
@@ -1340,7 +1340,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.26"
+          "Estimate": "8.72"
         },
         "Loops": [{
             "Name": "feedbackReadOFLoop_feedbackReadOFInnerLoop",
@@ -1351,15 +1351,15 @@
           }],
         "Area": {
           "DSP48E": "3",
-          "FF": "242",
-          "LUT": "648",
+          "FF": "204",
+          "LUT": "538",
           "BRAM_18K": "0"
         }
       },
       "feedbackAndCombineOu": {
         "Latency": {
           "LatencyBest": "6",
-          "LatencyAvg": "47",
+          "LatencyAvg": "49",
           "LatencyWorst": "57",
           "PipelineIIMin": "6",
           "PipelineIIMax": "57",
@@ -1370,20 +1370,20 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.26"
+          "Estimate": "9.88"
         },
         "Area": {
           "DSP48E": "3",
-          "FF": "791",
-          "LUT": "1158",
+          "FF": "815",
+          "LUT": "1492",
           "BRAM_18K": "0"
         }
       },
       "EVABMOFStream": {
         "Latency": {
-          "LatencyBest": "99",
-          "LatencyAvg": "99",
-          "LatencyWorst": "99",
+          "LatencyBest": "100",
+          "LatencyAvg": "100",
+          "LatencyWorst": "100",
           "PipelineII": "77",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
@@ -1394,17 +1394,17 @@
           "Estimate": "9.89"
         },
         "Area": {
-          "BRAM_18K": "124",
+          "BRAM_18K": "348",
           "DSP48E": "108",
-          "FF": "14312",
-          "LUT": "26511"
+          "FF": "15327",
+          "LUT": "28002"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-04-14 11:56:48 +0200",
+    "Time": "2020-04-22 00:32:37 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

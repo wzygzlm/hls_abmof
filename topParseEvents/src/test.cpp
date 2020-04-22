@@ -9,7 +9,7 @@ using namespace std;
 #include "time.h"
 #include<stdio.h>
 
-#define TEST_TIMES 50
+#define TEST_TIMES 20
 
 static col_pix_t slicesSW[SLICES_NUMBER][SLICE_WIDTH][SLICE_HEIGHT/COMBINED_PIXELS];
 static col_pix_t slicesScale1SW[SLICES_NUMBER][SLICE_WIDTH/2][SLICE_HEIGHT/COMBINED_PIXELS/2];
@@ -1072,6 +1072,10 @@ int main(int argc, char *argv[])
 
 			if ( (retData[j].range(7, 0) != custDataOutSW[j].range(7, 0)) )
 			{
+				if((GTData[j].range(7, 0) != custDataOutSW[j].range(7, 0)))
+				{
+					cout << "C++ testbench is not same as the java version." << endl;
+				}
                 cout << "x is: " << x << "\t y is: " << y << endl;
 				std::cout << "OF for eventSliceSW is: " << hex << custDataOutSW[j] << std::endl;
 				std::cout << "OF for eventSlice is: " << hex << retData[j] << std::endl;

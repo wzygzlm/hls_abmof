@@ -685,8 +685,8 @@ void readSlices(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStre
 	}
 }
 
-// It takes 2048 cycles to reset the whole slice, so we use 11 bits.
-static ap_uint<11> resetCnt;
+// It takes 8192 cycles to reset the whole slice, so we use 13 bits.
+static ap_uint<13> resetCnt;
 void writeSlices(hls::stream<apUint10_t> &xWrStream, hls::stream<apUint10_t> &yWrStream, hls::stream<sliceIdx_t> &idxWrStream,
 		hls::stream<col_pix_t> &currentColStream)
 {
@@ -780,6 +780,7 @@ void rwSlices(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream
 					}
 				}
 
+#ifdef DEBUG
 				/* This is only for C-simulation and debugging. */
 				debugRegion:
 				{
@@ -790,6 +791,7 @@ void rwSlices(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream
 						readBlockColsScale2(xRd/4 - BLOCK_SIZE/2 - SEARCH_DISTANCE + i, yRd/4 , idx + 1, idx + 2, out1Scale2_debug[i], out2Scale2_debug[i]);
 					}
 				}
+#endif
 
 				writePix(xRd, yRd, idx);
 
@@ -853,6 +855,7 @@ void rwSlices(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream
 		}
 //	}
 
+#ifdef DEBUG
 	printRegion: if(xRd == 211 && yRd == 242)
 	{
 		std::cout << "Reference block of scale 0 is: " << std::endl;
@@ -928,6 +931,14 @@ void rwSlices(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream
 		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
 	}
+#endif
+
+
+//	resetLoop: for (int16_t resetCnt = 0; resetCnt < SLICE_HEIGHT * SLICE_WIDTH / COMBINED_PIXELS; resetCnt = resetCnt + 2)
+//	{
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//	}
 
 }
 
@@ -2082,6 +2093,7 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 	apUint15_t tmpMiniSumRetScale2 = miniSumStreamScale2.read();
 	apUint6_t tmpOFScale2 = OFRetStreamScale2.read();
 
+#ifdef DEBUG
 	printRegion: if(x == 211 && y == 242)
 	{
 		std::cout << "tmpMiniSumRetScale0 is: " << tmpMiniSumRetScale0 << "\t tmpOFScale0 is: " << std::hex << tmpOFScale0 << std::endl;
@@ -2089,6 +2101,7 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 		std::cout << "tmpMiniSumRetScale2 is: " << tmpMiniSumRetScale2 << "\t tmpOFScale2 is: " << std::hex << tmpOFScale2 << std::endl;
 		std::cout << std::dec;    // Restore dec mode
 	}
+#endif
 
     if (x/4 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || x/4 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH/4
             || y/4 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || y/4 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT/4) {
