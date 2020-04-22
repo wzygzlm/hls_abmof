@@ -1319,9 +1319,9 @@ void accumulateStream(hls::stream<apUint112_t> &inStream, hls::stream<int16_t> &
 					tmpLastRefTagValidCntSumData += tmpInputRefTagValidCntData;
 					lastrefTagValidCntSumData.range(9 * l + 8, 9 * l) = tmpLastRefTagValidCntSumData;
 
-					refValidCond = (lastSumRefZeroCnt < 1) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
-					tagValidCond = (tmpLastTagColValidCntSumData < 1) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
-					refTagValidCond = (tmpLastRefTagValidCntSumData < 1) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
+					refValidCond = (lastSumRefZeroCnt < glMinValidPixNum) ? 1 : 0;
+					tagValidCond = (tmpLastTagColValidCntSumData < glMinValidPixNum) ? 1 : 0;
+					refTagValidCond = (tmpLastRefTagValidCntSumData < glMinValidPixNum) ? 1 : 0;
 
 					outlierCond = refValidCond | tagValidCond | refTagValidCond;
 
@@ -1424,9 +1424,9 @@ void accumulateStreamScale1(hls::stream<apUint112_t> &inStream, hls::stream<int1
 					tmplastrefTagValidCntSumDataScale1 += tmpInputRefTagValidCntData;
 					lastrefTagValidCntSumDataScale1.range(9 * l + 8, 9 * l) = tmplastrefTagValidCntSumDataScale1;
 
-					refValidCond = (lastSumRefZeroCntScale1 < 1) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
-					tagValidCond = (tmplastTagColValidCntSumDataScale1 < 1) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
-					refTagValidCond = (tmplastrefTagValidCntSumDataScale1 < 1) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
+					refValidCond = (lastSumRefZeroCntScale1 < glMinValidPixNum) ? 1 : 0;
+					tagValidCond = (tmplastTagColValidCntSumDataScale1 < glMinValidPixNum) ? 1 : 0;
+					refTagValidCond = (tmplastrefTagValidCntSumDataScale1 < glMinValidPixNum) ? 1 : 0;
 
 					outlierCond = refValidCond | tagValidCond | refTagValidCond;
 
@@ -1529,9 +1529,9 @@ void accumulateStreamScale2(hls::stream<apUint112_t> &inStream, hls::stream<int1
 					tmplastrefTagValidCntSumDataScale2 += tmpInputRefTagValidCntData;
 					lastrefTagValidCntSumDataScale2.range(9 * l + 8, 9 * l) = tmplastrefTagValidCntSumDataScale2;
 
-					refValidCond = (lastSumRefZeroCntScale2 < 1) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
-					tagValidCond = (tmplastTagColValidCntSumDataScale2 < 1) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
-					refTagValidCond = (tmplastrefTagValidCntSumDataScale2 < 1) ? 1 : 0;      // int(0.02 * (BLOCK_SIZE * BLOCK_SIZE)) = 2;
+					refValidCond = (lastSumRefZeroCntScale2 < glMinValidPixNum) ? 1 : 0;
+					tagValidCond = (tmplastTagColValidCntSumDataScale2 < glMinValidPixNum) ? 1 : 0;
+					refTagValidCond = (tmplastrefTagValidCntSumDataScale2 < glMinValidPixNum) ? 1 : 0;
 
 					outlierCond = refValidCond | tagValidCond | refTagValidCond;
 

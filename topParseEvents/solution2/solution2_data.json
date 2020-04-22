@@ -815,7 +815,7 @@
           "InstanceName": "accumulateStream_U0",
           "Instances": [{
               "ModuleName": "min",
-              "InstanceName": "grp_min_fu_263"
+              "InstanceName": "grp_min_fu_275"
             }]
         },
         {
@@ -823,7 +823,7 @@
           "InstanceName": "accumulateStreamScal_1_U0",
           "Instances": [{
               "ModuleName": "min",
-              "InstanceName": "grp_min_fu_263"
+              "InstanceName": "grp_min_fu_275"
             }]
         },
         {
@@ -831,7 +831,7 @@
           "InstanceName": "accumulateStreamScal_U0",
           "Instances": [{
               "ModuleName": "min",
-              "InstanceName": "grp_min_fu_263"
+              "InstanceName": "grp_min_fu_275"
             }]
         },
         {
@@ -1126,7 +1126,7 @@
         "Area": {
           "BRAM_18K": "0",
           "FF": "617",
-          "LUT": "1668",
+          "LUT": "1640",
           "DSP48E": "0"
         }
       },
@@ -1210,7 +1210,7 @@
         "Area": {
           "BRAM_18K": "0",
           "FF": "617",
-          "LUT": "1668",
+          "LUT": "1640",
           "DSP48E": "0"
         }
       },
@@ -1294,7 +1294,7 @@
         "Area": {
           "BRAM_18K": "0",
           "FF": "617",
-          "LUT": "1668",
+          "LUT": "1640",
           "DSP48E": "0"
         }
       },
@@ -1397,14 +1397,14 @@
           "BRAM_18K": "348",
           "DSP48E": "108",
           "FF": "15327",
-          "LUT": "28002"
+          "LUT": "27918"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-04-22 00:32:37 +0200",
+    "Time": "2020-04-22 13:10:57 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

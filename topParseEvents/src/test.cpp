@@ -16,8 +16,6 @@ static col_pix_t slicesScale1SW[SLICES_NUMBER][SLICE_WIDTH/2][SLICE_HEIGHT/COMBI
 static col_pix_t slicesScale2SW[SLICES_NUMBER][SLICE_WIDTH/4][SLICE_HEIGHT/COMBINED_PIXELS/4];
 static sliceIdx_t glPLActiveSliceIdxSW = 0;
 
-float glValidPixOccupancy = 0.01;
-
 void resetPixSW(ap_uint<10> x, ap_uint<10> y, sliceIdx_t sliceIdx)
 {
 	slicesSW[sliceIdx][x][y/COMBINED_PIXELS] = 0;
@@ -340,8 +338,7 @@ void blockSADSW(pix_t blockIn1[BLOCK_SIZE][BLOCK_SIZE], pix_t blockIn2[BLOCK_SIZ
     }
 
     // Remove outliers
-    int minValidPixNum = glValidPixOccupancy * (BLOCK_SIZE * BLOCK_SIZE);
-    if (validPixRefBlockCnt < minValidPixNum || validPixTagBlockCnt < minValidPixNum || nonZeroMatchCnt < minValidPixNum)
+    if (validPixRefBlockCnt < glMinValidPixNum || validPixTagBlockCnt < glMinValidPixNum || nonZeroMatchCnt < glMinValidPixNum)
     {
         tmpSum = 0x7fff;
     }
