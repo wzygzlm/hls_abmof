@@ -700,7 +700,7 @@ void rotateSlice(hls::stream<apUint10_t>  &xInStream, hls::stream<apUint10_t> &y
 	c = c + 1;
 	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
 
-	static uint16_t tmpThr = 1000;
+	static uint16_t tmpThr = INIT_AREA_THERSHOLD;
 
 	if (!glThrStream.empty())	tmpThr = glThrStream.read();
 
@@ -766,7 +766,7 @@ void rotateSliceAllScales(hls::stream<apUint10_t>  &xInStream, hls::stream<apUin
 	c = c + 1;
 	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
 
-	static uint16_t tmpThr = 1000;
+	static uint16_t tmpThr = INIT_AREA_THERSHOLD;
 
 	if (!glThrStream.empty())	tmpThr = glThrStream.read();
 

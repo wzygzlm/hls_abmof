@@ -30,6 +30,7 @@
 #define SEARCH_DISTANCE 3
 #define AREA_NUMBER 32
 #define AREA_SIZE (SLICE_WIDTH/AREA_NUMBER)
+#define INIT_AREA_THERSHOLD 1000
 // Valid pixel occupancy paramter
 const float glValidPixOccupancy = 0.01;
 const int glMinValidPixNum = ceil(glValidPixOccupancy * (BLOCK_SIZE * BLOCK_SIZE));
