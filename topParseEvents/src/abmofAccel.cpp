@@ -278,6 +278,24 @@ void resetPix(apUint10_t x, apUint10_t y, sliceIdx_t sliceIdx)
 	glPLSlicesScale2[sliceIdx][x/4][y/COMBINED_PIXELS/4] = 0;
 }
 
+void resetPixScale0(apUint10_t x, apUint10_t y, sliceIdx_t sliceIdx)
+{
+#pragma HLS INLINE
+	glPLSlices[sliceIdx][x][y/COMBINED_PIXELS] = 0;
+}
+
+void resetPixScale1(apUint10_t x, apUint10_t y, sliceIdx_t sliceIdx)
+{
+#pragma HLS INLINE
+	glPLSlicesScale1[sliceIdx][x][y/COMBINED_PIXELS] = 0;
+}
+
+void resetPixScale2(apUint10_t x, apUint10_t y, sliceIdx_t sliceIdx)
+{
+#pragma HLS INLINE
+	glPLSlicesScale2[sliceIdx][x][y/COMBINED_PIXELS] = 0;
+}
+
 void writePix(apUint10_t x, apUint10_t y, sliceIdx_t sliceIdx)
 {
 #pragma HLS DEPENDENCE variable=glPLSlicesScale2 inter false
@@ -341,6 +359,104 @@ void writePix(apUint10_t x, apUint10_t y, sliceIdx_t sliceIdx)
 	writePixToCol(&tmpDataScale2, yNewIdxScale2, tmpTmpDataScale2);
     glPLSlicesScale2[sliceIdx][xScale2][yScale2/COMBINED_PIXELS] = tmpDataScale2;
 }
+
+void writePixScale0(apUint10_t x, apUint10_t y, sliceIdx_t sliceIdx)
+{
+#pragma HLS DEPENDENCE variable=glPLSlicesScale2 inter false
+#pragma HLS DEPENDENCE variable=glPLSlicesScale1 inter false
+#pragma HLS RESOURCE variable=glPLSlicesScale2 core=RAM_T2P_BRAM
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale2 cyclic factor=1 dim=3
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale2 complete dim=1
+#pragma HLS RESOURCE variable=glPLSlicesScale1 core=RAM_T2P_BRAM
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale1 cyclic factor=1 dim=3
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale1 complete dim=1
+#pragma HLS PIPELINE
+#pragma HLS RESOURCE variable=glPLSlices core=RAM_T2P_BRAM
+#pragma HLS INLINE
+#pragma HLS ARRAY_PARTITION variable=glPLSlices complete dim=1
+#pragma HLS ARRAY_PARTITION variable=glPLSlices cyclic factor=1 dim=3
+#pragma HLS DEPENDENCE variable=glPLSlices inter false
+	col_pix_t tmpData;
+	pix_t tmpTmpData;
+
+	ap_uint<8> yNewIdx = y%COMBINED_PIXELS;
+
+	tmpData = glPLSlices[sliceIdx][x][y/COMBINED_PIXELS];
+
+	tmpTmpData = readPixFromCol(tmpData, yNewIdx);
+
+	ap_uint<1> cmpFlg = ap_uint<1>(tmpTmpData < (ap_uint< BITS_PER_PIXEL >(0xff)));
+	tmpTmpData +=  cmpFlg;
+
+	writePixToCol(&tmpData, yNewIdx, tmpTmpData);
+
+	glPLSlices[sliceIdx][x][y/COMBINED_PIXELS] = tmpData;
+}
+
+void writePixScale1(apUint10_t x, apUint10_t y, sliceIdx_t sliceIdx)
+{
+#pragma HLS DEPENDENCE variable=glPLSlicesScale2 inter false
+#pragma HLS DEPENDENCE variable=glPLSlicesScale1 inter false
+#pragma HLS RESOURCE variable=glPLSlicesScale2 core=RAM_T2P_BRAM
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale2 cyclic factor=1 dim=3
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale2 complete dim=1
+#pragma HLS RESOURCE variable=glPLSlicesScale1 core=RAM_T2P_BRAM
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale1 cyclic factor=1 dim=3
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale1 complete dim=1
+#pragma HLS PIPELINE
+#pragma HLS RESOURCE variable=glPLSlices core=RAM_T2P_BRAM
+#pragma HLS INLINE
+#pragma HLS ARRAY_PARTITION variable=glPLSlices complete dim=1
+#pragma HLS ARRAY_PARTITION variable=glPLSlices cyclic factor=1 dim=3
+#pragma HLS DEPENDENCE variable=glPLSlices inter false
+    // write scale 1
+	apUint10_t xScale1 = x/2;
+	apUint10_t yScale1 = y/2;
+    ap_uint<8> yNewIdxScale1 = yScale1%COMBINED_PIXELS;
+
+	col_pix_t tmpDataScale1;
+	pix_t tmpTmpDataScale1;
+
+	tmpDataScale1 = glPLSlicesScale1[sliceIdx][xScale1][yScale1/COMBINED_PIXELS];
+	tmpTmpDataScale1 = readPixFromCol(tmpDataScale1, yNewIdxScale1);
+	ap_uint<1> cmpFlgScale1 = ap_uint<1>(tmpTmpDataScale1 < (ap_uint< BITS_PER_PIXEL >(0xff)));
+	tmpTmpDataScale1 +=  cmpFlgScale1;
+	writePixToCol(&tmpDataScale1, yNewIdxScale1, tmpTmpDataScale1);
+    glPLSlicesScale1[sliceIdx][xScale1][yScale1/COMBINED_PIXELS] = tmpDataScale1;
+}
+
+void writePixScale2(apUint10_t x, apUint10_t y, sliceIdx_t sliceIdx)
+{
+#pragma HLS DEPENDENCE variable=glPLSlicesScale2 inter false
+#pragma HLS DEPENDENCE variable=glPLSlicesScale1 inter false
+#pragma HLS RESOURCE variable=glPLSlicesScale2 core=RAM_T2P_BRAM
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale2 cyclic factor=1 dim=3
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale2 complete dim=1
+#pragma HLS RESOURCE variable=glPLSlicesScale1 core=RAM_T2P_BRAM
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale1 cyclic factor=1 dim=3
+#pragma HLS ARRAY_PARTITION variable=glPLSlicesScale1 complete dim=1
+#pragma HLS PIPELINE
+#pragma HLS RESOURCE variable=glPLSlices core=RAM_T2P_BRAM
+#pragma HLS INLINE
+#pragma HLS ARRAY_PARTITION variable=glPLSlices complete dim=1
+#pragma HLS ARRAY_PARTITION variable=glPLSlices cyclic factor=1 dim=3
+#pragma HLS DEPENDENCE variable=glPLSlices inter false
+    // write scale 2
+    apUint10_t xScale2 = x/4;
+    apUint10_t yScale2 = y/4;
+    ap_uint<8> yNewIdxScale2 = yScale2%COMBINED_PIXELS;
+
+	col_pix_t tmpDataScale2;
+	pix_t tmpTmpDataScale2;
+
+	tmpDataScale2 = glPLSlicesScale2[sliceIdx][xScale2][yScale2/COMBINED_PIXELS];
+	tmpTmpDataScale2 = readPixFromCol(tmpDataScale2, yNewIdxScale2);
+	ap_uint<1> cmpFlgScale2 = ap_uint<1>(tmpTmpDataScale2 < (ap_uint< BITS_PER_PIXEL >(0xff)));
+	tmpTmpDataScale2 +=  cmpFlgScale2;
+	writePixToCol(&tmpDataScale2, yNewIdxScale2, tmpTmpDataScale2);
+    glPLSlicesScale2[sliceIdx][xScale2][yScale2/COMBINED_PIXELS] = tmpDataScale2;
+}
+
 
 
 void readBlockCols(apUint10_t x, apUint10_t y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
@@ -631,6 +747,79 @@ void rotateSlice(hls::stream<apUint10_t>  &xInStream, hls::stream<apUint10_t> &y
 	deltaTsHWBak = deltaTsHW;
 }
 
+void rotateSliceAllScales(hls::stream<apUint10_t>  &xInStream, hls::stream<apUint10_t> &yInStream, hls::stream<uint32_t> &tsInStream,
+				 hls::stream<apUint10_t> &xOutStream, hls::stream<apUint10_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream,
+				 hls::stream<apUint10_t> &xOutStreamScale1, hls::stream<apUint10_t> &yOutStreamScale1, hls::stream<sliceIdx_t> &idxStreamScale1,
+				 hls::stream<apUint10_t> &xOutStreamScale2, hls::stream<apUint10_t> &yOutStreamScale2, hls::stream<sliceIdx_t> &idxStreamScale2)
+{
+#pragma HLS RESOURCE variable=areaEventRegs core=RAM_2P_LUTRAM
+#pragma HLS ARRAY_PARTITION variable=areaEventRegs complete dim=2
+#pragma HLS INLINE off
+//	glPLActiveSliceIdx--;
+
+	apUint10_t x, y;
+	x = xInStream.read();
+	y = yInStream.read();
+	uint32_t ts = tsInStream.read();
+
+	uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
+	c = c + 1;
+	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
+
+	static uint16_t tmpThr = 1000;
+
+	if (!glThrStream.empty())	tmpThr = glThrStream.read();
+
+
+	glRotateFlg = 0;
+	// The area threshold reached, rotate the slice index and clear the areaEventRegs.
+	if (c >= tmpThr)
+	{
+		glPLActiveSliceIdx--;
+		glRotateFlg = 1;
+
+        lastTsHW = currentTsHW;
+        currentTsHW = ts;
+
+        for(int r = 0; r < 1; r++)
+		{
+			std::cout << "Rotated successfully from HW!!!!" << std::endl;
+			std::cout << "x is: " << x << "\t y is: " << y << "\t idx is: " << glPLActiveSliceIdx << std::endl;
+			std::cout << "delataTsHW is: " << ((currentTsHW - lastTsHW) >> 9) << std::endl;
+		}
+
+
+		rotateSliceResetLoop:for(int areaX = 0; areaX < AREA_NUMBER; areaX++)
+		{
+#pragma HLS PIPELINE
+#pragma HLS INLINE off
+			for(int areaY = 0; areaY < AREA_NUMBER; areaY++)
+			{
+				areaEventRegs[areaX][areaY] = 0;
+			}
+		}
+
+//		   for (int16_t resetCnt = 0; resetCnt < 2048; resetCnt = resetCnt + 2)
+//		   {
+//			   resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
+//			   resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
+//		   }
+	}
+
+	xOutStream.write(x);
+	yOutStream.write(y);
+	xOutStreamScale1.write(x);
+	yOutStreamScale1.write(y);
+	xOutStreamScale2.write(x);
+	yOutStreamScale2.write(y);
+
+	idxStream.write(glPLActiveSliceIdx);
+	idxStreamScale1.write(glPLActiveSliceIdx);
+	idxStreamScale2.write(glPLActiveSliceIdx);
+
+	deltaTsHW = ((currentTsHW - lastTsHW) >> 9);
+	deltaTsHWBak = deltaTsHW;
+}
 
 
 void readSlices(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream, hls::stream<sliceIdx_t> &idxStream,
@@ -686,7 +875,7 @@ void readSlices(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStre
 }
 
 // It takes 8192 cycles to reset the whole slice, so we use 13 bits.
-static ap_uint<13> resetCnt;
+static ap_uint<13> resetCnt, resetCntScale0, resetCntScale1, resetCntScale2;
 void writeSlices(hls::stream<apUint10_t> &xWrStream, hls::stream<apUint10_t> &yWrStream, hls::stream<sliceIdx_t> &idxWrStream,
 		hls::stream<col_pix_t> &currentColStream)
 {
@@ -725,6 +914,9 @@ void writeSlices(hls::stream<apUint10_t> &xWrStream, hls::stream<apUint10_t> &yW
 }
 
 sliceIdx_t oldIdx = glPLActiveSliceIdx;
+sliceIdx_t oldIdxScale1 = glPLActiveSliceIdx;
+sliceIdx_t oldIdxScale2 = glPLActiveSliceIdx;
+
 void rwSlices(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream, hls::stream<sliceIdx_t> &idxStream,
 			  hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut,
 			  hls::stream<apIntBlockCol_t> &refStreamOutScale1, hls::stream<apIntBlockCol_t> &tagStreamOutScale1,
@@ -941,6 +1133,422 @@ void rwSlices(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream
 //	}
 
 }
+
+void rwSlicesScale0(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream, hls::stream<sliceIdx_t> &idxStream,
+			  hls::stream<apIntBlockCol_t> &refStreamOut, hls::stream<apIntBlockCol_t> &tagStreamOut)
+{
+#pragma HLS INLINE off
+	apUint10_t xRd;
+	apUint10_t yRd;
+	sliceIdx_t idx;
+
+	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+	pix_t out1_debug[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+	pix_t out2_debug[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+//	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
+//	{
+		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE * (2 * SEARCH_DISTANCE + 1); xOffSet++)
+		{
+#pragma HLS PIPELINE rewind
+//			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
+//			yRd = (xOffSet == 0)? (ap_uint<8>)(yStream.read()): yRd;
+			if (xOffSet == 0)
+			{
+				xRd = xStream.read();
+				yRd = yStream.read();
+				idx = idxStream.read();
+
+				/* This is only for C-simulation and debugging. */
+				if (oldIdx != idx)
+				{
+					oldIdx = idx;
+					// Check the accumulation slice is clear or not
+					for(int32_t xAddr = 0; xAddr < SLICE_WIDTH; xAddr++)
+					{
+						for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT; yAddr = yAddr + COMBINED_PIXELS)
+						{
+							if (glPLSlices[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+							{
+								for(int r = 0; r < 1000; r++)
+								{
+									std::cout << "Ha! I caught you, the pixel which is not clear!" << std::endl;
+									std::cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << std::endl;
+								}
+							}
+						}
+					}
+				}
+
+#ifdef DEBUG
+				/* This is only for C-simulation and debugging. */
+				debugRegion:
+				{
+					for(int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+					{
+						readBlockCols(xRd - BLOCK_SIZE/2 - SEARCH_DISTANCE + i, yRd , idx + 1, idx + 2, out1_debug[i], out2_debug[i]);
+					}
+				}
+#endif
+
+				writePixScale0(xRd, yRd, idx);
+
+				resetPixScale0(ap_uint<10>((resetCntScale0/(PIXS_PER_COL)) % (SLICE_WIDTH)), ap_uint<10>((resetCntScale0 % (PIXS_PER_COL)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+				resetCntScale0++;
+			}
+			else if(xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1)
+			{
+				pix_t out1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+				pix_t out2[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+				readBlockCols(xRd - BLOCK_SIZE/2 - SEARCH_DISTANCE + xOffSet - 1, yRd , idx + 1, idx + 2, out1, out2);
+
+				apIntBlockCol_t refBlockCol;
+				apIntBlockCol_t tagBlockCol;
+
+			for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+				{
+					refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
+					tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
+				}
+
+				if (xOffSet > SEARCH_DISTANCE && xOffSet <= SEARCH_DISTANCE + BLOCK_SIZE)
+				{
+					refStreamOut << refBlockCol;
+				}
+				tagStreamOut << tagBlockCol;
+			}
+			else
+			{
+				// Reset two pixels at the same time because it has two write ports.
+				resetPixScale0(ap_uint<10>((resetCntScale0/(PIXS_PER_COL)) % (SLICE_WIDTH)), ap_uint<10>((resetCntScale0 % (PIXS_PER_COL)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+				resetCntScale0++;
+				resetPixScale0(ap_uint<10>((resetCntScale0/(PIXS_PER_COL)) % (SLICE_WIDTH)), ap_uint<10>((resetCntScale0 % (PIXS_PER_COL)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+				resetCntScale0++;
+			}
+		}
+//	}
+
+#ifdef DEBUG
+	printRegion: if(xRd == 211 && yRd == 242)
+	{
+		std::cout << "Reference block of scale 0 is: " << std::endl;
+		for(uint8_t blockX = SEARCH_DISTANCE; blockX < BLOCK_SIZE + SEARCH_DISTANCE; blockX++)
+		{
+			for(uint8_t blockY = SEARCH_DISTANCE; blockY < BLOCK_SIZE + SEARCH_DISTANCE; blockY++)
+			{
+				std::cout << out1_debug[blockX][blockY] << "\t";
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+
+		std::cout << "target block of scale 0 is: " << std::endl;
+		for(uint8_t blockX = 0; blockX < BLOCK_SIZE + 2 * SEARCH_DISTANCE; blockX++)
+		{
+			for(uint8_t blockY = 0; blockY < BLOCK_SIZE + 2 * SEARCH_DISTANCE; blockY++)
+			{
+				std::cout << out2_debug[blockX][blockY] << "\t";
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+	}
+
+	resetLoop: for (int16_t resetCnt = 0; resetCnt < SLICE_HEIGHT * SLICE_WIDTH / COMBINED_PIXELS; resetCnt = resetCnt + 2)
+	{
+		resetPixScale0(ap_uint<10>((resetCntScale0/(PIXS_PER_COL)) % (SLICE_WIDTH)), ap_uint<10>((resetCntScale0 % (PIXS_PER_COL)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+		resetPixScale0(ap_uint<10>((resetCntScale0/(PIXS_PER_COL)) % (SLICE_WIDTH)), ap_uint<10>((resetCntScale0 % (PIXS_PER_COL)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+	}
+#endif
+
+
+//	resetLoop: for (int16_t resetCnt = 0; resetCnt < SLICE_HEIGHT * SLICE_WIDTH / COMBINED_PIXELS; resetCnt = resetCnt + 2)
+//	{
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//	}
+
+}
+
+void rwSlicesScale1(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream, hls::stream<sliceIdx_t> &idxStream,
+			  hls::stream<apIntBlockCol_t> &refStreamOutScale1, hls::stream<apIntBlockCol_t> &tagStreamOutScale1)
+{
+#pragma HLS INLINE off
+	apUint10_t xRd;
+	apUint10_t yRd;
+	sliceIdx_t idx;
+
+	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+    pix_t out1Scale1_debug[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+    pix_t out2Scale1_debug[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+
+//	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
+//	{
+		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE * (2 * SEARCH_DISTANCE + 1); xOffSet++)
+		{
+#pragma HLS PIPELINE rewind
+//			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
+//			yRd = (xOffSet == 0)? (ap_uint<8>)(yStream.read()): yRd;
+			if (xOffSet == 0)
+			{
+				xRd = xStream.read();
+				yRd = yStream.read();
+				idx = idxStream.read();
+
+				/* This is only for C-simulation and debugging. */
+				if (oldIdxScale1 != idx)
+				{
+					oldIdxScale1 = idx;
+					// Check the accumulation slice is clear or not
+					for(int32_t xAddr = 0; xAddr < SLICE_WIDTH/2; xAddr++)
+					{
+						for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT/2; yAddr = yAddr + COMBINED_PIXELS)
+						{
+							if (glPLSlicesScale1[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+							{
+								for(int r = 0; r < 1000; r++)
+								{
+									std::cout << "Ha! I caught you, the pixel which is not clear!" << std::endl;
+									std::cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << std::endl;
+								}
+							}
+						}
+					}
+				}
+
+#ifdef DEBUG
+				/* This is only for C-simulation and debugging. */
+				debugRegion:
+				{
+					for(int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+					{
+						readBlockColsScale1(xRd/2 - BLOCK_SIZE/2 - SEARCH_DISTANCE + i, yRd/2 , idx + 1, idx + 2, out1Scale1_debug[i], out2Scale1_debug[i]);
+					}
+				}
+#endif
+
+				writePixScale1(xRd, yRd, idx);
+
+				resetPixScale1(ap_uint<10>((resetCntScale1/(PIXS_PER_COL/2)) % (SLICE_WIDTH/2)), ap_uint<10>((resetCntScale1 % (PIXS_PER_COL/2)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+				resetCntScale1++;
+			}
+			else if(xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1)
+			{
+	            pix_t out1Scale1[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+	            pix_t out2Scale1[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+
+				readBlockColsScale1(xRd/2 - BLOCK_SIZE/2 - SEARCH_DISTANCE + xOffSet - 1, yRd/2 , idx + 1, idx + 2, out1Scale1, out2Scale1);
+
+				apIntBlockCol_t refBlockColScale1;
+				apIntBlockCol_t tagBlockColScale1;
+
+				for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+				{
+
+					refBlockColScale1.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1Scale1[l];
+					tagBlockColScale1.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2Scale1[l];
+				}
+
+				if (xOffSet > SEARCH_DISTANCE && xOffSet <= SEARCH_DISTANCE + BLOCK_SIZE)
+				{
+					refStreamOutScale1 <<  refBlockColScale1;
+				}
+				tagStreamOutScale1 << tagBlockColScale1;
+			}
+			else
+			{
+				// Reset two pixels at the same time because it has two write ports.
+				resetPixScale1(ap_uint<10>((resetCntScale1/(PIXS_PER_COL/2)) % (SLICE_WIDTH/2)), ap_uint<10>((resetCntScale1 % (PIXS_PER_COL/2)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+				resetCntScale1++;
+				resetPixScale1(ap_uint<10>((resetCntScale1/(PIXS_PER_COL/2)) % (SLICE_WIDTH/2)), ap_uint<10>((resetCntScale1 % (PIXS_PER_COL/2)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+				resetCntScale1++;
+			}
+		}
+//	}
+
+#ifdef DEBUG
+	printRegion: if(xRd == 211 && yRd == 242)
+	{
+		std::cout << "Reference block of scale 1 is: " << std::endl;
+		for(uint8_t blockX = SEARCH_DISTANCE; blockX < BLOCK_SIZE + SEARCH_DISTANCE; blockX++)
+		{
+			for(uint8_t blockY = SEARCH_DISTANCE; blockY < BLOCK_SIZE + SEARCH_DISTANCE; blockY++)
+			{
+				std::cout << out1Scale1_debug[blockX][blockY] << "\t";
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+
+		std::cout << "target block of scale 1 is: " << std::endl;
+		for(uint8_t blockX = 0; blockX < BLOCK_SIZE + 2 * SEARCH_DISTANCE; blockX++)
+		{
+			for(uint8_t blockY = 0; blockY < BLOCK_SIZE + 2 * SEARCH_DISTANCE; blockY++)
+			{
+				std::cout << out2Scale1_debug[blockX][blockY] << "\t";
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+
+	resetLoop: for (int16_t resetCnt = 0; resetCnt < SLICE_HEIGHT * SLICE_WIDTH / ( COMBINED_PIXELS * 2 ); resetCnt = resetCnt + 2)
+	{
+		resetPixScale1(ap_uint<10>((resetCntScale1/(PIXS_PER_COL/2)) % (SLICE_WIDTH/2)), ap_uint<10>((resetCntScale1 % (PIXS_PER_COL/2)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+		resetPixScale1(ap_uint<10>((resetCntScale1/(PIXS_PER_COL/2)) % (SLICE_WIDTH/2)), ap_uint<10>((resetCntScale1 % (PIXS_PER_COL/2)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+	}
+#endif
+
+
+//	resetLoop: for (int16_t resetCnt = 0; resetCnt < SLICE_HEIGHT * SLICE_WIDTH / COMBINED_PIXELS; resetCnt = resetCnt + 2)
+//	{
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//	}
+
+}
+
+void rwSlicesScale2(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream, hls::stream<sliceIdx_t> &idxStream,
+			  hls::stream<apIntBlockCol_t> &refStreamOutScale2, hls::stream<apIntBlockCol_t> &tagStreamOutScale2)
+{
+#pragma HLS INLINE off
+	apUint10_t xRd;
+	apUint10_t yRd;
+	sliceIdx_t idx;
+
+	apIntBlockCol_t colData0[BLOCK_SIZE], colData1[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+
+    pix_t out1Scale2_debug[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+    pix_t out2Scale2_debug[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+
+//	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
+//	{
+		rwSlicesInnerLoop:for(int8_t xOffSet = 0; xOffSet < BLOCK_SIZE * (2 * SEARCH_DISTANCE + 1); xOffSet++)
+		{
+#pragma HLS PIPELINE rewind
+//			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
+//			yRd = (xOffSet == 0)? (ap_uint<8>)(yStream.read()): yRd;
+			if (xOffSet == 0)
+			{
+				xRd = xStream.read();
+				yRd = yStream.read();
+				idx = idxStream.read();
+
+				/* This is only for C-simulation and debugging. */
+				if (oldIdxScale2 != idx)
+				{
+					oldIdxScale2 = idx;
+					// Check the accumulation slice is clear or not
+					for(int32_t xAddr = 0; xAddr < SLICE_WIDTH/4; xAddr++)
+					{
+						for(int32_t yAddr = 0; yAddr < SLICE_HEIGHT/4; yAddr = yAddr + COMBINED_PIXELS)
+						{
+							if (glPLSlicesScale2[idx][xAddr][yAddr/COMBINED_PIXELS] != 0)
+							{
+								for(int r = 0; r < 1000; r++)
+								{
+									std::cout << "Ha! I caught you, the pixel which is not clear!" << std::endl;
+									std::cout << "x is: " << xAddr << "\t y is: " << yAddr << "\t idx is: " << idx << std::endl;
+								}
+							}
+						}
+					}
+				}
+
+#ifdef DEBUG
+				/* This is only for C-simulation and debugging. */
+				debugRegion:
+				{
+					for(int i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+					{
+						readBlockColsScale2(xRd/4 - BLOCK_SIZE/2 - SEARCH_DISTANCE + i, yRd/4 , idx + 1, idx + 2, out1Scale2_debug[i], out2Scale2_debug[i]);
+					}
+				}
+#endif
+
+				writePixScale2(xRd, yRd, idx);
+
+				resetPixScale2(ap_uint<10>((resetCntScale2/(PIXS_PER_COL/4)) % (SLICE_WIDTH/4)), ap_uint<10>((resetCntScale2 % (PIXS_PER_COL/4)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+				resetCntScale2++;
+			}
+			else if(xOffSet < BLOCK_SIZE + 2 * SEARCH_DISTANCE + 1)
+			{
+	            pix_t out1Scale2[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+	            pix_t out2Scale2[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+
+				readBlockColsScale2(xRd/4 - BLOCK_SIZE/2 - SEARCH_DISTANCE + xOffSet - 1, yRd/4 , idx + 1, idx + 2, out1Scale2, out2Scale2);
+
+				apIntBlockCol_t refBlockColScale2;
+				apIntBlockCol_t tagBlockColScale2;
+
+				for (int8_t l = 0; l < BLOCK_SIZE + 2 * SEARCH_DISTANCE; l++)
+				{
+					refBlockColScale2.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1Scale2[l];
+					tagBlockColScale2.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2Scale2[l];
+				}
+
+				if (xOffSet > SEARCH_DISTANCE && xOffSet <= SEARCH_DISTANCE + BLOCK_SIZE)
+				{
+					refStreamOutScale2 <<  refBlockColScale2;
+				}
+				tagStreamOutScale2 << tagBlockColScale2;
+			}
+			else
+			{
+				// Reset two pixels at the same time because it has two write ports.
+				resetPixScale2(ap_uint<10>((resetCntScale2/(PIXS_PER_COL/4)) % (SLICE_WIDTH/4)), ap_uint<10>((resetCntScale2 % (PIXS_PER_COL/4)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+				resetCntScale2++;
+				resetPixScale2(ap_uint<10>((resetCntScale2/(PIXS_PER_COL/4)) % (SLICE_WIDTH/4)), ap_uint<10>((resetCntScale2 % (PIXS_PER_COL/4)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+				resetCntScale2++;
+			}
+		}
+//	}
+
+#ifdef DEBUG
+	printRegion: if(xRd == 211 && yRd == 242)
+	{
+		std::cout << "Reference block of scale 2 is: " << std::endl;
+		for(uint8_t blockX = SEARCH_DISTANCE; blockX < BLOCK_SIZE + SEARCH_DISTANCE; blockX++)
+		{
+			for(uint8_t blockY = SEARCH_DISTANCE; blockY < BLOCK_SIZE + SEARCH_DISTANCE; blockY++)
+			{
+				std::cout << out1Scale2_debug[blockX][blockY] << "\t";
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+
+		std::cout << "target block of scale 2 is: " << std::endl;
+		for(uint8_t blockX = 0; blockX < BLOCK_SIZE + 2 * SEARCH_DISTANCE; blockX++)
+		{
+			for(uint8_t blockY = 0; blockY < BLOCK_SIZE + 2 * SEARCH_DISTANCE; blockY++)
+			{
+				std::cout << out2Scale2_debug[blockX][blockY] << "\t";
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+	}
+
+
+	resetLoop: for (int16_t resetCnt = 0; resetCnt < SLICE_HEIGHT * SLICE_WIDTH / ( COMBINED_PIXELS * 4 ); resetCnt = resetCnt + 2)
+	{
+		resetPixScale2(ap_uint<10>((resetCntScale2/(PIXS_PER_COL/4)) % (SLICE_WIDTH/4)), ap_uint<10>((resetCntScale2 % (PIXS_PER_COL/4)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+		resetPixScale2(ap_uint<10>((resetCntScale2/(PIXS_PER_COL/4)) % (SLICE_WIDTH/4)), ap_uint<10>((resetCntScale2 % (PIXS_PER_COL/4)) * COMBINED_PIXELS), (sliceIdx_t)(idx + 3));
+	}
+#endif
+
+
+//	resetLoop: for (int16_t resetCnt = 0; resetCnt < SLICE_HEIGHT * SLICE_WIDTH / COMBINED_PIXELS; resetCnt = resetCnt + 2)
+//	{
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//		resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
+//	}
+
+}
+
 
 // Function description: reorder the column stream read directly from the memory slices.
 void colStreamToColSum(hls::stream<apIntBlockCol_t> &colStream0, hls::stream<apIntBlockCol_t> &colStream1,
@@ -2189,10 +2797,28 @@ void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<1
 #pragma HLS DATAFLOW
 
 	hls::stream<apUint10_t>  xInStream("xInStream"), yInStream("yInStream");
-	hls::stream<apUint10_t>  xOutStream("xOutStream"), yOutStream("yOutStream");
 	hls::stream<uint32_t>  tsInStream("tsInStream");
 
+	hls::stream<apUint10_t>  xOutStream("xOutStream"), yOutStream("yOutStream");
+	hls::stream<apUint10_t>  xOutStreamScale1("xOutStreamScale1"), yOutStreamScale1("yOutStreamScale1");
+	hls::stream<apUint10_t>  xOutStreamScale2("xOutStreamScale2"), yOutStreamScale2("yOutStreamScale2");
+#pragma HLS STREAM variable=xOutStreamScale1 depth=10 dim=1
+#pragma HLS RESOURCE variable=xOutStreamScale1 core=FIFO_SRL
+#pragma HLS STREAM variable=yOutStreamScale1 depth=10 dim=1
+#pragma HLS RESOURCE variable=yOutStreamScale1 core=FIFO_SRL
+#pragma HLS STREAM variable=xOutStreamScale2 depth=10 dim=1
+#pragma HLS RESOURCE variable=xOutStreamScale2 core=FIFO_SRL
+#pragma HLS STREAM variable=yOutStreamScale2 depth=10 dim=1
+#pragma HLS RESOURCE variable=yOutStreamScale2 core=FIFO_SRL
+
 	hls::stream<sliceIdx_t> idxStream("idxStream");
+	hls::stream<sliceIdx_t> idxStreamScale1("idxStreamScale1");
+	hls::stream<sliceIdx_t> idxStreamScale2("idxStreamScale2");
+#pragma HLS STREAM variable=idxStreamScale1 depth=10 dim=1
+#pragma HLS RESOURCE variable=idxStreamScale1 core=FIFO_SRL
+#pragma HLS STREAM variable=idxStreamScale2 depth=10 dim=1
+#pragma HLS RESOURCE variable=idxStreamScale2 core=FIFO_SRL
+
 	hls::stream< ap_uint<96> > pktEventDataStream("EventStream");
 #pragma HLS STREAM variable=pktEventDataStream depth=2 dim=1
 #pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
@@ -2264,17 +2890,24 @@ void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<1
     (*status).range(31, 16) = areaEventThrBak;
     (*status).range(15, 0) = deltaTsHWBak;
 	truncateStream(xStreamIn, yStreamIn, polStreamIn, tsStreamIn, xInStream, yInStream, tsInStream, pktEventDataStream);
-	rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
-	rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn, refStreamScale1, tagStreamInScale1, refStreamScale2, tagStreamInScale2);
 
+//	rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
+	rotateSliceAllScales(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream,
+				xOutStreamScale1, yOutStreamScale1, idxStreamScale1,
+				xOutStreamScale2, yOutStreamScale2, idxStreamScale2);
+
+//	rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn, refStreamScale1, tagStreamInScale1, refStreamScale2, tagStreamInScale2);
+	rwSlicesScale0(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
 	colStreamToColSum(refStream, tagStreamIn, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
 	accumulateStream(outStream, outSumStream, OF_yStream, refZeroCntStream, tagColValidCntStream,  refTagValidCntStream);
 	findStreamMin(outSumStream, OF_yStream, miniSumStreamScale0, OFRetStreamScale0);
 
+	rwSlicesScale1(xOutStreamScale1, yOutStreamScale1, idxStreamScale1, refStreamScale1, tagStreamInScale1);
 	colStreamToColSumScale1(refStreamScale1, tagStreamInScale1, outStreamScale1, refZeroCntStreamScale1, tagColValidCntStreamScale1, refTagValidCntStreamScale1);
 	accumulateStreamScale1(outStreamScale1, outSumStreamScale1, OF_yStreamScale1, refZeroCntStreamScale1, tagColValidCntStreamScale1,  refTagValidCntStreamScale1);
 	findStreamMinScale1(outSumStreamScale1, OF_yStreamScale1, miniSumStreamScale1, OFRetStreamScale1);
 
+	rwSlicesScale2(xOutStreamScale2, yOutStreamScale2, idxStreamScale2, refStreamScale2, tagStreamInScale2);
 	colStreamToColSumScale2(refStreamScale2, tagStreamInScale2, outStreamScale2, refZeroCntStreamScale2, tagColValidCntStreamScale2, refTagValidCntStreamScale2);
 	accumulateStreamScale2(outStreamScale2, outSumStreamScale2, OF_yStreamScale2, refZeroCntStreamScale2, tagColValidCntStreamScale2,  refTagValidCntStreamScale2);
 	findStreamMinScale2(outSumStreamScale2, OF_yStreamScale2, miniSumStreamScale2, OFRetStreamScale2);
@@ -2303,10 +2936,28 @@ void EVABMOFStreamNoConfigNoStaus(hls::stream< ap_uint<16> > &xStreamIn, hls::st
 #pragma HLS DATAFLOW
 
 	hls::stream<apUint10_t>  xInStream("xInStream"), yInStream("yInStream");
-	hls::stream<apUint10_t>  xOutStream("xOutStream"), yOutStream("yOutStream");
 	hls::stream<uint32_t>  tsInStream("tsInStream");
 
+	hls::stream<apUint10_t>  xOutStream("xOutStream"), yOutStream("yOutStream");
+	hls::stream<apUint10_t>  xOutStreamScale1("xOutStreamScale1"), yOutStreamScale1("yOutStreamScale1");
+	hls::stream<apUint10_t>  xOutStreamScale2("xOutStreamScale2"), yOutStreamScale2("yOutStreamScale2");
+#pragma HLS STREAM variable=xOutStreamScale1 depth=10 dim=1
+#pragma HLS RESOURCE variable=xOutStreamScale1 core=FIFO_SRL
+#pragma HLS STREAM variable=yOutStreamScale1 depth=10 dim=1
+#pragma HLS RESOURCE variable=yOutStreamScale1 core=FIFO_SRL
+#pragma HLS STREAM variable=xOutStreamScale2 depth=10 dim=1
+#pragma HLS RESOURCE variable=xOutStreamScale2 core=FIFO_SRL
+#pragma HLS STREAM variable=yOutStreamScale2 depth=10 dim=1
+#pragma HLS RESOURCE variable=yOutStreamScale2 core=FIFO_SRL
+
 	hls::stream<sliceIdx_t> idxStream("idxStream");
+	hls::stream<sliceIdx_t> idxStreamScale1("idxStreamScale1");
+	hls::stream<sliceIdx_t> idxStreamScale2("idxStreamScale2");
+#pragma HLS STREAM variable=idxStreamScale1 depth=10 dim=1
+#pragma HLS RESOURCE variable=idxStreamScale1 core=FIFO_SRL
+#pragma HLS STREAM variable=idxStreamScale2 depth=10 dim=1
+#pragma HLS RESOURCE variable=idxStreamScale2 core=FIFO_SRL
+
 	hls::stream< ap_uint<96> > pktEventDataStream("EventStream");
 #pragma HLS STREAM variable=pktEventDataStream depth=2 dim=1
 #pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
@@ -2375,17 +3026,24 @@ void EVABMOFStreamNoConfigNoStaus(hls::stream< ap_uint<16> > &xStreamIn, hls::st
 						  refTagValidCntSumStreamScale2("refTagValidCntSumStreamScale2");
 
 	truncateStream(xStreamIn, yStreamIn, polStreamIn, tsStreamIn, xInStream, yInStream, tsInStream, pktEventDataStream);
-	rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
-	rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn, refStreamScale1, tagStreamInScale1, refStreamScale2, tagStreamInScale2);
 
+//	rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
+	rotateSliceAllScales(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream,
+				xOutStreamScale1, yOutStreamScale1, idxStreamScale1,
+				xOutStreamScale2, yOutStreamScale2, idxStreamScale2);
+
+//	rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn, refStreamScale1, tagStreamInScale1, refStreamScale2, tagStreamInScale2);
+	rwSlicesScale0(xOutStream, yOutStream, idxStream, refStream, tagStreamIn);
 	colStreamToColSum(refStream, tagStreamIn, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
 	accumulateStream(outStream, outSumStream, OF_yStream, refZeroCntStream, tagColValidCntStream,  refTagValidCntStream);
 	findStreamMin(outSumStream, OF_yStream, miniSumStreamScale0, OFRetStreamScale0);
 
+	rwSlicesScale1(xOutStreamScale1, yOutStreamScale1, idxStreamScale1, refStreamScale1, tagStreamInScale1);
 	colStreamToColSumScale1(refStreamScale1, tagStreamInScale1, outStreamScale1, refZeroCntStreamScale1, tagColValidCntStreamScale1, refTagValidCntStreamScale1);
 	accumulateStreamScale1(outStreamScale1, outSumStreamScale1, OF_yStreamScale1, refZeroCntStreamScale1, tagColValidCntStreamScale1,  refTagValidCntStreamScale1);
 	findStreamMinScale1(outSumStreamScale1, OF_yStreamScale1, miniSumStreamScale1, OFRetStreamScale1);
 
+	rwSlicesScale2(xOutStreamScale2, yOutStreamScale2, idxStreamScale2, refStreamScale2, tagStreamInScale2);
 	colStreamToColSumScale2(refStreamScale2, tagStreamInScale2, outStreamScale2, refZeroCntStreamScale2, tagColValidCntStreamScale2, refTagValidCntStreamScale2);
 	accumulateStreamScale2(outStreamScale2, outSumStreamScale2, OF_yStreamScale2, refZeroCntStreamScale2, tagColValidCntStreamScale2,  refTagValidCntStreamScale2);
 	findStreamMinScale2(outSumStreamScale2, OF_yStreamScale2, miniSumStreamScale2, OFRetStreamScale2);
