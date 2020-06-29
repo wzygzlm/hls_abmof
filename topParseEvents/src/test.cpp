@@ -650,6 +650,7 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 
 static uint16_t areaEventRegsSW[AREA_NUMBER][AREA_NUMBER];
 static uint16_t areaEventThrSW = INIT_AREA_THERSHOLD;
+static ap_uint<1> areaCountExceeded = false;
 static uint16_t OFRetRegsSW[2 * SEARCH_DISTANCE + 1][2 * SEARCH_DISTANCE + 1];
 
 
@@ -750,13 +751,9 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		ap_int<16> miniRetScale2;
 		ap_uint<6> OFRetScale2;
 
-        uint16_t c = areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE];
-        c = c + 1;
-        areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE] = c;
-
         apUint1_t rotateFlg = 0;
         // The area threshold reached, rotate the slice index and clear the areaEventRegs.
-        if(c >= areaEventThrSW)
+        if( areaCountExceeded || (ts - currentTs) >= MAX_SLICE_DURATION_US )
         {
             glPLActiveSliceIdxSW--;
 //            idx = glPLActiveSliceIdxSW;
@@ -803,6 +800,12 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
            }
 
         }
+
+    	// update sliceSW
+        uint16_t c = areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE];
+    	c = c + 1;
+        areaEventRegsSW[xWr/AREA_SIZE][yWr/AREA_SIZE] = c;
+        areaCountExceeded = (c >= areaEventThrSW);
 
 		writePixSW(xWr, yWr, glPLActiveSliceIdxSW);
 
@@ -969,13 +972,13 @@ int main(int argc, char *argv[])
 //	srand((unsigned)time(NULL));
 	FILE * fp;
 
-	if((fp = fopen("E://xfOpenCV//hls_2018_1//topParseEvents//OFRet.bin","rb"))== NULL)
+	if((fp = fopen("E://xfOpenCV//hls_2018_1//topParseEvents//DDD17_BackFromAirport_full_areaThr_700-OFResult.bin","rb"))== NULL)
 	{
 		printf("can not open the file\n");
 		exit(0);
 	}
 
-	int32_t eventCnt = 4000;
+	int32_t eventCnt = 8000;
 	uint64_t data[eventCnt];
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
 	ap_uint<10> custDataOutSW[eventCnt];
@@ -984,18 +987,16 @@ int main(int argc, char *argv[])
 	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 	pix_t refColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColHW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
 
-	ap_uint<64> x, y;
-	ap_uint<64> ts[eventCnt];
-	ap_uint<1> pol;
 	sliceIdx_t idx;
 
     uint64_t lastMaxTs = 0;  // Record last maximum ts to make all the ts are monotonic.
 
     ap_uint<32> config, status;
 
-	ap_uint<16> x_out[eventCnt], y_out[eventCnt];
-	ap_uint<64> ts_out[eventCnt];
-	ap_uint<1>  pol_out[eventCnt];
+	uint64_t x_in[eventCnt], y_in[eventCnt];
+	uint16_t x_out[eventCnt], y_out[eventCnt];
+	uint64_t ts_in[eventCnt], ts_out[eventCnt];
+	ap_uint<1> pol_in[eventCnt], pol_out[eventCnt];
 	ap_uint<10> retData[eventCnt];
 	ap_uint<10> GTData[eventCnt];
 
@@ -1004,20 +1005,12 @@ int main(int argc, char *argv[])
 	hls::stream< ap_uint<1> > polStreamIn("polStreamIn"), polStreamOut("polStreamOut");
 	hls::stream< ap_uint<10> > miscDataStream("miscDataStream");
 
-	for(int k = 0; k < TEST_TIMES; k++)
+	testTimes = 30;
+	for(int k = 0; k < testTimes; k++)
 	{
 		cout << "Test " << k << ":" << endl;
 
 	    int err_cnt = 0;
-
-		idx = sliceIdx_t(idx - 1);
-
-		for (int m = 0; m < eventCnt; m++)
-		{
-			ts[m]  = rand() + lastMaxTs;
-		}
-		sort(ts, ts+eventCnt);
-		lastMaxTs = ts[eventCnt -1];
 
 		for (int i = 0; i < eventCnt; i++)
 		{
@@ -1026,12 +1019,12 @@ int main(int argc, char *argv[])
 	       	uint32_t data1 = ((uint32_t)(buf[0].range(7, 0)) << 24) + ((uint32_t)(buf[0].range(15, 8)) << 16) + ((uint32_t)(buf[0].range(23, 16)) << 8) + buf[0].range(31, 24);
 	       	uint32_t data2 = ((uint32_t)(buf[1].range(7, 0)) << 24) + ((uint32_t)(buf[1].range(15, 8)) << 16) + ((uint32_t)(buf[1].range(23, 16)) << 8) + buf[1].range(31, 24);
 
-	        x = ((data1) & POLARITY_X_ADDR_MASK) >> POLARITY_X_ADDR_SHIFT;
-			y = ((data1) & POLARITY_Y_ADDR_MASK) >> POLARITY_Y_ADDR_SHIFT;
-			pol  = ((data1) & POLARITY_MASK) >> POLARITY_SHIFT;
-			ts[i] = data2;
+	        x_in[i] = ((data1) & AEDAT_POLARITY_X_ADDR_MASK) >> AEDAT_POLARITY_X_ADDR_SHIFT;
+			y_in[i] = ((data1) & AEDAT_POLARITY_Y_ADDR_MASK) >> AEDAT_POLARITY_Y_ADDR_SHIFT;
+			pol_in[i]  = ((data1) & AEDAT_POLARITY_MASK) >> AEDAT_POLARITY_SHIFT;
+			ts_in[i] = data2;
 
-			GTData[i] = (data1 & 0x3ff);
+			GTData[i] = (data1 & 0x7ff);
 
 //			idx = rand()%3;
 	//		x = 255;
@@ -1040,22 +1033,22 @@ int main(int argc, char *argv[])
 //			cout << "y : " << y << endl;
 //			cout << "idx : " << idx << endl;
 
-			xStreamIn << x;
-			yStreamIn << y;
-			tsStreamIn << ts[i];
-			polStreamIn << pol;
+			xStreamIn << x_in[i];
+			yStreamIn << y_in[i];
+			tsStreamIn << ts_in[i];
+			polStreamIn << pol_in[i];
 
 			EVABMOFStream(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
 					xStreamOut, yStreamOut, tsStreamOut, polStreamOut, miscDataStream,
 					config, &status);
 
-			xStreamOut >> x_out[i];
-			yStreamOut >> y_out[i];
-			tsStreamOut >> ts_out[i];
-			polStreamOut >> pol_out[i];
-			miscDataStream >> retData[i];
+			x_out[i] = xStreamOut.read().to_uint();
+			y_out[i] = yStreamOut.read().to_uint();
+			ts_out[i] = tsStreamOut.read().to_uint();
+			pol_out[i] = polStreamOut.read().to_bool();
+			retData[i] = miscDataStream.read().to_uint();
 
-			data[i] = (uint64_t)(ts[i] << 32) + (uint64_t)(x << POLARITY_X_ADDR_SHIFT) + (uint64_t)(y << POLARITY_Y_ADDR_SHIFT) + (pol << POLARITY_SHIFT);
+			data[i] = (uint64_t)(ts_in[i] << 32) + (uint64_t)(x_in[i] << POLARITY_X_ADDR_SHIFT) + (uint64_t)(y_in[i] << POLARITY_Y_ADDR_SHIFT) + (pol_in[i] << POLARITY_SHIFT);
 //			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
 		}
 
@@ -1067,15 +1060,16 @@ int main(int argc, char *argv[])
 			ap_uint<10> y = tmpData.range(25, 16);
 			ap_uint<10> x = tmpData.range(10, 1);
 
-			if ( (retData[j].range(7, 0) != custDataOutSW[j].range(7, 0)) )
+			if ( (GTData[j].bit(9) != custDataOutSW[j].bit(8)) || (retData[j].bit(8) != custDataOutSW[j].bit(8)) )
 			{
-				if((GTData[j].range(7, 0) != custDataOutSW[j].range(7, 0)))
-				{
-					cout << "C++ testbench is not same as the java version." << endl;
-				}
+//				if((GTData[j].range(7, 0) != custDataOutSW[j].range(7, 0)))
+//				{
+//					cout << "C++ testbench is not same as the java version." << endl;
+//				}
                 cout << "x is: " << x << "\t y is: " << y << endl;
 				std::cout << "OF for eventSliceSW is: " << hex << custDataOutSW[j] << std::endl;
 				std::cout << "OF for eventSlice is: " << hex << retData[j] << std::endl;
+				std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
 				cout << dec;
 				err_cnt++;
 				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;

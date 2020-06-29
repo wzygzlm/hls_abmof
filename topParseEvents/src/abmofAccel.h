@@ -15,6 +15,13 @@
 #define POLARITY_X_ADDR_SHIFT 12
 #define POLARITY_X_ADDR_MASK (1023 << POLARITY_X_ADDR_SHIFT) // 10 bits from bits 12 to 21
 
+#define AEDAT_POLARITY_SHIFT 11
+#define AEDAT_POLARITY_MASK (1 << AEDAT_POLARITY_SHIFT)  // 1 bit at bit 11
+#define AEDAT_POLARITY_Y_ADDR_SHIFT 22
+#define AEDAT_POLARITY_Y_ADDR_MASK (511 << AEDAT_POLARITY_Y_ADDR_SHIFT) // 9 bits from bits 22 to 30
+#define AEDAT_POLARITY_X_ADDR_SHIFT 12
+#define AEDAT_POLARITY_X_ADDR_MASK (1023 << AEDAT_POLARITY_X_ADDR_SHIFT) // 10 bits from bits 12 to 21
+
 #define SLICES_NUMBER 4
 #define SLICE_WIDTH  512
 #define SLICE_HEIGHT 512
@@ -30,7 +37,9 @@
 #define SEARCH_DISTANCE 3
 #define AREA_NUMBER 32
 #define AREA_SIZE (SLICE_WIDTH/AREA_NUMBER)
-#define INIT_AREA_THERSHOLD 1000
+#define INIT_AREA_THERSHOLD 700
+#define MAX_SLICE_DURATION_US 300000
+
 // Valid pixel occupancy paramter
 const float glValidPixOccupancy = 0.01;
 const int glMinValidPixNum = ceil(glValidPixOccupancy * (BLOCK_SIZE * BLOCK_SIZE));

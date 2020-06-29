@@ -621,7 +621,7 @@ void getXandY(const uint64_t * data, hls::stream<apUint10_t>  &xStream, hls::str
 }
 
 static uint16_t areaEventRegs[AREA_NUMBER][AREA_NUMBER];
-static uint16_t areaEventThr = 1000;
+static uint16_t areaEventThr = INIT_AREA_THERSHOLD;
 
 void rotateSliceNoRotationFlg(hls::stream<apUint10_t>  &xInStream, hls::stream<apUint10_t> &yInStream,
 				 hls::stream<apUint10_t> &xOutStream, hls::stream<apUint10_t> &yOutStream, hls::stream<sliceIdx_t> &idxStream)
@@ -696,18 +696,14 @@ void rotateSlice(hls::stream<apUint10_t>  &xInStream, hls::stream<apUint10_t> &y
 	y = yInStream.read();
 	uint32_t ts = tsInStream.read();
 
-	uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
-	c = c + 1;
-	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
-
 	static uint16_t tmpThr = INIT_AREA_THERSHOLD;
+	static ap_uint<1> areaCountExceeded = false;
 
 	if (!glThrStream.empty())	tmpThr = glThrStream.read();
 
-
 	glRotateFlg = 0;
 	// The area threshold reached, rotate the slice index and clear the areaEventRegs.
-	if (c >= tmpThr)
+	if ( areaCountExceeded || (ts - currentTsHW) >= MAX_SLICE_DURATION_US )
 	{
 		glPLActiveSliceIdx--;
 		glRotateFlg = 1;
@@ -762,18 +758,14 @@ void rotateSliceAllScales(hls::stream<apUint10_t>  &xInStream, hls::stream<apUin
 	y = yInStream.read();
 	uint32_t ts = tsInStream.read();
 
-	uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
-	c = c + 1;
-	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
-
 	static uint16_t tmpThr = INIT_AREA_THERSHOLD;
+	static ap_uint<1> areaCountExceeded = false;
 
 	if (!glThrStream.empty())	tmpThr = glThrStream.read();
 
-
 	glRotateFlg = 0;
 	// The area threshold reached, rotate the slice index and clear the areaEventRegs.
-	if (c >= tmpThr)
+	if ( areaCountExceeded || (ts - currentTsHW) >= MAX_SLICE_DURATION_US )
 	{
 		glPLActiveSliceIdx--;
 		glRotateFlg = 1;
@@ -805,6 +797,11 @@ void rotateSliceAllScales(hls::stream<apUint10_t>  &xInStream, hls::stream<apUin
 //			   resetPix(resetCnt/PIXS_PER_COL, (resetCnt % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdx + 3));
 //		   }
 	}
+
+	uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
+	c = c + 1;
+	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
+    areaCountExceeded = (c >= tmpThr);
 
 	xOutStream.write(x);
 	yOutStream.write(y);
