@@ -34,15 +34,33 @@
 
 // ABMOF parameters, hardcoded:
 #define BLOCK_SIZE 11
+#define BLOCK_SIZE_SCALE_2 7
+#define BLOCK_SIZE_SCALE_1 13
+#define BLOCK_SIZE_SCALE_0 25
+#define BLOCK_AREA (BLOCK_SIZE * BLOCK_SIZE)
+#define BLOCK_AREA_SCALE_0 (BLOCK_SIZE_SCALE_0 * BLOCK_SIZE_SCALE_0)
+#define BLOCK_AREA_SCALE_1 (BLOCK_SIZE_SCALE_1 * BLOCK_SIZE_SCALE_1)
+#define BLOCK_AREA_SCALE_2 (BLOCK_SIZE_SCALE_2 * BLOCK_SIZE_SCALE_2)
+
 #define SEARCH_DISTANCE 3
 #define AREA_NUMBER 32
 #define AREA_SIZE (SLICE_WIDTH/AREA_NUMBER)
 #define INIT_AREA_THERSHOLD 700
 #define MAX_SLICE_DURATION_US 300000
 
-// Valid pixel occupancy paramter
+// Valid pixel occupancy parameter
 const float glValidPixOccupancy = 0.01;
-const int glMinValidPixNum = ceil(glValidPixOccupancy * (BLOCK_SIZE * BLOCK_SIZE));
+const int glMinValidPixNum = int(glValidPixOccupancy * BLOCK_AREA);
+const int glMinValidPixNumScale0 = int(glValidPixOccupancy * BLOCK_AREA_SCALE_0);
+const int glMinValidPixNumScale1 = int(glValidPixOccupancy * BLOCK_AREA_SCALE_1);
+const int glMinValidPixNumScale2 = int(glValidPixOccupancy * BLOCK_AREA_SCALE_2);
+
+// max allowd sad distance, normalized. Same as jaer.
+// To remove float computation on hardware, convert it back to int and only support weightDistance = 1.0
+const float maxAllowedSadDistance = 0.5;
+const int maxAllowedSadValueScale0 = ap_uint<BITS_PER_PIXEL>(0xffff) * 2 * BLOCK_AREA_SCALE_0;
+const int maxAllowedSadValueScale1 = ap_uint<BITS_PER_PIXEL>(0xffff) * 2 * BLOCK_AREA_SCALE_1;
+const int maxAllowedSadValueScale2 = ap_uint<BITS_PER_PIXEL>(0xffff) * 2 * BLOCK_AREA_SCALE_2;
 
 #define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
 #define COL_BITS BITS_PER_PIXEL * (BLOCK_SIZE)

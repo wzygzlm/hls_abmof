@@ -57,150 +57,228 @@ void writePixSW(ap_uint<10> x, ap_uint<10> y, sliceIdx_t sliceIdx)
 //	cout << "Data after write : " << slicesScale2SW[sliceIdx][xScale2][yScale2/COMBINED_PIXELS].range(4 * yNewIdxScale2 + 3, 4 * yNewIdxScale2) << endl;
 }
 
-void readBlockColsSWScale0(ap_uint<10> x, ap_uint<10> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
-		pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
+void readBlockColsSWScale0(ap_uint<10> x, ap_uint<10> y, ap_int<8> xInitOffset, ap_int<8> yInitOffset,
+		sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
+		pix_t refCol[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE])
 {
 
 	two_cols_pix_t refColData;
     two_cols_pix_t tagColData;
     ap_uint<8> neighboryOffset;
-    if ( y%COMBINED_PIXELS < BLOCK_SIZE/2 + SEARCH_DISTANCE )
+    ap_uint<8> neighboryOffsetWithInitOffset;
+    ap_uint<10> xWithInitOffset = x + xInitOffset;
+    ap_uint<10> yWithInitOffset = y + yInitOffset;
+
+    if ( y%COMBINED_PIXELS < BLOCK_SIZE_SCALE_0/2 + SEARCH_DISTANCE )
     {
         neighboryOffset = y/COMBINED_PIXELS - 1;
         // concatenate two columns together
         refColData = (slicesSW[sliceIdxRef][x][y/COMBINED_PIXELS], slicesSW[sliceIdxRef][x][neighboryOffset]); 
-        //	cout << "refColData: " << refColData << endl; 
-        // concatenate two columns together
-        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-        tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][neighboryOffset]);
     }
-    else if ( y%COMBINED_PIXELS >  COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE - 1 )
+    else if ( y%COMBINED_PIXELS >  COMBINED_PIXELS - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE - 1 )
     {
         neighboryOffset = y/COMBINED_PIXELS + 1;
         // concatenate two columns together
         refColData = (slicesSW[sliceIdxRef][x][y/COMBINED_PIXELS], slicesSW[sliceIdxRef][x][neighboryOffset]); 
-        //	cout << "refColData: " << refColData << endl; 
-        // concatenate two columns together
-        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-        tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][neighboryOffset]);
-    }
+   }
     else
     {
         neighboryOffset = y/COMBINED_PIXELS + 0;
-        refColData = (slicesSW[sliceIdxRef][x][y/COMBINED_PIXELS], slicesSW[sliceIdxRef][x][neighboryOffset]); 
-        //	cout << "refColData: " << refColData << endl; 
         // concatenate two columns together
-        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-        tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][y/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][x][neighboryOffset]);
+        refColData = (slicesSW[sliceIdxRef][x][y/COMBINED_PIXELS], slicesSW[sliceIdxRef][x][neighboryOffset]); 
     }
 
+    if ( yWithInitOffset%COMBINED_PIXELS < BLOCK_SIZE_SCALE_0/2 + SEARCH_DISTANCE )
+    {
+        neighboryOffsetWithInitOffset = yWithInitOffset/COMBINED_PIXELS - 1;
+        // concatenate two columns together
+        //	cout << "refColData: " << refColData << endl;
+        // concatenate two columns together
+        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+        tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][yWithInitOffset/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][neighboryOffsetWithInitOffset]);
+    }
+    else if ( yWithInitOffset%COMBINED_PIXELS >  COMBINED_PIXELS - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE - 1 )
+    {
+        neighboryOffsetWithInitOffset = yWithInitOffset/COMBINED_PIXELS + 1;
+        // concatenate two columns together
+        //	cout << "refColData: " << refColData << endl;
+        // concatenate two columns together
+        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+        tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][yWithInitOffset/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][neighboryOffsetWithInitOffset]);
+    }
+    else
+    {
+        neighboryOffsetWithInitOffset = yWithInitOffset/COMBINED_PIXELS + 0;
+        // concatenate two columns together
+        //	cout << "refColData: " << refColData << endl;
+        // concatenate two columns together
+        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+        tagColData = (slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][yWithInitOffset/COMBINED_PIXELS], slicesSW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][neighboryOffsetWithInitOffset]);
+    }
 
 	// find the bottom pixel of the column that centered on y.
-	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
+	ap_uint<6> yColOffsetIdx = y%COMBINED_PIXELS - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
 
-	readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+	readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; i++)
 	{
 		refCol[i] = refColData.range(yColOffsetIdx * 4 + 3, yColOffsetIdx * 4);
-		tagCol[i] = tagColData.range(yColOffsetIdx * 4 + 3, yColOffsetIdx * 4);
 		yColOffsetIdx++;
+	}
+
+	// find the bottom pixel of the column that centered on yInitOffset.
+	ap_uint<6> yColOffsetWithInitOffsetIdx = yWithInitOffset%COMBINED_PIXELS - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
+	readRefLoopWithInitOffset: for(ap_uint<8> i = 0; i < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; i++)
+	{
+		tagCol[i] = tagColData.range(yColOffsetWithInitOffsetIdx * 4 + 3, yColOffsetWithInitOffsetIdx * 4);
+		yColOffsetWithInitOffsetIdx++;
 	}
 }
 
-void readBlockColsSWScale1(ap_uint<10> x, ap_uint<10> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
-		pix_t refColScale1[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagColScale1[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
+void readBlockColsSWScale1(ap_uint<10> x, ap_uint<10> y, ap_int<8> xInitOffset, ap_int<8> yInitOffset,
+		sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
+		pix_t refColScale1[BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE], pix_t tagColScale1[BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE])
 {
 	two_cols_pix_t refColDataScale1;
     two_cols_pix_t tagColDataScale1;
-    ap_uint<8> neighboryOffsetScale1;
     ap_uint<10> xScale1 = x;
     ap_uint<10> yScale1 = y;
-    if ( yScale1%COMBINED_PIXELS < BLOCK_SIZE/2 + SEARCH_DISTANCE )
+    ap_uint<8> neighboryOffsetScale1;
+    ap_uint<8> neighboryOffsetWithInitOffset;
+    ap_uint<10> xWithInitOffset = x + xInitOffset;
+    ap_uint<10> yWithInitOffset = y + yInitOffset;
+
+    if ( yScale1%COMBINED_PIXELS < BLOCK_SIZE_SCALE_1/2 + SEARCH_DISTANCE )
     {
         neighboryOffsetScale1 = yScale1/COMBINED_PIXELS - 1;
         // concatenate two columns together
         refColDataScale1 = (slicesScale1SW[sliceIdxRef][xScale1][yScale1/COMBINED_PIXELS], slicesScale1SW[sliceIdxRef][xScale1][neighboryOffsetScale1]); 
-        //	cout << "refColDataScale1: " << refColDataScale1 << endl; 
-        // concatenate two columns together
-        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-        tagColDataScale1 = (slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale1][yScale1/COMBINED_PIXELS], slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale1][neighboryOffsetScale1]);
     }
-    else if ( yScale1%COMBINED_PIXELS >  COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE - 1 )
+    else if ( yScale1%COMBINED_PIXELS >  COMBINED_PIXELS - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE - 1 )
     {
         neighboryOffsetScale1 = yScale1/COMBINED_PIXELS + 1;
         // concatenate two columns together
         refColDataScale1 = (slicesScale1SW[sliceIdxRef][xScale1][yScale1/COMBINED_PIXELS], slicesScale1SW[sliceIdxRef][xScale1][neighboryOffsetScale1]); 
-        //	cout << "refColDataScale1: " << refColDataScale1 << endl; 
-        // concatenate two columns together
-        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-        tagColDataScale1 = (slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale1][yScale1/COMBINED_PIXELS], slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale1][neighboryOffsetScale1]);
     }
     else
     {
         neighboryOffsetScale1 = yScale1/COMBINED_PIXELS + 0;
         refColDataScale1 = (slicesScale1SW[sliceIdxRef][xScale1][yScale1/COMBINED_PIXELS], slicesScale1SW[sliceIdxRef][xScale1][neighboryOffsetScale1]); 
-        //	cout << "refColDataScale1: " << refColDataScale1 << endl; 
+    }
+
+    if ( yWithInitOffset%COMBINED_PIXELS < BLOCK_SIZE_SCALE_1/2 + SEARCH_DISTANCE )
+    {
+        neighboryOffsetWithInitOffset = yWithInitOffset/COMBINED_PIXELS - 1;
+        //	cout << "refColDataScale1: " << refColDataScale1 << endl;
         // concatenate two columns together
         // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-        tagColDataScale1 = (slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale1][yScale1/COMBINED_PIXELS], slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale1][neighboryOffsetScale1]);
+        tagColDataScale1 = (slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][yWithInitOffset/COMBINED_PIXELS], slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][neighboryOffsetWithInitOffset]);
+    }
+    else if ( yWithInitOffset%COMBINED_PIXELS >  COMBINED_PIXELS - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE - 1 )
+    {
+        neighboryOffsetWithInitOffset = yWithInitOffset/COMBINED_PIXELS + 1;
+        //	cout << "refColDataScale1: " << refColDataScale1 << endl;
+        // concatenate two columns together
+        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+        tagColDataScale1 = (slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][yWithInitOffset/COMBINED_PIXELS], slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][neighboryOffsetWithInitOffset]);
+    }
+    else
+    {
+        neighboryOffsetWithInitOffset = yWithInitOffset/COMBINED_PIXELS + 0;
+        //	cout << "refColDataScale1: " << refColDataScale1 << endl;
+        // concatenate two columns together
+        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+        tagColDataScale1 = (slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][yWithInitOffset/COMBINED_PIXELS], slicesScale1SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][neighboryOffsetWithInitOffset]);
     }
 
 	// find the bottom pixel of the column that centered on y.
-	ap_uint<6> yColOffsetIdxScale1 = yScale1%COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
+	ap_uint<6> yColOffsetIdxScale1 = yScale1%COMBINED_PIXELS - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
 
-	readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+	readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; i++)
 	{
 		refColScale1[i] = refColDataScale1.range(yColOffsetIdxScale1 * 4 + 3, yColOffsetIdxScale1 * 4);
-		tagColScale1[i] = tagColDataScale1.range(yColOffsetIdxScale1 * 4 + 3, yColOffsetIdxScale1 * 4);
 		yColOffsetIdxScale1++;
+	}
+
+	// find the bottom pixel of the column that centered on yInitOffset.
+	ap_uint<6> yColOffsetWithInitOffsetIdx = yWithInitOffset%COMBINED_PIXELS - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
+	readRefLoopWithInitOffset: for(ap_uint<8> i = 0; i < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; i++)
+	{
+		tagColScale1[i] = tagColDataScale1.range(yColOffsetWithInitOffsetIdx * 4 + 3, yColOffsetWithInitOffsetIdx * 4);
+		yColOffsetWithInitOffsetIdx++;
 	}
 }
 
-void readBlockColsSWScale2(ap_uint<10> x, ap_uint<10> y, sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
-		pix_t refColScale2[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagColScale2[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
+void readBlockColsSWScale2(ap_uint<10> x, ap_uint<10> y, ap_int<8> xInitOffset, ap_int<8> yInitOffset,
+		sliceIdx_t sliceIdxRef, sliceIdx_t sliceIdxTag,
+		pix_t refColScale2[BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE], pix_t tagColScale2[BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE])
 {
 	two_cols_pix_t refColDataScale2;
     two_cols_pix_t tagColDataScale2;
-    ap_uint<8> neighboryOffsetScale2;
     ap_uint<10> xScale2 = x;
     ap_uint<10> yScale2 = y;
-    if ( yScale2%COMBINED_PIXELS < BLOCK_SIZE/2 + SEARCH_DISTANCE )
+    ap_uint<8> neighboryOffsetScale2;
+    ap_uint<8> neighboryOffsetWithInitOffset;
+    ap_uint<10> xWithInitOffset = x + xInitOffset;
+    ap_uint<10> yWithInitOffset = y + yInitOffset;
+
+    if ( yScale2%COMBINED_PIXELS < BLOCK_SIZE_SCALE_2/2 + SEARCH_DISTANCE )
     {
         neighboryOffsetScale2 = yScale2/COMBINED_PIXELS - 1;
         // concatenate two columns together
-        refColDataScale2 = (slicesScale2SW[sliceIdxRef][xScale2][yScale2/COMBINED_PIXELS], slicesScale2SW[sliceIdxRef][xScale2][neighboryOffsetScale2]); 
-        //	cout << "refColDataScale2: " << refColDataScale2 << endl; 
-        // concatenate two columns together
-        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-        tagColDataScale2 = (slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale2][yScale2/COMBINED_PIXELS], slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale2][neighboryOffsetScale2]);
+        refColDataScale2 = (slicesScale2SW[sliceIdxRef][xScale2][yScale2/COMBINED_PIXELS], slicesScale2SW[sliceIdxRef][xScale2][neighboryOffsetWithInitOffset]);
     }
-    else if ( yScale2%COMBINED_PIXELS >  COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE - 1 )
+    else if ( yScale2%COMBINED_PIXELS >  COMBINED_PIXELS - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE - 1 )
     {
         neighboryOffsetScale2 = yScale2/COMBINED_PIXELS + 1;
         // concatenate two columns together
         refColDataScale2 = (slicesScale2SW[sliceIdxRef][xScale2][yScale2/COMBINED_PIXELS], slicesScale2SW[sliceIdxRef][xScale2][neighboryOffsetScale2]); 
-        //	cout << "refColDataScale2: " << refColDataScale2 << endl; 
-        // concatenate two columns together
-        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-        tagColDataScale2 = (slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale2][yScale2/COMBINED_PIXELS], slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale2][neighboryOffsetScale2]);
     }
     else
     {
         neighboryOffsetScale2 = yScale2/COMBINED_PIXELS + 0;
         refColDataScale2 = (slicesScale2SW[sliceIdxRef][xScale2][yScale2/COMBINED_PIXELS], slicesScale2SW[sliceIdxRef][xScale2][neighboryOffsetScale2]); 
-        //	cout << "refColDataScale2: " << refColDataScale2 << endl; 
+    }
+
+    if ( yWithInitOffset%COMBINED_PIXELS < BLOCK_SIZE_SCALE_2/2 + SEARCH_DISTANCE )
+    {
+        neighboryOffsetWithInitOffset = yWithInitOffset/COMBINED_PIXELS - 1;
+        //	cout << "refColDataScale2: " << refColDataScale2 << endl;
         // concatenate two columns together
         // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
-        tagColDataScale2 = (slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale2][yScale2/COMBINED_PIXELS], slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xScale2][neighboryOffsetScale2]);
+        tagColDataScale2 = (slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][yWithInitOffset/COMBINED_PIXELS], slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][neighboryOffsetWithInitOffset]);
+    }
+    else if ( yWithInitOffset%COMBINED_PIXELS >  COMBINED_PIXELS - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE - 1 )
+    {
+        neighboryOffsetWithInitOffset = yWithInitOffset/COMBINED_PIXELS + 1;
+        //	cout << "refColDataScale2: " << refColDataScale2 << endl;
+        // concatenate two columns together
+        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+        tagColDataScale2 = (slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][yWithInitOffset/COMBINED_PIXELS], slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][neighboryOffsetWithInitOffset]);
+    }
+    else
+    {
+        neighboryOffsetWithInitOffset = yWithInitOffset/COMBINED_PIXELS + 0;
+        //	cout << "refColDataScale2: " << refColDataScale2 << endl;
+        // concatenate two columns together
+        // Use explicit cast here, otherwise it will generate a lot of select operations which consumes more LUTs than MUXs.
+        tagColDataScale2 = (slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][yWithInitOffset/COMBINED_PIXELS], slicesScale2SW[(sliceIdx_t)(sliceIdxTag + 0)][xWithInitOffset][neighboryOffsetWithInitOffset]);
     }
 
 	// find the bottom pixel of the column that centered on y.
-	ap_uint<6> yColOffsetIdxScale2 = yScale2%COMBINED_PIXELS - BLOCK_SIZE/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
+	ap_uint<6> yColOffsetIdxScale2 = yScale2%COMBINED_PIXELS - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
 
-	readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE + 2 * SEARCH_DISTANCE; i++)
+	readRefLoop: for(ap_uint<8> i = 0; i < BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE; i++)
 	{
 		refColScale2[i] = refColDataScale2.range(yColOffsetIdxScale2 * 4 + 3, yColOffsetIdxScale2 * 4);
-		tagColScale2[i] = tagColDataScale2.range(yColOffsetIdxScale2 * 4 + 3, yColOffsetIdxScale2 * 4);
 		yColOffsetIdxScale2++;
+	}
+
+	// find the bottom pixel of the column that centered on yInitOffset.
+	ap_uint<6> yColOffsetWithInitOffsetIdx = yWithInitOffset%COMBINED_PIXELS - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE + COMBINED_PIXELS;
+	readRefLoopWithInitOffset: for(ap_uint<8> i = 0; i < BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE; i++)
+	{
+		tagColScale2[i] = tagColDataScale2.range(yColOffsetWithInitOffsetIdx * 4 + 3, yColOffsetWithInitOffsetIdx * 4);
+		yColOffsetWithInitOffsetIdx++;
 	}
 }
 
@@ -345,6 +423,105 @@ void blockSADSW(pix_t blockIn1[BLOCK_SIZE][BLOCK_SIZE], pix_t blockIn2[BLOCK_SIZ
     *sumRet = tmpSum;
 }
 
+void blockSADSWScale0(pix_t blockIn1[BLOCK_SIZE_SCALE_0][BLOCK_SIZE_SCALE_0], pix_t blockIn2[BLOCK_SIZE_SCALE_0][BLOCK_SIZE_SCALE_0], uint16_t *sumRet)
+{
+    uint16_t tmpSum = 0;
+    uint16_t validPixRefBlockCnt = 0, validPixTagBlockCnt = 0, nonZeroMatchCnt = 0;
+    for(uint8_t i = 0; i < BLOCK_SIZE_SCALE_0; i++)
+    {
+        for(uint8_t j = 0; j < BLOCK_SIZE_SCALE_0; j++)
+        {
+            tmpSum += abs(blockIn1[i][j] - blockIn2[i][j]);
+
+            if (blockIn1[i][j] != 0)
+            {
+                validPixRefBlockCnt++;
+            }
+            if (blockIn2[i][j] != 0)
+            {
+                validPixTagBlockCnt++;
+            }
+            if (blockIn1[i][j] != 0 && blockIn2[i][j] != 0)
+            {
+                nonZeroMatchCnt++;
+            }
+        }
+    }
+
+    // Remove outliers
+    if (validPixRefBlockCnt < glMinValidPixNumScale0 || validPixTagBlockCnt < glMinValidPixNumScale0 || nonZeroMatchCnt < glMinValidPixNumScale0)
+    {
+        tmpSum = 0x7fff;
+    }
+    *sumRet = tmpSum;
+}
+
+void blockSADSWScale1(pix_t blockIn1[BLOCK_SIZE_SCALE_1][BLOCK_SIZE_SCALE_1], pix_t blockIn2[BLOCK_SIZE_SCALE_1][BLOCK_SIZE_SCALE_1], uint16_t *sumRet)
+{
+    uint16_t tmpSum = 0;
+    uint16_t validPixRefBlockCnt = 0, validPixTagBlockCnt = 0, nonZeroMatchCnt = 0;
+    for(uint8_t i = 0; i < BLOCK_SIZE_SCALE_1; i++)
+    {
+        for(uint8_t j = 0; j < BLOCK_SIZE_SCALE_1; j++)
+        {
+            tmpSum += abs(blockIn1[i][j] - blockIn2[i][j]);
+
+            if (blockIn1[i][j] != 0)
+            {
+                validPixRefBlockCnt++;
+            }
+            if (blockIn2[i][j] != 0)
+            {
+                validPixTagBlockCnt++;
+            }
+            if (blockIn1[i][j] != 0 && blockIn2[i][j] != 0)
+            {
+                nonZeroMatchCnt++;
+            }
+        }
+    }
+
+    // Remove outliers
+    if (validPixRefBlockCnt < glMinValidPixNumScale1 || validPixTagBlockCnt < glMinValidPixNumScale1 || nonZeroMatchCnt < glMinValidPixNumScale1)
+    {
+        tmpSum = 0x7fff;
+    }
+    *sumRet = tmpSum;
+}
+
+void blockSADSWScale2(pix_t blockIn1[BLOCK_SIZE_SCALE_2][BLOCK_SIZE_SCALE_2], pix_t blockIn2[BLOCK_SIZE_SCALE_2][BLOCK_SIZE_SCALE_2], uint16_t *sumRet)
+{
+    uint16_t tmpSum = 0;
+    uint16_t validPixRefBlockCnt = 0, validPixTagBlockCnt = 0, nonZeroMatchCnt = 0;
+    for(uint8_t i = 0; i < BLOCK_SIZE_SCALE_2; i++)
+    {
+        for(uint8_t j = 0; j < BLOCK_SIZE_SCALE_2; j++)
+        {
+            tmpSum += abs(blockIn1[i][j] - blockIn2[i][j]);
+
+            if (blockIn1[i][j] != 0)
+            {
+                validPixRefBlockCnt++;
+            }
+            if (blockIn2[i][j] != 0)
+            {
+                validPixTagBlockCnt++;
+            }
+            if (blockIn1[i][j] != 0 && blockIn2[i][j] != 0)
+            {
+                nonZeroMatchCnt++;
+            }
+        }
+    }
+
+    // Remove outliers
+    if (validPixRefBlockCnt < glMinValidPixNumScale2 || validPixTagBlockCnt < glMinValidPixNumScale2 || nonZeroMatchCnt < glMinValidPixNumScale2)
+    {
+        tmpSum = 0x7fff;
+    }
+    *sumRet = tmpSum;
+}
+
 void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
         pix_t tagBlock[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE], bool printBlocksEnable,
         ap_int<16> *miniRet, ap_uint<6> *OFRet)
@@ -419,7 +596,227 @@ void miniBlockSADSW(pix_t refBlock[BLOCK_SIZE][BLOCK_SIZE],
 
 }
 
+void miniBlockSADSWScale0(pix_t refBlock[BLOCK_SIZE_SCALE_0][BLOCK_SIZE_SCALE_0],
+        pix_t tagBlock[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE], bool printBlocksEnable,
+        ap_int<16> *miniRet, ap_uint<6> *OFRet)
+{
+    uint16_t tmpSum = 0x7fff;
+    ap_uint<3> tmpOF_x = ap_uint<3>(7);
+    ap_uint<3> tmpOF_y = ap_uint<3>(7);
 
+    if(printBlocksEnable == true)
+    {
+        cout << "Reference block is: " << endl;
+        for(uint8_t blockX = 0; blockX < BLOCK_SIZE_SCALE_0; blockX++)
+        {
+            for(uint8_t blockY = 0; blockY < BLOCK_SIZE_SCALE_0; blockY++)
+            {
+                cout << refBlock[blockX][blockY] << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
+
+        cout << "target block is: " << endl;
+        for(uint8_t blockX = 0; blockX < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; blockX++)
+        {
+            for(uint8_t blockY = 0; blockY < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; blockY++)
+            {
+                cout << tagBlock[blockX][blockY] << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+
+    for(uint8_t xOffset = 0; xOffset < 2 * SEARCH_DISTANCE + 1; xOffset++)
+    {
+        for(uint8_t yOffset = 0; yOffset < 2 * SEARCH_DISTANCE + 1; yOffset++)
+        {
+            pix_t tagBlockIn[BLOCK_SIZE_SCALE_0][BLOCK_SIZE_SCALE_0];
+            uint16_t tmpBlockSum;
+            for(uint8_t i = 0; i < BLOCK_SIZE_SCALE_0; i++)
+            {
+                for(uint8_t j = 0; j < BLOCK_SIZE_SCALE_0; j++)
+                {
+                    tagBlockIn[i][j] = tagBlock[i + xOffset][j + yOffset];
+                }
+            }
+
+            blockSADSWScale0(refBlock, tagBlockIn, &tmpBlockSum);
+
+            if(tmpBlockSum < tmpSum)
+            {
+                tmpSum = tmpBlockSum;
+                tmpOF_x = ap_uint<3>(xOffset);
+                tmpOF_y = ap_uint<3>(yOffset);
+            }
+        }
+    }
+
+    if(tmpSum == 0x7fff)
+    {
+        tmpOF_x = 7;
+        tmpOF_y = 7;
+    }
+
+    *miniRet = tmpSum;
+    *OFRet = tmpOF_y.concat(tmpOF_x);
+    if(printBlocksEnable == true)
+    {
+    	std::cout << "miniSumRetSW is: " << *miniRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
+    	std::cout << std::dec;    // Restore dec mode
+    }
+
+}
+
+void miniBlockSADSWScale1(pix_t refBlock[BLOCK_SIZE_SCALE_1][BLOCK_SIZE_SCALE_1],
+        pix_t tagBlock[BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE], bool printBlocksEnable,
+        ap_int<16> *miniRet, ap_uint<6> *OFRet)
+{
+    uint16_t tmpSum = 0x7fff;
+    ap_uint<3> tmpOF_x = ap_uint<3>(7);
+    ap_uint<3> tmpOF_y = ap_uint<3>(7);
+
+    if(printBlocksEnable == true)
+    {
+        cout << "Reference block is: " << endl;
+        for(uint8_t blockX = 0; blockX < BLOCK_SIZE_SCALE_1; blockX++)
+        {
+            for(uint8_t blockY = 0; blockY < BLOCK_SIZE_SCALE_1; blockY++)
+            {
+                cout << refBlock[blockX][blockY] << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
+
+        cout << "target block is: " << endl;
+        for(uint8_t blockX = 0; blockX < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; blockX++)
+        {
+            for(uint8_t blockY = 0; blockY < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; blockY++)
+            {
+                cout << tagBlock[blockX][blockY] << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+
+    for(uint8_t xOffset = 0; xOffset < 2 * SEARCH_DISTANCE + 1; xOffset++)
+    {
+        for(uint8_t yOffset = 0; yOffset < 2 * SEARCH_DISTANCE + 1; yOffset++)
+        {
+            pix_t tagBlockIn[BLOCK_SIZE_SCALE_1][BLOCK_SIZE_SCALE_1];
+            uint16_t tmpBlockSum;
+            for(uint8_t i = 0; i < BLOCK_SIZE_SCALE_1; i++)
+            {
+                for(uint8_t j = 0; j < BLOCK_SIZE_SCALE_1; j++)
+                {
+                    tagBlockIn[i][j] = tagBlock[i + xOffset][j + yOffset];
+                }
+            }
+
+            blockSADSWScale1(refBlock, tagBlockIn, &tmpBlockSum);
+
+            if(tmpBlockSum < tmpSum)
+            {
+                tmpSum = tmpBlockSum;
+                tmpOF_x = ap_uint<3>(xOffset);
+                tmpOF_y = ap_uint<3>(yOffset);
+            }
+        }
+    }
+
+    if(tmpSum == 0x7fff)
+    {
+        tmpOF_x = 7;
+        tmpOF_y = 7;
+    }
+
+    *miniRet = tmpSum;
+    *OFRet = tmpOF_y.concat(tmpOF_x);
+    if(printBlocksEnable == true)
+    {
+    	std::cout << "miniSumRetSW is: " << *miniRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
+    	std::cout << std::dec;    // Restore dec mode
+    }
+
+}
+
+void miniBlockSADSWScale2(pix_t refBlock[BLOCK_SIZE_SCALE_2][BLOCK_SIZE_SCALE_2],
+        pix_t tagBlock[BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE], bool printBlocksEnable,
+        ap_int<16> *miniRet, ap_uint<6> *OFRet)
+{
+    uint16_t tmpSum = 0x7fff;
+    ap_uint<3> tmpOF_x = ap_uint<3>(7);
+    ap_uint<3> tmpOF_y = ap_uint<3>(7);
+
+    if(printBlocksEnable == true)
+    {
+        cout << "Reference block is: " << endl;
+        for(uint8_t blockX = 0; blockX < BLOCK_SIZE_SCALE_2; blockX++)
+        {
+            for(uint8_t blockY = 0; blockY < BLOCK_SIZE_SCALE_2; blockY++)
+            {
+                cout << refBlock[blockX][blockY] << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
+
+        cout << "target block is: " << endl;
+        for(uint8_t blockX = 0; blockX < BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE; blockX++)
+        {
+            for(uint8_t blockY = 0; blockY < BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE; blockY++)
+            {
+                cout << tagBlock[blockX][blockY] << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+
+    for(uint8_t xOffset = 0; xOffset < 2 * SEARCH_DISTANCE + 1; xOffset++)
+    {
+        for(uint8_t yOffset = 0; yOffset < 2 * SEARCH_DISTANCE + 1; yOffset++)
+        {
+            pix_t tagBlockIn[BLOCK_SIZE_SCALE_2][BLOCK_SIZE_SCALE_2];
+            uint16_t tmpBlockSum;
+            for(uint8_t i = 0; i < BLOCK_SIZE_SCALE_2; i++)
+            {
+                for(uint8_t j = 0; j < BLOCK_SIZE_SCALE_2; j++)
+                {
+                    tagBlockIn[i][j] = tagBlock[i + xOffset][j + yOffset];
+                }
+            }
+
+            blockSADSWScale2(refBlock, tagBlockIn, &tmpBlockSum);
+
+            if(tmpBlockSum < tmpSum)
+            {
+                tmpSum = tmpBlockSum;
+                tmpOF_x = ap_uint<3>(xOffset);
+                tmpOF_y = ap_uint<3>(yOffset);
+            }
+        }
+    }
+
+    if(tmpSum == 0x7fff)
+    {
+        tmpOF_x = 7;
+        tmpOF_y = 7;
+    }
+
+    *miniRet = tmpSum;
+    *OFRet = tmpOF_y.concat(tmpOF_x);
+    if(printBlocksEnable == true)
+    {
+    	std::cout << "miniSumRetSW is: " << *miniRet << "\t OFRetSW is: " << std::hex << *OFRet << std::endl;
+    	std::cout << std::dec;    // Restore dec mode
+    }
+
+}
 
 void testMiniSADSumWrapperSW(apIntBlockCol_t *input1, apIntBlockCol_t *input2, int16_t eventCnt, apUint15_t *miniSum, apUint6_t *OF)
 {
@@ -468,7 +865,7 @@ void testMiniSADSumWrapperSW(apIntBlockCol_t *input1, apIntBlockCol_t *input2, i
 void testSingleRwslicesSW(ap_uint<8> x, ap_uint<8> y, sliceIdx_t idx, pix_t refCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE], pix_t tagCol[BLOCK_SIZE + 2 * SEARCH_DISTANCE])
 {
 	writePixSW(x, y, idx);
-	readBlockColsSWScale0(x, y, idx + 1, idx + 2, refCol, tagCol);
+	readBlockColsSWScale0(x, y, 0, 0, idx + 1, idx + 2, refCol, tagCol);
 	resetPixSW(x, y, idx + 3);
 }
 
@@ -517,7 +914,7 @@ void testRwslicesSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, apIntBloc
 
 //			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
 
-			readBlockColsSWScale0(xWr + xOffSet, yWr , idx + 1, idx + 2, out1, out2);
+			readBlockColsSWScale0(xWr + xOffSet, yWr ,0, 0, idx + 1, idx + 2, out1, out2);
 
 
 			apIntBlockCol_t refBlockCol;
@@ -604,7 +1001,7 @@ void testTempSW(uint64_t * data, sliceIdx_t idx, int16_t eventCnt, int32_t *even
 
 //			resetPix(xRd + xOffSet, 1 , (sliceIdx_t)(idx + 3));
 
-			readBlockColsSWScale0(xWr + xOffSet, yWr , idx + 1, idx + 2, out1, out2);
+			readBlockColsSWScale0(xWr + xOffSet, yWr, 0, 0, idx + 1, idx + 2, out1, out2);
 
 
 			apIntBlockCol_t refBlockCol;
@@ -720,7 +1117,7 @@ static void feedbackSW(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateF
 
 
 uint32_t currentTs = 0, lastTs = 0;
-void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice, ap_uint<10> *custDataOut)
+void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *eventSlice, ap_uint<32> *custDataOut)
 {
 //	glPLActiveSliceIdxSW--;
 //	sliceIdx_t idx = glPLActiveSliceIdxSW;
@@ -742,7 +1139,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
         ap_uint<6> OFGT = OFGT_y.concat(OFGT_x);
 
 		ap_int<16> miniRet;
-		ap_uint<6> OFRet;
+		ap_uint<16> OFRet;
 		ap_uint<2> scaleRet;
 		ap_int<16> miniRetScale0;
 		ap_uint<6> OFRetScale0;
@@ -836,87 +1233,140 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 //			miniSumTmp[j] = ap_int<16>(0);
 //		}
 
-        pix_t block1[BLOCK_SIZE][BLOCK_SIZE];
-        pix_t block2[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+        pix_t block1[BLOCK_SIZE_SCALE_0][BLOCK_SIZE_SCALE_0];
+        pix_t block2[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
 
-        pix_t block1Scale1[BLOCK_SIZE][BLOCK_SIZE];
-        pix_t block2Scale1[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+        pix_t block1Scale1[BLOCK_SIZE_SCALE_1][BLOCK_SIZE_SCALE_1];
+        pix_t block2Scale1[BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE];
 
-        pix_t block1Scale2[BLOCK_SIZE][BLOCK_SIZE];
-        pix_t block2Scale2[BLOCK_SIZE + 2 * SEARCH_DISTANCE][BLOCK_SIZE + 2 * SEARCH_DISTANCE];
+        pix_t block1Scale2[BLOCK_SIZE_SCALE_2][BLOCK_SIZE_SCALE_2];
+        pix_t block2Scale2[BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE];
 
-		for(int8_t xOffset = 0; xOffset < BLOCK_SIZE + 2 * SEARCH_DISTANCE; xOffset++)
+        bool printBlocksEnable = false;
+        if(ts == 148857699)
+		{
+        	printBlocksEnable = true;
+		}
+
+        // Scale 2 computation
+		for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE; xOffset++)
         {
-            pix_t out1[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
-            pix_t out2[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+            pix_t out1Scale2[BLOCK_SIZE_SCALE_2+ 2 * SEARCH_DISTANCE];
+            pix_t out2Scale2[BLOCK_SIZE_SCALE_2+ 2 * SEARCH_DISTANCE];
 
-            pix_t out1Scale1[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
-            pix_t out2Scale1[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
+			readBlockColsSWScale2(xWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE + xOffset, yWr/4, 0, 0, (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1Scale2, out2Scale2);
 
-            pix_t out1Scale2[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
-            pix_t out2Scale2[BLOCK_SIZE+ 2 * SEARCH_DISTANCE];
-
-			readBlockColsSWScale0(xWr - BLOCK_SIZE/2 - SEARCH_DISTANCE + xOffset, yWr , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
-			readBlockColsSWScale1(xWr/2 - BLOCK_SIZE/2 - SEARCH_DISTANCE + xOffset, yWr/2 , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1Scale1, out2Scale1);
-			readBlockColsSWScale2(xWr/4 - BLOCK_SIZE/2 - SEARCH_DISTANCE + xOffset, yWr/4 , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1Scale2, out2Scale2);
-
-            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE; yCopyOffset++)
+            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_2; yCopyOffset++)
             {
-                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE + SEARCH_DISTANCE)
+                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE_SCALE_2 + SEARCH_DISTANCE)
                 {
-                    block1[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1[yCopyOffset + SEARCH_DISTANCE];
-                    block1Scale1[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1Scale1[yCopyOffset + SEARCH_DISTANCE];
                     block1Scale2[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1Scale2[yCopyOffset + SEARCH_DISTANCE];
                 }
             }
 
-            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE + 2 * SEARCH_DISTANCE; yCopyOffset++)
+            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE; yCopyOffset++)
             {
-                block2[xOffset][yCopyOffset] = out2[yCopyOffset];
-                block2Scale1[xOffset][yCopyOffset] = out2Scale1[yCopyOffset];
                 block2Scale2[xOffset][yCopyOffset] = out2Scale2[yCopyOffset];
             }
 		}
+        miniBlockSADSWScale2(block1Scale2, block2Scale2, printBlocksEnable, &miniRetScale2, &OFRetScale2);
 
-        bool printBlocksEnable = false;
-        if(xWr == 211 && yWr == 242) printBlocksEnable = false;
-        miniBlockSADSW(block1Scale2, block2Scale2, printBlocksEnable, &miniRetScale2, &OFRetScale2);
-        miniBlockSADSW(block1Scale1, block2Scale1, printBlocksEnable, &miniRetScale1, &OFRetScale1);
-        miniBlockSADSW(block1, block2, printBlocksEnable, &miniRetScale0, &OFRetScale0);
+        // Scale 1 computation
+        ap_int<8> xInitOffsetScale1 = ap_int<8>(OFRetScale2.range(2,0) - 3) << 1;
+        ap_int<8> yInitOffsetScale1 = ap_int<8>(OFRetScale2.range(5,3) - 3) << 1;
+        for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; xOffset++)
+        {
+            pix_t out1Scale1[BLOCK_SIZE_SCALE_1+ 2 * SEARCH_DISTANCE];
+            pix_t out2Scale1[BLOCK_SIZE_SCALE_1+ 2 * SEARCH_DISTANCE];
 
-        if (xWr/4 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr/4 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH/4
-                || yWr/4 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr/4 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT/4) {
-        	miniRetScale2 = 0x3fff;
+			readBlockColsSWScale1(xWr/2 - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE + xOffset, yWr/2, xInitOffsetScale1,  yInitOffsetScale1, (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1Scale1, out2Scale1);
+
+            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_1; yCopyOffset++)
+            {
+                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE_SCALE_1 + SEARCH_DISTANCE)
+                {
+                    block1Scale1[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1Scale1[yCopyOffset + SEARCH_DISTANCE];
+                }
+            }
+
+            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; yCopyOffset++)
+            {
+                block2Scale1[xOffset][yCopyOffset] = out2Scale1[yCopyOffset];
+            }
+		}
+        miniBlockSADSWScale1(block1Scale1, block2Scale1, printBlocksEnable, &miniRetScale1, &OFRetScale1);
+
+        // Scale 0 computation
+        ap_int<8> xInitOffsetScale0 = (ap_int<8>(OFRetScale1.range(2,0) - 3) << 1) + (xInitOffsetScale1 << 1);
+        ap_int<8> yInitOffsetScale0 = (ap_int<8>(OFRetScale1.range(5,3) - 3) << 1) + (yInitOffsetScale1 << 1);
+		for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; xOffset++)
+        {
+            pix_t out1[BLOCK_SIZE_SCALE_0+ 2 * SEARCH_DISTANCE];
+            pix_t out2[BLOCK_SIZE_SCALE_0+ 2 * SEARCH_DISTANCE];
+
+			readBlockColsSWScale0(xWr - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE + xOffset, yWr, xInitOffsetScale0, yInitOffsetScale0 , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
+
+            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_0; yCopyOffset++)
+            {
+                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE_SCALE_0 + SEARCH_DISTANCE)
+                {
+                    block1[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1[yCopyOffset + SEARCH_DISTANCE];
+                }
+            }
+
+            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; yCopyOffset++)
+            {
+                block2[xOffset][yCopyOffset] = out2[yCopyOffset];
+            }
+		}
+		miniBlockSADSWScale0(block1, block2, printBlocksEnable, &miniRetScale0, &OFRetScale0);
+
+
+        if (xWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE < 0 || xWr/4 + BLOCK_SIZE_SCALE_2/2 + SEARCH_DISTANCE >= DVS_WIDTH/4
+                || yWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE < 0 || yWr/4 + BLOCK_SIZE_SCALE_2/2 + SEARCH_DISTANCE >= DVS_HEIGHT/4) {
+        	miniRetScale2 = 0x7fff;
         	OFRetScale2 = 0x3f;
         }
-        if (xWr/2 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr/2 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH/2
-                || yWr/2 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr/2 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT/2) {
-        	miniRetScale1 = 0x3fff;
+        if ((xWr/2 + xInitOffsetScale1) - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE < 0 || (xWr/2 + xInitOffsetScale1) + BLOCK_SIZE_SCALE_1/2 + SEARCH_DISTANCE >= DVS_WIDTH/2
+                ||(yWr/2 + yInitOffsetScale1) - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE < 0 || (yWr/2 + yInitOffsetScale1) + BLOCK_SIZE_SCALE_1/2 + SEARCH_DISTANCE >= DVS_HEIGHT/2) {
+        	miniRetScale1 = 0x7fff;
         	OFRetScale1 = 0x3f;
         }
-        if (xWr/1 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || xWr/1 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_WIDTH/1
-                || yWr/1 - BLOCK_SIZE/2 - SEARCH_DISTANCE < 0 || yWr/1 + BLOCK_SIZE/2 + SEARCH_DISTANCE >= DVS_HEIGHT/1) {
-        	miniRetScale0 = 0x3fff;
+        if ((xWr/1 + xInitOffsetScale0) - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE < 0 || (xWr/1 + xInitOffsetScale0) + BLOCK_SIZE_SCALE_0/2 + SEARCH_DISTANCE >= DVS_WIDTH/1
+                || (yWr/1 + yInitOffsetScale0) - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE < 0 || (yWr/1 + yInitOffsetScale0) + BLOCK_SIZE_SCALE_0/2 + SEARCH_DISTANCE >= DVS_HEIGHT/1) {
+        	miniRetScale0 = 0x7fff;
         	OFRetScale0 = 0x3f;
         }
 
-        if(OFRetScale0 != 0x3f) miniRetScale0 = (miniRetScale0 << 4);
-        if(OFRetScale1 != 0x3f) miniRetScale1 = (miniRetScale1 << 2);
-        miniRet = miniRetScale2;
-        OFRet = OFRetScale2; 
-        scaleRet = 2;
-        if(miniRetScale1 < miniRet)
+        // If the result is valid, then result scale is 0. Otherwise, set scaleRet 3.
+        if( miniRetScale2 >= maxAllowedSadValueScale2
+        		|| miniRetScale1 >= maxAllowedSadValueScale1
+				|| miniRetScale0 >= maxAllowedSadValueScale0 )
         {
-            miniRet = miniRetScale1;
-            OFRet = OFRetScale1;
-            scaleRet = 1;
+        	// invalid result
+        	miniRet = 0x7fff;
+        	OFRet = 0x3f;
+        	scaleRet = 3;
         }
-        if(miniRetScale0 < miniRet)
+        else
         {
+            ap_int<8> xOFRetScale2 = ap_int<8>(OFRetScale2.range(2,0)) - 3;
+            ap_int<8> yOFRetScale2 = ap_int<8>(OFRetScale2.range(5,3)) - 3;
+            ap_int<8> xOFRetScale1 = ap_int<8>(OFRetScale1.range(2,0)) - 3;
+            ap_int<8> yOFRetScale1 = ap_int<8>(OFRetScale1.range(5,3)) - 3;
+            ap_int<8> xOFRetScale0 = ap_int<8>(OFRetScale0.range(2,0)) - 3;
+            ap_int<8> yOFRetScale0 = ap_int<8>(OFRetScale0.range(5,3)) - 3;
+
+            ap_int<8> xOFRet = (xOFRetScale2 * 4) + (xOFRetScale1 * 2) + xOFRetScale0;
+            ap_int<8> yOFRet = (yOFRetScale2 * 4) + (yOFRetScale1 * 2) + yOFRetScale0;
+
+            OFRet.range(7, 0) = ap_uint<8>(xOFRet);
+            OFRet.range(15, 8) = ap_uint<8>(yOFRet);
+
             miniRet = miniRetScale0;
-            OFRet = OFRetScale0;
             scaleRet = 0;
         }
+
 //        // Remove outliers
 //        int block1ZeroCnt = 0;
 //        for(int8_t block1IdxX = 0; block1IdxX < BLOCK_SIZE; block1IdxX++)
@@ -942,7 +1392,9 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		apUint6_t tmpOF = OFRet;
 		if(tmpOF == 0x3f) tmpOF = 0x1b; // 0x1b means both OF_x and OF_y are 3. Minus 3 to restore the real value.
 		ap_uint<32> output = (ap_uint<32>(yWr) << 16) + (xWr << 1) + pol;
-		ap_uint<10> custData = (rotateFlg, (scaleRet, tmpOF));
+		ap_uint<32> custData = OFRet;
+		custData.range(17, 16) = scaleRet;
+		custData[23] = rotateFlg;
 		*custDataOut++ = custData;
 		*eventSlice++ = output.to_int();
 
@@ -972,7 +1424,7 @@ int main(int argc, char *argv[])
 //	srand((unsigned)time(NULL));
 	FILE * fp;
 
-	if((fp = fopen("E://xfOpenCV//hls_2018_1//topParseEvents//DDD17_BackFromAirport_full_areaThr_700-OFResult.bin","rb"))== NULL)
+	if((fp = fopen("E://xfOpenCV//hls_2018_1//topParseEvents//DDD17_BackFromAirport_full_areaThr_700-OFResult_GT.bin","rb"))== NULL)
 	{
 		printf("can not open the file\n");
 		exit(0);
@@ -981,7 +1433,7 @@ int main(int argc, char *argv[])
 	int32_t eventCnt = 8000;
 	uint64_t data[eventCnt];
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
-	ap_uint<10> custDataOutSW[eventCnt];
+	ap_uint<32> custDataOutSW[eventCnt];
 
 	ap_int<16> miniSumRet;
 	pix_t refColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE], tagColSW[BLOCK_SIZE + 2 * SEARCH_DISTANCE];
@@ -998,14 +1450,14 @@ int main(int argc, char *argv[])
 	uint64_t ts_in[eventCnt], ts_out[eventCnt];
 	ap_uint<1> pol_in[eventCnt], pol_out[eventCnt];
 	ap_uint<10> retData[eventCnt];
-	ap_uint<10> GTData[eventCnt];
+	ap_uint<32> GTData[eventCnt];
 
 	hls::stream< ap_uint<16> > xStreamIn("xStreamIn"), yStreamIn("yStreamIn"), xStreamOut("xStreamOut"), yStreamOut("yStreamOut");
 	hls::stream< ap_uint<64> > tsStreamIn("tsStreamIn"), tsStreamOut("tsStreamOut");
 	hls::stream< ap_uint<1> > polStreamIn("polStreamIn"), polStreamOut("polStreamOut");
 	hls::stream< ap_uint<10> > miscDataStream("miscDataStream");
 
-	testTimes = 30;
+	testTimes = 40;
 	for(int k = 0; k < testTimes; k++)
 	{
 		cout << "Test " << k << ":" << endl;
@@ -1014,17 +1466,17 @@ int main(int argc, char *argv[])
 
 		for (int i = 0; i < eventCnt; i++)
 		{
-			ap_uint<32> buf[2];
-			fread(buf, 4, 2, fp);
+			ap_uint<32> buf[3];
+			fread(buf, 4, 3, fp);
 	       	uint32_t data1 = ((uint32_t)(buf[0].range(7, 0)) << 24) + ((uint32_t)(buf[0].range(15, 8)) << 16) + ((uint32_t)(buf[0].range(23, 16)) << 8) + buf[0].range(31, 24);
 	       	uint32_t data2 = ((uint32_t)(buf[1].range(7, 0)) << 24) + ((uint32_t)(buf[1].range(15, 8)) << 16) + ((uint32_t)(buf[1].range(23, 16)) << 8) + buf[1].range(31, 24);
+	       	uint32_t data3 = ((uint32_t)(buf[2].range(7, 0)) << 24) + ((uint32_t)(buf[2].range(15, 8)) << 16) + ((uint32_t)(buf[2].range(23, 16)) << 8) + buf[2].range(31, 24);
 
 	        x_in[i] = ((data1) & AEDAT_POLARITY_X_ADDR_MASK) >> AEDAT_POLARITY_X_ADDR_SHIFT;
 			y_in[i] = ((data1) & AEDAT_POLARITY_Y_ADDR_MASK) >> AEDAT_POLARITY_Y_ADDR_SHIFT;
 			pol_in[i]  = ((data1) & AEDAT_POLARITY_MASK) >> AEDAT_POLARITY_SHIFT;
 			ts_in[i] = data2;
-
-			GTData[i] = (data1 & 0x7ff);
+			GTData[i] = data3;
 
 //			idx = rand()%3;
 	//		x = 255;
@@ -1033,20 +1485,20 @@ int main(int argc, char *argv[])
 //			cout << "y : " << y << endl;
 //			cout << "idx : " << idx << endl;
 
-			xStreamIn << x_in[i];
-			yStreamIn << y_in[i];
-			tsStreamIn << ts_in[i];
-			polStreamIn << pol_in[i];
-
-			EVABMOFStream(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
-					xStreamOut, yStreamOut, tsStreamOut, polStreamOut, miscDataStream,
-					config, &status);
-
-			x_out[i] = xStreamOut.read().to_uint();
-			y_out[i] = yStreamOut.read().to_uint();
-			ts_out[i] = tsStreamOut.read().to_uint();
-			pol_out[i] = polStreamOut.read().to_bool();
-			retData[i] = miscDataStream.read().to_uint();
+//			xStreamIn << x_in[i];
+//			yStreamIn << y_in[i];
+//			tsStreamIn << ts_in[i];
+//			polStreamIn << pol_in[i];
+//
+//			EVABMOFStream(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
+//					xStreamOut, yStreamOut, tsStreamOut, polStreamOut, miscDataStream,
+//					config, &status);
+//
+//			x_out[i] = xStreamOut.read().to_uint();
+//			y_out[i] = yStreamOut.read().to_uint();
+//			ts_out[i] = tsStreamOut.read().to_uint();
+//			pol_out[i] = polStreamOut.read().to_bool();
+//			retData[i] = miscDataStream.read().to_uint();
 
 			data[i] = (uint64_t)(ts_in[i] << 32) + (uint64_t)(x_in[i] << POLARITY_X_ADDR_SHIFT) + (uint64_t)(y_in[i] << POLARITY_Y_ADDR_SHIFT) + (pol_in[i] << POLARITY_SHIFT);
 //			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
@@ -1060,19 +1512,58 @@ int main(int argc, char *argv[])
 			ap_uint<10> y = tmpData.range(25, 16);
 			ap_uint<10> x = tmpData.range(10, 1);
 
-			if ( (GTData[j].bit(9) != custDataOutSW[j].bit(8)) || (retData[j].bit(8) != custDataOutSW[j].bit(8)) )
+			ap_uint<1> rotateFlgGT = GTData[j].bit(23);
+			ap_uint<1> rotateFlgSW = custDataOutSW[j].bit(23);
+
+			ap_uint<2> OFRetValidGT = GTData[j].bit(16);
+			ap_uint<2> scaleRetSW = custDataOutSW[j].range(17, 16);
+
+			ap_int<8> xOFRetGT = GTData[j].range(7, 0) - 127;
+			ap_int<8> xOFRetSW = custDataOutSW[j].range(7, 0);
+
+			ap_int<8> yOFRetGT = GTData[j].range(15, 8) - 127;
+			ap_int<8> yOFRetSW = custDataOutSW[j].range(15, 8);
+
+
+			if( (rotateFlgGT != rotateFlgSW) )    // Rotate Flag is not correct
 			{
-//				if((GTData[j].range(7, 0) != custDataOutSW[j].range(7, 0)))
-//				{
-//					cout << "C++ testbench is not same as the java version." << endl;
-//				}
+				cout << "Rotation Flag is different." << endl;
                 cout << "x is: " << x << "\t y is: " << y << endl;
-				std::cout << "OF for eventSliceSW is: " << hex << custDataOutSW[j] << std::endl;
-				std::cout << "OF for eventSlice is: " << hex << retData[j] << std::endl;
+				std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
+				std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
 				std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
 				cout << dec;
 				err_cnt++;
 				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+			}
+			else
+			if( OFRetValidGT == 1 )    // scaleGT = 0: a valid OF result from GT, further checking
+			{
+				if( (scaleRetSW != 0) || (xOFRetGT != -xOFRetSW) || (yOFRetGT != -yOFRetSW) ) // java OF_GT has differnt sign with this C++ testbench.
+				{
+					cout << "Valid GT OF check failed." << endl;
+	                cout << "x is: " << x << "\t y is: " << y << endl;
+					std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
+					std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
+					std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
+					cout << dec;
+					err_cnt++;
+					cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+				}
+			}
+			else                                 // scaleGT != 0: an invalid OF result from GT
+			{
+				if( scaleRetSW != 3 )
+				{
+					cout << "GT OF is invalid while SW OF is valid." << endl;
+	                cout << "x is: " << x << "\t y is: " << y << endl;
+					std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
+					std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
+					std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
+					cout << dec;
+					err_cnt++;
+					cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+				}
 			}
 		}
 
