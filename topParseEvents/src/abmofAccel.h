@@ -6,7 +6,7 @@
 #include "ap_axi_sdata.h"
 #include <math.h>
 
-// #define DEBUG
+//#define DEBUG 1
 #define CUST_DATA_MASK 0x3ff
 #define POLARITY_SHIFT 11
 #define POLARITY_MASK (1 << POLARITY_SHIFT)  // 1 bit at bit 11

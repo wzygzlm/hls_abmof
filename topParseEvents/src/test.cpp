@@ -1243,7 +1243,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
         pix_t block2Scale2[BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE];
 
         bool printBlocksEnable = false;
-        if(ts == 148857699)
+        if(ts == 148593900)
 		{
         	printBlocksEnable = true;
 		}
@@ -1274,7 +1274,6 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
         // Scale 1 computation
         ap_int<8> xInitOffsetScale1 = ap_int<8>(OFRetScale2.range(2,0) - 3) << 1;
         ap_int<8> yInitOffsetScale1 = ap_int<8>(OFRetScale2.range(5,3) - 3) << 1;
-        xInitOffsetScale1 = 0; yInitOffsetScale1 = 0;
         for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; xOffset++)
         {
             pix_t out1Scale1[BLOCK_SIZE_SCALE_1+ 2 * SEARCH_DISTANCE];
@@ -1300,7 +1299,6 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
         // Scale 0 computation
         ap_int<8> xInitOffsetScale0 = (ap_int<8>(OFRetScale1.range(2,0) - 3) << 1) + (xInitOffsetScale1 << 1);
         ap_int<8> yInitOffsetScale0 = (ap_int<8>(OFRetScale1.range(5,3) - 3) << 1) + (yInitOffsetScale1 << 1);
-        xInitOffsetScale0 = 0; yInitOffsetScale0 = 0;
         for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; xOffset++)
         {
             pix_t out1[BLOCK_SIZE_SCALE_0+ 2 * SEARCH_DISTANCE];
@@ -1322,7 +1320,6 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
             }
 		}
 		miniBlockSADSWScale0(block1, block2, printBlocksEnable, &miniRetScale0, &OFRetScale0);
-
 
         if (xWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE < 0 || xWr/4 + BLOCK_SIZE_SCALE_2/2 + SEARCH_DISTANCE >= DVS_WIDTH/4
                 || yWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE < 0 || yWr/4 + BLOCK_SIZE_SCALE_2/2 + SEARCH_DISTANCE >= DVS_HEIGHT/4) {
@@ -1347,7 +1344,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
         {
         	// invalid result
         	miniRet = 0x7fff;
-        	OFRet = 0x3f;
+        	OFRet = 0x7f7f;
         	scaleRet = 3;
         }
         else
@@ -1432,7 +1429,7 @@ int main(int argc, char *argv[])
 		exit(0);
 	}
 
-	int32_t eventCnt = 8000;
+	int32_t eventCnt = 4000;
 	uint64_t data[eventCnt];
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
 	ap_uint<32> custDataOutSW[eventCnt];
@@ -1459,7 +1456,7 @@ int main(int argc, char *argv[])
 	hls::stream< ap_uint<1> > polStreamIn("polStreamIn"), polStreamOut("polStreamOut");
 	hls::stream< ap_uint<17> > miscDataStream("miscDataStream");
 
-	testTimes = 30;
+	testTimes = 25;
 	for(int k = 0; k < testTimes; k++)
 	{
 		cout << "Test " << k << ":" << endl;
@@ -1480,6 +1477,10 @@ int main(int argc, char *argv[])
 			ts_in[i] = data2;
 			GTData[i] = data3;
 
+			if(k == 0 && i == 2471)
+			{
+				int tmp = 0;
+			}
 //			idx = rand()%3;
 	//		x = 255;
 	//		y = 240;
@@ -1527,10 +1528,12 @@ int main(int argc, char *argv[])
 
 			ap_int<8> yOFRetGT = GTData[j].range(15, 8) - 127;
 			ap_int<8> yOFRetSW = custDataOutSW[j].range(15, 8);
-			ap_int<8> yOFRetHW = retData[j].range(7, 0);
+			ap_int<8> yOFRetHW = retData[j].range(15, 8);
 
+			// Compare HW and SW
 			if( (rotateFlgHW != rotateFlgSW) || (xOFRetHW != xOFRetSW) || (yOFRetHW != yOFRetSW) )
 			{
+				cout << "HW and SW is different." << endl;
                 cout << "x is: " << x << "\t y is: " << y << endl;
 				std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
 				std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
@@ -1540,46 +1543,47 @@ int main(int argc, char *argv[])
 				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
 			}
 
-//			if( (rotateFlgGT != rotateFlgSW) )    // Rotate Flag is not correct
-//			{
-//				cout << "Rotation Flag is different." << endl;
-//                cout << "x is: " << x << "\t y is: " << y << endl;
-//				std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
-//				std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
-//				std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
-//				cout << dec;
-//				err_cnt++;
-//				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
-//			}
-//			else
-//			if( OFRetValidGT == 1 )    // scaleGT = 0: a valid OF result from GT, further checking
-//			{
-//				if( (scaleRetSW != 0) || (xOFRetGT != -xOFRetSW) || (yOFRetGT != -yOFRetSW) ) // java OF_GT has differnt sign with this C++ testbench.
-//				{
-//					cout << "Valid GT OF check failed." << endl;
-//	                cout << "x is: " << x << "\t y is: " << y << endl;
-//					std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
-//					std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
-//					std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
-//					cout << dec;
-//					err_cnt++;
-//					cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
-//				}
-//			}
-//			else                                 // scaleGT != 0: an invalid OF result from GT
-//			{
-//				if( scaleRetSW != 3 )
-//				{
-//					cout << "GT OF is invalid while SW OF is valid." << endl;
-//	                cout << "x is: " << x << "\t y is: " << y << endl;
-//					std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
-//					std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
-//					std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
-//					cout << dec;
-//					err_cnt++;
-//					cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
-//				}
-//			}
+			// Compare SW and GT
+			if( (rotateFlgGT != rotateFlgSW) )    // Rotate Flag is not correct
+			{
+				cout << "Rotation Flag is different." << endl;
+                cout << "x is: " << x << "\t y is: " << y << endl;
+				std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
+				std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
+				std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
+				cout << dec;
+				err_cnt++;
+				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+			}
+			else
+			if( OFRetValidGT == 1 )    // scaleGT = 0: a valid OF result from GT, further checking
+			{
+				if( (scaleRetSW != 0) || (xOFRetGT != -xOFRetSW) || (yOFRetGT != -yOFRetSW) ) // java OF_GT has differnt sign with this C++ testbench.
+				{
+					cout << "Valid GT OF check failed." << endl;
+	                cout << "x is: " << x << "\t y is: " << y << endl;
+					std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
+					std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
+					std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
+					cout << dec;
+					err_cnt++;
+					cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+				}
+			}
+			else                                 // scaleGT != 0: an invalid OF result from GT
+			{
+				if( scaleRetSW != 3 )
+				{
+					cout << "GT OF is invalid while SW OF is valid." << endl;
+	                cout << "x is: " << x << "\t y is: " << y << endl;
+					std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
+					std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
+					std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
+					cout << dec;
+					err_cnt++;
+					cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
+				}
+			}
 		}
 
 		if(err_cnt == 0)
