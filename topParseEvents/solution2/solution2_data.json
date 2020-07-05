@@ -76,12 +76,12 @@
       "impl\/vhdl\/colZeroCntScale0.vhd",
       "impl\/vhdl\/colZeroCntScale1.vhd",
       "impl\/vhdl\/colZeroCntScale2.vhd",
-      "impl\/vhdl\/EVABMOFScalar.vhd",
-      "impl\/vhdl\/EVABMOFScalar_Block_1.vhd",
-      "impl\/vhdl\/EVABMOFScalar_Block_2.vhd",
-      "impl\/vhdl\/EVABMOFScalar_Block_s.vhd",
-      "impl\/vhdl\/EVABMOFScalar_entry3.vhd",
-      "impl\/vhdl\/EVABMOFScalar_entry5.vhd",
+      "impl\/vhdl\/EVABMOFScale.vhd",
+      "impl\/vhdl\/EVABMOFScale_Block_1.vhd",
+      "impl\/vhdl\/EVABMOFScale_Block_2.vhd",
+      "impl\/vhdl\/EVABMOFScale_Block_s.vhd",
+      "impl\/vhdl\/EVABMOFScale_entry5.vhd",
+      "impl\/vhdl\/EVABMOFScale_entry37.vhd",
       "impl\/vhdl\/EVABMOFStreamWith6jw.vhd",
       "impl\/vhdl\/EVABMOFStreamWith7jG.vhd",
       "impl\/vhdl\/EVABMOFStreamWith8jQ.vhd",
@@ -149,7 +149,7 @@
       "impl\/vhdl\/start_for_findStrvdy.vhd",
       "impl\/vhdl\/start_for_findStrzec.vhd",
       "impl\/vhdl\/start_for_truncatncg.vhd",
-      "impl\/vhdl\/truncateStream.vhd",
+      "impl\/vhdl\/truncateScale.vhd",
       "impl\/vhdl\/EVABMOFStreamWithControl.vhd"
     ],
     "Verilog": [
@@ -171,12 +171,12 @@
       "impl\/verilog\/colZeroCntScale0.v",
       "impl\/verilog\/colZeroCntScale1.v",
       "impl\/verilog\/colZeroCntScale2.v",
-      "impl\/verilog\/EVABMOFScalar.v",
-      "impl\/verilog\/EVABMOFScalar_Block_1.v",
-      "impl\/verilog\/EVABMOFScalar_Block_2.v",
-      "impl\/verilog\/EVABMOFScalar_Block_s.v",
-      "impl\/verilog\/EVABMOFScalar_entry3.v",
-      "impl\/verilog\/EVABMOFScalar_entry5.v",
+      "impl\/verilog\/EVABMOFScale.v",
+      "impl\/verilog\/EVABMOFScale_Block_1.v",
+      "impl\/verilog\/EVABMOFScale_Block_2.v",
+      "impl\/verilog\/EVABMOFScale_Block_s.v",
+      "impl\/verilog\/EVABMOFScale_entry5.v",
+      "impl\/verilog\/EVABMOFScale_entry37.v",
       "impl\/verilog\/EVABMOFStreamWith6jw.v",
       "impl\/verilog\/EVABMOFStreamWith6jw_ram.dat",
       "impl\/verilog\/EVABMOFStreamWith7jG.v",
@@ -249,7 +249,7 @@
       "impl\/verilog\/start_for_findStrvdy.v",
       "impl\/verilog\/start_for_findStrzec.v",
       "impl\/verilog\/start_for_truncatncg.v",
-      "impl\/verilog\/truncateStream.v",
+      "impl\/verilog\/truncateScale.v",
       "impl\/verilog\/EVABMOFStreamWithControl.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -681,8 +681,8 @@
       "ModuleName": "EVABMOFStreamWithControl",
       "Instances": [
         {
-          "ModuleName": "EVABMOFScalar",
-          "InstanceName": "grp_EVABMOFScalar_fu_304",
+          "ModuleName": "EVABMOFScale",
+          "InstanceName": "grp_EVABMOFScale_fu_304",
           "Instances": [
             {
               "ModuleName": "colStreamToColSumSca_2",
@@ -961,28 +961,28 @@
               "InstanceName": "findStreamMinScale0_U0"
             },
             {
-              "ModuleName": "EVABMOFScalar_Block_2",
-              "InstanceName": "EVABMOFScalar_Block_2_U0"
+              "ModuleName": "EVABMOFScale_Block_2",
+              "InstanceName": "EVABMOFScale_Block_2_U0"
             },
             {
-              "ModuleName": "EVABMOFScalar_Block_1",
-              "InstanceName": "EVABMOFScalar_Block_1_U0"
+              "ModuleName": "EVABMOFScale_Block_1",
+              "InstanceName": "EVABMOFScale_Block_1_U0"
             },
             {
-              "ModuleName": "truncateStream",
-              "InstanceName": "truncateStream_U0"
+              "ModuleName": "truncateScale",
+              "InstanceName": "truncateScale_U0"
             },
             {
-              "ModuleName": "EVABMOFScalar_entry5",
-              "InstanceName": "EVABMOFScalar_entry5_U0"
+              "ModuleName": "EVABMOFScale_entry5",
+              "InstanceName": "EVABMOFScale_entry5_U0"
             },
             {
-              "ModuleName": "EVABMOFScalar_entry3",
-              "InstanceName": "EVABMOFScalar_entry3_U0"
+              "ModuleName": "EVABMOFScale_entry37",
+              "InstanceName": "EVABMOFScale_entry37_U0"
             },
             {
-              "ModuleName": "EVABMOFScalar_Block_s",
-              "InstanceName": "EVABMOFScalar_Block_U0"
+              "ModuleName": "EVABMOFScale_Block_s",
+              "InstanceName": "EVABMOFScale_Block_U0"
             }
           ]
         },
@@ -1023,7 +1023,7 @@
           "DSP48E": "0"
         }
       },
-      "EVABMOFScalar_entry5": {
+      "EVABMOFScale_entry5": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -1044,7 +1044,7 @@
           "DSP48E": "0"
         }
       },
-      "EVABMOFScalar_entry3": {
+      "EVABMOFScale_entry37": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -1065,7 +1065,7 @@
           "DSP48E": "0"
         }
       },
-      "EVABMOFScalar_Block_s": {
+      "EVABMOFScale_Block_s": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -1086,7 +1086,7 @@
           "DSP48E": "0"
         }
       },
-      "truncateStream": {
+      "truncateScale": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -1354,7 +1354,7 @@
           "DSP48E": "0"
         }
       },
-      "EVABMOFScalar_Block_1": {
+      "EVABMOFScale_Block_1": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -1571,7 +1571,7 @@
           "DSP48E": "0"
         }
       },
-      "EVABMOFScalar_Block_2": {
+      "EVABMOFScale_Block_2": {
         "Latency": {
           "LatencyBest": "1",
           "LatencyAvg": "1",
@@ -1841,7 +1841,7 @@
           "BRAM_18K": "0"
         }
       },
-      "EVABMOFScalar": {
+      "EVABMOFScale": {
         "Latency": {
           "LatencyBest": "234",
           "LatencyAvg": "234",
@@ -1889,7 +1889,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-07-05 14:50:27 +0200",
+    "Time": "2020-07-05 19:39:24 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
