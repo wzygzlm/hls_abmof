@@ -9,7 +9,7 @@
         <clock default="false" name="default" period="10" uncertainty="0.1"/>
     </clockList>
     <config>
-        <schedule model="EVABMOFStream"/>
+        <schedule model="EVABMOFStreamWithControl"/>
         <config_dataflow default_channel="fifo" fifo_depth="0"/>
     </config>
     <UIConfigurations>

@@ -1131,6 +1131,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		yWr = ((tmp) & POLARITY_Y_ADDR_MASK) >> POLARITY_Y_ADDR_SHIFT;
 		bool pol  = ((tmp) & POLARITY_MASK) >> POLARITY_SHIFT;
 		uint64_t ts = tmp >> 32;
+		ap_uint<1> SFASTCorner = tmp & 1; // LSB
 
         /* These two values are only for debug and test */
         ap_uint<2> OFGT_scale = (tmp >> 14);
@@ -1138,15 +1139,15 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
         ap_uint<3> OFGT_y = (tmp >> 29);
         ap_uint<6> OFGT = OFGT_y.concat(OFGT_x);
 
-		ap_int<16> miniRet;
-		ap_uint<16> OFRet;
-		ap_uint<2> scaleRet;
-		ap_int<16> miniRetScale0;
-		ap_uint<6> OFRetScale0;
-		ap_int<16> miniRetScale1;
-		ap_uint<6> OFRetScale1;
-		ap_int<16> miniRetScale2;
-		ap_uint<6> OFRetScale2;
+		ap_int<16> miniRet= 0x7fff;
+		ap_uint<16> OFRet = 0x7f7f;
+		ap_uint<2> scaleRet = 3;
+		ap_int<16> miniRetScale0 = 0x7fff;
+		ap_uint<6> OFRetScale0 = 0x7f7f;
+		ap_int<16> miniRetScale1 = 0x7fff;
+		ap_uint<6> OFRetScale1= 0x7f7f;
+		ap_int<16> miniRetScale2 = 0x7fff;
+		ap_uint<6> OFRetScale2= 0x7f7f;
 
         apUint1_t rotateFlg = 0;
         // The area threshold reached, rotate the slice index and clear the areaEventRegs.
@@ -1207,135 +1208,115 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 		writePixSW(xWr, yWr, glPLActiveSliceIdxSW);
 
 		resetPixSW(i/(PIXS_PER_COL), (i % (PIXS_PER_COL)) * COMBINED_PIXELS, (sliceIdx_t)(glPLActiveSliceIdxSW + 3));
-//				resetPix(i/PIXS_PER_COL, (i % PIXS_PER_COL + 1) * COMBINED_PIXELS, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 64, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 96, (sliceIdx_t)(idx + 3));
 
-//				resetPix(i, 128, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 160, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 192, (sliceIdx_t)(idx + 3));
-//				resetPix(i, 224, (sliceIdx_t)(idx + 3));
-
-		// We use stream to accumulate sum and obtain the minimum, so we don't need this global shift register.
-//		for(int idx1 = 0; idx1 < BLOCK_SIZE; idx1++)
-//		{
-//			for(int idx2 = 0; idx2 < 2*SEARCH_DISTANCE + 1; idx2++)
-//			{
-//				localSumReg[idx1][idx2] = 0;
-//			}
-//		}
-//		miniRetVal = 0x7fff;
-//		minOFRet = ap_uint<6>(0xff);   // 0xff means the OF is invalid.
-
-		// In software version, we initial miniSumTmp for every input, so we don't do it here.
-//		initMiniSumLoop : for(int8_t j = 0; j <= 2*SEARCH_DISTANCE; j++)
-//		{
-//			miniSumTmp[j] = ap_int<16>(0);
-//		}
-
-        pix_t block1[BLOCK_SIZE_SCALE_0][BLOCK_SIZE_SCALE_0];
-        pix_t block2[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
-
-        pix_t block1Scale1[BLOCK_SIZE_SCALE_1][BLOCK_SIZE_SCALE_1];
-        pix_t block2Scale1[BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE];
-
-        pix_t block1Scale2[BLOCK_SIZE_SCALE_2][BLOCK_SIZE_SCALE_2];
-        pix_t block2Scale2[BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE];
-
-        bool printBlocksEnable = false;
-        if(ts == 148593900)
+		// Only calculate the OF when SFASTCorner is 1
+		if(SFASTCorner)
 		{
-        	printBlocksEnable = true;
+	        pix_t block1[BLOCK_SIZE_SCALE_0][BLOCK_SIZE_SCALE_0];
+	        pix_t block2[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
+
+	        pix_t block1Scale1[BLOCK_SIZE_SCALE_1][BLOCK_SIZE_SCALE_1];
+	        pix_t block2Scale1[BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE];
+
+	        pix_t block1Scale2[BLOCK_SIZE_SCALE_2][BLOCK_SIZE_SCALE_2];
+	        pix_t block2Scale2[BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE];
+
+	        bool printBlocksEnable = false;
+	        if(ts == 148593900)
+			{
+	        	printBlocksEnable = true;
+			}
+
+	        // Scale 2 computation
+			for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE; xOffset++)
+	        {
+	            pix_t out1Scale2[BLOCK_SIZE_SCALE_2+ 2 * SEARCH_DISTANCE];
+	            pix_t out2Scale2[BLOCK_SIZE_SCALE_2+ 2 * SEARCH_DISTANCE];
+
+				readBlockColsSWScale2(xWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE + xOffset, yWr/4, 0, 0, (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1Scale2, out2Scale2);
+
+	            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_2; yCopyOffset++)
+	            {
+	                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE_SCALE_2 + SEARCH_DISTANCE)
+	                {
+	                    block1Scale2[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1Scale2[yCopyOffset + SEARCH_DISTANCE];
+	                }
+	            }
+
+	            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE; yCopyOffset++)
+	            {
+	                block2Scale2[xOffset][yCopyOffset] = out2Scale2[yCopyOffset];
+	            }
+			}
+	        miniBlockSADSWScale2(block1Scale2, block2Scale2, printBlocksEnable, &miniRetScale2, &OFRetScale2);
+
+	        // Scale 1 computation
+	        ap_int<8> xInitOffsetScale1 = ap_int<8>(OFRetScale2.range(2,0) - 3) << 1;
+	        ap_int<8> yInitOffsetScale1 = ap_int<8>(OFRetScale2.range(5,3) - 3) << 1;
+	        for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; xOffset++)
+	        {
+	            pix_t out1Scale1[BLOCK_SIZE_SCALE_1+ 2 * SEARCH_DISTANCE];
+	            pix_t out2Scale1[BLOCK_SIZE_SCALE_1+ 2 * SEARCH_DISTANCE];
+
+				readBlockColsSWScale1(xWr/2 - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE + xOffset, yWr/2, xInitOffsetScale1,  yInitOffsetScale1, (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1Scale1, out2Scale1);
+
+	            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_1; yCopyOffset++)
+	            {
+	                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE_SCALE_1 + SEARCH_DISTANCE)
+	                {
+	                    block1Scale1[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1Scale1[yCopyOffset + SEARCH_DISTANCE];
+	                }
+	            }
+
+	            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; yCopyOffset++)
+	            {
+	                block2Scale1[xOffset][yCopyOffset] = out2Scale1[yCopyOffset];
+	            }
+			}
+	        miniBlockSADSWScale1(block1Scale1, block2Scale1, printBlocksEnable, &miniRetScale1, &OFRetScale1);
+
+	        // Scale 0 computation
+	        ap_int<8> xInitOffsetScale0 = (ap_int<8>(OFRetScale1.range(2,0) - 3) << 1) + (xInitOffsetScale1 << 1);
+	        ap_int<8> yInitOffsetScale0 = (ap_int<8>(OFRetScale1.range(5,3) - 3) << 1) + (yInitOffsetScale1 << 1);
+	        for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; xOffset++)
+	        {
+	            pix_t out1[BLOCK_SIZE_SCALE_0+ 2 * SEARCH_DISTANCE];
+	            pix_t out2[BLOCK_SIZE_SCALE_0+ 2 * SEARCH_DISTANCE];
+
+				readBlockColsSWScale0(xWr - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE + xOffset, yWr, xInitOffsetScale0, yInitOffsetScale0 , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
+
+	            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_0; yCopyOffset++)
+	            {
+	                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE_SCALE_0 + SEARCH_DISTANCE)
+	                {
+	                    block1[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1[yCopyOffset + SEARCH_DISTANCE];
+	                }
+	            }
+
+	            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; yCopyOffset++)
+	            {
+	                block2[xOffset][yCopyOffset] = out2[yCopyOffset];
+	            }
+			}
+			miniBlockSADSWScale0(block1, block2, printBlocksEnable, &miniRetScale0, &OFRetScale0);
+
+	        if (xWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE < 0 || xWr/4 + BLOCK_SIZE_SCALE_2/2 + SEARCH_DISTANCE >= DVS_WIDTH/4
+	                || yWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE < 0 || yWr/4 + BLOCK_SIZE_SCALE_2/2 + SEARCH_DISTANCE >= DVS_HEIGHT/4) {
+	        	miniRetScale2 = 0x7fff;
+	        	OFRetScale2 = 0x3f;
+	        }
+	        if ((xWr/2 + xInitOffsetScale1) - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE < 0 || (xWr/2 + xInitOffsetScale1) + BLOCK_SIZE_SCALE_1/2 + SEARCH_DISTANCE >= DVS_WIDTH/2
+	                ||(yWr/2 + yInitOffsetScale1) - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE < 0 || (yWr/2 + yInitOffsetScale1) + BLOCK_SIZE_SCALE_1/2 + SEARCH_DISTANCE >= DVS_HEIGHT/2) {
+	        	miniRetScale1 = 0x7fff;
+	        	OFRetScale1 = 0x3f;
+	        }
+	        if ((xWr/1 + xInitOffsetScale0) - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE < 0 || (xWr/1 + xInitOffsetScale0) + BLOCK_SIZE_SCALE_0/2 + SEARCH_DISTANCE >= DVS_WIDTH/1
+	                || (yWr/1 + yInitOffsetScale0) - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE < 0 || (yWr/1 + yInitOffsetScale0) + BLOCK_SIZE_SCALE_0/2 + SEARCH_DISTANCE >= DVS_HEIGHT/1) {
+	        	miniRetScale0 = 0x7fff;
+	        	OFRetScale0 = 0x3f;
+	        }
 		}
 
-        // Scale 2 computation
-		for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE; xOffset++)
-        {
-            pix_t out1Scale2[BLOCK_SIZE_SCALE_2+ 2 * SEARCH_DISTANCE];
-            pix_t out2Scale2[BLOCK_SIZE_SCALE_2+ 2 * SEARCH_DISTANCE];
-
-			readBlockColsSWScale2(xWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE + xOffset, yWr/4, 0, 0, (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1Scale2, out2Scale2);
-
-            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_2; yCopyOffset++)
-            {
-                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE_SCALE_2 + SEARCH_DISTANCE)
-                {
-                    block1Scale2[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1Scale2[yCopyOffset + SEARCH_DISTANCE];
-                }
-            }
-
-            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE; yCopyOffset++)
-            {
-                block2Scale2[xOffset][yCopyOffset] = out2Scale2[yCopyOffset];
-            }
-		}
-        miniBlockSADSWScale2(block1Scale2, block2Scale2, printBlocksEnable, &miniRetScale2, &OFRetScale2);
-
-        // Scale 1 computation
-        ap_int<8> xInitOffsetScale1 = ap_int<8>(OFRetScale2.range(2,0) - 3) << 1;
-        ap_int<8> yInitOffsetScale1 = ap_int<8>(OFRetScale2.range(5,3) - 3) << 1;
-        for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; xOffset++)
-        {
-            pix_t out1Scale1[BLOCK_SIZE_SCALE_1+ 2 * SEARCH_DISTANCE];
-            pix_t out2Scale1[BLOCK_SIZE_SCALE_1+ 2 * SEARCH_DISTANCE];
-
-			readBlockColsSWScale1(xWr/2 - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE + xOffset, yWr/2, xInitOffsetScale1,  yInitOffsetScale1, (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1Scale1, out2Scale1);
-
-            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_1; yCopyOffset++)
-            {
-                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE_SCALE_1 + SEARCH_DISTANCE)
-                {
-                    block1Scale1[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1Scale1[yCopyOffset + SEARCH_DISTANCE];
-                }
-            }
-
-            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE; yCopyOffset++)
-            {
-                block2Scale1[xOffset][yCopyOffset] = out2Scale1[yCopyOffset];
-            }
-		}
-        miniBlockSADSWScale1(block1Scale1, block2Scale1, printBlocksEnable, &miniRetScale1, &OFRetScale1);
-
-        // Scale 0 computation
-        ap_int<8> xInitOffsetScale0 = (ap_int<8>(OFRetScale1.range(2,0) - 3) << 1) + (xInitOffsetScale1 << 1);
-        ap_int<8> yInitOffsetScale0 = (ap_int<8>(OFRetScale1.range(5,3) - 3) << 1) + (yInitOffsetScale1 << 1);
-        for(int8_t xOffset = 0; xOffset < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; xOffset++)
-        {
-            pix_t out1[BLOCK_SIZE_SCALE_0+ 2 * SEARCH_DISTANCE];
-            pix_t out2[BLOCK_SIZE_SCALE_0+ 2 * SEARCH_DISTANCE];
-
-			readBlockColsSWScale0(xWr - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE + xOffset, yWr, xInitOffsetScale0, yInitOffsetScale0 , (glPLActiveSliceIdxSW + 1), (glPLActiveSliceIdxSW + 2), out1, out2);
-
-            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_0; yCopyOffset++)
-            {
-                if (xOffset >= SEARCH_DISTANCE && xOffset < BLOCK_SIZE_SCALE_0 + SEARCH_DISTANCE)
-                {
-                    block1[xOffset - SEARCH_DISTANCE][yCopyOffset] = out1[yCopyOffset + SEARCH_DISTANCE];
-                }
-            }
-
-            for(int8_t yCopyOffset = 0; yCopyOffset < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; yCopyOffset++)
-            {
-                block2[xOffset][yCopyOffset] = out2[yCopyOffset];
-            }
-		}
-		miniBlockSADSWScale0(block1, block2, printBlocksEnable, &miniRetScale0, &OFRetScale0);
-
-        if (xWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE < 0 || xWr/4 + BLOCK_SIZE_SCALE_2/2 + SEARCH_DISTANCE >= DVS_WIDTH/4
-                || yWr/4 - BLOCK_SIZE_SCALE_2/2 - SEARCH_DISTANCE < 0 || yWr/4 + BLOCK_SIZE_SCALE_2/2 + SEARCH_DISTANCE >= DVS_HEIGHT/4) {
-        	miniRetScale2 = 0x7fff;
-        	OFRetScale2 = 0x3f;
-        }
-        if ((xWr/2 + xInitOffsetScale1) - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE < 0 || (xWr/2 + xInitOffsetScale1) + BLOCK_SIZE_SCALE_1/2 + SEARCH_DISTANCE >= DVS_WIDTH/2
-                ||(yWr/2 + yInitOffsetScale1) - BLOCK_SIZE_SCALE_1/2 - SEARCH_DISTANCE < 0 || (yWr/2 + yInitOffsetScale1) + BLOCK_SIZE_SCALE_1/2 + SEARCH_DISTANCE >= DVS_HEIGHT/2) {
-        	miniRetScale1 = 0x7fff;
-        	OFRetScale1 = 0x3f;
-        }
-        if ((xWr/1 + xInitOffsetScale0) - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE < 0 || (xWr/1 + xInitOffsetScale0) + BLOCK_SIZE_SCALE_0/2 + SEARCH_DISTANCE >= DVS_WIDTH/1
-                || (yWr/1 + yInitOffsetScale0) - BLOCK_SIZE_SCALE_0/2 - SEARCH_DISTANCE < 0 || (yWr/1 + yInitOffsetScale0) + BLOCK_SIZE_SCALE_0/2 + SEARCH_DISTANCE >= DVS_HEIGHT/1) {
-        	miniRetScale0 = 0x7fff;
-        	OFRetScale0 = 0x3f;
-        }
 
         // If the result is valid, then result scale is 0. Otherwise, set scaleRet 3.
         if( miniRetScale2 >= maxAllowedSadValueScale2
@@ -1423,7 +1404,7 @@ int main(int argc, char *argv[])
 //	srand((unsigned)time(NULL));
 	FILE * fp;
 
-	if((fp = fopen("E://xfOpenCV//hls_2018_1//topParseEvents//DDD17_BackFromAirport_full_areaThr_700-OFResult_GT.bin","rb"))== NULL)
+	if((fp = fopen("E://xfOpenCV//hls_2018_1//topParseEvents//DDD17_BackFromAirport_areaThr_700_SFAST-OFResult_GT.bin","rb"))== NULL)
 	{
 		printf("can not open the file\n");
 		exit(0);
@@ -1445,18 +1426,19 @@ int main(int argc, char *argv[])
     ap_uint<32> config, status;
 
 	uint64_t x_in[eventCnt], y_in[eventCnt];
-	uint16_t x_out[eventCnt], y_out[eventCnt];
-	uint64_t ts_in[eventCnt], ts_out[eventCnt];
+	ap_uint<16> x_out[eventCnt], y_out[eventCnt];
+	ap_uint<64> ts_in[eventCnt], ts_out[eventCnt];
 	ap_uint<1> pol_in[eventCnt], pol_out[eventCnt];
 	ap_uint<17> retData[eventCnt];
 	ap_uint<32> GTData[eventCnt];
 
-	hls::stream< ap_uint<16> > xStreamIn("xStreamIn"), yStreamIn("yStreamIn"), xStreamOut("xStreamOut"), yStreamOut("yStreamOut");
-	hls::stream< ap_uint<64> > tsStreamIn("tsStreamIn"), tsStreamOut("tsStreamOut");
-	hls::stream< ap_uint<1> > polStreamIn("polStreamIn"), polStreamOut("polStreamOut");
+	hls::stream< ap_uint<16> > xStreamIn("xStreamInSW"), yStreamIn("yStreamInSW"), xStreamOut("xStreamOut"), yStreamOut("yStreamOut");
+	hls::stream< ap_uint<64> > tsStreamIn("tsStreamInSW"), tsStreamOut("tsStreamOut");
+	hls::stream< ap_uint<1> > polStreamIn("polStreamInSW"), polStreamOut("polStreamOut");
+	hls::stream< ap_uint<1> > cornerStreamIn("cornerStream");
 	hls::stream< ap_uint<17> > miscDataStream("miscDataStream");
 
-	testTimes = 25;
+	testTimes = 30;
 	for(int k = 0; k < testTimes; k++)
 	{
 		cout << "Test " << k << ":" << endl;
@@ -1477,7 +1459,8 @@ int main(int argc, char *argv[])
 			ts_in[i] = data2;
 			GTData[i] = data3;
 
-			if(k == 0 && i == 2471)
+			ap_uint<1> SFASTCorner = GTData[i].bit(24);
+			if(k == 5 && i == 886)
 			{
 				int tmp = 0;
 			}
@@ -1492,9 +1475,11 @@ int main(int argc, char *argv[])
 			yStreamIn << y_in[i];
 			tsStreamIn << ts_in[i];
 			polStreamIn << pol_in[i];
+			cornerStreamIn << SFASTCorner;
 
-			EVABMOFStream(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
-					xStreamOut, yStreamOut, tsStreamOut, polStreamOut, miscDataStream,
+			EVABMOFStreamWithControl(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
+					cornerStreamIn,
+					xStreamOut, yStreamOut, tsStreamOut,polStreamOut, miscDataStream,
 					config, &status);
 
 			x_out[i] = xStreamOut.read().to_uint();
@@ -1503,7 +1488,13 @@ int main(int argc, char *argv[])
 			pol_out[i] = polStreamOut.read().to_bool();
 			retData[i] = miscDataStream.read();
 
-			data[i] = (uint64_t)(ts_in[i] << 32) + (uint64_t)(x_in[i] << POLARITY_X_ADDR_SHIFT) + (uint64_t)(y_in[i] << POLARITY_Y_ADDR_SHIFT) + (pol_in[i] << POLARITY_SHIFT);
+//			EVABMOFScalar(x_in[i], y_in[i], ts_in[i], pol_in[i],
+//					&x_out[i], &y_out[i], &ts_out[i], &pol_out[i],
+//					&retData[i],
+//					config, &status);
+
+			// GTData bit 24 is SFAST corner flag bit.
+			data[i] = (uint64_t)(ts_in[i] << 32) + (uint64_t)(x_in[i] << POLARITY_X_ADDR_SHIFT) + (uint64_t)(y_in[i] << POLARITY_Y_ADDR_SHIFT) + (pol_in[i] << POLARITY_SHIFT) + SFASTCorner;
 //			cout << "data[" << i << "] is: "<< hex << data[i]  << endl;
 		}
 
@@ -1515,11 +1506,15 @@ int main(int argc, char *argv[])
 			ap_uint<10> y = tmpData.range(25, 16);
 			ap_uint<10> x = tmpData.range(10, 1);
 
+			ap_uint<10> xHW = x_out[j];
+			ap_uint<10> yHW = y_out[j];
+
 			ap_uint<1> rotateFlgGT = GTData[j].bit(23);
 			ap_uint<1> rotateFlgSW = custDataOutSW[j].bit(23);
 			ap_uint<1> rotateFlgHW = retData[j].bit(16);
 
 			ap_uint<2> OFRetValidGT = GTData[j].bit(16);
+			ap_uint<1> SFASTCornerGT = GTData[j].bit(24);
 			ap_uint<2> scaleRetSW = custDataOutSW[j].range(17, 16);
 
 			ap_int<8> xOFRetGT = GTData[j].range(7, 0) - 127;
@@ -1531,10 +1526,12 @@ int main(int argc, char *argv[])
 			ap_int<8> yOFRetHW = retData[j].range(15, 8);
 
 			// Compare HW and SW
-			if( (rotateFlgHW != rotateFlgSW) || (xOFRetHW != xOFRetSW) || (yOFRetHW != yOFRetSW) )
+			if( (rotateFlgHW != rotateFlgSW) || (x != xHW) || (y != yHW)
+					|| (xOFRetHW != xOFRetSW) || (yOFRetHW != yOFRetSW) )
 			{
 				cout << "HW and SW is different." << endl;
-                cout << "x is: " << x << "\t y is: " << y << endl;
+                cout << "x for SW is: " << x << "\t y for SW is: " << y << endl;
+                cout << "x for HW is: " << xHW << "\t y for HW is: " << yHW << endl;
 				std::cout << "OF for eventSlice SW is: " << hex << custDataOutSW[j] << std::endl;
 				std::cout << "OF for eventSlice HW is: " << hex << retData[j] << std::endl;
 				std::cout << "OF for GT is: " << hex << GTData[j] << std::endl;
@@ -1556,9 +1553,9 @@ int main(int argc, char *argv[])
 				cout << "Mismatch detected on TEST " << k << " and the mismatch index is: " << j << endl;
 			}
 			else
-			if( OFRetValidGT == 1 )    // scaleGT = 0: a valid OF result from GT, further checking
+			if( OFRetValidGT == 1 && SFASTCornerGT)    // scaleGT = 0: a valid OF result from GT; SFASTCornerGT = 1 means it is a corner; further checking
 			{
-				if( (scaleRetSW != 0) || (xOFRetGT != -xOFRetSW) || (yOFRetGT != -yOFRetSW) ) // java OF_GT has differnt sign with this C++ testbench.
+				if( (scaleRetSW != 0) || (xOFRetGT != -xOFRetSW) || (yOFRetGT != -yOFRetSW) ) // java OF_GT has different sign with this C++ testbench.
 				{
 					cout << "Valid GT OF check failed." << endl;
 	                cout << "x is: " << x << "\t y is: " << y << endl;
