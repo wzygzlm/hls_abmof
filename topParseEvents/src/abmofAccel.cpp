@@ -1904,9 +1904,10 @@ void rwSlicesScale0(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &y
 	apIntBlockScale0Col_t tagBlockCol[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
 #pragma HLS RESOURCE variable=refBlockCol core=RAM_2P_LUTRAM
 #pragma HLS RESOURCE variable=tagBlockCol core=RAM_2P_LUTRAM
-#pragma HLS DEPENDENCE variable=refBlockCol inter false
-#pragma HLS DEPENDENCE variable=tagBlockCol inter false
-	int refBlockkColIdx = 0, tagBlockColIdx = 0, iterationCnt = 0;
+//#pragma HLS ARRAY_PARTITION variable=refBlockCol complete dim=0
+//#pragma HLS ARRAY_PARTITION variable=tagBlockCol complete dim=0
+
+	int refBlockkColIdx = 0, tagBlockColIdx = 0, iterationCnt = 0, iterationCnt_i = 0, iterationCnt_k = 0;
 
 //	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
 //	{
@@ -2007,46 +2008,43 @@ void rwSlicesScale0(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &y
 				}
 
 
-				if(xOffSet >= 0 && xOffSet < BLOCK_SIZE_SCALE_0 + (2 * SEARCH_DISTANCE))
+				if(iterationCnt_i == 0)
 				{
 					for (int8_t l = 0; l < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; l++)
 					{
-						refBlockCol[xOffSet].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
-						tagBlockCol[xOffSet].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
+						refBlockCol[iterationCnt_k].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
+						tagBlockCol[iterationCnt_k].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
+					}
+					refStreamOut << refBlockCol[iterationCnt_k];
+					tagStreamOut << tagBlockCol[iterationCnt_k];
+				}
+				else
+				{
+					if((iterationCnt_i == 1) && (iterationCnt_k < 2 * SEARCH_DISTANCE))
+					{
+						for (int8_t l = 0; l < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; l++)
+						{
+							tagBlockCol[BLOCK_SIZE_SCALE_0 + iterationCnt_k].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
+						}
+						refStreamOut << refBlockCol[iterationCnt_k];
+						tagStreamOut << tagBlockCol[iterationCnt_i + iterationCnt_k];
+					}
+					else
+					{
+						refStreamOut << refBlockCol[iterationCnt_k];
+						tagStreamOut << tagBlockCol[iterationCnt_i + iterationCnt_k];
 					}
 				}
 
-				refStreamOut << refBlockCol[refBlockkColIdx];
-				if(refBlockkColIdx == BLOCK_SIZE_SCALE_0 - 1)
+				if(iterationCnt_k == BLOCK_SIZE_SCALE_0 - 1)
 				{
-					refBlockkColIdx = 0;
+					iterationCnt_k = 0;
+					iterationCnt_i++;
 				}
 				else
 				{
-					refBlockkColIdx++;
+					iterationCnt_k++;
 				}
-
-				tagStreamOut << tagBlockCol[tagBlockColIdx + iterationCnt];
-				if(tagBlockColIdx == BLOCK_SIZE_SCALE_0 - 1)
-				{
-					tagBlockColIdx = 0;
-					iterationCnt++;
-				}
-				else
-				{
-					tagBlockColIdx++;
-				}
-
-//				if (xOffSet >= 0 && xOffSet < 0 + BLOCK_SIZE_SCALE_0)
-//				{
-//					refStreamOut << refBlockCol[xOffSet];
-//				}
-//
-//				if (xOffSet >= 0 && xOffSet < BLOCK_SIZE_SCALE_0 + (2 * SEARCH_DISTANCE))
-//				{
-//					tagStreamOut << tagBlockCol[xOffSet];
-//				}
-
 			}
 		}
 //	}

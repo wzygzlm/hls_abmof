@@ -1592,9 +1592,9 @@
       },
       "rwSlicesScale0": {
         "Latency": {
-          "LatencyBest": "182",
-          "LatencyAvg": "182",
-          "LatencyWorst": "183",
+          "LatencyBest": "181",
+          "LatencyAvg": "181",
+          "LatencyWorst": "182",
           "PipelineII": "176",
           "PipelineDepth": "",
           "PipelineType": "loop rewind"
@@ -1607,14 +1607,14 @@
         "Loops": [{
             "Name": "rwSlicesInnerLoop",
             "TripCount": "176",
-            "Latency": "182",
+            "Latency": "181",
             "PipelineII": "1",
-            "PipelineDepth": "8"
+            "PipelineDepth": "7"
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "2903",
-          "LUT": "6527",
+          "FF": "3024",
+          "LUT": "6586",
           "DSP48E": "0"
         }
       },
@@ -1841,9 +1841,9 @@
       },
       "EVABMOFScale": {
         "Latency": {
-          "LatencyBest": "237",
-          "LatencyAvg": "237",
-          "LatencyWorst": "237",
+          "LatencyBest": "236",
+          "LatencyAvg": "236",
+          "LatencyWorst": "236",
           "PipelineII": "176",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
@@ -1856,18 +1856,18 @@
         "Area": {
           "BRAM_18K": "8",
           "DSP48E": "318",
-          "FF": "18310",
-          "LUT": "40141"
+          "FF": "18431",
+          "LUT": "40200"
         }
       },
       "EVABMOFStreamWithControl": {
         "Latency": {
           "LatencyBest": "9",
-          "LatencyAvg": "134",
-          "LatencyWorst": "241",
+          "LatencyAvg": "133",
+          "LatencyWorst": "240",
           "PipelineIIMin": "10",
-          "PipelineIIMax": "242",
-          "PipelineII": "10 ~ 242",
+          "PipelineIIMax": "241",
+          "PipelineII": "10 ~ 241",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -1879,15 +1879,15 @@
         "Area": {
           "BRAM_18K": "356",
           "DSP48E": "318",
-          "FF": "20631",
-          "LUT": "47470"
+          "FF": "20752",
+          "LUT": "47529"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-07-09 14:21:09 +0200",
+    "Time": "2020-07-09 19:57:01 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }
