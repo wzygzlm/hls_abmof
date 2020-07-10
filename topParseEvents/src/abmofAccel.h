@@ -38,7 +38,10 @@
 #define BLOCK_SIZE_SCALE_1 13
 #define BLOCK_SIZE_SCALE_0 25
 
-#define NPC_SCALE_0 1
+#define COL_SUM_BITS 16
+#define VALID_CNT_BITS 6
+
+#define NPC_SCALE_0 2
 
 #define BLOCK_AREA (BLOCK_SIZE * BLOCK_SIZE)
 #define BLOCK_AREA_SCALE_0 (BLOCK_SIZE_SCALE_0 * BLOCK_SIZE_SCALE_0)
@@ -51,6 +54,11 @@
 #define INIT_AREA_THERSHOLD 700
 #define MAX_SLICE_DURATION_US 300000
 
+const float glIterCntNPCScale0Float = float(BLOCK_SIZE_SCALE_0)/float(NPC_SCALE_0);
+const int glConstIterCntNPCScale0 = ceil(glIterCntNPCScale0Float);
+
+#define ITER_CNT_NPC_SCALE_0 ceil(float(BLOCK_SIZE_SCALE_0)/float(NPC_SCALE_0))
+
 // Valid pixel occupancy parameter
 const float glValidPixOccupancy = 0.01;
 const int glMinValidPixNum = int(glValidPixOccupancy * BLOCK_AREA);
@@ -58,7 +66,7 @@ const int glMinValidPixNumScale0 = int(glValidPixOccupancy * BLOCK_AREA_SCALE_0)
 const int glMinValidPixNumScale1 = int(glValidPixOccupancy * BLOCK_AREA_SCALE_1);
 const int glMinValidPixNumScale2 = int(glValidPixOccupancy * BLOCK_AREA_SCALE_2);
 
-// max allowd sad distance, normalized. Same as jaer.
+// max allowed sad distance, normalized. Same as jaer.
 // To remove float computation on hardware, convert it back to int and only support weightDistance = 1.0
 const float maxAllowedSadDistance = 0.5;
 const int maxAllowedSadValueScale0 = ap_uint<BITS_PER_PIXEL>(0xffff) * 2 * BLOCK_AREA_SCALE_0;
@@ -84,6 +92,14 @@ typedef ap_int<BLOCK_COL_PIXELS> apIntBlockCol_t;
 typedef ap_int<BLOCK_SCALE0_COL_PIXELS> apIntBlockScale0Col_t;
 typedef ap_int<BLOCK_SCALE1_COL_PIXELS> apIntBlockScale1Col_t;
 typedef ap_int<BLOCK_SCALE2_COL_PIXELS> apIntBlockScale2Col_t;
+
+typedef ap_uint<COL_SUM_BITS * (2 * SEARCH_DISTANCE + 1)> apUintColSum_t;
+typedef ap_uint<VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1)> apUintValidCnt_t;
+typedef ap_uint<COL_SUM_BITS * (2 * SEARCH_DISTANCE + 1) * NPC_SCALE_0> apUintColSumNPC_t;
+typedef ap_uint<VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1) * NPC_SCALE_0> apUintValidCntNPC_t;
+typedef ap_uint<6 * NPC_SCALE_0> apUintRefZeroCntNPC_t;
+
+typedef ap_int<BLOCK_SCALE0_COL_PIXELS * NPC_SCALE_0> apIntBlockScale0ColNPC_t;
 
 //typedef ap_int<COL_BITS> apIntColBits_t;
 typedef ap_uint<17> apUint17_t;
