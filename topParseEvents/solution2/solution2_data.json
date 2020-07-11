@@ -14,27 +14,7 @@
   },
   "HlsSolution": {
     "Config": ["config_dataflow -default_channel=fifo -fifo_depth=0"],
-    "Directives": [
-      "interface parseEvents {{ap_fifo positionBoolean0mode} {depth 500} {port positionBooleanTextRequireddataStream}} {}",
-      "interface testRwslices {{ap_fifo positionBoolean0mode} {depth 1000} {port positionBooleanTextRequireddata}} {}",
-      "interface testRwslices {{ap_fifo positionBoolean0mode} {depth 17000} {port positionBooleanTextRequiredrefData}} {}",
-      "interface testRwslices {{ap_fifo positionBoolean0mode} {depth 17000} {port positionBooleanTextRequiredtagData}} {}",
-      "stream testRwslices {{variable positionBooleanTextRequiredpktEventDataStream} {depth 2} {dim 1}} {}",
-      "stream testRwslices {{variable positionBooleanTextRequiredrefStream} {depth 2} {dim 1}} {}",
-      "stream testRwslices {{variable positionBooleanTextRequiredtagStreamIn} {depth 2} {dim 1}} {}",
-      "dataflow testRwslices {} {}",
-      "pipeline testRwslices\/getXandYLoop {} {}",
-      "pipeline testRwslices\/writeFromStream {} {}",
-      "loop_tripcount testRwslices\/writeFromStream {{tripcount positionBooleanCmd} {min 1} {max 170000}} {}",
-      "interface parseEvents {{s_axilite positionBoolean0mode} {register positionBoolean1} {port positionBooleanTextRequiredreturn}} {}",
-      "interface getXandY {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequireddata}} {}",
-      "pipeline rwSlicesAndColStreams\/rwSlicesLoop {} {}",
-      "pipeline rwSlicesAndColStreams\/GenerateStreamLoop {} {}",
-      "dataflow rwSlicesAndColStreams {} {}",
-      "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData0} {core RAM_1P_LUTRAM}} {}",
-      "resource rwSlicesAndColStreams {{variable positionBooleanTextRequiredcolData1} {core RAM_2P_LUTRAM}} {}",
-      "interface parseEvents {{m_axi positionBoolean0mode} {depth 500} {port positionBooleanTextRequiredeventSlice} {offset slave} {bundle gmem} {num_read_outstanding 0} {max_read_burst_length 2} {max_write_burst_length 256}} {}"
-    ]
+    "Directives": ["interface getXandY {{ap_fifo positionBoolean0mode} {port positionBooleanTextRequireddata}} {}"]
   },
   "ClockInfo": {
     "ClockName": "ap_clk",
@@ -79,7 +59,7 @@
       "impl\/vhdl\/EVABMOFScale_Block_2.vhd",
       "impl\/vhdl\/EVABMOFScale_Block_s.vhd",
       "impl\/vhdl\/EVABMOFScale_entry5.vhd",
-      "impl\/vhdl\/EVABMOFScale_entry37.vhd",
+      "impl\/vhdl\/EVABMOFScale_entry39.vhd",
       "impl\/vhdl\/EVABMOFStreamWith6jw.vhd",
       "impl\/vhdl\/EVABMOFStreamWith7jG.vhd",
       "impl\/vhdl\/EVABMOFStreamWith8jQ.vhd",
@@ -105,6 +85,7 @@
       "impl\/vhdl\/fifo_w10_d0_A.vhd",
       "impl\/vhdl\/fifo_w10_d10_S.vhd",
       "impl\/vhdl\/fifo_w11_d3_A.vhd",
+      "impl\/vhdl\/fifo_w12_d2_A.vhd",
       "impl\/vhdl\/fifo_w15_d10_S.vhd",
       "impl\/vhdl\/fifo_w16_d0_A.vhd",
       "impl\/vhdl\/fifo_w16_d2_A.vhd",
@@ -115,13 +96,16 @@
       "impl\/vhdl\/fifo_w64_d2_A.vhd",
       "impl\/vhdl\/fifo_w76_d6_A.vhd",
       "impl\/vhdl\/fifo_w76_d10_A.vhd",
+      "impl\/vhdl\/fifo_w84_d2_A.vhd",
       "impl\/vhdl\/fifo_w96_d10_S.vhd",
       "impl\/vhdl\/fifo_w112_d10_S.vhd",
-      "impl\/vhdl\/fifo_w124_d10_S.vhd",
+      "impl\/vhdl\/fifo_w224_d10_S.vhd",
+      "impl\/vhdl\/fifo_w248_d10_S.vhd",
       "impl\/vhdl\/findStreamMinScale0.vhd",
       "impl\/vhdl\/findStreamMinScale1.vhd",
       "impl\/vhdl\/findStreamMinScale2.vhd",
       "impl\/vhdl\/min.vhd",
+      "impl\/vhdl\/minWide.vhd",
       "impl\/vhdl\/rotateSliceAllScales.vhd",
       "impl\/vhdl\/rotateSliceAndWriteR.vhd",
       "impl\/vhdl\/rwSlicesScale0.vhd",
@@ -173,7 +157,7 @@
       "impl\/verilog\/EVABMOFScale_Block_2.v",
       "impl\/verilog\/EVABMOFScale_Block_s.v",
       "impl\/verilog\/EVABMOFScale_entry5.v",
-      "impl\/verilog\/EVABMOFScale_entry37.v",
+      "impl\/verilog\/EVABMOFScale_entry39.v",
       "impl\/verilog\/EVABMOFStreamWith6jw.v",
       "impl\/verilog\/EVABMOFStreamWith6jw_ram.dat",
       "impl\/verilog\/EVABMOFStreamWith7jG.v",
@@ -204,6 +188,7 @@
       "impl\/verilog\/fifo_w10_d0_A.v",
       "impl\/verilog\/fifo_w10_d10_S.v",
       "impl\/verilog\/fifo_w11_d3_A.v",
+      "impl\/verilog\/fifo_w12_d2_A.v",
       "impl\/verilog\/fifo_w15_d10_S.v",
       "impl\/verilog\/fifo_w16_d0_A.v",
       "impl\/verilog\/fifo_w16_d2_A.v",
@@ -214,13 +199,16 @@
       "impl\/verilog\/fifo_w64_d2_A.v",
       "impl\/verilog\/fifo_w76_d6_A.v",
       "impl\/verilog\/fifo_w76_d10_A.v",
+      "impl\/verilog\/fifo_w84_d2_A.v",
       "impl\/verilog\/fifo_w96_d10_S.v",
       "impl\/verilog\/fifo_w112_d10_S.v",
-      "impl\/verilog\/fifo_w124_d10_S.v",
+      "impl\/verilog\/fifo_w224_d10_S.v",
+      "impl\/verilog\/fifo_w248_d10_S.v",
       "impl\/verilog\/findStreamMinScale0.v",
       "impl\/verilog\/findStreamMinScale1.v",
       "impl\/verilog\/findStreamMinScale2.v",
       "impl\/verilog\/min.v",
+      "impl\/verilog\/minWide.v",
       "impl\/verilog\/rotateSliceAllScales.v",
       "impl\/verilog\/rotateSliceAndWriteR.v",
       "impl\/verilog\/rwSlicesScale0.v",
@@ -688,7 +676,69 @@
               "Instances": [
                 {
                   "ModuleName": "colSADSumScale0",
-                  "InstanceName": "grp_colSADSumScale0_fu_266",
+                  "InstanceName": "grp_colSADSumScale0_fu_392",
+                  "Instances": [
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_464",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_568",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_672",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_776",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_880",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_984",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_1088",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    }
+                  ]
+                },
+                {
+                  "ModuleName": "colSADSumScale0",
+                  "InstanceName": "grp_colSADSumScale0_fu_452",
                   "Instances": [
                     {
                       "ModuleName": "sadScale0",
@@ -750,7 +800,11 @@
                 },
                 {
                   "ModuleName": "colZeroCntScale0",
-                  "InstanceName": "grp_colZeroCntScale0_fu_326"
+                  "InstanceName": "grp_colZeroCntScale0_fu_512"
+                },
+                {
+                  "ModuleName": "colZeroCntScale0",
+                  "InstanceName": "grp_colZeroCntScale0_fu_572"
                 }
               ]
             },
@@ -914,8 +968,8 @@
               "ModuleName": "accumulateStreamScal_2",
               "InstanceName": "accumulateStreamScal_2_U0",
               "Instances": [{
-                  "ModuleName": "min",
-                  "InstanceName": "grp_min_fu_267"
+                  "ModuleName": "minWide",
+                  "InstanceName": "grp_minWide_fu_335"
                 }]
             },
             {
@@ -975,8 +1029,8 @@
               "InstanceName": "EVABMOFScale_entry5_U0"
             },
             {
-              "ModuleName": "EVABMOFScale_entry37",
-              "InstanceName": "EVABMOFScale_entry37_U0"
+              "ModuleName": "EVABMOFScale_entry39",
+              "InstanceName": "EVABMOFScale_entry39_U0"
             },
             {
               "ModuleName": "EVABMOFScale_Block_s",
@@ -1042,7 +1096,7 @@
           "DSP48E": "0"
         }
       },
-      "EVABMOFScale_entry37": {
+      "EVABMOFScale_entry39": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -1592,10 +1646,10 @@
       },
       "rwSlicesScale0": {
         "Latency": {
-          "LatencyBest": "181",
-          "LatencyAvg": "181",
-          "LatencyWorst": "182",
-          "PipelineII": "176",
+          "LatencyBest": "128",
+          "LatencyAvg": "128",
+          "LatencyWorst": "129",
+          "PipelineII": "123",
           "PipelineDepth": "",
           "PipelineType": "loop rewind"
         },
@@ -1606,15 +1660,15 @@
         },
         "Loops": [{
             "Name": "rwSlicesInnerLoop",
-            "TripCount": "176",
-            "Latency": "181",
+            "TripCount": "123",
+            "Latency": "128",
             "PipelineII": "1",
             "PipelineDepth": "7"
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "3024",
-          "LUT": "6586",
+          "FF": "2836",
+          "LUT": "6503",
           "DSP48E": "0"
         }
       },
@@ -1704,10 +1758,10 @@
       },
       "colStreamToColSumSca_2": {
         "Latency": {
-          "LatencyBest": "180",
-          "LatencyAvg": "180",
-          "LatencyWorst": "181",
-          "PipelineII": "175",
+          "LatencyBest": "96",
+          "LatencyAvg": "96",
+          "LatencyWorst": "97",
+          "PipelineII": "91",
           "PipelineDepth": "",
           "PipelineType": "loop rewind"
         },
@@ -1718,43 +1772,64 @@
         },
         "Loops": [{
             "Name": "colStreamToColSum_label1_colStreamToColSum_label2",
-            "TripCount": "175",
-            "Latency": "180",
+            "TripCount": "91",
+            "Latency": "96",
             "PipelineII": "1",
             "PipelineDepth": "7"
           }],
         "Area": {
           "BRAM_18K": "0",
-          "DSP48E": "175",
-          "FF": "5192",
-          "LUT": "9019"
+          "DSP48E": "350",
+          "FF": "10291",
+          "LUT": "17839"
+        }
+      },
+      "minWide": {
+        "Latency": {
+          "LatencyBest": "1",
+          "LatencyAvg": "1",
+          "LatencyWorst": "1",
+          "PipelineII": "1",
+          "PipelineDepth": "2",
+          "PipelineType": "function"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.88"
+        },
+        "Area": {
+          "FF": "67",
+          "LUT": "194",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
         }
       },
       "accumulateStreamScal_2": {
         "Latency": {
-          "LatencyBest": "177",
-          "LatencyAvg": "177",
-          "LatencyWorst": "178",
-          "PipelineII": "175",
+          "LatencyBest": "95",
+          "LatencyAvg": "95",
+          "LatencyWorst": "96",
+          "PipelineII": "91",
           "PipelineDepth": "",
           "PipelineType": "loop rewind"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "9.89"
+          "Estimate": "9.88"
         },
         "Loops": [{
             "Name": "L_accumulateStream_label3",
-            "TripCount": "175",
-            "Latency": "177",
+            "TripCount": "91",
+            "Latency": "95",
             "PipelineII": "1",
-            "PipelineDepth": "4"
+            "PipelineDepth": "6"
           }],
         "Area": {
           "BRAM_18K": "0",
-          "FF": "621",
-          "LUT": "1675",
+          "FF": "1012",
+          "LUT": "2210",
           "DSP48E": "0"
         }
       },
@@ -1841,10 +1916,10 @@
       },
       "EVABMOFScale": {
         "Latency": {
-          "LatencyBest": "236",
-          "LatencyAvg": "236",
-          "LatencyWorst": "236",
-          "PipelineII": "176",
+          "LatencyBest": "185",
+          "LatencyAvg": "185",
+          "LatencyWorst": "185",
+          "PipelineII": "123",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
         },
@@ -1855,19 +1930,19 @@
         },
         "Area": {
           "BRAM_18K": "8",
-          "DSP48E": "318",
-          "FF": "18431",
-          "LUT": "40200"
+          "DSP48E": "493",
+          "FF": "23733",
+          "LUT": "49922"
         }
       },
       "EVABMOFStreamWithControl": {
         "Latency": {
           "LatencyBest": "9",
-          "LatencyAvg": "133",
-          "LatencyWorst": "240",
+          "LatencyAvg": "108",
+          "LatencyWorst": "189",
           "PipelineIIMin": "10",
-          "PipelineIIMax": "241",
-          "PipelineII": "10 ~ 241",
+          "PipelineIIMax": "190",
+          "PipelineII": "10 ~ 190",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -1878,16 +1953,16 @@
         },
         "Area": {
           "BRAM_18K": "356",
-          "DSP48E": "318",
-          "FF": "20752",
-          "LUT": "47529"
+          "DSP48E": "493",
+          "FF": "26054",
+          "LUT": "57251"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-07-09 19:57:01 +0200",
+    "Time": "2020-07-11 00:30:09 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

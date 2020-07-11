@@ -1404,7 +1404,7 @@ int main(int argc, char *argv[])
 //	srand((unsigned)time(NULL));
 	FILE * fp;
 
-	if((fp = fopen("E://xfOpenCV//hls_2018_1//topParseEvents//DDD17_BackFromAirport_areaThr_700_full-OFResult_GT.bin","rb"))== NULL)
+	if((fp = fopen("E://xfOpenCV//hls_2018_1//topParseEvents//DDD17_BackFromAirport_areaThr_700_SFAST-OFResult_GT.bin","rb"))== NULL)
 	{
 		printf("can not open the file\n");
 		exit(0);
