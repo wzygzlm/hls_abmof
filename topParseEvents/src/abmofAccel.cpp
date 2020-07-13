@@ -4561,8 +4561,8 @@ void EVABMOFStreamNoConfigNoStaus(hls::stream< ap_uint<16> > &xStreamIn, hls::st
 
 void EVABMOFScale(ap_uint<1> select,
 		ap_uint<16> xIn, ap_uint<16> yIn, ap_uint<64> tsIn, ap_uint<1> polIn,
-		ap_uint<16> *xOut, ap_uint<16> *yOut, ap_uint<64> *tsOut, ap_uint<1> *polOut,
-		apUint17_t *pixelDataOut,
+		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
+		hls::stream< ap_uint<17> > &pixelDataStream,
 		ap_uint<32> config, ap_uint<32> *status)
 {
 #pragma HLS DATAFLOW
@@ -4602,10 +4602,14 @@ void EVABMOFScale(ap_uint<1> select,
 #pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
 	hls::stream<apIntBlockScale1Col_t> refStreamScale1("refStreamScale1"), tagStreamInScale1("tagStreamScale1");
 #pragma HLS STREAM variable=tagStreamInScale1 depth=10 dim=1
+#pragma HLS RESOURCE variable=tagStreamInScale1 core=FIFO_SRL
 #pragma HLS STREAM variable=refStreamScale1 depth=6 dim=1
+#pragma HLS RESOURCE variable=refStreamScale1 core=FIFO_SRL
 	hls::stream<apIntBlockScale2Col_t> refStreamScale2("refStreamScale2"), tagStreamInScale2("tagStreamScale2");
 #pragma HLS STREAM variable=tagStreamInScale2 depth=10 dim=1
+#pragma HLS RESOURCE variable=tagStreamInScale2 core=FIFO_SRL
 #pragma HLS STREAM variable=refStreamScale2 depth=6 dim=1
+#pragma HLS RESOURCE variable=refStreamScale2 core=FIFO_SRL
 
 	hls::stream<apUint15_t> miniSumStreamScale0("miniSumStreamScale0"), miniSumStreamScale1("miniSumStreamScale1"), miniSumStreamScale2("miniSumStreamScale2");
 #pragma HLS STREAM variable=miniSumStreamScale0 depth=10 dim=1
@@ -4728,89 +4732,46 @@ void EVABMOFScale(ap_uint<1> select,
 	accumulateStreamScale0WithSelect(select, outStream, outSumStream, OF_yStream, refZeroCntStream, tagColValidCntStream,  refTagValidCntStream);
 	findStreamMinScale0WithSelect(select, outSumStream, OF_yStream, miniSumStreamScale0, OFRetStreamScale0);
 
-	feedbackAndCombineOutputScale(pktEventDataStream,
+	feedbackAndCombineOutputStream(pktEventDataStream,
 								   miniSumStreamScale0, OFRetStreamScale0,
 								   miniSumStreamScale1Copy, OFRetStreamScale1Copy,
 								   miniSumStreamScale2Copy, OFRetStreamScale2Copy,
-								   xOut, yOut, tsOut, polOut, pixelDataOut);
+								   xStreamOut, yStreamOut, polStreamOut, tsStreamOut, pixelDataStream);
 }
 
-void forwardDirectlyScale(ap_uint<16> xIn, ap_uint<16> yIn, ap_uint<64> tsIn, ap_uint<1> polIn,
-		ap_uint<16> *xOut, ap_uint<16> *yOut, ap_uint<64> *tsOut, ap_uint<1> *polOut,
-		apUint17_t *pixelOut,
-		ap_uint<32> config, ap_uint<32> *status)
+void EVABMOFStreamWithControl_input(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn,
+		hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
+		hls::stream< ap_uint<1> > &controlStreamIn,
+		ap_uint<1> *select,
+		ap_uint<16> *xIn, ap_uint<16> *yIn, ap_uint<64> *tsIn, ap_uint<1> *polIn
+		)
 {
-#pragma HLS INLINE
-	rotateSliceAndWriteResetSlice(xIn, yIn, tsIn);
-
-	ap_uint<17> custData;
-
-	// invalid result
-	ap_int<16> miniRet = 0x7fff;
-	ap_uint<16> OFRet = 0x7f7f;
-	ap_uint<2> scaleRet = 3;
-
-	ap_int<8> xOFRet = ap_int<8>(OFRet.range(7, 0));
-	ap_int<8> yOFRet = ap_int<8>(OFRet.range(15, 8));
-
-	custData.range(7, 0) = xOFRet;
-	custData.range(15, 8) = yOFRet;
-	custData[16] = glRotateFlgBypass;
-
-	*xOut = xIn;
-	*yOut = yIn;
-	*tsOut = tsIn;
-	*polOut = polIn;
-	*pixelOut = custData;
-	*status = 0;
+	xStreamIn >> *xIn;
+	yStreamIn >> *yIn;
+	tsStreamIn >> *tsIn;
+	polStreamIn >> *polIn;
+	*select = controlStreamIn.read();
 }
 
-void forwardDirectlyStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn, hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
-		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
-		hls::stream< apUint17_t > &pixelDataStream,
-		ap_uint<32> config, ap_uint<32> *status)
+void EVABMOFStreamWithControl_output(ap_uint<16> xIn, ap_uint<16> yIn, ap_uint<64> tsIn,
+		ap_uint<1> polIn, apUint17_t retDataIn,
+		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut,
+		hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
+		hls::stream< apUint17_t > &pixelDataStream
+		)
 {
-#pragma HLS INLINE
-	ap_uint<16> x;
-	ap_uint<16> y;
-	ap_uint<64> ts;
-	ap_uint<1> pol;
-
-	xStreamIn >> x;
-	yStreamIn >> y;
-	tsStreamIn >> ts;
-	polStreamIn >> pol;
-
-	rotateSliceAndWriteResetSlice(x, y, ts);
-
-	ap_uint<17> custData;
-
-	// invalid result
-	ap_int<16> miniRet = 0x7fff;
-	ap_uint<16> OFRet = 0x7f7f;
-	ap_uint<2> scaleRet = 3;
-
-	ap_int<8> xOFRet = ap_int<8>(OFRet.range(7, 0));
-	ap_int<8> yOFRet = ap_int<8>(OFRet.range(15, 8));
-
-	custData.range(7, 0) = xOFRet;
-	custData.range(15, 8) = yOFRet;
-	custData[16] = glRotateFlgBypass;
-
-	*status = 0;
-
-	xStreamOut << x;
-	yStreamOut << y;
-	polStreamOut << pol;
-	tsStreamOut << ts;
-	pixelDataStream << custData;
+	xStreamOut << xIn;
+	yStreamOut << yIn;
+	polStreamOut << polIn;
+	tsStreamOut << tsIn;
+	pixelDataStream << retDataIn;
 }
-
 
 void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn,
 		hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
 		hls::stream< ap_uint<1> > &controlStreamIn,
-		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
+		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut,
+		hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
 		hls::stream< apUint17_t > &pixelDataStream,
 		ap_uint<32> config, ap_uint<32> *status)
 {
@@ -4832,44 +4793,15 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 	ap_uint<16> yIn, yOut;
 	ap_uint<64> tsIn, tsOut;
 	ap_uint<1> polIn, polOut;
-
-	xStreamIn >> xIn;
-	yStreamIn >> yIn;
-	tsStreamIn >> tsIn;
-	polStreamIn >> polIn;
-	ap_uint<1> control = controlStreamIn.read();
-
+	ap_uint<1> control;
 	ap_uint<32> statusRet = 0;
-
 	apUint17_t retData;
 
-//	if(control == 0)
-//	{
-//		forwardDirectlyScale(xIn, yIn, tsIn, polIn,
-//				&xOut, &yOut, &tsOut, &polOut,
-//				&retData,
-//				config, &statusRet);
-//		forwardDirectlyStream(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
-//				xStreamOut, yStreamOut, tsStreamOut, polStreamOut,
-//				pixelDataStream,
-//				config, &statusRet);
-//	}
-//	else
-//	{
-		EVABMOFScale(control, xIn, yIn, tsIn, polIn,
-				&xOut, &yOut, &tsOut, &polOut,
-				&retData,
-				config, &statusRet);
-//		EVABMOFStream(xStreamIn, yStreamIn, tsStreamIn, polStreamIn,
-//				xStreamOut, yStreamOut, tsStreamOut, polStreamOut,
-//				pixelDataStream,
-//				config, &statusRet);
-//	}
+	EVABMOFStreamWithControl_input(xStreamIn, yStreamIn, tsStreamIn, polStreamIn, controlStreamIn,
+			&control, &xIn, &yIn, &tsIn, &polIn);
 
-	xStreamOut << xOut;
-	yStreamOut << yOut;
-	polStreamOut << polOut;
-	tsStreamOut << tsOut;
-	pixelDataStream << retData;
-	*status = statusRet;
+	EVABMOFScale(control, xIn, yIn, tsIn, polIn,
+			xStreamOut,yStreamOut, tsStreamOut, polStreamOut,
+			pixelDataStream,
+			config, &statusRet);
 }
