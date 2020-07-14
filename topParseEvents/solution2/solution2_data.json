@@ -4,7 +4,7 @@
   "RtlPrefix": "",
   "SourceLanguage": "cpp",
   "ResetStyle": "control",
-  "GenerateBdFiles": "1",
+  "GenerateBdFiles": "0",
   "HostMachineBits": "64",
   "Target": {
     "Family": "zynq",
@@ -21,7 +21,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "226",
+    "Latency": "71",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -44,6 +44,9 @@
       "impl\/vhdl\/accumulateStreamScal_3.vhd",
       "impl\/vhdl\/accumulateStreamScal_4.vhd",
       "impl\/vhdl\/accumulateStreamScal_5.vhd",
+      "impl\/vhdl\/Block_ZlsILi8ELb1EE.vhd",
+      "impl\/vhdl\/Block_ZlsILi8ELb1EE_1.vhd",
+      "impl\/vhdl\/Block_ZlsILi8ELb1EE_2.vhd",
       "impl\/vhdl\/colSADSumScale0.vhd",
       "impl\/vhdl\/colSADSumScale1.vhd",
       "impl\/vhdl\/colSADSumScale2.vhd",
@@ -60,51 +63,43 @@
       "impl\/vhdl\/colZeroCntScale0.vhd",
       "impl\/vhdl\/colZeroCntScale1.vhd",
       "impl\/vhdl\/colZeroCntScale2.vhd",
-      "impl\/vhdl\/EVABMOFScale.vhd",
-      "impl\/vhdl\/EVABMOFScale_Block_1.vhd",
-      "impl\/vhdl\/EVABMOFScale_Block_s.vhd",
-      "impl\/vhdl\/EVABMOFScale_entry44.vhd",
       "impl\/vhdl\/EVABMOFStreamWith1iI.vhd",
       "impl\/vhdl\/EVABMOFStreamWith2iS.vhd",
       "impl\/vhdl\/EVABMOFStreamWith3i2.vhd",
-      "impl\/vhdl\/EVABMOFStreamWithCon_1.vhd",
       "impl\/vhdl\/EVABMOFStreamWithHfu.vhd",
       "impl\/vhdl\/EVABMOFStreamWithMgi.vhd",
       "impl\/vhdl\/feedback.vhd",
       "impl\/vhdl\/feedback_OFRetRegs.vhd",
       "impl\/vhdl\/feedbackAndCombineOu.vhd",
       "impl\/vhdl\/fifo_w1_d0_A.vhd",
-      "impl\/vhdl\/fifo_w1_d2_A.vhd",
-      "impl\/vhdl\/fifo_w1_d3_A.vhd",
-      "impl\/vhdl\/fifo_w1_d4_A.vhd",
+      "impl\/vhdl\/fifo_w1_d10_S.vhd",
       "impl\/vhdl\/fifo_w1_d16_A.vhd",
       "impl\/vhdl\/fifo_w2_d0_A.vhd",
       "impl\/vhdl\/fifo_w2_d10_S.vhd",
+      "impl\/vhdl\/fifo_w2_d20_S.vhd",
       "impl\/vhdl\/fifo_w6_d0_A.vhd",
-      "impl\/vhdl\/fifo_w6_d2_A.vhd",
-      "impl\/vhdl\/fifo_w6_d10_S.vhd",
+      "impl\/vhdl\/fifo_w6_d200_S.vhd",
       "impl\/vhdl\/fifo_w8_d0_A.vhd",
       "impl\/vhdl\/fifo_w8_d10_S.vhd",
+      "impl\/vhdl\/fifo_w8_d200_S.vhd",
+      "impl\/vhdl\/fifo_w9_d18_A.vhd",
       "impl\/vhdl\/fifo_w10_d0_A.vhd",
       "impl\/vhdl\/fifo_w10_d10_S.vhd",
-      "impl\/vhdl\/fifo_w12_d2_A.vhd",
-      "impl\/vhdl\/fifo_w15_d10_S.vhd",
-      "impl\/vhdl\/fifo_w16_d0_A.vhd",
-      "impl\/vhdl\/fifo_w16_d0_A_x.vhd",
-      "impl\/vhdl\/fifo_w16_d2_A.vhd",
-      "impl\/vhdl\/fifo_w32_d0_A.vhd",
-      "impl\/vhdl\/fifo_w42_d2_A.vhd",
-      "impl\/vhdl\/fifo_w52_d6_S.vhd",
-      "impl\/vhdl\/fifo_w52_d10_S.vhd",
-      "impl\/vhdl\/fifo_w64_d0_A.vhd",
-      "impl\/vhdl\/fifo_w64_d2_A.vhd",
-      "impl\/vhdl\/fifo_w76_d6_S.vhd",
-      "impl\/vhdl\/fifo_w76_d10_S.vhd",
-      "impl\/vhdl\/fifo_w84_d2_A.vhd",
+      "impl\/vhdl\/fifo_w10_d20_S.vhd",
+      "impl\/vhdl\/fifo_w11_d3_A.vhd",
+      "impl\/vhdl\/fifo_w12_d200_S.vhd",
+      "impl\/vhdl\/fifo_w15_d0_A.vhd",
+      "impl\/vhdl\/fifo_w15_d200_S.vhd",
+      "impl\/vhdl\/fifo_w16_d200_S.vhd",
+      "impl\/vhdl\/fifo_w32_d10_S.vhd",
+      "impl\/vhdl\/fifo_w42_d200_S.vhd",
+      "impl\/vhdl\/fifo_w52_d200_S.vhd",
+      "impl\/vhdl\/fifo_w76_d200_S.vhd",
+      "impl\/vhdl\/fifo_w84_d200_S.vhd",
       "impl\/vhdl\/fifo_w96_d10_S.vhd",
-      "impl\/vhdl\/fifo_w112_d10_S.vhd",
-      "impl\/vhdl\/fifo_w224_d10_S.vhd",
-      "impl\/vhdl\/fifo_w248_d10_S.vhd",
+      "impl\/vhdl\/fifo_w112_d200_S.vhd",
+      "impl\/vhdl\/fifo_w224_d200_S.vhd",
+      "impl\/vhdl\/fifo_w248_d200_S.vhd",
       "impl\/vhdl\/findStreamMinScale0.vhd",
       "impl\/vhdl\/findStreamMinScale0W.vhd",
       "impl\/vhdl\/findStreamMinScale1.vhd",
@@ -128,25 +123,23 @@
       "impl\/vhdl\/sadSumScale0.vhd",
       "impl\/vhdl\/sadSumScale1.vhd",
       "impl\/vhdl\/sadSumScale2.vhd",
+      "impl\/vhdl\/start_for_accumul7jG.vhd",
       "impl\/vhdl\/start_for_accumulbbk.vhd",
-      "impl\/vhdl\/start_for_accumulbgk.vhd",
-      "impl\/vhdl\/start_for_accumulbjl.vhd",
+      "impl\/vhdl\/start_for_accumulbfk.vhd",
+      "impl\/vhdl\/start_for_Block_Z9j0.vhd",
+      "impl\/vhdl\/start_for_Block_Zbdk.vhd",
+      "impl\/vhdl\/start_for_colStre6jw.vhd",
       "impl\/vhdl\/start_for_colStrebak.vhd",
-      "impl\/vhdl\/start_for_colStrebfk.vhd",
-      "impl\/vhdl\/start_for_colStrebil.vhd",
-      "impl\/vhdl\/start_for_EVABMOFbdk.vhd",
-      "impl\/vhdl\/start_for_EVABMOFbek.vhd",
-      "impl\/vhdl\/start_for_EVABMOFbll.vhd",
-      "impl\/vhdl\/start_for_feedbac7jG.vhd",
+      "impl\/vhdl\/start_for_colStrebek.vhd",
+      "impl\/vhdl\/start_for_feedbacbhl.vhd",
+      "impl\/vhdl\/start_for_findStr8jQ.vhd",
       "impl\/vhdl\/start_for_findStrbck.vhd",
-      "impl\/vhdl\/start_for_findStrbhl.vhd",
-      "impl\/vhdl\/start_for_findStrbkl.vhd",
-      "impl\/vhdl\/start_for_rotateS6jw.vhd",
+      "impl\/vhdl\/start_for_findStrbgk.vhd",
+      "impl\/vhdl\/start_for_rotateS4jc.vhd",
       "impl\/vhdl\/start_for_rwSlice5jm.vhd",
-      "impl\/vhdl\/start_for_rwSlice8jQ.vhd",
-      "impl\/vhdl\/start_for_rwSlice9j0.vhd",
-      "impl\/vhdl\/start_for_truncat4jc.vhd",
-      "impl\/vhdl\/truncateScale.vhd",
+      "impl\/vhdl\/start_for_rwSlicebil.vhd",
+      "impl\/vhdl\/start_for_rwSlicebjl.vhd",
+      "impl\/vhdl\/truncateStreamWithCo.vhd",
       "impl\/vhdl\/EVABMOFStreamWithControl.vhd"
     ],
     "Verilog": [
@@ -156,6 +149,9 @@
       "impl\/verilog\/accumulateStreamScal_3.v",
       "impl\/verilog\/accumulateStreamScal_4.v",
       "impl\/verilog\/accumulateStreamScal_5.v",
+      "impl\/verilog\/Block_ZlsILi8ELb1EE.v",
+      "impl\/verilog\/Block_ZlsILi8ELb1EE_1.v",
+      "impl\/verilog\/Block_ZlsILi8ELb1EE_2.v",
       "impl\/verilog\/colSADSumScale0.v",
       "impl\/verilog\/colSADSumScale1.v",
       "impl\/verilog\/colSADSumScale2.v",
@@ -172,14 +168,9 @@
       "impl\/verilog\/colZeroCntScale0.v",
       "impl\/verilog\/colZeroCntScale1.v",
       "impl\/verilog\/colZeroCntScale2.v",
-      "impl\/verilog\/EVABMOFScale.v",
-      "impl\/verilog\/EVABMOFScale_Block_1.v",
-      "impl\/verilog\/EVABMOFScale_Block_s.v",
-      "impl\/verilog\/EVABMOFScale_entry44.v",
       "impl\/verilog\/EVABMOFStreamWith1iI.v",
       "impl\/verilog\/EVABMOFStreamWith2iS.v",
       "impl\/verilog\/EVABMOFStreamWith3i2.v",
-      "impl\/verilog\/EVABMOFStreamWithCon_1.v",
       "impl\/verilog\/EVABMOFStreamWithHfu.v",
       "impl\/verilog\/EVABMOFStreamWithMgi.v",
       "impl\/verilog\/feedback.v",
@@ -187,37 +178,34 @@
       "impl\/verilog\/feedback_OFRetRegs_ram.dat",
       "impl\/verilog\/feedbackAndCombineOu.v",
       "impl\/verilog\/fifo_w1_d0_A.v",
-      "impl\/verilog\/fifo_w1_d2_A.v",
-      "impl\/verilog\/fifo_w1_d3_A.v",
-      "impl\/verilog\/fifo_w1_d4_A.v",
+      "impl\/verilog\/fifo_w1_d10_S.v",
       "impl\/verilog\/fifo_w1_d16_A.v",
       "impl\/verilog\/fifo_w2_d0_A.v",
       "impl\/verilog\/fifo_w2_d10_S.v",
+      "impl\/verilog\/fifo_w2_d20_S.v",
       "impl\/verilog\/fifo_w6_d0_A.v",
-      "impl\/verilog\/fifo_w6_d2_A.v",
-      "impl\/verilog\/fifo_w6_d10_S.v",
+      "impl\/verilog\/fifo_w6_d200_S.v",
       "impl\/verilog\/fifo_w8_d0_A.v",
       "impl\/verilog\/fifo_w8_d10_S.v",
+      "impl\/verilog\/fifo_w8_d200_S.v",
+      "impl\/verilog\/fifo_w9_d18_A.v",
       "impl\/verilog\/fifo_w10_d0_A.v",
       "impl\/verilog\/fifo_w10_d10_S.v",
-      "impl\/verilog\/fifo_w12_d2_A.v",
-      "impl\/verilog\/fifo_w15_d10_S.v",
-      "impl\/verilog\/fifo_w16_d0_A.v",
-      "impl\/verilog\/fifo_w16_d0_A_x.v",
-      "impl\/verilog\/fifo_w16_d2_A.v",
-      "impl\/verilog\/fifo_w32_d0_A.v",
-      "impl\/verilog\/fifo_w42_d2_A.v",
-      "impl\/verilog\/fifo_w52_d6_S.v",
-      "impl\/verilog\/fifo_w52_d10_S.v",
-      "impl\/verilog\/fifo_w64_d0_A.v",
-      "impl\/verilog\/fifo_w64_d2_A.v",
-      "impl\/verilog\/fifo_w76_d6_S.v",
-      "impl\/verilog\/fifo_w76_d10_S.v",
-      "impl\/verilog\/fifo_w84_d2_A.v",
+      "impl\/verilog\/fifo_w10_d20_S.v",
+      "impl\/verilog\/fifo_w11_d3_A.v",
+      "impl\/verilog\/fifo_w12_d200_S.v",
+      "impl\/verilog\/fifo_w15_d0_A.v",
+      "impl\/verilog\/fifo_w15_d200_S.v",
+      "impl\/verilog\/fifo_w16_d200_S.v",
+      "impl\/verilog\/fifo_w32_d10_S.v",
+      "impl\/verilog\/fifo_w42_d200_S.v",
+      "impl\/verilog\/fifo_w52_d200_S.v",
+      "impl\/verilog\/fifo_w76_d200_S.v",
+      "impl\/verilog\/fifo_w84_d200_S.v",
       "impl\/verilog\/fifo_w96_d10_S.v",
-      "impl\/verilog\/fifo_w112_d10_S.v",
-      "impl\/verilog\/fifo_w224_d10_S.v",
-      "impl\/verilog\/fifo_w248_d10_S.v",
+      "impl\/verilog\/fifo_w112_d200_S.v",
+      "impl\/verilog\/fifo_w224_d200_S.v",
+      "impl\/verilog\/fifo_w248_d200_S.v",
       "impl\/verilog\/findStreamMinScale0.v",
       "impl\/verilog\/findStreamMinScale0W.v",
       "impl\/verilog\/findStreamMinScale1.v",
@@ -245,25 +233,23 @@
       "impl\/verilog\/sadSumScale0.v",
       "impl\/verilog\/sadSumScale1.v",
       "impl\/verilog\/sadSumScale2.v",
+      "impl\/verilog\/start_for_accumul7jG.v",
       "impl\/verilog\/start_for_accumulbbk.v",
-      "impl\/verilog\/start_for_accumulbgk.v",
-      "impl\/verilog\/start_for_accumulbjl.v",
+      "impl\/verilog\/start_for_accumulbfk.v",
+      "impl\/verilog\/start_for_Block_Z9j0.v",
+      "impl\/verilog\/start_for_Block_Zbdk.v",
+      "impl\/verilog\/start_for_colStre6jw.v",
       "impl\/verilog\/start_for_colStrebak.v",
-      "impl\/verilog\/start_for_colStrebfk.v",
-      "impl\/verilog\/start_for_colStrebil.v",
-      "impl\/verilog\/start_for_EVABMOFbdk.v",
-      "impl\/verilog\/start_for_EVABMOFbek.v",
-      "impl\/verilog\/start_for_EVABMOFbll.v",
-      "impl\/verilog\/start_for_feedbac7jG.v",
+      "impl\/verilog\/start_for_colStrebek.v",
+      "impl\/verilog\/start_for_feedbacbhl.v",
+      "impl\/verilog\/start_for_findStr8jQ.v",
       "impl\/verilog\/start_for_findStrbck.v",
-      "impl\/verilog\/start_for_findStrbhl.v",
-      "impl\/verilog\/start_for_findStrbkl.v",
-      "impl\/verilog\/start_for_rotateS6jw.v",
+      "impl\/verilog\/start_for_findStrbgk.v",
+      "impl\/verilog\/start_for_rotateS4jc.v",
       "impl\/verilog\/start_for_rwSlice5jm.v",
-      "impl\/verilog\/start_for_rwSlice8jQ.v",
-      "impl\/verilog\/start_for_rwSlice9j0.v",
-      "impl\/verilog\/start_for_truncat4jc.v",
-      "impl\/verilog\/truncateScale.v",
+      "impl\/verilog\/start_for_rwSlicebil.v",
+      "impl\/verilog\/start_for_rwSlicebjl.v",
+      "impl\/verilog\/truncateStreamWithCo.v",
       "impl\/verilog\/EVABMOFStreamWithControl.v"
     ],
     "Misc": ["impl\/misc\/logo.png"]
@@ -277,8 +263,7 @@
     "ap_clk": {
       "type": "clock",
       "ctype": {"CLK": {"Type": "bool"}},
-      "buses": "xStreamIn_V_V yStreamIn_V_V tsStreamIn_V_V polStreamIn_V_V controlStreamIn_V_V xStreamOut_V_V yStreamOut_V_V tsStreamOut_V_V polStreamOut_V_V pixelDataStream_V_V",
-      "reset": "ap_rst_n"
+      "reset": "ap_rst"
     },
     "ap_ctrl": {
       "type": "ap_ctrl",
@@ -290,9 +275,9 @@
         "idle": {"Type": "bool"}
       }
     },
-    "ap_rst_n": {
+    "ap_rst": {
       "type": "reset",
-      "polarity": "ACTIVE_LOW",
+      "polarity": "ACTIVE_HIGH",
       "ctype": {"RST": {"Type": "bool"}}
     },
     "config_V": {
@@ -305,72 +290,60 @@
         }}
     },
     "controlStreamIn_V_V": {
-      "type": "axi4stream",
-      "mode": "slave",
-      "port_prefix": "controlStreamIn_V_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "1",
+      "fifo_type": "read",
       "ctype": {
-        "TDATA": {
+        "RD_DATA": {
           "Type": "integer unsigned",
-          "Width": "1",
-          "Bits": "8"
+          "Width": "1"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "8"}
+        "EMPTY_N": {"Type": "bool"},
+        "RD_EN": {"Type": "bool"}
+      }
     },
     "pixelDataStream_V_V": {
-      "type": "axi4stream",
-      "mode": "master",
-      "port_prefix": "pixelDataStream_V_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "17",
+      "fifo_type": "write",
       "ctype": {
-        "TDATA": {
+        "WR_DATA": {
           "Type": "integer unsigned",
-          "Width": "17",
-          "Bits": "24"
+          "Width": "17"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "24"}
+        "FULL_N": {"Type": "bool"},
+        "WR_EN": {"Type": "bool"}
+      }
     },
     "polStreamIn_V_V": {
-      "type": "axi4stream",
-      "mode": "slave",
-      "port_prefix": "polStreamIn_V_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "1",
+      "fifo_type": "read",
       "ctype": {
-        "TDATA": {
+        "RD_DATA": {
           "Type": "integer unsigned",
-          "Width": "1",
-          "Bits": "8"
+          "Width": "1"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "8"}
+        "EMPTY_N": {"Type": "bool"},
+        "RD_EN": {"Type": "bool"}
+      }
     },
     "polStreamOut_V_V": {
-      "type": "axi4stream",
-      "mode": "master",
-      "port_prefix": "polStreamOut_V_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "1",
+      "fifo_type": "write",
       "ctype": {
-        "TDATA": {
+        "WR_DATA": {
           "Type": "integer unsigned",
-          "Width": "1",
-          "Bits": "8"
+          "Width": "1"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "8"}
+        "FULL_N": {"Type": "bool"},
+        "WR_EN": {"Type": "bool"}
+      }
     },
     "status_V": {
       "type": "data",
-      "dir": "in",
+      "dir": "out",
       "width": "32",
       "ctype": {"DATA": {
           "Type": "integer unsigned",
@@ -378,215 +351,206 @@
         }}
     },
     "tsStreamIn_V_V": {
-      "type": "axi4stream",
-      "mode": "slave",
-      "port_prefix": "tsStreamIn_V_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "64",
+      "fifo_type": "read",
       "ctype": {
-        "TDATA": {
+        "RD_DATA": {
           "Type": "integer unsigned",
           "Width": "64"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "64"}
+        "EMPTY_N": {"Type": "bool"},
+        "RD_EN": {"Type": "bool"}
+      }
     },
     "tsStreamOut_V_V": {
-      "type": "axi4stream",
-      "mode": "master",
-      "port_prefix": "tsStreamOut_V_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "64",
+      "fifo_type": "write",
       "ctype": {
-        "TDATA": {
+        "WR_DATA": {
           "Type": "integer unsigned",
           "Width": "64"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "64"}
+        "FULL_N": {"Type": "bool"},
+        "WR_EN": {"Type": "bool"}
+      }
     },
     "xStreamIn_V_V": {
-      "type": "axi4stream",
-      "mode": "slave",
-      "port_prefix": "xStreamIn_V_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "16",
+      "fifo_type": "read",
       "ctype": {
-        "TDATA": {
+        "RD_DATA": {
           "Type": "integer unsigned",
           "Width": "16"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "16"}
+        "EMPTY_N": {"Type": "bool"},
+        "RD_EN": {"Type": "bool"}
+      }
     },
     "xStreamOut_V_V": {
-      "type": "axi4stream",
-      "mode": "master",
-      "port_prefix": "xStreamOut_V_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "16",
+      "fifo_type": "write",
       "ctype": {
-        "TDATA": {
+        "WR_DATA": {
           "Type": "integer unsigned",
           "Width": "16"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "16"}
+        "FULL_N": {"Type": "bool"},
+        "WR_EN": {"Type": "bool"}
+      }
     },
     "yStreamIn_V_V": {
-      "type": "axi4stream",
-      "mode": "slave",
-      "port_prefix": "yStreamIn_V_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "16",
+      "fifo_type": "read",
       "ctype": {
-        "TDATA": {
+        "RD_DATA": {
           "Type": "integer unsigned",
           "Width": "16"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "16"}
+        "EMPTY_N": {"Type": "bool"},
+        "RD_EN": {"Type": "bool"}
+      }
     },
     "yStreamOut_V_V": {
-      "type": "axi4stream",
-      "mode": "master",
-      "port_prefix": "yStreamOut_V_V",
-      "has_tready": "1",
+      "type": "ap_fifo",
+      "fifo_width": "16",
+      "fifo_type": "write",
       "ctype": {
-        "TDATA": {
+        "WR_DATA": {
           "Type": "integer unsigned",
           "Width": "16"
         },
-        "TVALID": {"Type": "bool"},
-        "TREADY": {"Type": "bool"}
-      },
-      "port_width": {"TDATA": "16"}
+        "FULL_N": {"Type": "bool"},
+        "WR_EN": {"Type": "bool"}
+      }
     }
   },
   "RtlPorts": {
-    "xStreamIn_V_V_TDATA": {
+    "xStreamIn_V_V_dout": {
       "dir": "in",
       "width": "16"
     },
-    "xStreamIn_V_V_TVALID": {
+    "xStreamIn_V_V_empty_n": {
       "dir": "in",
       "width": "1"
     },
-    "xStreamIn_V_V_TREADY": {
+    "xStreamIn_V_V_read": {
       "dir": "out",
       "width": "1"
     },
-    "yStreamIn_V_V_TDATA": {
+    "yStreamIn_V_V_dout": {
       "dir": "in",
       "width": "16"
     },
-    "yStreamIn_V_V_TVALID": {
+    "yStreamIn_V_V_empty_n": {
       "dir": "in",
       "width": "1"
     },
-    "yStreamIn_V_V_TREADY": {
+    "yStreamIn_V_V_read": {
       "dir": "out",
       "width": "1"
     },
-    "tsStreamIn_V_V_TDATA": {
+    "tsStreamIn_V_V_dout": {
       "dir": "in",
       "width": "64"
     },
-    "tsStreamIn_V_V_TVALID": {
+    "tsStreamIn_V_V_empty_n": {
       "dir": "in",
       "width": "1"
     },
-    "tsStreamIn_V_V_TREADY": {
+    "tsStreamIn_V_V_read": {
       "dir": "out",
       "width": "1"
     },
-    "polStreamIn_V_V_TDATA": {
+    "polStreamIn_V_V_dout": {
       "dir": "in",
-      "width": "8"
+      "width": "1",
+      "isVector": "true"
     },
-    "polStreamIn_V_V_TVALID": {
+    "polStreamIn_V_V_empty_n": {
       "dir": "in",
       "width": "1"
     },
-    "polStreamIn_V_V_TREADY": {
+    "polStreamIn_V_V_read": {
       "dir": "out",
       "width": "1"
     },
-    "controlStreamIn_V_V_TDATA": {
+    "controlStreamIn_V_V_dout": {
       "dir": "in",
-      "width": "8"
+      "width": "1",
+      "isVector": "true"
     },
-    "controlStreamIn_V_V_TVALID": {
-      "dir": "in",
-      "width": "1"
-    },
-    "controlStreamIn_V_V_TREADY": {
-      "dir": "out",
-      "width": "1"
-    },
-    "xStreamOut_V_V_TDATA": {
-      "dir": "out",
-      "width": "16"
-    },
-    "xStreamOut_V_V_TVALID": {
-      "dir": "out",
-      "width": "1"
-    },
-    "xStreamOut_V_V_TREADY": {
+    "controlStreamIn_V_V_empty_n": {
       "dir": "in",
       "width": "1"
     },
-    "yStreamOut_V_V_TDATA": {
+    "controlStreamIn_V_V_read": {
+      "dir": "out",
+      "width": "1"
+    },
+    "xStreamOut_V_V_din": {
       "dir": "out",
       "width": "16"
     },
-    "yStreamOut_V_V_TVALID": {
-      "dir": "out",
-      "width": "1"
-    },
-    "yStreamOut_V_V_TREADY": {
+    "xStreamOut_V_V_full_n": {
       "dir": "in",
       "width": "1"
     },
-    "tsStreamOut_V_V_TDATA": {
+    "xStreamOut_V_V_write": {
+      "dir": "out",
+      "width": "1"
+    },
+    "yStreamOut_V_V_din": {
+      "dir": "out",
+      "width": "16"
+    },
+    "yStreamOut_V_V_full_n": {
+      "dir": "in",
+      "width": "1"
+    },
+    "yStreamOut_V_V_write": {
+      "dir": "out",
+      "width": "1"
+    },
+    "tsStreamOut_V_V_din": {
       "dir": "out",
       "width": "64"
     },
-    "tsStreamOut_V_V_TVALID": {
-      "dir": "out",
-      "width": "1"
-    },
-    "tsStreamOut_V_V_TREADY": {
+    "tsStreamOut_V_V_full_n": {
       "dir": "in",
       "width": "1"
     },
-    "polStreamOut_V_V_TDATA": {
-      "dir": "out",
-      "width": "8"
-    },
-    "polStreamOut_V_V_TVALID": {
+    "tsStreamOut_V_V_write": {
       "dir": "out",
       "width": "1"
     },
-    "polStreamOut_V_V_TREADY": {
+    "polStreamOut_V_V_din": {
+      "dir": "out",
+      "width": "1",
+      "isVector": "true"
+    },
+    "polStreamOut_V_V_full_n": {
       "dir": "in",
       "width": "1"
     },
-    "pixelDataStream_V_V_TDATA": {
-      "dir": "out",
-      "width": "24"
-    },
-    "pixelDataStream_V_V_TVALID": {
+    "polStreamOut_V_V_write": {
       "dir": "out",
       "width": "1"
     },
-    "pixelDataStream_V_V_TREADY": {
+    "pixelDataStream_V_V_din": {
+      "dir": "out",
+      "width": "17"
+    },
+    "pixelDataStream_V_V_full_n": {
       "dir": "in",
+      "width": "1"
+    },
+    "pixelDataStream_V_V_write": {
+      "dir": "out",
       "width": "1"
     },
     "config_V": {
@@ -594,14 +558,18 @@
       "width": "32"
     },
     "status_V": {
-      "dir": "in",
+      "dir": "out",
       "width": "32"
+    },
+    "status_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
     },
     "ap_clk": {
       "dir": "in",
       "width": "1"
     },
-    "ap_rst_n": {
+    "ap_rst": {
       "dir": "in",
       "width": "1"
     },
@@ -646,27 +614,27 @@
     "xStreamOut_V_V": {
       "interfaceRef": "xStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "2"
+      "firstOutLatency": "3"
     },
     "yStreamOut_V_V": {
       "interfaceRef": "yStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "2"
+      "firstOutLatency": "3"
     },
     "tsStreamOut_V_V": {
       "interfaceRef": "tsStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "2"
+      "firstOutLatency": "3"
     },
     "polStreamOut_V_V": {
       "interfaceRef": "polStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "2"
+      "firstOutLatency": "3"
     },
     "pixelDataStream_V_V": {
       "interfaceRef": "pixelDataStream_V_V",
       "dir": "out",
-      "firstOutLatency": "2"
+      "firstOutLatency": "3"
     },
     "config_V": {
       "interfaceRef": "config_V",
@@ -676,9 +644,10 @@
     },
     "status_V": {
       "interfaceRef": "status_V",
-      "dir": "in",
+      "dir": "out",
       "dataWidth": "32",
-      "handshakeRef": "ap_none"
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "0"
     },
     "ap_ctrl": {
       "interfaceRef": "ap_ctrl",
@@ -690,434 +659,403 @@
       "ModuleName": "EVABMOFStreamWithControl",
       "Instances": [
         {
-          "ModuleName": "EVABMOFScale",
-          "InstanceName": "EVABMOFScale_U0",
-          "Instances": [
-            {
-              "ModuleName": "colStreamToColSumSca_4",
-              "InstanceName": "colStreamToColSumSca_4_U0",
-              "Instances": [{
-                  "ModuleName": "colStreamToColSumSca_5",
-                  "InstanceName": "grp_colStreamToColSumSca_5_fu_114",
+          "ModuleName": "colStreamToColSumSca_4",
+          "InstanceName": "colStreamToColSumSca_4_U0",
+          "Instances": [{
+              "ModuleName": "colStreamToColSumSca_5",
+              "InstanceName": "grp_colStreamToColSumSca_5_fu_44",
+              "Instances": [
+                {
+                  "ModuleName": "colSADSumScale0",
+                  "InstanceName": "grp_colSADSumScale0_fu_392",
                   "Instances": [
                     {
-                      "ModuleName": "colSADSumScale0",
-                      "InstanceName": "grp_colSADSumScale0_fu_392",
-                      "Instances": [
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_464",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_568",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_672",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_776",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_880",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_984",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_1088",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        }
-                      ]
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_464",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
                     },
                     {
-                      "ModuleName": "colSADSumScale0",
-                      "InstanceName": "grp_colSADSumScale0_fu_452",
-                      "Instances": [
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_464",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_568",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_672",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_776",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_880",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_984",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale0",
-                          "InstanceName": "grp_sadScale0_fu_1088",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale0",
-                              "InstanceName": "grp_sadSumScale0_fu_424"
-                            }]
-                        }
-                      ]
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_568",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
                     },
                     {
-                      "ModuleName": "colZeroCntScale0",
-                      "InstanceName": "grp_colZeroCntScale0_fu_512"
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_672",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
                     },
                     {
-                      "ModuleName": "colZeroCntScale0",
-                      "InstanceName": "grp_colZeroCntScale0_fu_572"
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_776",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_880",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_984",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_1088",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
                     }
                   ]
-                }]
-            },
-            {
-              "ModuleName": "rwSlicesScale0WithSe",
-              "InstanceName": "rwSlicesScale0WithSe_U0"
-            },
-            {
-              "ModuleName": "colStreamToColSumSca_2",
-              "InstanceName": "colStreamToColSumSca_2_U0",
-              "Instances": [{
-                  "ModuleName": "colStreamToColSumSca_3",
-                  "InstanceName": "grp_colStreamToColSumSca_3_fu_114",
+                },
+                {
+                  "ModuleName": "colSADSumScale0",
+                  "InstanceName": "grp_colSADSumScale0_fu_452",
                   "Instances": [
                     {
-                      "ModuleName": "colSADSumScale1",
-                      "InstanceName": "grp_colSADSumScale1_fu_357",
-                      "Instances": [
-                        {
-                          "ModuleName": "sadScale1",
-                          "InstanceName": "grp_sadScale1_fu_272",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale1",
-                              "InstanceName": "grp_sadSumScale1_fu_232"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale1",
-                          "InstanceName": "grp_sadScale1_fu_328",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale1",
-                              "InstanceName": "grp_sadSumScale1_fu_232"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale1",
-                          "InstanceName": "grp_sadScale1_fu_384",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale1",
-                              "InstanceName": "grp_sadSumScale1_fu_232"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale1",
-                          "InstanceName": "grp_sadScale1_fu_440",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale1",
-                              "InstanceName": "grp_sadSumScale1_fu_232"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale1",
-                          "InstanceName": "grp_sadScale1_fu_496",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale1",
-                              "InstanceName": "grp_sadSumScale1_fu_232"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale1",
-                          "InstanceName": "grp_sadScale1_fu_552",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale1",
-                              "InstanceName": "grp_sadSumScale1_fu_232"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale1",
-                          "InstanceName": "grp_sadScale1_fu_608",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale1",
-                              "InstanceName": "grp_sadSumScale1_fu_232"
-                            }]
-                        }
-                      ]
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_464",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
                     },
                     {
-                      "ModuleName": "colZeroCntScale1",
-                      "InstanceName": "grp_colZeroCntScale1_fu_393"
-                    }
-                  ]
-                }]
-            },
-            {
-              "ModuleName": "rwSlicesScale1WithSe",
-              "InstanceName": "rwSlicesScale1WithSe_U0"
-            },
-            {
-              "ModuleName": "colStreamToColSumSca",
-              "InstanceName": "colStreamToColSumSca_U0",
-              "Instances": [{
-                  "ModuleName": "colStreamToColSumSca_1",
-                  "InstanceName": "grp_colStreamToColSumSca_1_fu_114",
-                  "Instances": [
-                    {
-                      "ModuleName": "colSADSumScale2",
-                      "InstanceName": "grp_colSADSumScale2_fu_329",
-                      "Instances": [
-                        {
-                          "ModuleName": "sadScale2",
-                          "InstanceName": "grp_sadScale2_fu_176",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale2",
-                              "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale2",
-                          "InstanceName": "grp_sadScale2_fu_208",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale2",
-                              "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale2",
-                          "InstanceName": "grp_sadScale2_fu_240",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale2",
-                              "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale2",
-                          "InstanceName": "grp_sadScale2_fu_272",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale2",
-                              "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale2",
-                          "InstanceName": "grp_sadScale2_fu_304",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale2",
-                              "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale2",
-                          "InstanceName": "grp_sadScale2_fu_336",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale2",
-                              "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
-                            }]
-                        },
-                        {
-                          "ModuleName": "sadScale2",
-                          "InstanceName": "grp_sadScale2_fu_368",
-                          "Instances": [{
-                              "ModuleName": "sadSumScale2",
-                              "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
-                            }]
-                        }
-                      ]
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_568",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
                     },
                     {
-                      "ModuleName": "colZeroCntScale2",
-                      "InstanceName": "grp_colZeroCntScale2_fu_353"
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_672",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_776",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_880",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_984",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale0",
+                      "InstanceName": "grp_sadScale0_fu_1088",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale0",
+                          "InstanceName": "grp_sadSumScale0_fu_424"
+                        }]
                     }
                   ]
-                }]
-            },
-            {
-              "ModuleName": "rwSlicesScale2WithSe",
-              "InstanceName": "rwSlicesScale2WithSe_U0"
-            },
-            {
-              "ModuleName": "accumulateStreamScal_4",
-              "InstanceName": "accumulateStreamScal_4_U0",
-              "Instances": [{
-                  "ModuleName": "accumulateStreamScal_5",
-                  "InstanceName": "grp_accumulateStreamScal_5_fu_118",
-                  "Instances": [{
-                      "ModuleName": "minWide",
-                      "InstanceName": "grp_minWide_fu_335"
-                    }]
-                }]
-            },
-            {
-              "ModuleName": "feedbackAndCombineOu",
-              "InstanceName": "feedbackAndCombineOu_U0",
-              "Instances": [{
-                  "ModuleName": "feedback",
-                  "InstanceName": "grp_feedback_fu_324"
-                }]
-            },
-            {
-              "ModuleName": "accumulateStreamScal_2",
-              "InstanceName": "accumulateStreamScal_2_U0",
-              "Instances": [{
-                  "ModuleName": "accumulateStreamScal_3",
-                  "InstanceName": "grp_accumulateStreamScal_3_fu_118",
-                  "Instances": [{
-                      "ModuleName": "min",
-                      "InstanceName": "grp_min_fu_263"
-                    }]
-                }]
-            },
-            {
-              "ModuleName": "rotateSliceAllScales",
-              "InstanceName": "rotateSliceAllScales_U0"
-            },
-            {
-              "ModuleName": "accumulateStreamScal",
-              "InstanceName": "accumulateStreamScal_U0",
-              "Instances": [{
-                  "ModuleName": "accumulateStreamScal_1",
-                  "InstanceName": "grp_accumulateStreamScal_1_fu_118",
-                  "Instances": [{
-                      "ModuleName": "min",
-                      "InstanceName": "grp_min_fu_262"
-                    }]
-                }]
-            },
-            {
-              "ModuleName": "EVABMOFScale_Block_s",
-              "InstanceName": "EVABMOFScale_Block_U0"
-            },
-            {
-              "ModuleName": "findStreamMinScale2W",
-              "InstanceName": "findStreamMinScale2W_U0",
-              "Instances": [{
-                  "ModuleName": "findStreamMinScale2",
-                  "InstanceName": "grp_findStreamMinScale2_fu_94"
-                }]
-            },
-            {
-              "ModuleName": "findStreamMinScale1W",
-              "InstanceName": "findStreamMinScale1W_U0",
-              "Instances": [{
-                  "ModuleName": "findStreamMinScale1",
-                  "InstanceName": "grp_findStreamMinScale1_fu_94"
-                }]
-            },
-            {
-              "ModuleName": "findStreamMinScale0W",
-              "InstanceName": "findStreamMinScale0W_U0",
-              "Instances": [{
-                  "ModuleName": "findStreamMinScale0",
-                  "InstanceName": "grp_findStreamMinScale0_fu_82"
-                }]
-            },
-            {
-              "ModuleName": "EVABMOFScale_Block_1",
-              "InstanceName": "EVABMOFScale_Block_1_U0"
-            },
-            {
-              "ModuleName": "truncateScale",
-              "InstanceName": "truncateScale_U0"
-            },
-            {
-              "ModuleName": "EVABMOFScale_entry44",
-              "InstanceName": "EVABMOFScale_entry44_U0"
-            }
-          ]
+                },
+                {
+                  "ModuleName": "colZeroCntScale0",
+                  "InstanceName": "grp_colZeroCntScale0_fu_512"
+                },
+                {
+                  "ModuleName": "colZeroCntScale0",
+                  "InstanceName": "grp_colZeroCntScale0_fu_572"
+                }
+              ]
+            }]
         },
         {
-          "ModuleName": "EVABMOFStreamWithCon_1",
-          "InstanceName": "EVABMOFStreamWithCon_1_U0"
+          "ModuleName": "rwSlicesScale0WithSe",
+          "InstanceName": "rwSlicesScale0WithSe_U0"
+        },
+        {
+          "ModuleName": "colStreamToColSumSca_2",
+          "InstanceName": "colStreamToColSumSca_2_U0",
+          "Instances": [{
+              "ModuleName": "colStreamToColSumSca_3",
+              "InstanceName": "grp_colStreamToColSumSca_3_fu_44",
+              "Instances": [
+                {
+                  "ModuleName": "colSADSumScale1",
+                  "InstanceName": "grp_colSADSumScale1_fu_357",
+                  "Instances": [
+                    {
+                      "ModuleName": "sadScale1",
+                      "InstanceName": "grp_sadScale1_fu_272",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale1",
+                          "InstanceName": "grp_sadSumScale1_fu_232"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale1",
+                      "InstanceName": "grp_sadScale1_fu_328",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale1",
+                          "InstanceName": "grp_sadSumScale1_fu_232"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale1",
+                      "InstanceName": "grp_sadScale1_fu_384",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale1",
+                          "InstanceName": "grp_sadSumScale1_fu_232"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale1",
+                      "InstanceName": "grp_sadScale1_fu_440",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale1",
+                          "InstanceName": "grp_sadSumScale1_fu_232"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale1",
+                      "InstanceName": "grp_sadScale1_fu_496",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale1",
+                          "InstanceName": "grp_sadSumScale1_fu_232"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale1",
+                      "InstanceName": "grp_sadScale1_fu_552",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale1",
+                          "InstanceName": "grp_sadSumScale1_fu_232"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale1",
+                      "InstanceName": "grp_sadScale1_fu_608",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale1",
+                          "InstanceName": "grp_sadSumScale1_fu_232"
+                        }]
+                    }
+                  ]
+                },
+                {
+                  "ModuleName": "colZeroCntScale1",
+                  "InstanceName": "grp_colZeroCntScale1_fu_393"
+                }
+              ]
+            }]
+        },
+        {
+          "ModuleName": "rwSlicesScale1WithSe",
+          "InstanceName": "rwSlicesScale1WithSe_U0"
+        },
+        {
+          "ModuleName": "colStreamToColSumSca",
+          "InstanceName": "colStreamToColSumSca_U0",
+          "Instances": [{
+              "ModuleName": "colStreamToColSumSca_1",
+              "InstanceName": "grp_colStreamToColSumSca_1_fu_44",
+              "Instances": [
+                {
+                  "ModuleName": "colSADSumScale2",
+                  "InstanceName": "grp_colSADSumScale2_fu_329",
+                  "Instances": [
+                    {
+                      "ModuleName": "sadScale2",
+                      "InstanceName": "grp_sadScale2_fu_176",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale2",
+                          "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale2",
+                      "InstanceName": "grp_sadScale2_fu_208",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale2",
+                          "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale2",
+                      "InstanceName": "grp_sadScale2_fu_240",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale2",
+                          "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale2",
+                      "InstanceName": "grp_sadScale2_fu_272",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale2",
+                          "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale2",
+                      "InstanceName": "grp_sadScale2_fu_304",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale2",
+                          "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale2",
+                      "InstanceName": "grp_sadScale2_fu_336",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale2",
+                          "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
+                        }]
+                    },
+                    {
+                      "ModuleName": "sadScale2",
+                      "InstanceName": "grp_sadScale2_fu_368",
+                      "Instances": [{
+                          "ModuleName": "sadSumScale2",
+                          "InstanceName": "sadRet_write_assign_sadSumScale2_fu_136"
+                        }]
+                    }
+                  ]
+                },
+                {
+                  "ModuleName": "colZeroCntScale2",
+                  "InstanceName": "grp_colZeroCntScale2_fu_353"
+                }
+              ]
+            }]
+        },
+        {
+          "ModuleName": "rwSlicesScale2WithSe",
+          "InstanceName": "rwSlicesScale2WithSe_U0"
+        },
+        {
+          "ModuleName": "accumulateStreamScal_4",
+          "InstanceName": "accumulateStreamScal_4_U0",
+          "Instances": [{
+              "ModuleName": "accumulateStreamScal_5",
+              "InstanceName": "grp_accumulateStreamScal_5_fu_52",
+              "Instances": [{
+                  "ModuleName": "minWide",
+                  "InstanceName": "grp_minWide_fu_336"
+                }]
+            }]
+        },
+        {
+          "ModuleName": "feedbackAndCombineOu",
+          "InstanceName": "feedbackAndCombineOu_U0",
+          "Instances": [{
+              "ModuleName": "feedback",
+              "InstanceName": "grp_feedback_fu_329"
+            }]
+        },
+        {
+          "ModuleName": "rotateSliceAllScales",
+          "InstanceName": "rotateSliceAllScales_U0"
+        },
+        {
+          "ModuleName": "accumulateStreamScal_2",
+          "InstanceName": "accumulateStreamScal_2_U0",
+          "Instances": [{
+              "ModuleName": "accumulateStreamScal_3",
+              "InstanceName": "grp_accumulateStreamScal_3_fu_52",
+              "Instances": [{
+                  "ModuleName": "min",
+                  "InstanceName": "grp_min_fu_264"
+                }]
+            }]
+        },
+        {
+          "ModuleName": "accumulateStreamScal",
+          "InstanceName": "accumulateStreamScal_U0",
+          "Instances": [{
+              "ModuleName": "accumulateStreamScal_1",
+              "InstanceName": "grp_accumulateStreamScal_1_fu_52",
+              "Instances": [{
+                  "ModuleName": "min",
+                  "InstanceName": "grp_min_fu_262"
+                }]
+            }]
+        },
+        {
+          "ModuleName": "Block_ZlsILi8ELb1EE_1",
+          "InstanceName": "Block_ZlsILi8ELb1EE_1_U0"
+        },
+        {
+          "ModuleName": "findStreamMinScale2W",
+          "InstanceName": "findStreamMinScale2W_U0",
+          "Instances": [{
+              "ModuleName": "findStreamMinScale2",
+              "InstanceName": "grp_findStreamMinScale2_fu_66"
+            }]
+        },
+        {
+          "ModuleName": "findStreamMinScale1W",
+          "InstanceName": "findStreamMinScale1W_U0",
+          "Instances": [{
+              "ModuleName": "findStreamMinScale1",
+              "InstanceName": "grp_findStreamMinScale1_fu_66"
+            }]
+        },
+        {
+          "ModuleName": "findStreamMinScale0W",
+          "InstanceName": "findStreamMinScale0W_U0",
+          "Instances": [{
+              "ModuleName": "findStreamMinScale0",
+              "InstanceName": "grp_findStreamMinScale0_fu_66"
+            }]
+        },
+        {
+          "ModuleName": "Block_ZlsILi8ELb1EE_2",
+          "InstanceName": "Block_ZlsILi8ELb1EE_2_U0"
+        },
+        {
+          "ModuleName": "truncateStreamWithCo",
+          "InstanceName": "truncateStreamWithCo_U0"
+        },
+        {
+          "ModuleName": "Block_ZlsILi8ELb1EE",
+          "InstanceName": "Block_ZlsILi8ELb1EE_U0"
         }
       ]
     },
     "Metrics": {
-      "EVABMOFStreamWithCon_1": {
-        "Latency": {
-          "LatencyBest": "1",
-          "LatencyAvg": "1",
-          "LatencyWorst": "1",
-          "PipelineII": "1",
-          "PipelineDepth": "",
-          "PipelineType": "none"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "3.63"
-        },
-        "Area": {
-          "FF": "248",
-          "LUT": "307",
-          "BRAM_18K": "0",
-          "DSP48E": "0"
-        }
-      },
-      "EVABMOFScale_entry44": {
+      "Block_ZlsILi8ELb1EE": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -1129,16 +1067,16 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "7.27"
+          "Estimate": "3.63"
         },
         "Area": {
-          "FF": "3",
-          "LUT": "110",
+          "FF": "22",
+          "LUT": "38",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
       },
-      "truncateScale": {
+      "truncateStreamWithCo": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -1154,7 +1092,7 @@
         },
         "Area": {
           "FF": "3",
-          "LUT": "92",
+          "LUT": "209",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1173,7 +1111,7 @@
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "8.66"
+          "Estimate": "7.60"
         },
         "Loops": [{
             "Name": "rotateSliceResetLoop",
@@ -1183,8 +1121,8 @@
             "PipelineDepth": "1"
           }],
         "Area": {
-          "FF": "1315",
-          "LUT": "1685",
+          "FF": "1429",
+          "LUT": "1728",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1214,8 +1152,8 @@
           }],
         "Area": {
           "BRAM_18K": "32",
-          "FF": "904",
-          "LUT": "2056",
+          "FF": "903",
+          "LUT": "2006",
           "DSP48E": "0"
         }
       },
@@ -1350,8 +1288,8 @@
         "Area": {
           "BRAM_18K": "0",
           "DSP48E": "49",
-          "FF": "1181",
-          "LUT": "3044"
+          "FF": "1180",
+          "LUT": "2900"
         }
       },
       "min": {
@@ -1421,8 +1359,8 @@
         },
         "Area": {
           "BRAM_18K": "0",
-          "FF": "617",
-          "LUT": "1134",
+          "FF": "616",
+          "LUT": "1008",
           "DSP48E": "0"
         }
       },
@@ -1471,13 +1409,13 @@
           "Estimate": "8.59"
         },
         "Area": {
-          "FF": "56",
-          "LUT": "329",
+          "FF": "55",
+          "LUT": "281",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
       },
-      "EVABMOFScale_Block_1": {
+      "Block_ZlsILi8ELb1EE_2": {
         "Latency": {
           "LatencyBest": "0",
           "LatencyAvg": "0",
@@ -1492,8 +1430,8 @@
           "Estimate": "9.00"
         },
         "Area": {
-          "FF": "3",
-          "LUT": "122",
+          "FF": "2",
+          "LUT": "131",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1523,8 +1461,8 @@
           }],
         "Area": {
           "BRAM_18K": "60",
-          "FF": "1987",
-          "LUT": "4444",
+          "FF": "1986",
+          "LUT": "4394",
           "DSP48E": "0"
         }
       },
@@ -1659,8 +1597,8 @@
         "Area": {
           "BRAM_18K": "0",
           "DSP48E": "91",
-          "FF": "2836",
-          "LUT": "5304"
+          "FF": "2835",
+          "LUT": "5160"
         }
       },
       "accumulateStreamScal_3": {
@@ -1709,8 +1647,8 @@
         },
         "Area": {
           "BRAM_18K": "0",
-          "FF": "621",
-          "LUT": "1865",
+          "FF": "620",
+          "LUT": "1739",
           "DSP48E": "0"
         }
       },
@@ -1760,12 +1698,12 @@
         },
         "Area": {
           "FF": "55",
-          "LUT": "320",
+          "LUT": "281",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
       },
-      "EVABMOFScale_Block_s": {
+      "Block_ZlsILi8ELb1EE_1": {
         "Latency": {
           "LatencyBest": "1",
           "LatencyAvg": "1",
@@ -1780,8 +1718,8 @@
           "Estimate": "5.55"
         },
         "Area": {
-          "FF": "38",
-          "LUT": "160",
+          "FF": "39",
+          "LUT": "178",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1811,8 +1749,8 @@
           }],
         "Area": {
           "BRAM_18K": "256",
-          "FF": "3048",
-          "LUT": "6937",
+          "FF": "3047",
+          "LUT": "6887",
           "DSP48E": "0"
         }
       },
@@ -1947,8 +1885,8 @@
         "Area": {
           "BRAM_18K": "0",
           "DSP48E": "350",
-          "FF": "10295",
-          "LUT": "18054"
+          "FF": "10294",
+          "LUT": "17910"
         }
       },
       "minWide": {
@@ -2018,8 +1956,8 @@
         },
         "Area": {
           "BRAM_18K": "0",
-          "FF": "1016",
-          "LUT": "2407",
+          "FF": "1015",
+          "LUT": "2281",
           "DSP48E": "0"
         }
       },
@@ -2069,7 +2007,7 @@
         },
         "Area": {
           "FF": "55",
-          "LUT": "311",
+          "LUT": "281",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -2099,8 +2037,8 @@
           }],
         "Area": {
           "DSP48E": "3",
-          "FF": "178",
-          "LUT": "478",
+          "FF": "195",
+          "LUT": "529",
           "BRAM_18K": "0"
         }
       },
@@ -2122,39 +2060,16 @@
         },
         "Area": {
           "DSP48E": "3",
-          "FF": "808",
-          "LUT": "1573",
+          "FF": "565",
+          "LUT": "1453",
           "BRAM_18K": "0"
-        }
-      },
-      "EVABMOFScale": {
-        "Latency": {
-          "LatencyBest": "224",
-          "LatencyAvg": "267",
-          "LatencyWorst": "307",
-          "PipelineIIMin": "6",
-          "PipelineIIMax": "131",
-          "PipelineII": "6 ~ 131",
-          "PipelineDepth": "",
-          "PipelineType": "dataflow"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "9.89"
-        },
-        "Area": {
-          "BRAM_18K": "348",
-          "DSP48E": "493",
-          "FF": "25217",
-          "LUT": "53028"
         }
       },
       "EVABMOFStreamWithControl": {
         "Latency": {
-          "LatencyBest": "226",
-          "LatencyAvg": "269",
-          "LatencyWorst": "309",
+          "LatencyBest": "71",
+          "LatencyAvg": "114",
+          "LatencyWorst": "173",
           "PipelineIIMin": "6",
           "PipelineIIMax": "131",
           "PipelineII": "6 ~ 131",
@@ -2169,15 +2084,15 @@
         "Area": {
           "BRAM_18K": "348",
           "DSP48E": "493",
-          "FF": "25490",
-          "LUT": "53501"
+          "FF": "25243",
+          "LUT": "62262"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-07-13 12:19:44 +0200",
+    "Time": "2020-07-14 20:42:15 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

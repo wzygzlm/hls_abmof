@@ -1410,7 +1410,7 @@ int main(int argc, char *argv[])
 		exit(0);
 	}
 
-	int32_t eventCnt = 400;
+	int32_t eventCnt = 4000;
 	uint64_t data[eventCnt];
 	int32_t eventSlice[eventCnt], eventSliceSW[eventCnt];
 	ap_uint<32> custDataOutSW[eventCnt];
