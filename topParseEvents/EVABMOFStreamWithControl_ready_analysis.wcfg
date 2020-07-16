@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="5615000000fs"></ZoomStartTime>
-      <ZoomEndTime time="8395615000001fs"></ZoomEndTime>
-      <Cursor1Time time="1465615000000fs"></Cursor1Time>
+      <ZoomStartTime time="1574434750000fs"></ZoomStartTime>
+      <ZoomEndTime time="1574856250001fs"></ZoomEndTime>
+      <Cursor1Time time="1574585000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="285"></NameColumnWidth>
-      <ValueColumnWidth column_width="78"></ValueColumnWidth>
+      <ValueColumnWidth column_width="74"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="57" />
+   <WVObjectSize size="85" />
    <wvobject fp_name="group1" type="group">
       <obj_property name="label">Design Top Signals</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -286,13 +286,75 @@
          </wvobject>
       </wvobject>
    </wvobject>
-   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rwSlicesScale0WithSe_U0_ap_ready" type="logic">
-      <obj_property name="ElementShortName">rwSlicesScale0WithSe_U0_ap_ready</obj_property>
-      <obj_property name="ObjectShortName">rwSlicesScale0WithSe_U0_ap_ready</obj_property>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_rwSlice5jm_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[2:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rwSlicesScale1WithSe_U0_ap_ready" type="logic">
-      <obj_property name="ElementShortName">rwSlicesScale1WithSe_U0_ap_ready</obj_property>
-      <obj_property name="ObjectShortName">rwSlicesScale1WithSe_U0_ap_ready</obj_property>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_colStre6jw_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[2:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_accumul7jG_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[3:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_findStr8jQ_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[3:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_getInit9j0_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[3:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_rwSlicebak_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[3:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_colStrebbk_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_accumulbck_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_findStrbdk_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_getInit9j0_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[3:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_rwSlicebfk_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_colStrebgk_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_accumulbhl_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_findStrbil_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[4:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rotateSliceAllScales_U0_ap_ready" type="logic">
       <obj_property name="ElementShortName">rotateSliceAllScales_U0_ap_ready</obj_property>
@@ -314,6 +376,14 @@
       <obj_property name="ElementShortName">findStreamMinScale2W_U0_ap_ready</obj_property>
       <obj_property name="ObjectShortName">findStreamMinScale2W_U0_ap_ready</obj_property>
    </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/getInitOffsetForNext_U0_ap_ready" type="logic">
+      <obj_property name="ElementShortName">getInitOffsetForNext_U0_ap_ready</obj_property>
+      <obj_property name="ObjectShortName">getInitOffsetForNext_U0_ap_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rwSlicesScale1WithSe_U0_ap_ready" type="logic">
+      <obj_property name="ElementShortName">rwSlicesScale1WithSe_U0_ap_ready</obj_property>
+      <obj_property name="ObjectShortName">rwSlicesScale1WithSe_U0_ap_ready</obj_property>
+   </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/colStreamToColSumSca_2_U0_ap_ready" type="logic">
       <obj_property name="ElementShortName">colStreamToColSumSca_2_U0_ap_ready</obj_property>
       <obj_property name="ObjectShortName">colStreamToColSumSca_2_U0_ap_ready</obj_property>
@@ -325,6 +395,14 @@
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/findStreamMinScale1W_U0_ap_ready" type="logic">
       <obj_property name="ElementShortName">findStreamMinScale1W_U0_ap_ready</obj_property>
       <obj_property name="ObjectShortName">findStreamMinScale1W_U0_ap_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/getInitOffsetForNext_1_U0_ap_ready" type="logic">
+      <obj_property name="ElementShortName">getInitOffsetForNext_1_U0_ap_ready</obj_property>
+      <obj_property name="ObjectShortName">getInitOffsetForNext_1_U0_ap_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rwSlicesScale0WithSe_U0_ap_ready" type="logic">
+      <obj_property name="ElementShortName">rwSlicesScale0WithSe_U0_ap_ready</obj_property>
+      <obj_property name="ObjectShortName">rwSlicesScale0WithSe_U0_ap_ready</obj_property>
    </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/colStreamToColSumSca_4_U0_ap_ready" type="logic">
       <obj_property name="ElementShortName">colStreamToColSumSca_4_U0_ap_ready</obj_property>
@@ -362,13 +440,22 @@
       <obj_property name="ElementShortName">minStream_V_V_full_n</obj_property>
       <obj_property name="ObjectShortName">minStream_V_V_full_n</obj_property>
    </wvobject>
-   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/OFRetStreamScale0_V_s_U/shiftReg_addr" type="array">
-      <obj_property name="ElementShortName">shiftReg_addr[4:0]</obj_property>
-      <obj_property name="ObjectShortName">shiftReg_addr[4:0]</obj_property>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/OFRetStreamScale0_V_s_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[5:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/findStreamMinScale0W_U0_ap_ready" type="logic">
       <obj_property name="ElementShortName">findStreamMinScale0W_U0_ap_ready</obj_property>
       <obj_property name="ObjectShortName">findStreamMinScale0W_U0_ap_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/feedbackAndCombineOu_U0_ap_start" type="logic">
+      <obj_property name="ElementShortName">feedbackAndCombineOu_U0_ap_start</obj_property>
+      <obj_property name="ObjectShortName">feedbackAndCombineOu_U0_ap_start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/feedbackAndCombineOu_U0/glRotateFlg_V_empty_n" type="logic">
+      <obj_property name="ElementShortName">glRotateFlg_V_empty_n</obj_property>
+      <obj_property name="ObjectShortName">glRotateFlg_V_empty_n</obj_property>
    </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/feedbackAndCombineOu_U0/glRotateFlg_V_read" type="logic">
       <obj_property name="ElementShortName">glRotateFlg_V_read</obj_property>
@@ -382,21 +469,13 @@
       <obj_property name="ElementShortName">feedbackAndCombineOu_U0_ap_ready</obj_property>
       <obj_property name="ObjectShortName">feedbackAndCombineOu_U0_ap_ready</obj_property>
    </wvobject>
-   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_rwSlicesScale0WithSe_U0_full_n" type="logic">
-      <obj_property name="ElementShortName">start_for_rwSlicesScale0WithSe_U0_full_n</obj_property>
-      <obj_property name="ObjectShortName">start_for_rwSlicesScale0WithSe_U0_full_n</obj_property>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rotateSliceAllScales_U0_ap_start" type="logic">
+      <obj_property name="ElementShortName">rotateSliceAllScales_U0_ap_start</obj_property>
+      <obj_property name="ObjectShortName">rotateSliceAllScales_U0_ap_start</obj_property>
    </wvobject>
-   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_rwSlicesScale1WithSe_U0_full_n" type="logic">
-      <obj_property name="ElementShortName">start_for_rwSlicesScale1WithSe_U0_full_n</obj_property>
-      <obj_property name="ObjectShortName">start_for_rwSlicesScale1WithSe_U0_full_n</obj_property>
-   </wvobject>
-   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rotateSliceAllScales_U0_start_full_n" type="logic">
-      <obj_property name="ElementShortName">rotateSliceAllScales_U0_start_full_n</obj_property>
-      <obj_property name="ObjectShortName">rotateSliceAllScales_U0_start_full_n</obj_property>
-   </wvobject>
-   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rotateSliceAllScales_U0_start_write" type="logic">
-      <obj_property name="ElementShortName">rotateSliceAllScales_U0_start_write</obj_property>
-      <obj_property name="ObjectShortName">rotateSliceAllScales_U0_start_write</obj_property>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rotateSliceAllScales_U0/xInStream_V_V_read" type="logic">
+      <obj_property name="ElementShortName">xInStream_V_V_read</obj_property>
+      <obj_property name="ObjectShortName">xInStream_V_V_read</obj_property>
    </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rotateSliceAllScales_U0/xInStream_V_V_empty_n" type="logic">
       <obj_property name="ElementShortName">xInStream_V_V_empty_n</obj_property>
@@ -418,6 +497,15 @@
       <obj_property name="ElementShortName">start_for_rotateSliceAllScales_U0_full_n</obj_property>
       <obj_property name="ObjectShortName">start_for_rotateSliceAllScales_U0_full_n</obj_property>
    </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_rotateS4jc_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[1:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[1:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rwSlicesScale2WithSe_U0/select_V_empty_n" type="logic">
+      <obj_property name="ElementShortName">select_V_empty_n</obj_property>
+      <obj_property name="ObjectShortName">select_V_empty_n</obj_property>
+   </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_rwSlicesScale2WithSe_U0_full_n" type="logic">
       <obj_property name="ElementShortName">start_for_rwSlicesScale2WithSe_U0_full_n</obj_property>
       <obj_property name="ObjectShortName">start_for_rwSlicesScale2WithSe_U0_full_n</obj_property>
@@ -434,6 +522,14 @@
       <obj_property name="ElementShortName">start_for_findStreamMinScale2W_U0_full_n</obj_property>
       <obj_property name="ObjectShortName">start_for_findStreamMinScale2W_U0_full_n</obj_property>
    </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_getInitOffsetForNext_U0_full_n" type="logic">
+      <obj_property name="ElementShortName">start_for_getInitOffsetForNext_U0_full_n</obj_property>
+      <obj_property name="ObjectShortName">start_for_getInitOffsetForNext_U0_full_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_rwSlicesScale1WithSe_U0_full_n" type="logic">
+      <obj_property name="ElementShortName">start_for_rwSlicesScale1WithSe_U0_full_n</obj_property>
+      <obj_property name="ObjectShortName">start_for_rwSlicesScale1WithSe_U0_full_n</obj_property>
+   </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_colStreamToColSumSca_2_U0_full_n" type="logic">
       <obj_property name="ElementShortName">start_for_colStreamToColSumSca_2_U0_full_n</obj_property>
       <obj_property name="ObjectShortName">start_for_colStreamToColSumSca_2_U0_full_n</obj_property>
@@ -445,6 +541,14 @@
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_findStreamMinScale1W_U0_full_n" type="logic">
       <obj_property name="ElementShortName">start_for_findStreamMinScale1W_U0_full_n</obj_property>
       <obj_property name="ObjectShortName">start_for_findStreamMinScale1W_U0_full_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_getInitOffsetForNext_1_U0_full_n" type="logic">
+      <obj_property name="ElementShortName">start_for_getInitOffsetForNext_1_U0_full_n</obj_property>
+      <obj_property name="ObjectShortName">start_for_getInitOffsetForNext_1_U0_full_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_rwSlicesScale0WithSe_U0_full_n" type="logic">
+      <obj_property name="ElementShortName">start_for_rwSlicesScale0WithSe_U0_full_n</obj_property>
+      <obj_property name="ObjectShortName">start_for_rwSlicesScale0WithSe_U0_full_n</obj_property>
    </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_colStreamToColSumSca_4_U0_full_n" type="logic">
       <obj_property name="ElementShortName">start_for_colStreamToColSumSca_4_U0_full_n</obj_property>
@@ -458,9 +562,18 @@
       <obj_property name="ElementShortName">start_for_findStreamMinScale0W_U0_full_n</obj_property>
       <obj_property name="ObjectShortName">start_for_findStreamMinScale0W_U0_full_n</obj_property>
    </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/feedbackAndCombineOu_U0_ap_ready" type="logic">
+      <obj_property name="ElementShortName">feedbackAndCombineOu_U0_ap_ready</obj_property>
+      <obj_property name="ObjectShortName">feedbackAndCombineOu_U0_ap_ready</obj_property>
+   </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_feedbackAndCombineOu_U0_full_n" type="logic">
       <obj_property name="ElementShortName">start_for_feedbackAndCombineOu_U0_full_n</obj_property>
       <obj_property name="ObjectShortName">start_for_feedbackAndCombineOu_U0_full_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/start_for_feedbacbjl_U/mOutPtr" type="array">
+      <obj_property name="ElementShortName">mOutPtr[5:0]</obj_property>
+      <obj_property name="ObjectShortName">mOutPtr[5:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/truncateStreamWithCo_U0_start_full_n" type="logic">
       <obj_property name="ElementShortName">truncateStreamWithCo_U0_start_full_n</obj_property>
@@ -494,9 +607,9 @@
       <obj_property name="ElementShortName">select_V_full_n</obj_property>
       <obj_property name="ObjectShortName">select_V_full_n</obj_property>
    </wvobject>
-   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/truncateStreamWithCo_U0_select_V_2_write" type="logic">
-      <obj_property name="ElementShortName">truncateStreamWithCo_U0_select_V_2_write</obj_property>
-      <obj_property name="ObjectShortName">truncateStreamWithCo_U0_select_V_2_write</obj_property>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/truncateStreamWithCo_U0/xStreamOut_V_V_write" type="logic">
+      <obj_property name="ElementShortName">xStreamOut_V_V_write</obj_property>
+      <obj_property name="ObjectShortName">xStreamOut_V_V_write</obj_property>
    </wvobject>
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/truncateStreamWithCo_U0_ap_ready" type="logic">
       <obj_property name="ElementShortName">truncateStreamWithCo_U0_ap_ready</obj_property>
@@ -505,5 +618,22 @@
    <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/rwSlicesScale2WithSe_U0/select_V_dout" type="array">
       <obj_property name="ElementShortName">select_V_dout[0:0]</obj_property>
       <obj_property name="ObjectShortName">select_V_dout[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/controlStreamIn_V_V_TDATA" type="array">
+      <obj_property name="ElementShortName">controlStreamIn_V_V_TDATA[7:0]</obj_property>
+      <obj_property name="ObjectShortName">controlStreamIn_V_V_TDATA[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/controlStreamIn_V_V_TVALID" type="logic">
+      <obj_property name="ElementShortName">controlStreamIn_V_V_TVALID</obj_property>
+      <obj_property name="ObjectShortName">controlStreamIn_V_V_TVALID</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/tsStreamOut_V_V_TDATA" type="array">
+      <obj_property name="ElementShortName">tsStreamOut_V_V_TDATA[63:0]</obj_property>
+      <obj_property name="ObjectShortName">tsStreamOut_V_V_TDATA[63:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/apatb_EVABMOFStreamWithControl_top/AESL_inst_EVABMOFStreamWithControl/tsStreamIn_V_V_TVALID" type="logic">
+      <obj_property name="ElementShortName">tsStreamIn_V_V_TVALID</obj_property>
+      <obj_property name="ObjectShortName">tsStreamIn_V_V_TVALID</obj_property>
    </wvobject>
 </wave_config>

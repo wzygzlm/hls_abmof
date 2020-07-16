@@ -21,7 +21,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "69",
+    "Latency": "67",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -69,6 +69,7 @@
       "impl\/vhdl\/feedback.vhd",
       "impl\/vhdl\/feedback_OFRetRegs.vhd",
       "impl\/vhdl\/feedbackAndCombineOu.vhd",
+      "impl\/vhdl\/feedbackAndCombineOu_1.vhd",
       "impl\/vhdl\/fifo_w1_d16_A.vhd",
       "impl\/vhdl\/fifo_w1_d30_S.vhd",
       "impl\/vhdl\/fifo_w2_d0_A.vhd",
@@ -78,11 +79,10 @@
       "impl\/vhdl\/fifo_w6_d200_S.vhd",
       "impl\/vhdl\/fifo_w8_d30_S.vhd",
       "impl\/vhdl\/fifo_w8_d200_S.vhd",
-      "impl\/vhdl\/fifo_w9_d18_A.vhd",
+      "impl\/vhdl\/fifo_w9_d16_A.vhd",
       "impl\/vhdl\/fifo_w10_d0_A.vhd",
       "impl\/vhdl\/fifo_w10_d10_S.vhd",
       "impl\/vhdl\/fifo_w10_d20_S.vhd",
-      "impl\/vhdl\/fifo_w11_d3_A.vhd",
       "impl\/vhdl\/fifo_w12_d200_S.vhd",
       "impl\/vhdl\/fifo_w15_d30_S.vhd",
       "impl\/vhdl\/fifo_w16_d200_S.vhd",
@@ -123,10 +123,10 @@
       "impl\/vhdl\/start_for_accumul7jG.vhd",
       "impl\/vhdl\/start_for_accumulbck.vhd",
       "impl\/vhdl\/start_for_accumulbhl.vhd",
+      "impl\/vhdl\/start_for_Block_pbjl.vhd",
       "impl\/vhdl\/start_for_colStre6jw.vhd",
       "impl\/vhdl\/start_for_colStrebbk.vhd",
       "impl\/vhdl\/start_for_colStrebgk.vhd",
-      "impl\/vhdl\/start_for_feedbacbjl.vhd",
       "impl\/vhdl\/start_for_findStr8jQ.vhd",
       "impl\/vhdl\/start_for_findStrbdk.vhd",
       "impl\/vhdl\/start_for_findStrbil.vhd",
@@ -172,6 +172,7 @@
       "impl\/verilog\/feedback_OFRetRegs.v",
       "impl\/verilog\/feedback_OFRetRegs_ram.dat",
       "impl\/verilog\/feedbackAndCombineOu.v",
+      "impl\/verilog\/feedbackAndCombineOu_1.v",
       "impl\/verilog\/fifo_w1_d16_A.v",
       "impl\/verilog\/fifo_w1_d30_S.v",
       "impl\/verilog\/fifo_w2_d0_A.v",
@@ -181,11 +182,10 @@
       "impl\/verilog\/fifo_w6_d200_S.v",
       "impl\/verilog\/fifo_w8_d30_S.v",
       "impl\/verilog\/fifo_w8_d200_S.v",
-      "impl\/verilog\/fifo_w9_d18_A.v",
+      "impl\/verilog\/fifo_w9_d16_A.v",
       "impl\/verilog\/fifo_w10_d0_A.v",
       "impl\/verilog\/fifo_w10_d10_S.v",
       "impl\/verilog\/fifo_w10_d20_S.v",
-      "impl\/verilog\/fifo_w11_d3_A.v",
       "impl\/verilog\/fifo_w12_d200_S.v",
       "impl\/verilog\/fifo_w15_d30_S.v",
       "impl\/verilog\/fifo_w16_d200_S.v",
@@ -230,10 +230,10 @@
       "impl\/verilog\/start_for_accumul7jG.v",
       "impl\/verilog\/start_for_accumulbck.v",
       "impl\/verilog\/start_for_accumulbhl.v",
+      "impl\/verilog\/start_for_Block_pbjl.v",
       "impl\/verilog\/start_for_colStre6jw.v",
       "impl\/verilog\/start_for_colStrebbk.v",
       "impl\/verilog\/start_for_colStrebgk.v",
-      "impl\/verilog\/start_for_feedbacbjl.v",
       "impl\/verilog\/start_for_findStr8jQ.v",
       "impl\/verilog\/start_for_findStrbdk.v",
       "impl\/verilog\/start_for_findStrbil.v",
@@ -630,27 +630,27 @@
     "xStreamOut_V_V": {
       "interfaceRef": "xStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "0"
     },
     "yStreamOut_V_V": {
       "interfaceRef": "yStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "0"
     },
     "tsStreamOut_V_V": {
       "interfaceRef": "tsStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "0"
     },
     "polStreamOut_V_V": {
       "interfaceRef": "polStreamOut_V_V",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "0"
     },
     "pixelDataStream_V_V": {
       "interfaceRef": "pixelDataStream_V_V",
       "dir": "out",
-      "firstOutLatency": "3"
+      "firstOutLatency": "0"
     },
     "config_V": {
       "interfaceRef": "config_V",
@@ -663,7 +663,7 @@
       "dir": "out",
       "dataWidth": "32",
       "handshakeRef": "ap_vld",
-      "firstOutLatency": "0"
+      "firstOutLatency": "2"
     },
     "ap_ctrl": {
       "interfaceRef": "ap_ctrl",
@@ -993,11 +993,19 @@
             }]
         },
         {
-          "ModuleName": "feedbackAndCombineOu",
-          "InstanceName": "feedbackAndCombineOu_U0",
+          "ModuleName": "Block_proc",
+          "InstanceName": "Block_proc_U0",
           "Instances": [{
-              "ModuleName": "feedback",
-              "InstanceName": "grp_feedback_fu_333"
+              "ModuleName": "feedbackAndCombineOu",
+              "InstanceName": "grp_feedbackAndCombineOu_fu_99",
+              "Instances": [{
+                  "ModuleName": "feedbackAndCombineOu_1",
+                  "InstanceName": "grp_feedbackAndCombineOu_1_fu_151",
+                  "Instances": [{
+                      "ModuleName": "feedback",
+                      "InstanceName": "grp_feedback_fu_324"
+                    }]
+                }]
             }]
         },
         {
@@ -1037,7 +1045,7 @@
           "InstanceName": "findStreamMinScale2W_U0",
           "Instances": [{
               "ModuleName": "findStreamMinScale2",
-              "InstanceName": "grp_findStreamMinScale2_fu_66"
+              "InstanceName": "grp_findStreamMinScale2_fu_42"
             }]
         },
         {
@@ -1045,7 +1053,7 @@
           "InstanceName": "findStreamMinScale1W_U0",
           "Instances": [{
               "ModuleName": "findStreamMinScale1",
-              "InstanceName": "grp_findStreamMinScale1_fu_66"
+              "InstanceName": "grp_findStreamMinScale1_fu_42"
             }]
         },
         {
@@ -1053,7 +1061,7 @@
           "InstanceName": "findStreamMinScale0W_U0",
           "Instances": [{
               "ModuleName": "findStreamMinScale0",
-              "InstanceName": "grp_findStreamMinScale0_fu_66"
+              "InstanceName": "grp_findStreamMinScale0_fu_42"
             }]
         },
         {
@@ -1063,35 +1071,10 @@
         {
           "ModuleName": "truncateStreamWithCo",
           "InstanceName": "truncateStreamWithCo_U0"
-        },
-        {
-          "ModuleName": "Block_proc",
-          "InstanceName": "Block_proc_U0"
         }
       ]
     },
     "Metrics": {
-      "Block_proc": {
-        "Latency": {
-          "LatencyBest": "0",
-          "LatencyAvg": "0",
-          "LatencyWorst": "0",
-          "PipelineII": "0",
-          "PipelineDepth": "",
-          "PipelineType": "none"
-        },
-        "Timing": {
-          "Target": "10.00",
-          "Uncertainty": "0.10",
-          "Estimate": "3.63"
-        },
-        "Area": {
-          "FF": "22",
-          "LUT": "38",
-          "BRAM_18K": "0",
-          "DSP48E": "0"
-        }
-      },
       "truncateStreamWithCo": {
         "Latency": {
           "LatencyBest": "1",
@@ -1108,7 +1091,7 @@
         },
         "Area": {
           "FF": "248",
-          "LUT": "413",
+          "LUT": "422",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1426,7 +1409,7 @@
         },
         "Area": {
           "FF": "55",
-          "LUT": "279",
+          "LUT": "231",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1714,7 +1697,7 @@
         },
         "Area": {
           "FF": "55",
-          "LUT": "279",
+          "LUT": "231",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -1734,7 +1717,7 @@
           "Estimate": "5.55"
         },
         "Area": {
-          "FF": "38",
+          "FF": "39",
           "LUT": "169",
           "BRAM_18K": "0",
           "DSP48E": "0"
@@ -2023,7 +2006,7 @@
         },
         "Area": {
           "FF": "55",
-          "LUT": "279",
+          "LUT": "231",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -2053,19 +2036,19 @@
           }],
         "Area": {
           "DSP48E": "3",
-          "FF": "195",
-          "LUT": "529",
+          "FF": "186",
+          "LUT": "520",
           "BRAM_18K": "0"
         }
       },
-      "feedbackAndCombineOu": {
+      "feedbackAndCombineOu_1": {
         "Latency": {
-          "LatencyBest": "6",
-          "LatencyAvg": "49",
-          "LatencyWorst": "57",
-          "PipelineIIMin": "6",
-          "PipelineIIMax": "57",
-          "PipelineII": "6 ~ 57",
+          "LatencyBest": "5",
+          "LatencyAvg": "48",
+          "LatencyWorst": "56",
+          "PipelineIIMin": "5",
+          "PipelineIIMax": "56",
+          "PipelineII": "5 ~ 56",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -2076,19 +2059,65 @@
         },
         "Area": {
           "DSP48E": "3",
-          "FF": "842",
-          "LUT": "1639",
+          "FF": "543",
+          "LUT": "1462",
+          "BRAM_18K": "0"
+        }
+      },
+      "feedbackAndCombineOu": {
+        "Latency": {
+          "LatencyBest": "2",
+          "LatencyAvg": "26",
+          "LatencyWorst": "58",
+          "PipelineIIMin": "2",
+          "PipelineIIMax": "58",
+          "PipelineII": "2 ~ 58",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.39"
+        },
+        "Area": {
+          "DSP48E": "3",
+          "FF": "824",
+          "LUT": "1948",
+          "BRAM_18K": "0"
+        }
+      },
+      "Block_proc": {
+        "Latency": {
+          "LatencyBest": "4",
+          "LatencyAvg": "28",
+          "LatencyWorst": "60",
+          "PipelineIIMin": "4",
+          "PipelineIIMax": "60",
+          "PipelineII": "4 ~ 60",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "9.39"
+        },
+        "Area": {
+          "DSP48E": "3",
+          "FF": "1132",
+          "LUT": "2252",
           "BRAM_18K": "0"
         }
       },
       "EVABMOFStreamWithControl": {
         "Latency": {
-          "LatencyBest": "69",
-          "LatencyAvg": "112",
+          "LatencyBest": "67",
+          "LatencyAvg": "106",
           "LatencyWorst": "170",
-          "PipelineIIMin": "7",
+          "PipelineIIMin": "5",
           "PipelineIIMax": "131",
-          "PipelineII": "7 ~ 131",
+          "PipelineII": "5 ~ 131",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
         },
@@ -2100,15 +2129,15 @@
         "Area": {
           "BRAM_18K": "348",
           "DSP48E": "493",
-          "FF": "25819",
-          "LUT": "62703"
+          "FF": "26090",
+          "LUT": "63142"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-07-15 17:09:34 +0200",
+    "Time": "2020-07-16 17:53:10 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

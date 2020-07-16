@@ -3143,6 +3143,8 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
 
 			// 3/64 = 0.046875~ 0.05
 			uint16_t deltaThr = areaEventThr * 3 / 64;
+			// Comment this line if the feedback feature is required to be support.
+			deltaThr = 0;
 			if(avgMatchMul > avgTargetMul )
 			{
 //				areaEventThr -= deltaThr;
@@ -3801,8 +3803,8 @@ void rwSlicesScale0WithSelect(ap_uint<1> select,
 		x = xStream.read();
 		y = yStream.read();
 		idx = idxStream.read();
-		xInitOffset = xInitOffsetStream.read();
-		yInitOffset = yInitOffsetStream.read();
+//		xInitOffset = xInitOffsetStream.read();
+//		yInitOffset = yInitOffsetStream.read();
 
 		if(idx == 0)
 		{
@@ -3871,8 +3873,8 @@ void rwSlicesScale1WithSelect(ap_uint<1> select,
 		x = xStream.read();
 		y = yStream.read();
 		idx = idxStream.read();
-		xInitOffset = xInitOffsetStream.read();
-		yInitOffset = yInitOffsetStream.read();
+//		xInitOffset = xInitOffsetStream.read();
+//		yInitOffset = yInitOffsetStream.read();
 
 		if(idx == 0)
 		{
@@ -4137,8 +4139,8 @@ void findStreamMinScale0WithSelect(ap_uint<1> select,
 	{
 //		int16_t inData = inStream.read();
 //		ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
-		minStream.write(0x7fff);
-		OFStream.write(0x3f);
+//		minStream.write(0x7fff);
+//		OFStream.write(0x3f);
 	}
 }
 
@@ -4154,8 +4156,8 @@ void findStreamMinScale1WithSelect(ap_uint<1> select,
 	{
 //		int16_t inData = inStream.read();
 //		ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
-		minStream.write(0x7fff);
-		OFStream.write(0x3f);
+//		minStream.write(0x7fff);
+//		OFStream.write(0x3f);
 	}
 }
 
@@ -4171,8 +4173,8 @@ void findStreamMinScale2WithSelect(ap_uint<1> select,
 	{
 //		int16_t inData = inStream.read();
 //		ap_uint<3> tmpOF_y = ap_uint<3>(OF_yStream.read());
-		minStream.write(0x7fff);
-		OFStream.write(0x3f);
+//		minStream.write(0x7fff);
+//		OFStream.write(0x3f);
 	}
 }
 
@@ -4198,16 +4200,16 @@ void getInitOffsetForNextScale1WithSelect(ap_uint<1> select,
 	}
 	else
 	{
-		apUint6_t tmpOFScale2 = OFRetStreamScale2.read();
-		apUint15_t tmpMiniOFScale2 = miniSumStreamScale2.read();
-		ap_int<8> xInitOffsetScale1 = ap_int<8>(tmpOFScale2.range(2,0) - 3) << 1;
-		ap_int<8> yInitOffsetScale1 = ap_int<8>(tmpOFScale2.range(5,3) - 3) << 1;
-		OFRetStreamScale2Copy.write(tmpOFScale2);
-		miniSumStreamScale2Copy.write(tmpMiniOFScale2);
-		xInitOffsetScale1Stream.write(xInitOffsetScale1);
-		yInitOffsetScale1Stream.write(yInitOffsetScale1);
-		xInitOffsetScale1StreamCopy.write(xInitOffsetScale1);
-		yInitOffsetScale1StreamCopy.write(yInitOffsetScale1);
+//		apUint6_t tmpOFScale2 = OFRetStreamScale2.read();
+//		apUint15_t tmpMiniOFScale2 = miniSumStreamScale2.read();
+//		ap_int<8> xInitOffsetScale1 = ap_int<8>(tmpOFScale2.range(2,0) - 3) << 1;
+//		ap_int<8> yInitOffsetScale1 = ap_int<8>(tmpOFScale2.range(5,3) - 3) << 1;
+//		OFRetStreamScale2Copy.write(tmpOFScale2);
+//		miniSumStreamScale2Copy.write(tmpMiniOFScale2);
+//		xInitOffsetScale1Stream.write(xInitOffsetScale1);
+//		yInitOffsetScale1Stream.write(yInitOffsetScale1);
+//		xInitOffsetScale1StreamCopy.write(xInitOffsetScale1);
+//		yInitOffsetScale1StreamCopy.write(yInitOffsetScale1);
 	}
 
 }
@@ -4234,16 +4236,16 @@ void getInitOffsetForNextScale0WithSelect(ap_uint<1> select,
 	}
 	else
 	{
-		apUint6_t tmpOFScale1 = OFRetStreamScale1.read();
-		apUint15_t tmpMiniOFScale1 = miniSumStreamScale1.read();
-		ap_int<8> xInitOffsetScale1Copy = xInitOffsetScale1StreamCopy.read();
-		ap_int<8> yInitOffsetScale1Copy = yInitOffsetScale1StreamCopy.read();
-	    ap_int<8> xInitOffsetScale0 = (ap_int<8>(tmpOFScale1.range(2,0) - 3) << 1) + (xInitOffsetScale1Copy << 1);
-	    ap_int<8> yInitOffsetScale0 = (ap_int<8>(tmpOFScale1.range(5,3) - 3) << 1) + (yInitOffsetScale1Copy << 1);
-	    OFRetStreamScale1Copy.write(tmpOFScale1);
-	    miniSumStreamScale1Copy.write(tmpMiniOFScale1);
-	    xInitOffsetScale0Stream.write(xInitOffsetScale0);
-	    yInitOffsetScale0Stream.write(yInitOffsetScale0);
+//		apUint6_t tmpOFScale1 = OFRetStreamScale1.read();
+//		apUint15_t tmpMiniOFScale1 = miniSumStreamScale1.read();
+//		ap_int<8> xInitOffsetScale1Copy = xInitOffsetScale1StreamCopy.read();
+//		ap_int<8> yInitOffsetScale1Copy = yInitOffsetScale1StreamCopy.read();
+//	    ap_int<8> xInitOffsetScale0 = (ap_int<8>(tmpOFScale1.range(2,0) - 3) << 1) + (xInitOffsetScale1Copy << 1);
+//	    ap_int<8> yInitOffsetScale0 = (ap_int<8>(tmpOFScale1.range(5,3) - 3) << 1) + (yInitOffsetScale1Copy << 1);
+//	    OFRetStreamScale1Copy.write(tmpOFScale1);
+//	    miniSumStreamScale1Copy.write(tmpMiniOFScale1);
+//	    xInitOffsetScale0Stream.write(xInitOffsetScale0);
+//	    yInitOffsetScale0Stream.write(yInitOffsetScale0);
 	}
 
 }
@@ -4276,6 +4278,11 @@ void feedbackAndCombineOutputStreamWithSelect(ap_uint<1> select,
 		ap_uint<64> ts;
 		ap_uint<1> pol;
 
+		y = tmpOutput.range(31, 16);
+		x = tmpOutput.range(15, 0);
+		pol = tmpOutput[32];
+		ts.range(62, 0) = tmpOutput.range(95, 33);
+
 		ap_int<16> miniRet;
 		ap_uint<16> OFRet;
 		ap_uint<2> scaleRet;
@@ -4284,15 +4291,21 @@ void feedbackAndCombineOutputStreamWithSelect(ap_uint<1> select,
     	OFRet = 0x7f7f;
     	scaleRet = 3;
 
-		uint16_t tmpThr;
+    	uint16_t tmpThr;
 
-		ap_int<9> tmp2 = miniRet.range(8, 0);
-		apUint6_t tmpOF = OFRet;
+    	ap_int<9> tmp2 = miniRet.range(8, 0);
+    	apUint6_t tmpOF = OFRet;
+
+//    	feedback(miniRet, tmpOF, glRotateFlg, &tmpThr);
 
 		ap_uint<17> custData;
 
 		ap_int<8> xOFRet = ap_int<8>(OFRet.range(7, 0));
 		ap_int<8> yOFRet = ap_int<8>(OFRet.range(15, 8));
+
+		custData.range(7, 0) = xOFRet;
+		custData.range(15, 8) = yOFRet;
+		custData[16] = glRotateFlg;
 
 		xStreamOut << x;
 		yStreamOut << y;
@@ -4484,8 +4497,7 @@ void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<1
 
 
     glConfig = config;
-    (*status).range(31, 16) = areaEventThrBak;
-    (*status).range(15, 0) = deltaTsHWBak;
+
 	truncateStream(xStreamIn, yStreamIn, polStreamIn, tsStreamIn, xInStream, yInStream, tsInStream, pktEventDataStream);
 
 //	rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
@@ -4542,6 +4554,8 @@ void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<1
 								   miniSumStreamScale2Copy, OFRetStreamScale2Copy,
 								   xStreamOut, yStreamOut, polStreamOut, tsStreamOut, pixelDataStream);
 
+    (*status).range(31, 16) = areaEventThrBak;
+    (*status).range(15, 0) = deltaTsHWBak;
 }
 
 void EVABMOFStreamNoConfigNoStaus(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn, hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
@@ -4888,8 +4902,7 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 #pragma HLS RESOURCE variable=select core=FIFO_SRL
 
     glConfig = config;
-    (*status).range(31, 16) = areaEventThrBak;
-    (*status).range(15, 0) = deltaTsHWBak;
+
 	truncateStreamWithControl(xStreamIn, yStreamIn, polStreamIn, tsStreamIn, controlStreamIn,
 			xInStream, yInStream, tsInStream, pktEventDataStream, &select);
 
@@ -4925,10 +4938,14 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 	accumulateStreamScale0WithSelect(select, outStream, outSumStream, OF_yStream, refZeroCntStream, tagColValidCntStream,  refTagValidCntStream);
 	findStreamMinScale0WithSelect(select, outSumStream, OF_yStream, miniSumStreamScale0, OFRetStreamScale0);
 
-	feedbackAndCombineOutputStream(pktEventDataStream,
-								   miniSumStreamScale0, OFRetStreamScale0,
-								   miniSumStreamScale1Copy, OFRetStreamScale1Copy,
-								   miniSumStreamScale2Copy, OFRetStreamScale2Copy,
-								   xStreamOut, yStreamOut, polStreamOut, tsStreamOut, pixelDataStream);
+	feedbackAndCombineOutputStreamWithSelect(select,
+								pktEventDataStream,
+								miniSumStreamScale0, OFRetStreamScale0,
+								miniSumStreamScale1Copy, OFRetStreamScale1Copy,
+								miniSumStreamScale2Copy, OFRetStreamScale2Copy,
+								xStreamOut, yStreamOut, polStreamOut, tsStreamOut, pixelDataStream);
+
+	(*status).range(31, 16) = areaEventThrBak;
+    (*status).range(15, 0) = deltaTsHWBak;
 }
 
