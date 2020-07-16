@@ -255,6 +255,61 @@
               "description": "Reserved.  0s on read."
             }
           ]
+        },
+        {
+          "offset": "0x28",
+          "name": "status_absTsUnit10ns_1",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Data signal of status_absTsUnit10ns",
+          "fields": [{
+              "offset": "0",
+              "width": "32",
+              "name": "status_absTsUnit10ns",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Bit 31 to 0 Data signal of status_absTsUnit10ns"
+            }]
+        },
+        {
+          "offset": "0x2c",
+          "name": "status_absTsUnit10ns_2",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Data signal of status_absTsUnit10ns",
+          "fields": [{
+              "offset": "0",
+              "width": "32",
+              "name": "status_absTsUnit10ns",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Bit 63 to 32 Data signal of status_absTsUnit10ns"
+            }]
+        },
+        {
+          "offset": "0x30",
+          "name": "status_absTsUnit10ns_ctrl",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Control signal of status_absTsUnit10ns",
+          "fields": [
+            {
+              "offset": "0",
+              "width": "1",
+              "name": "status_absTsUnit10ns_ap_vld",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Control signal status_absTsUnit10ns_ap_vld"
+            },
+            {
+              "offset": "1",
+              "width": "31",
+              "name": "RESERVED",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            }
+          ]
         }
       ],
       "memories": "",
@@ -608,6 +663,15 @@
       "Object": "config",
       "firstOutLatency": "0"
     },
+    "status_absTsUnit10ns": {
+      "interfaceRef": "s_axi_config",
+      "dir": "out",
+      "offset": "40",
+      "statusOffset": "48",
+      "handshakeRef": "ap_vld",
+      "Object": "config",
+      "firstOutLatency": "0"
+    },
     "ap_ctrl": {
       "interfaceRef": "ap_ctrl",
       "dir": "out"
@@ -705,15 +769,15 @@
         },
         "Area": {
           "BRAM_18K": "0",
-          "FF": "909",
-          "LUT": "819",
+          "FF": "1108",
+          "LUT": "1018",
           "DSP48E": "0"
         }
       }}
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2019-11-05 09:52:59 +0100",
+    "Time": "2020-07-16 00:03:23 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

@@ -211,6 +211,7 @@ typedef struct
 {
 	uint64_t rowNum;
 	uint64_t colNum;
+	uint64_t absTsUnit10ns;
 } status_t;
 
 void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIFODataValid, status_t *status,
@@ -236,6 +237,7 @@ void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIF
 
 	static uint64_t statusStatRowNum;
 	static uint64_t statusStatColNum;
+	static uint64_t absTimeTicker;
 
 	ap_uint<16> data = 0;
 
@@ -260,8 +262,8 @@ void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIF
 
 			/* Now we can output all the data simultaneously */
 			tsStreamOut << ts;
-			yStreamOut << y;
-			xStreamOut << x;
+			yStreamOut << x;
+			xStreamOut << y;
 			polStreamOut << pol;
 		}
 		else if(data.range(14, 12) == 7)
@@ -276,8 +278,10 @@ void EVMUXDataToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIF
 	*polRegReg = pol;
 	*tsWrapRegReg = tsWrap;
 	*dataReg = data;
+	absTimeTicker++;
 	status->rowNum = statusStatRowNum;
 	status->colNum = statusStatColNum;
+	status->absTsUnit10ns = absTimeTicker;
 }
 
 void EVRawStreamToXYTSStream(volatile ap_uint<16> eventFIFOIn, ap_uint<1> eventFIFOEmpty, ap_uint<1> *eventFIFORd,

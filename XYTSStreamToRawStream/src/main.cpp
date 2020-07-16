@@ -32,13 +32,15 @@ void RawStreamToFIFO(hls::stream< ap_uint<16> > &streamIn,
 
 ap_uint<64> glLastTS;
 ap_uint<16> glLastY;
+ap_uint<49> glLastTsWrap;
 
 void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn,
 		hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
 		hls::stream< ap_uint<10> > &custDataStreamIn,
 		hls::stream< ap_uint<16> > &streamOut,
 		ap_uint<64> * tsReg, ap_uint<64> * glLastTSReg, ap_uint<16> * yReg, ap_uint<16> * glLastYReg,
-		ap_uint<1> *tsDiffFlgReg, ap_uint<1> *yDiffFlgReg, ap_uint<1> *nonMonTSDiffFlgReg)
+		ap_uint<1> *tsDiffFlgReg, ap_uint<1> *yDiffFlgReg,
+		ap_uint<1> *nonMonTSDiffFlgReg, ap_uint<12> *tsWrappedVal)
 {
 #pragma HLS PIPELINE II=3
 #pragma HLS INTERFACE axis register both port=xStreamIn
@@ -51,6 +53,7 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 	ap_uint<1> tsDiffFlg = 0;
 	ap_uint<1> yDiffFlg = 0;
 	ap_uint<1> nonMonTSDiffFlg = 0;
+	ap_uint<12> tmpWradDiffVal = 0;
 
 	ap_uint<64> ts;
 	ts = tsStreamIn.read();
@@ -67,6 +70,7 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 	y = xStreamIn.read();
 	ap_uint<1>  pol = polStreamIn.read();
 
+	ap_uint<49> tsWrap = ts.range(63, 15);
 	ap_uint<16> tsRaw = ts.range(14, 0);
 	tsRaw[15] = 1;
 	ap_uint<16> yRaw = y.range(11,0);
@@ -88,9 +92,10 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 		}
 		tsDiffFlg = 1;
 
-		if(tsRaw == 0x8000)
+		if(tsWrap > glLastTsWrap)
 		{
-			tsRaw = ap_uint<16>(0x7001);
+			tmpWradDiffVal = tsWrap - glLastTsWrap;
+			tsRaw = ap_uint<16>(0x7000 + tmpWradDiffVal);
 		}
 //		if(tsRaw > 0xf100)
 //		{
@@ -121,12 +126,14 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 	*tsReg = ts;
 	*glLastTSReg = glLastTS;
 	glLastTS = ts;       // update last ts
+	glLastTsWrap = tsWrap; // update last tsWrap
 	*yReg = y;
 	*glLastYReg = glLastY;
 	glLastY = y;  // update last y
 	*tsDiffFlgReg = tsDiffFlg;
 	*yDiffFlgReg = yDiffFlg;
 	*nonMonTSDiffFlgReg = nonMonTSDiffFlg;
+	*tsWrappedVal = tmpWradDiffVal;
 }
 
 void XYTSStreamToRawFIFO(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn,

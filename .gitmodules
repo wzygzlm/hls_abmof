@@ -7,3 +7,9 @@
 [submodule "evRawFIFOtoRawStream"]
 	path = evRawFIFOtoRawStream
 	url = https://github.com/wzygzlm/evRawFIFOtoRawStream.git
+[submodule "SFAST"]
+	path = SFAST
+	url = https://github.com/wzygzlm/SFAST
+[submodule "eventStreamSwitch"]
+	path = eventStreamSwitch
+	url = https://github.com/wzygzlm/eventStreamSwitch.git

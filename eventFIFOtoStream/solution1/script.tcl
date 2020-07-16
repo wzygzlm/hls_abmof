@@ -5,9 +5,9 @@
 ############################################################
 open_project eventFIFOtoStream
 set_top EVMUXDataToXYTSStream
-add_files eventFIFOtoStream/src/main.cpp
-add_files eventFIFOtoStream/src/main.h
 add_files eventFIFOtoStream/src/protocolTest.c
+add_files eventFIFOtoStream/src/main.h
+add_files eventFIFOtoStream/src/main.cpp
 add_files -tb eventFIFOtoStream/src/test.cpp
 open_solution "solution1"
 set_part {xc7z045ffg900-1} -tool vivado

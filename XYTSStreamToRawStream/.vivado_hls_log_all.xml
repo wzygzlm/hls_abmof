@@ -12,11 +12,13 @@
   <warningLogs>
     <logs>
       <synLog>
-        <logs message="WARNING: [RTGEN 206-101] Global scalar 'glLastY_V' will not be exposed as RTL port." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-03-09T21:51:05.213+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'glLastY_V' is power-on initialization." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-03-09T21:51:05.166+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Global scalar 'glLastTS_V' will not be exposed as RTL port." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-03-09T21:51:05.154+0100" type="Warning"/>
-        <logs message="WARNING: [RTGEN 206-101] Register 'glLastTS_V' is power-on initialization." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-03-09T21:51:05.145+0100" type="Warning"/>
-        <logs message="WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 3, distance = 1, offset = 1)&#xD;&#xA;   between axis write on port 'streamOut_V_V' (XYTSStreamToRawStream/src/main.cpp:102) and axis write on port 'streamOut_V_V' (XYTSStreamToRawStream/src/main.cpp:99)." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-03-09T21:51:04.759+0100" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Global scalar 'glLastY_V' will not be exposed as RTL port." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-07-15T22:37:10.034+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'glLastY_V' is power-on initialization." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-07-15T22:37:09.980+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Global scalar 'glLastTsWrap_V' will not be exposed as RTL port." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-07-15T22:37:09.970+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'glLastTsWrap_V' is power-on initialization." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-07-15T22:37:09.959+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Global scalar 'glLastTS_V' will not be exposed as RTL port." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-07-15T22:37:09.950+0200" type="Warning"/>
+        <logs message="WARNING: [RTGEN 206-101] Register 'glLastTS_V' is power-on initialization." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-07-15T22:37:09.936+0200" type="Warning"/>
+        <logs message="WARNING: [SCHED 204-68] Unable to enforce a carried dependence constraint (II = 3, distance = 1, offset = 1)&#xD;&#xA;   between axis write on port 'streamOut_V_V' (XYTSStreamToRawStream/src/main.cpp:107) and axis write on port 'streamOut_V_V' (XYTSStreamToRawStream/src/main.cpp:104)." projectName="XYTSStreamToRawStream" solutionName="solution1" date="2020-07-15T22:37:09.497+0200" type="Warning"/>
       </synLog>
       <simLog/>
       <mgLog/>
