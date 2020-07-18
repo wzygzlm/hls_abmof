@@ -1222,7 +1222,7 @@ void parseEventsSW(uint64_t * dataStream, int32_t eventsArraySize, int32_t *even
 	        pix_t block2Scale2[BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_2 + 2 * SEARCH_DISTANCE];
 
 	        bool printBlocksEnable = false;
-	        if(ts == 148768824)
+	        if(ts == 148774705)
 			{
 	        	printBlocksEnable = true;
 			}
@@ -1438,7 +1438,7 @@ int main(int argc, char *argv[])
 	hls::stream< ap_uint<1> > cornerStreamIn("cornerStream");
 	hls::stream< ap_uint<17> > miscDataStream("miscDataStream");
 
-	testTimes = 30;
+	testTimes = 15;
 	for(int k = 0; k < testTimes; k++)
 	{
 		cout << "Test " << k << ":" << endl;
@@ -1460,7 +1460,7 @@ int main(int argc, char *argv[])
 			GTData[i] = data3;
 
 			ap_uint<1> SFASTCorner = GTData[i].bit(24);
-			if(k == 8 && i == 3457)
+			if(k == 9 && i == 171)
 			{
 				int tmp = 0;
 			}
