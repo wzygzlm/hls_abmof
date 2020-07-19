@@ -1900,7 +1900,7 @@ void rotateSliceAndWriteResetSlice(apUint10_t x, apUint10_t y, ap_uint<64> ts)
 void rwSlicesScale0(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream,
 		  hls::stream< ap_int<8> > &xInitOffsetStream, hls::stream< ap_int<8> > &yInitOffsetStream,
 		  hls::stream<sliceIdx_t> &idxStream,
-		  apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE], apIntBlockScale0Col_t colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE])
+		  hls::stream<apIntBlockScale0Col_t> &refSingleStreamOut, hls::stream<apIntBlockScale0Col_t> &tagSingleStreamOut)
 {
 #pragma HLS INLINE
 	apUint10_t xRd;
@@ -1908,7 +1908,7 @@ void rwSlicesScale0(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &y
 	sliceIdx_t idx;
 	ap_int<8> xInitOffset, yInitOffset;
 
-	//	apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0], colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
+	apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0], colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
 
 	pix_t out1_debug[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
 	pix_t out2_debug[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE][BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
@@ -1916,20 +1916,14 @@ void rwSlicesScale0(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &y
 	pix_t out1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
 	pix_t out2[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
 
-	apIntBlockScale0Col_t refBlockCol[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
-	apIntBlockScale0Col_t tagBlockCol[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
-//#pragma HLS RESOURCE variable=refBlockCol core=RAM_2P_LUTRAM
-//#pragma HLS RESOURCE variable=tagBlockCol core=RAM_2P_LUTRAM
-//#pragma HLS ARRAY_PARTITION variable=refBlockCol complete dim=0
-//#pragma HLS ARRAY_PARTITION variable=tagBlockCol complete dim=0
-
-	apIntBlockScale0ColNPC_t refBlockColFinal = 0, tagBlockColFinal = 0;
+	apIntBlockScale0Col_t refBlockCol;
+	apIntBlockScale0Col_t tagBlockCol;
 
 	int iterationCnt_i = 0, iterationCnt_k = 0;
 
 //	rwSlicesLoop:for(int32_t i = 0; i < eventIterSize; i++)
 //	{
-		rwSlicesInnerLoop:for(int16_t xOffSet = -1; xOffSet < BLOCK_SIZE_SCALE_0 + (2 * SEARCH_DISTANCE); xOffSet++)
+		rwSlicesInnerLoop:for(int16_t xOffSet = -1; xOffSet < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; xOffSet++)
 		{
 #pragma HLS PIPELINE rewind
 //			xRd = (xOffSet == 0)? (ap_uint<8>)(xStream.read()): xRd;
@@ -2025,39 +2019,14 @@ void rwSlicesScale0(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &y
 					}
 				}
 
+				for (int8_t l = 0; l < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; l++)
+				{
+					refBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
+					tagBlockCol.range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
+				}
 
-				if(xOffSet >= 0 && xOffSet < BLOCK_SIZE_SCALE_0 + (2 * SEARCH_DISTANCE))
-				{
-					for (int8_t l = 0; l < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE; l++)
-					{
-						colData0[xOffSet].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out1[l];
-						colData1[xOffSet].range(BITS_PER_PIXEL * l + BITS_PER_PIXEL - 1, BITS_PER_PIXEL * l) = out2[l];
-					}
-				}
-				else
-				{
-//					for (int npcIdx = 0; npcIdx < NPC_SCALE_0; npcIdx++)
-//					{
-//						refBlockColFinal = refBlockColFinal << (BLOCK_SCALE0_COL_PIXELS);
-//						refBlockColFinal.range(BLOCK_SCALE0_COL_PIXELS - 1, 0) = refBlockCol[iterationCnt_k + npcIdx];
-//
-//						tagBlockColFinal = tagBlockColFinal << (BLOCK_SCALE0_COL_PIXELS);
-//						tagBlockColFinal.range(BLOCK_SCALE0_COL_PIXELS - 1, 0) = tagBlockCol[iterationCnt_k + iterationCnt_i + npcIdx];
-//					}
-//
-//					if(iterationCnt_k >= BLOCK_SIZE_SCALE_0 - 1)
-//					{
-//						iterationCnt_k = 0;
-//						iterationCnt_i++;
-//					}
-//					else
-//					{
-//						iterationCnt_k = iterationCnt_k + NPC_SCALE_0;
-//					}
-//
-//					refStreamOut << refBlockColFinal;
-//					tagStreamOut << tagBlockColFinal;
-				}
+				refSingleStreamOut << refBlockCol;
+				tagSingleStreamOut << tagBlockCol;
 			}
 		}
 //	}
@@ -2427,18 +2396,68 @@ void rwSlicesScale2(hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &y
 
 }
 
+void reOrderStreamScale0(hls::stream<apIntBlockScale0Col_t> &refSingleStreamOut,
+		hls::stream<apIntBlockScale0Col_t> &tagSingleStreamOut,
+		hls::stream<apIntBlockScale0ColNPC_t> &refNPCStreamOut,
+		hls::stream<apIntBlockScale0ColNPC_t> &tagNPCStreamOut)
+{
+	apIntBlockScale0Col_t refBlockCol[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE], tagBlockCol[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
+//#pragma HLS RESOURCE variable=refBlockCol core=RAM_2P_LUTRAM
+//#pragma HLS RESOURCE variable=tagBlockCol core=RAM_2P_LUTRAM
+#pragma HLS ARRAY_PARTITION variable=refBlockCol complete dim=0
+#pragma HLS ARRAY_PARTITION variable=tagBlockCol complete dim=0
+	apIntBlockScale0ColNPC_t refBlockColFinal = 0, tagBlockColFinal = 0;
+
+	int iterationCnt_i = 0, iterationCnt_k = 0;
+
+	for(int16_t xOffSet = 0; xOffSet < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE + ITER_CNT_NPC_SCALE_0 * (2 * SEARCH_DISTANCE + 1); xOffSet++)
+	{
+#pragma HLS PIPELINE rewind
+
+		if(xOffSet >= 0 && xOffSet < BLOCK_SIZE_SCALE_0 + (2 * SEARCH_DISTANCE))
+		{
+			refBlockCol[xOffSet] = refSingleStreamOut.read();
+			tagBlockCol[xOffSet] = tagSingleStreamOut.read();
+		}
+		else
+		{
+			for (int npcIdx = 0; npcIdx < NPC_SCALE_0; npcIdx++)
+			{
+				refBlockColFinal = refBlockColFinal << (BLOCK_SCALE0_COL_PIXELS);
+				refBlockColFinal.range(BLOCK_SCALE0_COL_PIXELS - 1, 0) = refBlockCol[iterationCnt_k + npcIdx];
+
+				tagBlockColFinal = tagBlockColFinal << (BLOCK_SCALE0_COL_PIXELS);
+				tagBlockColFinal.range(BLOCK_SCALE0_COL_PIXELS - 1, 0) = tagBlockCol[iterationCnt_k + iterationCnt_i + npcIdx];
+			}
+
+			if(iterationCnt_k >= BLOCK_SIZE_SCALE_0 - 1)
+			{
+				iterationCnt_k = 0;
+				iterationCnt_i++;
+			}
+			else
+			{
+				iterationCnt_k = iterationCnt_k + NPC_SCALE_0;
+			}
+
+			refNPCStreamOut << refBlockColFinal;
+			tagNPCStreamOut << tagBlockColFinal;
+		}
+	}
+}
+
 
 // Function description: reorder the column stream read directly from the memory slices.
-void colStreamToColSumScale0(apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE], apIntBlockScale0Col_t colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE],
+void colStreamToColSumScale0(hls::stream<apIntBlockScale0ColNPC_t> &colStream0, hls::stream<apIntBlockScale0ColNPC_t> &colStream1,
 		hls::stream<apUintColSumNPC_t> &outStream, hls::stream< apUintRefZeroCntNPC_t > &refZeroCntStream,
 		hls::stream<apUintValidCntNPC_t> &tagColValidCntStream,
 		hls::stream<apUintValidCntNPC_t> &refTagValidCntStream)
 {
-//	apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0], colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
-//#pragma HLS RESOURCE variable=colData1 core=RAM_2P_LUTRAM
-//#pragma HLS RESOURCE variable=colData0 core=RAM_2P_LUTRAM
+	apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0], colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
+#pragma HLS RESOURCE variable=colData1 core=RAM_2P_LUTRAM
+#pragma HLS RESOURCE variable=colData0 core=RAM_2P_LUTRAM
 
-//	apIntBlockScale0ColNPC_t tmpStreamData0, tmpStreamData1;
+	apIntBlockScale0ColNPC_t tmpStreamData0, tmpStreamData1;
 	apUintColSumNPC_t outputDataNPCRet = 0;
 	apUintValidCntNPC_t refTagValidOutputDataNPCRet = 0, tagColValidOutputDataNPCRet = 0;
 	apUintRefZeroCntNPC_t refColZeroCntNPCRet = 0;
@@ -2448,22 +2467,16 @@ void colStreamToColSumScale0(apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0 +
 		colStreamToColSum_label2:for(int k = 0; k < BLOCK_SIZE_SCALE_0; k = k + NPC_SCALE_0)
 		{
 #pragma HLS PIPELINE rewind
-			// Using decrease form to make it satisfy that left column is in the lower
-			// bits of the combination column form
 			NPCLoop: for(int j = 0; j < NPC_SCALE_0; j++)
 			{
-				int refColIdx = k + j;
-				int tagColIdx = i + k + j;
-				if(refColIdx >= BLOCK_SIZE_SCALE_0)
+				if(j == 0)
 				{
-					refColIdx -=  BLOCK_SIZE_SCALE_0;
+					tmpStreamData0 = colStream0.read();
+					tmpStreamData1 = colStream1.read();
 				}
-				if(tagColIdx >= BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE)
-				{
-					tagColIdx -= (BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE);
-				}
-				apIntBlockScale0Col_t tmpData0 = colData0[refColIdx];
-				apIntBlockScale0Col_t tmpData1 = colData1[tagColIdx];
+
+				apIntBlockScale0Col_t tmpData0 = tmpStreamData0.range(BLOCK_SCALE0_COL_PIXELS - 1, 0);
+				apIntBlockScale0Col_t tmpData1 = tmpStreamData1.range(BLOCK_SCALE0_COL_PIXELS - 1, 0);
 
 				pix_t in1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
 				pix_t in2[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
@@ -2495,19 +2508,19 @@ void colStreamToColSumScale0(apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0 +
 				}
 
 				// Shift output
-				refColZeroCntNPCRet = refColZeroCntNPCRet >> 6;
-				outputDataNPCRet = outputDataNPCRet >> (COL_SUM_BITS * (2 * SEARCH_DISTANCE + 1));
-				tagColValidOutputDataNPCRet = tagColValidOutputDataNPCRet >> (VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1));
-				refTagValidOutputDataNPCRet = refTagValidOutputDataNPCRet >> (VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1));
+				refColZeroCntNPCRet = refColZeroCntNPCRet << 6;
+				outputDataNPCRet = outputDataNPCRet << (COL_SUM_BITS * (2 * SEARCH_DISTANCE + 1));
+				tagColValidOutputDataNPCRet = tagColValidOutputDataNPCRet << (VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1));
+				refTagValidOutputDataNPCRet = refTagValidOutputDataNPCRet << (VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1));
 
-				refColZeroCntNPCRet.range(6 * NPC_SCALE_0 - 1,
-						6 * (NPC_SCALE_0 - 1)) = refColZeroCnt;
-				outputDataNPCRet.range(COL_SUM_BITS * (2 * SEARCH_DISTANCE + 1) * NPC_SCALE_0 - 1,
-						COL_SUM_BITS * (2 * SEARCH_DISTANCE + 1) * (NPC_SCALE_0 - 1)) = outputData;
-				tagColValidOutputDataNPCRet.range(VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1) * NPC_SCALE_0 - 1,
-						VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1) * (NPC_SCALE_0 - 1)) = tagColValidOutputData;
-				refTagValidOutputDataNPCRet.range(VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1) * NPC_SCALE_0 - 1,
-						VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1) * (NPC_SCALE_0 - 1)) = refTagValidOutputData;
+				refColZeroCntNPCRet.range(5, 0) = refColZeroCnt;
+				outputDataNPCRet.range(COL_SUM_BITS * (2 * SEARCH_DISTANCE + 1) - 1, 0) = outputData;
+				tagColValidOutputDataNPCRet.range(VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1) - 1, 0) = tagColValidOutputData;
+				refTagValidOutputDataNPCRet.range(VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1) - 1, 0) = refTagValidOutputData;
+
+				// Shift input.
+				tmpStreamData0 = tmpStreamData0 >> BLOCK_SCALE0_COL_PIXELS;
+				tmpStreamData1 = tmpStreamData1 >> BLOCK_SCALE0_COL_PIXELS;
 
 				if(j == NPC_SCALE_0 - 1)
 				{
@@ -3569,7 +3582,7 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 	apUint6_t tmpOFScale2 = OFRetStreamScale2.read();
 
 #if DEBUG
-	printRegion: if(x == 106 && y == 75)
+	printRegion: if(x == 239 && y == 25)
 	{
 		std::cout << "tmpMiniSumRetScale0 is: " << tmpMiniSumRetScale0 << "\t tmpOFScale0 is: " << std::hex << tmpOFScale0 << std::endl;
 		std::cout << "tmpMiniSumRetScale1 is: " << std::dec << tmpMiniSumRetScale1 << "\t tmpOFScale1 is: " << std::hex << tmpOFScale1 << std::endl;
@@ -3791,13 +3804,13 @@ void rwSlicesScale0WithSelect(ap_uint<1> select,
 		  hls::stream<apUint10_t> &xStream, hls::stream<apUint10_t> &yStream,
 		  hls::stream< ap_int<8> > &xInitOffsetStream, hls::stream< ap_int<8> > &yInitOffsetStream,
 		  hls::stream<sliceIdx_t> &idxStream,
-		  apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE], apIntBlockScale0Col_t colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE])
+		  hls::stream<apIntBlockScale0Col_t> &refSingleStreamOut, hls::stream<apIntBlockScale0Col_t> &tagSingleStreamOut)
 {
 #pragma HLS INLINE off
 
 	if(select == 1)
 	{
-		rwSlicesScale0(xStream, yStream, xInitOffsetStream, yInitOffsetStream, idxStream, colData0, colData1);
+		rwSlicesScale0(xStream, yStream, xInitOffsetStream, yInitOffsetStream, idxStream, refSingleStreamOut, tagSingleStreamOut);
 	}
 	else
 	{
@@ -3990,17 +4003,36 @@ void rwSlicesScale2WithSelect(ap_uint<1> select,
 	}
 }
 
-void colStreamToColSumScale0WithSelect(ap_uint<1> select,
-		apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE], apIntBlockScale0Col_t colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE],
-		hls::stream<apUintColSumNPC_t> &outStream, hls::stream< apUintRefZeroCntNPC_t > &refZeroCntStream,
-		hls::stream<apUintValidCntNPC_t> &tagColValidCntStream,
-		hls::stream<apUintValidCntNPC_t> &refTagValidCntStream)
+
+void reOrderStreamScale0WithSelect(ap_uint<1> select,
+		hls::stream<apIntBlockScale0Col_t> &refSingleStreamOut,
+		hls::stream<apIntBlockScale0Col_t> &tagSingleStreamOut,
+		hls::stream<apIntBlockScale0ColNPC_t> &refNPCStreamOut,
+		hls::stream<apIntBlockScale0ColNPC_t> &tagNPCStreamOut)
 {
 #pragma HLS INLINE off
 
 	if(select == 1)
 	{
-		colStreamToColSumScale0(colData0, colData1, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
+		reOrderStreamScale0(refSingleStreamOut, tagSingleStreamOut, refNPCStreamOut, tagNPCStreamOut);
+	}
+	else
+	{
+
+	}
+}
+
+
+
+void colStreamToColSumScale0WithSelect(ap_uint<1> select,
+		hls::stream<apIntBlockScale0ColNPC_t> &colStream0, hls::stream<apIntBlockScale0ColNPC_t> &colStream1,
+		hls::stream<apUintColSumNPC_t> &outStream, hls::stream< apUintRefZeroCntNPC_t > &refZeroCntStream,
+		hls::stream<apUintValidCntNPC_t> &tagColValidCntStream,
+		hls::stream<apUintValidCntNPC_t> &refTagValidCntStream)
+{
+	if(select == 1)
+	{
+		colStreamToColSumScale0(colStream0, colStream1, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
 	}
 	else
 	{
@@ -4343,11 +4375,17 @@ void EVABMOFScale0Stream(ap_uint<1> select,
 #pragma HLS INTERFACE axis register both port=yStream
 #pragma HLS INTERFACE axis register both port=xStream
 
-	hls::stream<apIntBlockScale0ColNPC_t> refStream("refStream"), tagStreamIn("tagStream");
+	hls::stream<apIntBlockScale0Col_t> refStream("refStream"), tagStreamIn("tagStream");
 #pragma HLS STREAM variable=refStream depth=10 dim=1
 #pragma HLS RESOURCE variable=refStream core=FIFO_SRL
 #pragma HLS STREAM variable=tagStreamIn depth=10 dim=1
 #pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
+
+	hls::stream<apIntBlockScale0ColNPC_t> refNPCStream("refNPCStream"), tagNPCStreamIn("tagNPCStreamIn");
+#pragma HLS STREAM variable=refNPCStream depth=10 dim=1
+#pragma HLS RESOURCE variable=refNPCStream core=FIFO_SRL
+#pragma HLS STREAM variable=tagNPCStreamIn depth=10 dim=1
+#pragma HLS RESOURCE variable=tagNPCStreamIn core=FIFO_SRL
 
 	hls::stream<apUintColSumNPC_t> outStream("sumStream");
 #pragma HLS STREAM variable=outStream depth=10 dim=1
@@ -4374,378 +4412,11 @@ void EVABMOFScale0Stream(ap_uint<1> select,
 #pragma HLS STREAM variable=refTagValidCntStreamScale1 depth=2 dim=1
 #pragma HLS STREAM variable=refTagValidCntStreamScale2 depth=2 dim=1
 
-	apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE], colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
-#pragma HLS RESOURCE variable=colData0 core=RAM_2P_LUTRAM
-#pragma HLS RESOURCE variable=colData1 core=RAM_2P_LUTRAM
-
-	rwSlicesScale0WithSelect(select, xStream, yStream, xInitOffsetStream, yInitOffsetStream, idxStream, colData0, colData1);
-	colStreamToColSumScale0WithSelect(select, colData0, colData1, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
+	rwSlicesScale0WithSelect(select, xStream, yStream, xInitOffsetStream, yInitOffsetStream, idxStream, refStream, tagStreamIn);
+	reOrderStreamScale0WithSelect(select, refStream, tagStreamIn, refNPCStream, tagNPCStreamIn);
+	colStreamToColSumScale0WithSelect(select, refNPCStream, tagNPCStreamIn, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
 	accumulateStreamScale0WithSelect(select, outStream, outSumStream, OF_yStream, refZeroCntStream, tagColValidCntStream,  refTagValidCntStream);
 	findStreamMinScale0WithSelect(select, outSumStream, OF_yStream, minStream, OFStream);
-}
-
-void EVABMOFStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn, hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
-		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
-		hls::stream< ap_uint<17> > &pixelDataStream,
-		ap_uint<32> config, ap_uint<32> *status)
-{
-//#pragma HLS INTERFACE s_axilite port=config bundle=config
-//#pragma HLS INTERFACE s_axilite port=status bundle=config
-#pragma HLS INTERFACE axis register both port=tsStreamOut
-#pragma HLS INTERFACE axis register both port=polStreamOut
-#pragma HLS INTERFACE axis register both port=yStreamOut
-#pragma HLS INTERFACE axis register both port=xStreamOut
-#pragma HLS INTERFACE axis register both port=pixelDataStream
-
-#pragma HLS INTERFACE axis register both port=polStreamIn
-#pragma HLS INTERFACE axis register both port=tsStreamIn
-#pragma HLS INTERFACE axis register both port=yStreamIn
-#pragma HLS INTERFACE axis register both port=xStreamIn
-#pragma HLS DATAFLOW
-#pragma HLS INLINE off
-
-	hls::stream<apUint10_t>  xInStream("xInStream"), yInStream("yInStream");
-	hls::stream<uint32_t>  tsInStream("tsInStream");
-
-	hls::stream<apUint10_t>  xOutStream("xOutStream"), yOutStream("yOutStream");
-	hls::stream<apUint10_t>  xOutStreamScale1("xOutStreamScale1"), yOutStreamScale1("yOutStreamScale1");
-	hls::stream<apUint10_t>  xOutStreamScale2("xOutStreamScale2"), yOutStreamScale2("yOutStreamScale2");
-#pragma HLS STREAM variable=xOutStreamScale1 depth=10 dim=1
-#pragma HLS RESOURCE variable=xOutStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=yOutStreamScale1 depth=10 dim=1
-#pragma HLS RESOURCE variable=yOutStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=xOutStream depth=20 dim=1
-#pragma HLS RESOURCE variable=xOutStream core=FIFO_SRL
-#pragma HLS STREAM variable=yOutStream depth=20 dim=1
-#pragma HLS RESOURCE variable=yOutStream core=FIFO_SRL
-
-	hls::stream<sliceIdx_t> idxStream("idxStream");
-	hls::stream<sliceIdx_t> idxStreamScale1("idxStreamScale1");
-	hls::stream<sliceIdx_t> idxStreamScale2("idxStreamScale2");
-#pragma HLS STREAM variable=idxStreamScale1 depth=10 dim=1
-#pragma HLS RESOURCE variable=idxStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=idxStream depth=20 dim=1
-#pragma HLS RESOURCE variable=idxStream core=FIFO_SRL
-
-	hls::stream< ap_uint<96> > pktEventDataStream("EventStream");
-#pragma HLS STREAM variable=pktEventDataStream depth=20 dim=1
-#pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
-
-	hls::stream<apIntBlockScale0ColNPC_t> refStream("refStream"), tagStreamIn("tagStream");
-#pragma HLS STREAM variable=refStream depth=10 dim=1
-#pragma HLS RESOURCE variable=refStream core=FIFO_SRL
-#pragma HLS STREAM variable=tagStreamIn depth=10 dim=1
-#pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
-	hls::stream<apIntBlockScale1Col_t> refStreamScale1("refStreamScale1"), tagStreamInScale1("tagStreamScale1");
-#pragma HLS STREAM variable=tagStreamInScale1 depth=10 dim=1
-#pragma HLS RESOURCE variable=tagStreamInScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=refStreamScale1 depth=6 dim=1
-#pragma HLS RESOURCE variable=refStreamScale1 core=FIFO_SRL
-	hls::stream<apIntBlockScale2Col_t> refStreamScale2("refStreamScale2"), tagStreamInScale2("tagStreamScale2");
-#pragma HLS STREAM variable=tagStreamInScale2 depth=10 dim=1
-#pragma HLS RESOURCE variable=tagStreamInScale2 core=FIFO_SRL
-#pragma HLS STREAM variable=refStreamScale2 depth=6 dim=1
-#pragma HLS RESOURCE variable=refStreamScale2 core=FIFO_SRL
-
-	hls::stream<apUint15_t> miniSumStreamScale0("miniSumStreamScale0"), miniSumStreamScale1("miniSumStreamScale1"), miniSumStreamScale2("miniSumStreamScale2");
-	hls::stream<apUint15_t> miniSumStreamScale1Copy("miniSumStreamScale1Copy"), miniSumStreamScale2Copy("miniSumStreamScale2Copy");
-#pragma HLS STREAM variable=miniSumStreamScale1Copy depth=10 dim=1
-#pragma HLS RESOURCE variable=miniSumStreamScale1Copy core=FIFO_SRL
-#pragma HLS STREAM variable=miniSumStreamScale2Copy depth=20 dim=1
-#pragma HLS RESOURCE variable=miniSumStreamScale2Copy core=FIFO_SRL
-
-	hls::stream<apUint6_t> OFRetStreamScale0("OFRetStreamScale0"), OFRetStreamScale1("OFRetStreamScale1"), OFRetStreamScale2("OFRetStreamScale2");
-	hls::stream<apUint6_t> OFRetStreamScale1Copy("OFRetStreamScale1Copy"), OFRetStreamScale2Copy("OFRetStreamScale2Copy");
-#pragma HLS STREAM variable=OFRetStreamScale1Copy depth=10 dim=1
-#pragma HLS RESOURCE variable=OFRetStreamScale1Copy core=FIFO_SRL
-#pragma HLS STREAM variable=OFRetStreamScale2Copy depth=20 dim=1
-#pragma HLS RESOURCE variable=OFRetStreamScale2Copy core=FIFO_SRL
-
-	hls::stream< ap_int<8> > xInitOffsetScale1Stream("xInitOffsetScale1Stream"), yInitOffsetScale1Stream("yInitOffsetScale1Stream");
-	hls::stream< ap_int<8> > xInitOffsetScale1StreamCopy("xInitOffsetScale1StreamCopy"), yInitOffsetScale1StreamCopy("yInitOffsetScale1StreamCopy");
-#pragma HLS STREAM variable=xInitOffsetScale1StreamCopy depth=10 dim=1
-#pragma HLS RESOURCE variable=xInitOffsetScale1StreamCopy core=FIFO_SRL
-#pragma HLS STREAM variable=yInitOffsetScale1StreamCopy depth=10 dim=1
-#pragma HLS RESOURCE variable=yInitOffsetScale1StreamCopy core=FIFO_SRL
-	hls::stream< ap_int<8> > xInitOffsetScale0Stream("xInitOffsetScale0Stream"), yInitOffsetScale0Stream("yInitOffsetScale0Stream");
-
-	hls::stream<uint16_t> thrStream("thresholdStream");
-#pragma HLS STREAM variable=thrStream depth=3 dim=1
-	hls::stream<apUint1_t> rotatFlgStream("rotationFlgStream");
-
-	hls::stream<uint8_t>  xWrStream("xWrStream"), yWrStream("yWrStream");
-	hls::stream<sliceIdx_t> idxWrStream("idxWrStream");
-	hls::stream<col_pix_t> currentColStream("currentColStream");
-
-	hls::stream<apUintColSumNPC_t> outStream("sumStream");
-#pragma HLS STREAM variable=outStream depth=10 dim=1
-#pragma HLS RESOURCE variable=outStream core=FIFO_SRL
-	hls::stream<apUintColSum_t> outStreamScale1("outStreamScale1"), outStreamScale2("outStreamScale2");
-#pragma HLS STREAM variable=outStreamScale1 depth=10 dim=1
-#pragma HLS RESOURCE variable=outStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=outStreamScale2 depth=10 dim=1
-#pragma HLS RESOURCE variable=outStreamScale2 core=FIFO_SRL
-
-	hls::stream<int16_t> outSumStream("outSumStream"), outSumStreamScale1("outSumStreamScale1"), outSumStreamScale2("outSumStreamScale2");
-	hls::stream<int8_t> OF_yStream("OF_yStream"), OF_yStreamScale1("OF_yStreamScale1"), OF_yStreamScale2("OF_yStreamScale2");
-
-	hls::stream<apUintRefZeroCntNPC_t> refZeroCntStream("refZeroCntStream");
-	hls::stream<apUint6_t> refZeroCntStreamScale1("refZeroCntStreamScale1"), refZeroCntStreamScale2("refZeroCntStreamScale2");
-#pragma HLS STREAM variable=refZeroCntStream depth=2 dim=1
-#pragma HLS STREAM variable=refZeroCntStreamScale1 depth=2 dim=1
-#pragma HLS STREAM variable=refZeroCntStreamScale2 depth=2 dim=1
-
-	hls::stream<apUintValidCntNPC_t> tagColValidCntStream("tagColValidCntStream");
-	hls::stream<apUintValidCnt_t> tagColValidCntStreamScale1("tagColValidCntStreamScale1"), tagColValidCntStreamScale2("tagColValidCntStreamScale2");
-#pragma HLS STREAM variable=tagColValidCntStream depth=2 dim=1
-#pragma HLS STREAM variable=tagColValidCntStreamScale1 depth=2 dim=1
-#pragma HLS STREAM variable=tagColValidCntStreamScale2 depth=2 dim=1
-
-	hls::stream<apUintValidCntNPC_t> refTagValidCntStream("refTagValidCntStream");
-	hls::stream<apUintValidCnt_t> refTagValidCntStreamScale1("refTagValidCntStreamScale1"), refTagValidCntStreamScale2("refTagValidCntStreamScale2");
-#pragma HLS STREAM variable=refTagValidCntStream depth=2 dim=1
-#pragma HLS STREAM variable=refTagValidCntStreamScale1 depth=2 dim=1
-#pragma HLS STREAM variable=refTagValidCntStreamScale2 depth=2 dim=1
-
-	apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0], colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
-#pragma HLS RESOURCE variable=colData1 core=RAM_2P_LUTRAM
-#pragma HLS RESOURCE variable=colData0 core=RAM_2P_LUTRAM
-
-    glConfig = config;
-
-	truncateStream(xStreamIn, yStreamIn, polStreamIn, tsStreamIn, xInStream, yInStream, tsInStream, pktEventDataStream);
-
-//	rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
-	rotateSliceAllScales(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream,
-				xOutStreamScale1, yOutStreamScale1, idxStreamScale1,
-				xOutStreamScale2, yOutStreamScale2, idxStreamScale2);
-//	rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn, refStreamScale1, tagStreamInScale1, refStreamScale2, tagStreamInScale2);
-	rwSlicesScale2(xOutStreamScale2, yOutStreamScale2, idxStreamScale2, refStreamScale2, tagStreamInScale2);
-	colStreamToColSumScale2(refStreamScale2, tagStreamInScale2, outStreamScale2, refZeroCntStreamScale2, tagColValidCntStreamScale2, refTagValidCntStreamScale2);
-	accumulateStreamScale2(outStreamScale2, outSumStreamScale2, OF_yStreamScale2, refZeroCntStreamScale2, tagColValidCntStreamScale2,  refTagValidCntStreamScale2);
-	findStreamMinScale2(outSumStreamScale2, OF_yStreamScale2, miniSumStreamScale2, OFRetStreamScale2);
-
-	readInitOffsetScale1Region:
-	{
-		apUint6_t tmpOFScale2 = OFRetStreamScale2.read();
-		apUint15_t tmpMiniOFScale2 = miniSumStreamScale2.read();
-	    ap_int<8> xInitOffsetScale1 = ap_int<8>(tmpOFScale2.range(2,0) - 3) << 1;
-	    ap_int<8> yInitOffsetScale1 = ap_int<8>(tmpOFScale2.range(5,3) - 3) << 1;
-	    OFRetStreamScale2Copy.write(tmpOFScale2);
-	    miniSumStreamScale2Copy.write(tmpMiniOFScale2);
-	    xInitOffsetScale1Stream.write(xInitOffsetScale1);
-	    yInitOffsetScale1Stream.write(yInitOffsetScale1);
-	    xInitOffsetScale1StreamCopy.write(xInitOffsetScale1);
-	    yInitOffsetScale1StreamCopy.write(yInitOffsetScale1);
-	}
-
-	rwSlicesScale1(xOutStreamScale1, yOutStreamScale1, xInitOffsetScale1Stream, yInitOffsetScale1Stream, idxStreamScale1, refStreamScale1, tagStreamInScale1);
-	colStreamToColSumScale1(refStreamScale1, tagStreamInScale1, outStreamScale1, refZeroCntStreamScale1, tagColValidCntStreamScale1, refTagValidCntStreamScale1);
-	accumulateStreamScale1(outStreamScale1, outSumStreamScale1, OF_yStreamScale1, refZeroCntStreamScale1, tagColValidCntStreamScale1,  refTagValidCntStreamScale1);
-	findStreamMinScale1(outSumStreamScale1, OF_yStreamScale1, miniSumStreamScale1, OFRetStreamScale1);
-
-	readInitOffsetScale2Region:
-	{
-		apUint6_t tmpOFScale1 = OFRetStreamScale1.read();
-		apUint15_t tmpMiniOFScale1 = miniSumStreamScale1.read();
-		ap_int<8> xInitOffsetScale1Copy = xInitOffsetScale1StreamCopy.read();
-		ap_int<8> yInitOffsetScale1Copy = yInitOffsetScale1StreamCopy.read();
-	    ap_int<8> xInitOffsetScale0 = (ap_int<8>(tmpOFScale1.range(2,0) - 3) << 1) + (xInitOffsetScale1Copy << 1);
-	    ap_int<8> yInitOffsetScale0 = (ap_int<8>(tmpOFScale1.range(5,3) - 3) << 1) + (yInitOffsetScale1Copy << 1);
-	    OFRetStreamScale1Copy.write(tmpOFScale1);
-	    miniSumStreamScale1Copy.write(tmpMiniOFScale1);
-	    xInitOffsetScale0Stream.write(xInitOffsetScale0);
-	    yInitOffsetScale0Stream.write(yInitOffsetScale0);
-	}
-
-	rwSlicesScale0(xOutStream, yOutStream, xInitOffsetScale0Stream, yInitOffsetScale0Stream, idxStream, colData0, colData1);
-	colStreamToColSumScale0(colData0, colData1, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
-	accumulateStreamScale0(outStream, outSumStream, OF_yStream, refZeroCntStream, tagColValidCntStream,  refTagValidCntStream);
-	findStreamMinScale0(outSumStream, OF_yStream, miniSumStreamScale0, OFRetStreamScale0);
-
-	feedbackAndCombineOutputStream(pktEventDataStream,
-								   miniSumStreamScale0, OFRetStreamScale0,
-								   miniSumStreamScale1Copy, OFRetStreamScale1Copy,
-								   miniSumStreamScale2Copy, OFRetStreamScale2Copy,
-								   xStreamOut, yStreamOut, polStreamOut, tsStreamOut, pixelDataStream);
-
-    (*status).range(31, 16) = areaEventThrBak;
-    (*status).range(15, 0) = deltaTsHWBak;
-}
-
-void EVABMOFStreamNoConfigNoStaus(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn, hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
-		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
-		hls::stream< ap_uint<17> > &pixelDataStream)
-{
-#pragma HLS INTERFACE axis register both port=tsStreamOut
-#pragma HLS INTERFACE axis register both port=polStreamOut
-#pragma HLS INTERFACE axis register both port=yStreamOut
-#pragma HLS INTERFACE axis register both port=xStreamOut
-#pragma HLS INTERFACE axis register both port=pixelDataStream
-
-#pragma HLS INTERFACE axis register both port=polStreamIn
-#pragma HLS INTERFACE axis register both port=tsStreamIn
-#pragma HLS INTERFACE axis register both port=yStreamIn
-#pragma HLS INTERFACE axis register both port=xStreamIn
-#pragma HLS DATAFLOW
-
-	hls::stream<apUint10_t>  xInStream("xInStream"), yInStream("yInStream");
-	hls::stream<uint32_t>  tsInStream("tsInStream");
-
-	hls::stream<apUint10_t>  xOutStream("xOutStream"), yOutStream("yOutStream");
-	hls::stream<apUint10_t>  xOutStreamScale1("xOutStreamScale1"), yOutStreamScale1("yOutStreamScale1");
-	hls::stream<apUint10_t>  xOutStreamScale2("xOutStreamScale2"), yOutStreamScale2("yOutStreamScale2");
-#pragma HLS STREAM variable=xOutStreamScale1 depth=10 dim=1
-#pragma HLS RESOURCE variable=xOutStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=yOutStreamScale1 depth=10 dim=1
-#pragma HLS RESOURCE variable=yOutStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=xOutStream depth=20 dim=1
-#pragma HLS RESOURCE variable=xOutStream core=FIFO_SRL
-#pragma HLS STREAM variable=yOutStream depth=20 dim=1
-#pragma HLS RESOURCE variable=yOutStream core=FIFO_SRL
-
-	hls::stream<sliceIdx_t> idxStream("idxStream");
-	hls::stream<sliceIdx_t> idxStreamScale1("idxStreamScale1");
-	hls::stream<sliceIdx_t> idxStreamScale2("idxStreamScale2");
-#pragma HLS STREAM variable=idxStreamScale1 depth=10 dim=1
-#pragma HLS RESOURCE variable=idxStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=idxStream depth=20 dim=1
-#pragma HLS RESOURCE variable=idxStream core=FIFO_SRL
-
-	hls::stream< ap_uint<96> > pktEventDataStream("EventStream");
-#pragma HLS STREAM variable=pktEventDataStream depth=20 dim=1
-#pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
-
-	hls::stream<apIntBlockScale0ColNPC_t> refStream("refStream"), tagStreamIn("tagStream");
-#pragma HLS STREAM variable=refStream depth=10 dim=1
-#pragma HLS RESOURCE variable=refStream core=FIFO_SRL
-#pragma HLS STREAM variable=tagStreamIn depth=10 dim=1
-#pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
-	hls::stream<apIntBlockScale1Col_t> refStreamScale1("refStreamScale1"), tagStreamInScale1("tagStreamScale1");
-#pragma HLS STREAM variable=tagStreamInScale1 depth=10 dim=1
-#pragma HLS RESOURCE variable=tagStreamInScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=refStreamScale1 depth=6 dim=1
-#pragma HLS RESOURCE variable=refStreamScale1 core=FIFO_SRL
-	hls::stream<apIntBlockScale2Col_t> refStreamScale2("refStreamScale2"), tagStreamInScale2("tagStreamScale2");
-#pragma HLS STREAM variable=tagStreamInScale2 depth=10 dim=1
-#pragma HLS RESOURCE variable=tagStreamInScale2 core=FIFO_SRL
-#pragma HLS STREAM variable=refStreamScale2 depth=6 dim=1
-#pragma HLS RESOURCE variable=refStreamScale2 core=FIFO_SRL
-
-	hls::stream<apUint15_t> miniSumStreamScale0("miniSumStreamScale0"), miniSumStreamScale1("miniSumStreamScale1"), miniSumStreamScale2("miniSumStreamScale2");
-	hls::stream<apUint15_t> miniSumStreamScale1Copy("miniSumStreamScale1Copy"), miniSumStreamScale2Copy("miniSumStreamScale2Copy");
-#pragma HLS STREAM variable=miniSumStreamScale1Copy depth=10 dim=1
-#pragma HLS RESOURCE variable=miniSumStreamScale1Copy core=FIFO_SRL
-#pragma HLS STREAM variable=miniSumStreamScale2Copy depth=20 dim=1
-#pragma HLS RESOURCE variable=miniSumStreamScale2Copy core=FIFO_SRL
-
-	hls::stream<apUint6_t> OFRetStreamScale0("OFRetStreamScale0"), OFRetStreamScale1("OFRetStreamScale1"), OFRetStreamScale2("OFRetStreamScale2");
-	hls::stream<apUint6_t> OFRetStreamScale1Copy("OFRetStreamScale1Copy"), OFRetStreamScale2Copy("OFRetStreamScale2Copy");
-#pragma HLS STREAM variable=OFRetStreamScale1Copy depth=10 dim=1
-#pragma HLS RESOURCE variable=OFRetStreamScale1Copy core=FIFO_SRL
-#pragma HLS STREAM variable=OFRetStreamScale2Copy depth=20 dim=1
-#pragma HLS RESOURCE variable=OFRetStreamScale2Copy core=FIFO_SRL
-
-	hls::stream< ap_int<8> > xInitOffsetScale1Stream("xInitOffsetScale1Stream"), yInitOffsetScale1Stream("yInitOffsetScale1Stream");
-	hls::stream< ap_int<8> > xInitOffsetScale1StreamCopy("xInitOffsetScale1StreamCopy"), yInitOffsetScale1StreamCopy("yInitOffsetScale1StreamCopy");
-#pragma HLS STREAM variable=xInitOffsetScale1StreamCopy depth=10 dim=1
-#pragma HLS RESOURCE variable=xInitOffsetScale1StreamCopy core=FIFO_SRL
-#pragma HLS STREAM variable=yInitOffsetScale1StreamCopy depth=10 dim=1
-#pragma HLS RESOURCE variable=yInitOffsetScale1StreamCopy core=FIFO_SRL
-	hls::stream< ap_int<8> > xInitOffsetScale0Stream("xInitOffsetScale0Stream"), yInitOffsetScale0Stream("yInitOffsetScale0Stream");
-
-	hls::stream<uint16_t> thrStream("thresholdStream");
-#pragma HLS STREAM variable=thrStream depth=3 dim=1
-	hls::stream<apUint1_t> rotatFlgStream("rotationFlgStream");
-
-	hls::stream<uint8_t>  xWrStream("xWrStream"), yWrStream("yWrStream");
-	hls::stream<sliceIdx_t> idxWrStream("idxWrStream");
-	hls::stream<col_pix_t> currentColStream("currentColStream");
-
-	hls::stream<apUintColSumNPC_t> outStream("sumStream");
-#pragma HLS STREAM variable=outStream depth=10 dim=1
-#pragma HLS RESOURCE variable=outStream core=FIFO_SRL
-	hls::stream<apUintColSum_t> outStreamScale1("outStreamScale1"), outStreamScale2("outStreamScale2");
-#pragma HLS STREAM variable=outStreamScale1 depth=10 dim=1
-#pragma HLS RESOURCE variable=outStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=outStreamScale2 depth=10 dim=1
-#pragma HLS RESOURCE variable=outStreamScale2 core=FIFO_SRL
-
-	hls::stream<int16_t> outSumStream("outSumStream"), outSumStreamScale1("outSumStreamScale1"), outSumStreamScale2("outSumStreamScale2");
-	hls::stream<int8_t> OF_yStream("OF_yStream"), OF_yStreamScale1("OF_yStreamScale1"), OF_yStreamScale2("OF_yStreamScale2");
-
-	hls::stream<apUintRefZeroCntNPC_t> refZeroCntStream("refZeroCntStream");
-	hls::stream<apUint6_t> refZeroCntStreamScale1("refZeroCntStreamScale1"), refZeroCntStreamScale2("refZeroCntStreamScale2");
-#pragma HLS STREAM variable=refZeroCntStream depth=2 dim=1
-#pragma HLS STREAM variable=refZeroCntStreamScale1 depth=2 dim=1
-#pragma HLS STREAM variable=refZeroCntStreamScale2 depth=2 dim=1
-
-	hls::stream<apUintValidCntNPC_t> tagColValidCntStream("tagColValidCntStream");
-	hls::stream<apUintValidCnt_t> tagColValidCntStreamScale1("tagColValidCntStreamScale1"), tagColValidCntStreamScale2("tagColValidCntStreamScale2");
-#pragma HLS STREAM variable=tagColValidCntStream depth=2 dim=1
-#pragma HLS STREAM variable=tagColValidCntStreamScale1 depth=2 dim=1
-#pragma HLS STREAM variable=tagColValidCntStreamScale2 depth=2 dim=1
-
-	hls::stream<apUintValidCntNPC_t> refTagValidCntStream("refTagValidCntStream");
-	hls::stream<apUintValidCnt_t> refTagValidCntStreamScale1("refTagValidCntStreamScale1"), refTagValidCntStreamScale2("refTagValidCntStreamScale2");
-#pragma HLS STREAM variable=refTagValidCntStream depth=2 dim=1
-#pragma HLS STREAM variable=refTagValidCntStreamScale1 depth=2 dim=1
-#pragma HLS STREAM variable=refTagValidCntStreamScale2 depth=2 dim=1
-
-	apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0], colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
-#pragma HLS RESOURCE variable=colData1 core=RAM_2P_LUTRAM
-#pragma HLS RESOURCE variable=colData0 core=RAM_2P_LUTRAM
-	truncateStream(xStreamIn, yStreamIn, polStreamIn, tsStreamIn, xInStream, yInStream, tsInStream, pktEventDataStream);
-
-//	rotateSlice(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream);
-	rotateSliceAllScales(xInStream, yInStream, tsInStream, xOutStream, yOutStream, idxStream,
-				xOutStreamScale1, yOutStreamScale1, idxStreamScale1,
-				xOutStreamScale2, yOutStreamScale2, idxStreamScale2);
-
-//	rwSlices(xOutStream, yOutStream, idxStream, refStream, tagStreamIn, refStreamScale1, tagStreamInScale1, refStreamScale2, tagStreamInScale2);
-	rwSlicesScale2(xOutStreamScale2, yOutStreamScale2, idxStreamScale2, refStreamScale2, tagStreamInScale2);
-	colStreamToColSumScale2(refStreamScale2, tagStreamInScale2, outStreamScale2, refZeroCntStreamScale2, tagColValidCntStreamScale2, refTagValidCntStreamScale2);
-	accumulateStreamScale2(outStreamScale2, outSumStreamScale2, OF_yStreamScale2, refZeroCntStreamScale2, tagColValidCntStreamScale2,  refTagValidCntStreamScale2);
-	findStreamMinScale2(outSumStreamScale2, OF_yStreamScale2, miniSumStreamScale2, OFRetStreamScale2);
-
-	apUint6_t tmpOFScale2 = OFRetStreamScale2.read();
-	apUint15_t tmpMiniOFScale2 = miniSumStreamScale2.read();
-    ap_int<8> xInitOffsetScale1 = ap_int<8>(tmpOFScale2.range(2,0) - 3) << 1;
-    ap_int<8> yInitOffsetScale1 = ap_int<8>(tmpOFScale2.range(5,3) - 3) << 1;
-    OFRetStreamScale2Copy.write(tmpOFScale2);
-    miniSumStreamScale2Copy.write(tmpMiniOFScale2);
-    xInitOffsetScale1Stream.write(xInitOffsetScale1);
-    yInitOffsetScale1Stream.write(yInitOffsetScale1);
-    xInitOffsetScale1StreamCopy.write(xInitOffsetScale1);
-    yInitOffsetScale1StreamCopy.write(yInitOffsetScale1);
-
-	rwSlicesScale1(xOutStreamScale1, yOutStreamScale1, xInitOffsetScale1Stream, yInitOffsetScale1Stream, idxStreamScale1, refStreamScale1, tagStreamInScale1);
-	colStreamToColSumScale1(refStreamScale1, tagStreamInScale1, outStreamScale1, refZeroCntStreamScale1, tagColValidCntStreamScale1, refTagValidCntStreamScale1);
-	accumulateStreamScale1(outStreamScale1, outSumStreamScale1, OF_yStreamScale1, refZeroCntStreamScale1, tagColValidCntStreamScale1,  refTagValidCntStreamScale1);
-	findStreamMinScale1(outSumStreamScale1, OF_yStreamScale1, miniSumStreamScale1, OFRetStreamScale1);
-
-	apUint6_t tmpOFScale1 = OFRetStreamScale1.read();
-	apUint15_t tmpMiniOFScale1 = miniSumStreamScale1.read();
-	ap_int<8> xInitOffsetScale1Copy = xInitOffsetScale1StreamCopy.read();
-	ap_int<8> yInitOffsetScale1Copy = yInitOffsetScale1StreamCopy.read();
-    ap_int<8> xInitOffsetScale0 = (ap_int<8>(tmpOFScale1.range(2,0) - 3) << 1) + (xInitOffsetScale1Copy << 1);
-    ap_int<8> yInitOffsetScale0 = (ap_int<8>(tmpOFScale1.range(5,3) - 3) << 1) + (yInitOffsetScale1Copy << 1);
-    OFRetStreamScale1Copy.write(tmpOFScale1);
-    miniSumStreamScale1Copy.write(tmpMiniOFScale1);
-    xInitOffsetScale0Stream.write(xInitOffsetScale0);
-    yInitOffsetScale0Stream.write(yInitOffsetScale0);
-
-	rwSlicesScale0(xOutStream, yOutStream, xInitOffsetScale0Stream, yInitOffsetScale0Stream, idxStream, colData0, colData1);
-	colStreamToColSumScale0(colData0, colData1, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
-	accumulateStreamScale0(outStream, outSumStream, OF_yStream, refZeroCntStream, tagColValidCntStream,  refTagValidCntStream);
-	findStreamMinScale0(outSumStream, OF_yStream, miniSumStreamScale0, OFRetStreamScale0);
-
-	feedbackAndCombineOutputStream(pktEventDataStream,
-								   miniSumStreamScale0, OFRetStreamScale0,
-								   miniSumStreamScale1Copy, OFRetStreamScale1Copy,
-								   miniSumStreamScale2Copy, OFRetStreamScale2Copy,
-								   xStreamOut, yStreamOut, polStreamOut, tsStreamOut, pixelDataStream);
-
 }
 
 void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn,
@@ -4797,11 +4468,16 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 #pragma HLS STREAM variable=pktEventDataStream depth=70 dim=1
 #pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
 
-	hls::stream<apIntBlockScale0ColNPC_t> refStream("refStream"), tagStreamIn("tagStream");
+	hls::stream<apIntBlockScale0Col_t> refStream("refStream"), tagStreamIn("tagStream");
 #pragma HLS STREAM variable=refStream depth=200 dim=1
 #pragma HLS RESOURCE variable=refStream core=FIFO_SRL
 #pragma HLS STREAM variable=tagStreamIn depth=200 dim=1
 #pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
+	hls::stream<apIntBlockScale0ColNPC_t> refNPCStream("refNPCStream"), tagNPCStreamIn("tagNPCStreamIn");
+#pragma HLS STREAM variable=refNPCStream depth=200 dim=1
+#pragma HLS RESOURCE variable=refNPCStream core=FIFO_SRL
+#pragma HLS STREAM variable=tagNPCStreamIn depth=200 dim=1
+#pragma HLS RESOURCE variable=tagNPCStreamIn core=FIFO_SRL
 	hls::stream<apIntBlockScale1Col_t> refStreamScale1("refStreamScale1"), tagStreamInScale1("tagStreamScale1");
 #pragma HLS STREAM variable=tagStreamInScale1 depth=200 dim=1
 #pragma HLS RESOURCE variable=tagStreamInScale1 core=FIFO_SRL
@@ -4888,27 +4564,27 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 #pragma HLS RESOURCE variable=OF_yStreamScale2 core=FIFO_SRL
 
 	hls::stream<apUintRefZeroCntNPC_t> refZeroCntStream("refZeroCntStream");
+	hls::stream<apUint6_t> refZeroCntStreamScale1("refZeroCntStreamScale1"), refZeroCntStreamScale2("refZeroCntStreamScale2");
 #pragma HLS STREAM variable=refZeroCntStream depth=200 dim=1
 #pragma HLS RESOURCE variable=refZeroCntStream core=FIFO_SRL
-	hls::stream<apUint6_t> refZeroCntStreamScale1("refZeroCntStreamScale1"), refZeroCntStreamScale2("refZeroCntStreamScale2");
 #pragma HLS STREAM variable=refZeroCntStreamScale1 depth=200 dim=1
 #pragma HLS RESOURCE variable=refZeroCntStreamScale1 core=FIFO_SRL
 #pragma HLS STREAM variable=refZeroCntStreamScale2 depth=200 dim=1
 #pragma HLS RESOURCE variable=refZeroCntStreamScale2 core=FIFO_SRL
 
 	hls::stream<apUintValidCntNPC_t> tagColValidCntStream("tagColValidCntStream");
+	hls::stream<apUintValidCnt_t> tagColValidCntStreamScale1("tagColValidCntStreamScale1"), tagColValidCntStreamScale2("tagColValidCntStreamScale2");
 #pragma HLS STREAM variable=tagColValidCntStream depth=200 dim=1
 #pragma HLS RESOURCE variable=tagColValidCntStream core=FIFO_SRL
-	hls::stream<apUintValidCnt_t> tagColValidCntStreamScale1("tagColValidCntStreamScale1"), tagColValidCntStreamScale2("tagColValidCntStreamScale2");
 #pragma HLS STREAM variable=tagColValidCntStreamScale1 depth=200 dim=1
 #pragma HLS RESOURCE variable=tagColValidCntStreamScale1 core=FIFO_SRL
 #pragma HLS STREAM variable=tagColValidCntStreamScale2 depth=200 dim=1
 #pragma HLS RESOURCE variable=tagColValidCntStreamScale2 core=FIFO_SRL
 
 	hls::stream<apUintValidCntNPC_t> refTagValidCntStream("refTagValidCntStream");
+	hls::stream<apUintValidCnt_t> refTagValidCntStreamScale1("refTagValidCntStreamScale1"), refTagValidCntStreamScale2("refTagValidCntStreamScale2");
 #pragma HLS STREAM variable=refTagValidCntStream depth=200 dim=1
 #pragma HLS RESOURCE variable=refTagValidCntStream core=FIFO_SRL
-	hls::stream<apUintValidCnt_t> refTagValidCntStreamScale1("refTagValidCntStreamScale1"), refTagValidCntStreamScale2("refTagValidCntStreamScale2");
 #pragma HLS STREAM variable=refTagValidCntStreamScale1 depth=200 dim=1
 #pragma HLS RESOURCE variable=refTagValidCntStreamScale1 core=FIFO_SRL
 #pragma HLS STREAM variable=refTagValidCntStreamScale2 depth=200 dim=1
@@ -4917,11 +4593,6 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 	ap_uint<1> select;
 #pragma HLS STREAM variable=select depth=30 dim=1
 #pragma HLS RESOURCE variable=select core=FIFO_SRL
-
-	apIntBlockScale0Col_t colData0[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE], colData1[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
-#pragma HLS RESOURCE variable=colData0 core=RAM_2P_LUTRAM
-#pragma HLS RESOURCE variable=colData1 core=RAM_2P_LUTRAM
-
 
     glConfig = config;
 
@@ -4955,8 +4626,9 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 			xInitOffsetScale0Stream, yInitOffsetScale0Stream,
 			miniSumStreamScale1Copy, OFRetStreamScale1Copy);
 
-	rwSlicesScale0WithSelect(select, xOutStream, yOutStream, xInitOffsetScale0Stream, yInitOffsetScale0Stream, idxStream, colData0, colData1);
-	colStreamToColSumScale0WithSelect(select, colData0, colData1, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
+	rwSlicesScale0WithSelect(select, xOutStream, yOutStream, xInitOffsetScale0Stream, yInitOffsetScale0Stream, idxStream, refStream, tagStreamIn);
+	reOrderStreamScale0WithSelect(select, refStream, tagStreamIn, refNPCStream, tagNPCStreamIn);
+	colStreamToColSumScale0WithSelect(select, refNPCStream, tagNPCStreamIn, outStream, refZeroCntStream, tagColValidCntStream, refTagValidCntStream);
 	accumulateStreamScale0WithSelect(select, outStream, outSumStream, OF_yStream, refZeroCntStream, tagColValidCntStream,  refTagValidCntStream);
 	findStreamMinScale0WithSelect(select, outSumStream, OF_yStream, miniSumStreamScale0, OFRetStreamScale0);
 
