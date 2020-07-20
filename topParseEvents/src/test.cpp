@@ -1511,7 +1511,7 @@ int main(int argc, char *argv[])
 
 			ap_uint<1> rotateFlgGT = GTData[j].bit(23);
 			ap_uint<1> rotateFlgSW = custDataOutSW[j].bit(23);
-			ap_uint<1> rotateFlgHW = retData[j].bit(16);
+			ap_uint<1> rotateFlgHW = retData[j].bit(10);
 
 			ap_uint<2> OFRetValidGT = GTData[j].bit(16);
 			ap_uint<1> SFASTCornerGT = GTData[j].bit(24);
@@ -1519,15 +1519,16 @@ int main(int argc, char *argv[])
 
 			ap_int<8> xOFRetGT = GTData[j].range(7, 0) - 127;
 			ap_int<8> xOFRetSW = custDataOutSW[j].range(7, 0);
-			ap_int<8> xOFRetHW = retData[j].range(7, 0);
+			ap_int<8> xOFRetHW = retData[j].range(4, 0);
 
 			ap_int<8> yOFRetGT = GTData[j].range(15, 8) - 127;
 			ap_int<8> yOFRetSW = custDataOutSW[j].range(15, 8);
-			ap_int<8> yOFRetHW = retData[j].range(15, 8);
+			ap_int<8> yOFRetHW = retData[j].range(9, 5);
 
 			// Compare HW and SW
 			if( (rotateFlgHW != rotateFlgSW) || (x != xHW) || (y != yHW)
-					|| (xOFRetHW != xOFRetSW) || (yOFRetHW != yOFRetSW) )
+					|| (xOFRetHW.range(4, 0) != xOFRetSW.range(4, 0))
+					|| (yOFRetHW.range(4, 0) != yOFRetSW.range(4, 0)) )
 			{
 				cout << "HW and SW is different." << endl;
                 cout << "x for SW is: " << x << "\t y for SW is: " << y << endl;

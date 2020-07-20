@@ -1094,10 +1094,10 @@
               "InstanceName": "grp_feedbackAndCombineOu_fu_99",
               "Instances": [{
                   "ModuleName": "feedbackAndCombineOu_1",
-                  "InstanceName": "grp_feedbackAndCombineOu_1_fu_151",
+                  "InstanceName": "grp_feedbackAndCombineOu_1_fu_157",
                   "Instances": [{
                       "ModuleName": "feedback",
-                      "InstanceName": "grp_feedback_fu_324"
+                      "InstanceName": "grp_feedback_fu_336"
                     }]
                 }]
             }]
@@ -2279,7 +2279,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-07-20 14:30:16 +0200",
+    "Time": "2020-07-20 17:35:38 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

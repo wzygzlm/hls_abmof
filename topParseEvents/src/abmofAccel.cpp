@@ -3834,9 +3834,9 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 	ap_int<8> xOFRet = ap_int<8>(OFRet.range(7, 0));
 	ap_int<8> yOFRet = ap_int<8>(OFRet.range(15, 8));
 
-	custData.range(7, 0) = xOFRet;
-	custData.range(15, 8) = yOFRet;
-	custData[16] = glRotateFlg;
+	custData.range(4, 0) = xOFRet;
+	custData.range(9, 5) = yOFRet;
+	custData[10] = glRotateFlg;
 
 	xStreamOut << x;
 	yStreamOut << y;
@@ -4528,9 +4528,9 @@ void feedbackAndCombineOutputStreamWithSelect(ap_uint<1> select,
 		ap_int<8> xOFRet = ap_int<8>(OFRet.range(7, 0));
 		ap_int<8> yOFRet = ap_int<8>(OFRet.range(15, 8));
 
-		custData.range(7, 0) = xOFRet;
-		custData.range(15, 8) = yOFRet;
-		custData[16] = glRotateFlg;
+		custData.range(4, 0) = xOFRet;
+		custData.range(9, 5) = yOFRet;
+		custData[10] = glRotateFlg;
 
 		xStreamOut << x;
 		yStreamOut << y;
