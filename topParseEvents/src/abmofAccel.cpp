@@ -2398,6 +2398,8 @@ void reOrderStreamScale0(hls::stream<apIntBlockScale0Col_t> &refSingleStreamOut,
 		hls::stream<apIntBlockScale0ColNPC_t> &refNPCStreamOut,
 		hls::stream<apIntBlockScale0ColNPC_t> &tagNPCStreamOut)
 {
+#pragma HLS INLINE
+
 	apIntBlockScale0Col_t refBlockCol[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE], tagBlockCol[BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE];
 //#pragma HLS RESOURCE variable=refBlockCol core=RAM_2P_LUTRAM
 //#pragma HLS RESOURCE variable=tagBlockCol core=RAM_2P_LUTRAM
@@ -2405,13 +2407,55 @@ void reOrderStreamScale0(hls::stream<apIntBlockScale0Col_t> &refSingleStreamOut,
 #pragma HLS ARRAY_PARTITION variable=tagBlockCol complete dim=0
 	apIntBlockScale0ColNPC_t refBlockColFinal = 0, tagBlockColFinal = 0;
 
-	int iterationCnt_i = 0, iterationCnt_k = 0;
+	int iterationCnt_i = 0, iterationCnt_k = 0, iterationCnt_j = 0, iterationCnt_l = 0;
 
-	for(int16_t xOffSet = 0; xOffSet < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE + ITER_CNT_NPC_SCALE_0 * (2 * SEARCH_DISTANCE + 1); xOffSet++)
+	// It consists of three stages:
+	// The first stage: read data from column stream one by one, and output a NPC stream after every NPC cycle.
+	// The second stage: only read data and don't output stream
+	// The third stage: at this stage, the array are prepared, so we can output NPC stream every single cycle.
+	// In fact, the second stage could be removed, but this will make the logic not easy to understand.
+	// Currently, the first stage's is corresponding to generate the first final SAD minimum, and the third stage
+	// will generated the rest 2*SEARCH_DISTANCE minimums.
+	for(int16_t xOffSet = 0; xOffSet < BLOCK_SIZE_SCALE_0 + 2 * SEARCH_DISTANCE + ITER_CNT_NPC_SCALE_0 * (2 * SEARCH_DISTANCE); xOffSet++)
 	{
 #pragma HLS PIPELINE rewind
+		if(xOffSet >= 0 && xOffSet < ITER_CNT_NPC_SCALE_0 * NPC_SCALE_0)
+		{
+			refBlockCol[xOffSet] = refSingleStreamOut.read();
+			tagBlockCol[xOffSet] = tagSingleStreamOut.read();
 
-		if(xOffSet >= 0 && xOffSet < BLOCK_SIZE_SCALE_0 + (2 * SEARCH_DISTANCE))
+			// iterationCnt_l is used to control when to write NPC stream.
+			// iterationCnt_j is used to indicate the start offset of a NPC stream.
+			if(iterationCnt_l == NPC_SCALE_0 - 1)
+			{
+				for (int npcIdx = 0; npcIdx < NPC_SCALE_0; npcIdx++)
+				{
+					refBlockColFinal = refBlockColFinal << (BLOCK_SCALE0_COL_PIXELS);
+					refBlockColFinal.range(BLOCK_SCALE0_COL_PIXELS - 1, 0) = refBlockCol[iterationCnt_j + npcIdx];
+
+					tagBlockColFinal = tagBlockColFinal << (BLOCK_SCALE0_COL_PIXELS);
+					tagBlockColFinal.range(BLOCK_SCALE0_COL_PIXELS - 1, 0) = tagBlockCol[iterationCnt_j + npcIdx];
+				}
+				refNPCStreamOut << refBlockColFinal;
+				tagNPCStreamOut << tagBlockColFinal;
+
+				if(iterationCnt_j + NPC_SCALE_0 >= BLOCK_SIZE_SCALE_0)
+				{
+					iterationCnt_j = 0;
+					iterationCnt_i++;      // One block is done
+				}
+				else
+				{
+					iterationCnt_j = iterationCnt_j + NPC_SCALE_0;
+				}
+				iterationCnt_l = 0;
+			}
+			else
+			{
+				iterationCnt_l++;
+			}
+		}
+		else if(xOffSet >= ITER_CNT_NPC_SCALE_0 * NPC_SCALE_0 && xOffSet < BLOCK_SIZE_SCALE_0 + (2 * SEARCH_DISTANCE))
 		{
 			refBlockCol[xOffSet] = refSingleStreamOut.read();
 			tagBlockCol[xOffSet] = tagSingleStreamOut.read();
@@ -2426,19 +2470,18 @@ void reOrderStreamScale0(hls::stream<apIntBlockScale0Col_t> &refSingleStreamOut,
 				tagBlockColFinal = tagBlockColFinal << (BLOCK_SCALE0_COL_PIXELS);
 				tagBlockColFinal.range(BLOCK_SCALE0_COL_PIXELS - 1, 0) = tagBlockCol[iterationCnt_k + iterationCnt_i + npcIdx];
 			}
+			refNPCStreamOut << refBlockColFinal;
+			tagNPCStreamOut << tagBlockColFinal;
 
 			if(iterationCnt_k + NPC_SCALE_0 >= BLOCK_SIZE_SCALE_0)  // This is the last iteration of iterationCnt_k inside iterationCnt_i loop
 			{
 				iterationCnt_k = 0;
-				iterationCnt_i++;
+				iterationCnt_i++;      // One block is done
 			}
 			else
 			{
 				iterationCnt_k = iterationCnt_k + NPC_SCALE_0;
 			}
-
-			refNPCStreamOut << refBlockColFinal;
-			tagNPCStreamOut << tagBlockColFinal;
 		}
 	}
 }
@@ -2448,6 +2491,8 @@ void reOrderStreamScale1(hls::stream<apIntBlockScale1Col_t> &refSingleStreamOut,
 		hls::stream<apIntBlockScale1ColNPC_t> &refNPCStreamOut,
 		hls::stream<apIntBlockScale1ColNPC_t> &tagNPCStreamOut)
 {
+#pragma HLS INLINE
+
 	apIntBlockScale1Col_t refBlockCol[BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE], tagBlockCol[BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE];
 //#pragma HLS RESOURCE variable=refBlockCol core=RAM_2P_LUTRAM
 //#pragma HLS RESOURCE variable=tagBlockCol core=RAM_2P_LUTRAM
@@ -2455,13 +2500,55 @@ void reOrderStreamScale1(hls::stream<apIntBlockScale1Col_t> &refSingleStreamOut,
 #pragma HLS ARRAY_PARTITION variable=tagBlockCol complete dim=0
 	apIntBlockScale1ColNPC_t refBlockColFinal = 0, tagBlockColFinal = 0;
 
-	int iterationCnt_i = 0, iterationCnt_k = 0;
+	int iterationCnt_i = 0, iterationCnt_k = 0, iterationCnt_j = 0, iterationCnt_l = 0;
 
-	for(int16_t xOffSet = 0; xOffSet < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE + ITER_CNT_NPC_SCALE_1 * (2 * SEARCH_DISTANCE + 1); xOffSet++)
+	// It consists of three stages:
+	// The first stage: read data from column stream one by one, and output a NPC stream after every NPC cycle.
+	// The second stage: only read data and don't output stream
+	// The third stage: at this stage, the array are prepared, so we can output NPC stream every single cycle.
+	// In fact, the second stage could be removed, but this will make the logic not easy to understand.
+	// Currently, the first stage's is corresponding to generate the first final SAD minimum, and the third stage
+	// will generated the rest 2*SEARCH_DISTANCE minimums.
+	for(int16_t xOffSet = 0; xOffSet < BLOCK_SIZE_SCALE_1 + 2 * SEARCH_DISTANCE + ITER_CNT_NPC_SCALE_1 * (2 * SEARCH_DISTANCE); xOffSet++)
 	{
 #pragma HLS PIPELINE rewind
+		if(xOffSet >= 0 && xOffSet < ITER_CNT_NPC_SCALE_1 * NPC_SCALE_1)
+		{
+			refBlockCol[xOffSet] = refSingleStreamOut.read();
+			tagBlockCol[xOffSet] = tagSingleStreamOut.read();
 
-		if(xOffSet >= 0 && xOffSet < BLOCK_SIZE_SCALE_1 + (2 * SEARCH_DISTANCE))
+			// iterationCnt_l is used to control when to write NPC stream.
+			// iterationCnt_j is used to indicate the start offset of a NPC stream.
+			if(iterationCnt_l == NPC_SCALE_1 - 1)
+			{
+				for (int npcIdx = 0; npcIdx < NPC_SCALE_1; npcIdx++)
+				{
+					refBlockColFinal = refBlockColFinal << (BLOCK_SCALE1_COL_PIXELS);
+					refBlockColFinal.range(BLOCK_SCALE1_COL_PIXELS - 1, 0) = refBlockCol[iterationCnt_j + npcIdx];
+
+					tagBlockColFinal = tagBlockColFinal << (BLOCK_SCALE1_COL_PIXELS);
+					tagBlockColFinal.range(BLOCK_SCALE1_COL_PIXELS - 1, 0) = tagBlockCol[iterationCnt_j + npcIdx];
+				}
+				refNPCStreamOut << refBlockColFinal;
+				tagNPCStreamOut << tagBlockColFinal;
+
+				if(iterationCnt_j + NPC_SCALE_1 >= BLOCK_SIZE_SCALE_1)
+				{
+					iterationCnt_j = 0;
+					iterationCnt_i++;      // One block is done
+				}
+				else
+				{
+					iterationCnt_j = iterationCnt_j + NPC_SCALE_1;
+				}
+				iterationCnt_l = 0;
+			}
+			else
+			{
+				iterationCnt_l++;
+			}
+		}
+		else if(xOffSet >= ITER_CNT_NPC_SCALE_1 * NPC_SCALE_1 && xOffSet < BLOCK_SIZE_SCALE_1 + (2 * SEARCH_DISTANCE))
 		{
 			refBlockCol[xOffSet] = refSingleStreamOut.read();
 			tagBlockCol[xOffSet] = tagSingleStreamOut.read();

@@ -41,10 +41,6 @@
 #define COL_SUM_BITS 16
 #define VALID_CNT_BITS 6
 
-// Number of Parallel Computing units
-#define NPC_SCALE_0 3
-#define NPC_SCALE_1 2
-
 #define BLOCK_AREA (BLOCK_SIZE * BLOCK_SIZE)
 #define BLOCK_AREA_SCALE_0 (BLOCK_SIZE_SCALE_0 * BLOCK_SIZE_SCALE_0)
 #define BLOCK_AREA_SCALE_1 (BLOCK_SIZE_SCALE_1 * BLOCK_SIZE_SCALE_1)
@@ -56,6 +52,10 @@
 #define INIT_AREA_THERSHOLD 700
 #define MAX_SLICE_DURATION_US 300000
 
+// Number of Parallel Computing units
+#define NPC_SCALE_0 3
+#define NPC_SCALE_1 1
+
 const float glIterCntNPCScale0Float = float(BLOCK_SIZE_SCALE_0)/float(NPC_SCALE_0);
 const int glConstIterCntNPCScale0 = ceil(glIterCntNPCScale0Float);
 #define ITER_CNT_NPC_SCALE_0 ceil(float(BLOCK_SIZE_SCALE_0)/float(NPC_SCALE_0))
@@ -63,6 +63,15 @@ const int glConstIterCntNPCScale0 = ceil(glIterCntNPCScale0Float);
 const float glIterCntNPCScale1Float = float(BLOCK_SIZE_SCALE_1)/float(NPC_SCALE_1);
 const int glConstIterCntNPCScale1 = ceil(glIterCntNPCScale1Float);
 #define ITER_CNT_NPC_SCALE_1 ceil(float(BLOCK_SIZE_SCALE_1)/float(NPC_SCALE_1))
+
+// Number of Parallel Computing units
+// Must make sure ITER_CNT_NPC_SCALE * NPC_SCALE <= BLOCK_SIZE_SCALE + 2 * SEARCH_DISTANCE
+// when choosing NPC for a scale.
+// For example, 8 is not suitable for scale 0 if BLOCK_SIZE_SCALE_0 = 25 and SEARCH_DISTANCE = 3
+// because ITER_CNT_NPC_SCALE * NPC_SCALE for scale 0 is 32, but BLOCK_SIZE_SCALE + 2 * SEARCH_DISTANCE
+// for scale 0 is 31. However, bigger value such as 9 is okay.
+#define NPC_SCALE_0 3
+#define NPC_SCALE_1 1
 
 // Valid pixel occupancy parameter
 const float glValidPixOccupancy = 0.01;
