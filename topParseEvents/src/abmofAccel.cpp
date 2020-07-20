@@ -4654,29 +4654,29 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 #pragma HLS RESOURCE variable=pktEventDataStream core=FIFO_SRL
 
 	hls::stream<apIntBlockScale0Col_t> refStream("refStream"), tagStreamIn("tagStream");
-#pragma HLS STREAM variable=refStream depth=200 dim=1
+#pragma HLS STREAM variable=refStream depth=20 dim=1
 #pragma HLS RESOURCE variable=refStream core=FIFO_SRL
-#pragma HLS STREAM variable=tagStreamIn depth=200 dim=1
+#pragma HLS STREAM variable=tagStreamIn depth=20 dim=1
 #pragma HLS RESOURCE variable=tagStreamIn core=FIFO_SRL
 	hls::stream<apIntBlockScale0ColNPC_t> refNPCStream("refNPCStream"), tagNPCStreamIn("tagNPCStreamIn");
-#pragma HLS STREAM variable=refNPCStream depth=200 dim=1
+#pragma HLS STREAM variable=refNPCStream depth=20 dim=1
 #pragma HLS RESOURCE variable=refNPCStream core=FIFO_SRL
-#pragma HLS STREAM variable=tagNPCStreamIn depth=200 dim=1
+#pragma HLS STREAM variable=tagNPCStreamIn depth=20 dim=1
 #pragma HLS RESOURCE variable=tagNPCStreamIn core=FIFO_SRL
 	hls::stream<apIntBlockScale1Col_t> refStreamScale1("refStreamScale1"), tagStreamInScale1("tagStreamScale1");
-#pragma HLS STREAM variable=tagStreamInScale1 depth=200 dim=1
+#pragma HLS STREAM variable=tagStreamInScale1 depth=20 dim=1
 #pragma HLS RESOURCE variable=tagStreamInScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=refStreamScale1 depth=200 dim=1
+#pragma HLS STREAM variable=refStreamScale1 depth=20 dim=1
 #pragma HLS RESOURCE variable=refStreamScale1 core=FIFO_SRL
 	hls::stream<apIntBlockScale1ColNPC_t> refNPCStreamScale1("refNPCStreamScale1"), tagNPCStreamInScale1("tagNPCStreamInScale1");
-#pragma HLS STREAM variable=refNPCStreamScale1 depth=200 dim=1
+#pragma HLS STREAM variable=refNPCStreamScale1 depth=20 dim=1
 #pragma HLS RESOURCE variable=refNPCStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=tagNPCStreamInScale1 depth=200 dim=1
+#pragma HLS STREAM variable=tagNPCStreamInScale1 depth=20 dim=1
 #pragma HLS RESOURCE variable=tagNPCStreamInScale1 core=FIFO_SRL
 	hls::stream<apIntBlockScale2Col_t> refStreamScale2("refStreamScale2"), tagStreamInScale2("tagStreamScale2");
-#pragma HLS STREAM variable=tagStreamInScale2 depth=200 dim=1
+#pragma HLS STREAM variable=tagStreamInScale2 depth=20 dim=1
 #pragma HLS RESOURCE variable=tagStreamInScale2 core=FIFO_SRL
-#pragma HLS STREAM variable=refStreamScale2 depth=200 dim=1
+#pragma HLS STREAM variable=refStreamScale2 depth=20 dim=1
 #pragma HLS RESOURCE variable=refStreamScale2 core=FIFO_SRL
 
 	hls::stream<apUint15_t> miniSumStreamScale0("miniSumStreamScale0"), miniSumStreamScale1("miniSumStreamScale1"), miniSumStreamScale2("miniSumStreamScale2");
@@ -4730,58 +4730,58 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 	hls::stream<col_pix_t> currentColStream("currentColStream");
 
 	hls::stream<apUintColSumNPC_t> outStream("sumStream");
-#pragma HLS STREAM variable=outStream depth=200 dim=1
+#pragma HLS STREAM variable=outStream depth=20 dim=1
 #pragma HLS RESOURCE variable=outStream core=FIFO_SRL
 	hls::stream<apUintColSumScale1NPC_t> outStreamScale1("outStreamScale1");
-#pragma HLS STREAM variable=outStreamScale1 depth=200 dim=1
+#pragma HLS STREAM variable=outStreamScale1 depth=20 dim=1
 #pragma HLS RESOURCE variable=outStreamScale1 core=FIFO_SRL
 	hls::stream<apUintColSum_t> outStreamScale2("outStreamScale2");
-#pragma HLS STREAM variable=outStreamScale2 depth=200 dim=1
+#pragma HLS STREAM variable=outStreamScale2 depth=20 dim=1
 #pragma HLS RESOURCE variable=outStreamScale2 core=FIFO_SRL
 
 	hls::stream<int16_t> outSumStream("outSumStream"), outSumStreamScale1("outSumStreamScale1"), outSumStreamScale2("outSumStreamScale2");
-#pragma HLS STREAM variable=outSumStream depth=200 dim=1
+#pragma HLS STREAM variable=outSumStream depth=20 dim=1
 #pragma HLS RESOURCE variable=outSumStream core=FIFO_SRL
-#pragma HLS STREAM variable=outSumStreamScale1 depth=200 dim=1
+#pragma HLS STREAM variable=outSumStreamScale1 depth=20 dim=1
 #pragma HLS RESOURCE variable=outSumStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=outSumStreamScale2 depth=200 dim=1
+#pragma HLS STREAM variable=outSumStreamScale2 depth=20 dim=1
 #pragma HLS RESOURCE variable=outSumStreamScale2 core=FIFO_SRL
 	hls::stream<int8_t> OF_yStream("OF_yStream"), OF_yStreamScale1("OF_yStreamScale1"), OF_yStreamScale2("OF_yStreamScale2");
-#pragma HLS STREAM variable=OF_yStream depth=200 dim=1
+#pragma HLS STREAM variable=OF_yStream depth=20 dim=1
 #pragma HLS RESOURCE variable=OF_yStream core=FIFO_SRL
-#pragma HLS STREAM variable=OF_yStreamScale1 depth=200 dim=1
+#pragma HLS STREAM variable=OF_yStreamScale1 depth=20 dim=1
 #pragma HLS RESOURCE variable=OF_yStreamScale1 core=FIFO_SRL
-#pragma HLS STREAM variable=OF_yStreamScale2 depth=200 dim=1
+#pragma HLS STREAM variable=OF_yStreamScale2 depth=20 dim=1
 #pragma HLS RESOURCE variable=OF_yStreamScale2 core=FIFO_SRL
 
 	hls::stream<apUintRefZeroCntNPC_t> refZeroCntStream("refZeroCntStream");
-#pragma HLS STREAM variable=refZeroCntStream depth=200 dim=1
+#pragma HLS STREAM variable=refZeroCntStream depth=20 dim=1
 #pragma HLS RESOURCE variable=refZeroCntStream core=FIFO_SRL
 	hls::stream<apUintRefZeroCntScale1NPC_t> refZeroCntStreamScale1("refZeroCntStreamScale1");
-#pragma HLS STREAM variable=refZeroCntStreamScale1 depth=200 dim=1
+#pragma HLS STREAM variable=refZeroCntStreamScale1 depth=20 dim=1
 #pragma HLS RESOURCE variable=refZeroCntStreamScale1 core=FIFO_SRL
 	hls::stream<apUint6_t> refZeroCntStreamScale2("refZeroCntStreamScale2");
-#pragma HLS STREAM variable=refZeroCntStreamScale2 depth=200 dim=1
+#pragma HLS STREAM variable=refZeroCntStreamScale2 depth=20 dim=1
 #pragma HLS RESOURCE variable=refZeroCntStreamScale2 core=FIFO_SRL
 
 	hls::stream<apUintValidCntNPC_t> tagColValidCntStream("tagColValidCntStream");
-#pragma HLS STREAM variable=tagColValidCntStream depth=200 dim=1
+#pragma HLS STREAM variable=tagColValidCntStream depth=20 dim=1
 #pragma HLS RESOURCE variable=tagColValidCntStream core=FIFO_SRL
 	hls::stream<apUintValidCntScale1NPC_t> tagColValidCntStreamScale1("tagColValidCntStreamScale1");
-#pragma HLS STREAM variable=tagColValidCntStreamScale1 depth=200 dim=1
+#pragma HLS STREAM variable=tagColValidCntStreamScale1 depth=20 dim=1
 #pragma HLS RESOURCE variable=tagColValidCntStreamScale1 core=FIFO_SRL
 	hls::stream<apUintValidCnt_t> tagColValidCntStreamScale2("tagColValidCntStreamScale2");
-#pragma HLS STREAM variable=tagColValidCntStreamScale2 depth=200 dim=1
+#pragma HLS STREAM variable=tagColValidCntStreamScale2 depth=20 dim=1
 #pragma HLS RESOURCE variable=tagColValidCntStreamScale2 core=FIFO_SRL
 
 	hls::stream<apUintValidCntNPC_t> refTagValidCntStream("refTagValidCntStream");
-#pragma HLS STREAM variable=refTagValidCntStream depth=200 dim=1
+#pragma HLS STREAM variable=refTagValidCntStream depth=20 dim=1
 #pragma HLS RESOURCE variable=refTagValidCntStream core=FIFO_SRL
 	hls::stream<apUintValidCntScale1NPC_t> refTagValidCntStreamScale1("refTagValidCntStreamScale1");
-#pragma HLS STREAM variable=refTagValidCntStreamScale1 depth=200 dim=1
+#pragma HLS STREAM variable=refTagValidCntStreamScale1 depth=20 dim=1
 #pragma HLS RESOURCE variable=refTagValidCntStreamScale1 core=FIFO_SRL
 	hls::stream<apUintValidCnt_t> refTagValidCntStreamScale2("refTagValidCntStreamScale2");
-#pragma HLS STREAM variable=refTagValidCntStreamScale2 depth=200 dim=1
+#pragma HLS STREAM variable=refTagValidCntStreamScale2 depth=20 dim=1
 #pragma HLS RESOURCE variable=refTagValidCntStreamScale2 core=FIFO_SRL
 
 	ap_uint<1> select;

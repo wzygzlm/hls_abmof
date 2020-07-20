@@ -1438,7 +1438,7 @@ int main(int argc, char *argv[])
 	hls::stream< ap_uint<1> > cornerStreamIn("cornerStream");
 	hls::stream< ap_uint<17> > miscDataStream("miscDataStream");
 
-	testTimes = 15;
+	testTimes = 30;
 	for(int k = 0; k < testTimes; k++)
 	{
 		cout << "Test " << k << ":" << endl;
