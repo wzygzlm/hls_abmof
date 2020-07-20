@@ -41,7 +41,9 @@
 #define COL_SUM_BITS 16
 #define VALID_CNT_BITS 6
 
+// Number of Parallel Computing units
 #define NPC_SCALE_0 3
+#define NPC_SCALE_1 2
 
 #define BLOCK_AREA (BLOCK_SIZE * BLOCK_SIZE)
 #define BLOCK_AREA_SCALE_0 (BLOCK_SIZE_SCALE_0 * BLOCK_SIZE_SCALE_0)
@@ -56,8 +58,11 @@
 
 const float glIterCntNPCScale0Float = float(BLOCK_SIZE_SCALE_0)/float(NPC_SCALE_0);
 const int glConstIterCntNPCScale0 = ceil(glIterCntNPCScale0Float);
-
 #define ITER_CNT_NPC_SCALE_0 ceil(float(BLOCK_SIZE_SCALE_0)/float(NPC_SCALE_0))
+
+const float glIterCntNPCScale1Float = float(BLOCK_SIZE_SCALE_1)/float(NPC_SCALE_1);
+const int glConstIterCntNPCScale1 = ceil(glIterCntNPCScale1Float);
+#define ITER_CNT_NPC_SCALE_1 ceil(float(BLOCK_SIZE_SCALE_1)/float(NPC_SCALE_1))
 
 // Valid pixel occupancy parameter
 const float glValidPixOccupancy = 0.01;
@@ -95,11 +100,18 @@ typedef ap_int<BLOCK_SCALE2_COL_PIXELS> apIntBlockScale2Col_t;
 
 typedef ap_uint<COL_SUM_BITS * (2 * SEARCH_DISTANCE + 1)> apUintColSum_t;
 typedef ap_uint<VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1)> apUintValidCnt_t;
+
+// For scale 0
 typedef ap_uint<COL_SUM_BITS * (2 * SEARCH_DISTANCE + 1) * NPC_SCALE_0> apUintColSumNPC_t;
 typedef ap_uint<VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1) * NPC_SCALE_0> apUintValidCntNPC_t;
 typedef ap_uint<6 * NPC_SCALE_0> apUintRefZeroCntNPC_t;
-
 typedef ap_int<BLOCK_SCALE0_COL_PIXELS * NPC_SCALE_0> apIntBlockScale0ColNPC_t;
+
+// For scale 1
+typedef ap_uint<COL_SUM_BITS * (2 * SEARCH_DISTANCE + 1) * NPC_SCALE_1> apUintColSumScale1NPC_t;
+typedef ap_uint<VALID_CNT_BITS * (2 * SEARCH_DISTANCE + 1) * NPC_SCALE_1> apUintValidCntScale1NPC_t;
+typedef ap_uint<6 * NPC_SCALE_1> apUintRefZeroCntScale1NPC_t;
+typedef ap_int<BLOCK_SCALE1_COL_PIXELS * NPC_SCALE_1> apIntBlockScale1ColNPC_t;
 
 //typedef ap_int<COL_BITS> apIntColBits_t;
 typedef ap_uint<17> apUint17_t;
