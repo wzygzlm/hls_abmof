@@ -13,3 +13,6 @@
 [submodule "eventStreamSwitch"]
 	path = eventStreamSwitch
 	url = https://github.com/wzygzlm/eventStreamSwitch.git
+[submodule "eventStreamDuplicate"]
+	path = eventStreamDuplicate
+	url = https://github.com/wzygzlm/eventStreamDuplicate.git
