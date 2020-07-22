@@ -4612,6 +4612,10 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 		hls::stream< apUint17_t > &pixelDataStream,
 		ap_uint<32> config, ap_uint<32> *status)
 {
+// For simulation, comment them because simulation doesn't support AXI4Lite
+#pragma HLS INTERFACE s_axilite port=config bundle=config
+#pragma HLS INTERFACE s_axilite port=status bundle=config
+
 #pragma HLS INTERFACE axis register both port=tsStreamOut
 #pragma HLS INTERFACE axis register both port=polStreamOut
 #pragma HLS INTERFACE axis register both port=yStreamOut
