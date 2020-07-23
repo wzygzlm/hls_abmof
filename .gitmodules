@@ -16,3 +16,6 @@
 [submodule "eventStreamDuplicate"]
 	path = eventStreamDuplicate
 	url = https://github.com/wzygzlm/eventStreamDuplicate.git
+[submodule "eventsGeneratorViaFile"]
+	path = eventsGeneratorViaFile
+	url = https://github.com/wzygzlm/eventsGeneratorViaFile.git
