@@ -75,8 +75,7 @@
       "ctype": {
         "TDATA": {
           "Type": "integer unsigned",
-          "Width": "10",
-          "Bits": "16"
+          "Width": "16"
         },
         "TVALID": {"Type": "bool"},
         "TREADY": {"Type": "bool"}
@@ -125,6 +124,15 @@
         "TREADY": {"Type": "bool"}
       },
       "port_width": {"TDATA": "8"}
+    },
+    "rotateInfoOutReg_V": {
+      "type": "data",
+      "dir": "out",
+      "width": "64",
+      "ctype": {"DATA": {
+          "Type": "integer unsigned",
+          "Width": "64"
+        }}
     },
     "streamOut_V_V": {
       "type": "axi4stream",
@@ -379,6 +387,14 @@
       "dir": "out",
       "width": "1"
     },
+    "rotateInfoOutReg_V": {
+      "dir": "out",
+      "width": "64"
+    },
+    "rotateInfoOutReg_V_ap_vld": {
+      "dir": "out",
+      "width": "1"
+    },
     "nonMonTSDiffFlgReg_V": {
       "dir": "out",
       "width": "1",
@@ -469,6 +485,13 @@
       "handshakeRef": "ap_vld",
       "firstOutLatency": "6"
     },
+    "rotateInfoOutReg_V": {
+      "interfaceRef": "rotateInfoOutReg_V",
+      "dir": "out",
+      "dataWidth": "64",
+      "handshakeRef": "ap_vld",
+      "firstOutLatency": "5"
+    },
     "nonMonTSDiffFlgReg_V": {
       "interfaceRef": "nonMonTSDiffFlgReg_V",
       "dir": "out",
@@ -501,8 +524,8 @@
           "Estimate": "5.52"
         },
         "Area": {
-          "FF": "666",
-          "LUT": "533",
+          "FF": "801",
+          "LUT": "603",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -510,7 +533,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-07-15 22:37:11 +0200",
+    "Time": "2020-07-25 23:32:26 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

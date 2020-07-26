@@ -33,13 +33,16 @@ void RawStreamToFIFO(hls::stream< ap_uint<16> > &streamIn,
 ap_uint<64> glLastTS;
 ap_uint<16> glLastY;
 ap_uint<49> glLastTsWrap;
+ap_uint<64> glLastRotateTs;
+ap_uint<63> glRotateDeltaTs;
 
 void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn,
 		hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
-		hls::stream< ap_uint<10> > &custDataStreamIn,
+		hls::stream< ap_uint<16> > &custDataStreamIn,
 		hls::stream< ap_uint<16> > &streamOut,
 		ap_uint<64> * tsReg, ap_uint<64> * glLastTSReg, ap_uint<16> * yReg, ap_uint<16> * glLastYReg,
 		ap_uint<1> *tsDiffFlgReg, ap_uint<1> *yDiffFlgReg,
+		ap_uint<64> *rotateInfoOutReg,
 		ap_uint<1> *nonMonTSDiffFlgReg, ap_uint<12> *tsWrappedVal)
 {
 #pragma HLS PIPELINE II=3
@@ -78,11 +81,20 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 	ap_uint<16> xRaw = x.range(11,0);
 	xRaw.range(15, 12) = 2 + pol;
 
-	ap_uint<10> custData;
+	ap_uint<16> custData;
 	custData = custDataStreamIn.read();
 	ap_uint<16> custDataRaw = custData;
-	custDataRaw.range(15, 12) = 6;   // Misc 10bit data
-	custDataRaw.range(11,10) = 1;
+	custDataRaw.range(15, 12) = 6;   // Misc 11bit data. Bit11: type. Bit0-10: IP Return data.
+	custDataRaw.bit(11) = 1;        // jAER use 0 to represent APS Exposure, 1 is for davisZynq.
+
+	ap_uint<1> rotateFlg = custData.bit(10);
+	if(rotateFlg == 1)
+	{
+		glRotateDeltaTs = ts - glLastRotateTs;
+		glLastRotateTs = ts;
+	}
+	ap_uint<64> rotateInfo = glRotateDeltaTs;
+	rotateInfo.bit(63) = rotateFlg;
 
 	if(ts != glLastTS)
 	{
@@ -134,6 +146,8 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 	*yDiffFlgReg = yDiffFlg;
 	*nonMonTSDiffFlgReg = nonMonTSDiffFlg;
 	*tsWrappedVal = tmpWradDiffVal;
+
+	*rotateInfoOutReg = rotateInfo;
 }
 
 void XYTSStreamToRawFIFO(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn,
