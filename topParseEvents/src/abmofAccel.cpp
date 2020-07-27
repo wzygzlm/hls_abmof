@@ -3834,9 +3834,22 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 	ap_int<8> xOFRet = ap_int<8>(OFRet.range(7, 0));
 	ap_int<8> yOFRet = ap_int<8>(OFRet.range(15, 8));
 
-	custData.range(4, 0) = xOFRet;
-	custData.range(9, 5) = yOFRet;
-	custData[10] = glRotateFlg;
+//	custData.range(4, 0) = xOFRet;
+//	custData.range(9, 5) = yOFRet;
+//	custData[10] = glRotateFlg;
+
+	// Using compressed data so we can represent more OF results
+	ap_uint<16> compressedRetData = (xOFRet + MAX_SEARCH_DIST_RADIUS) * (2 * MAX_SEARCH_DIST_RADIUS + 1) + (yOFRet + MAX_SEARCH_DIST_RADIUS);
+#pragma HLS RESOURCE variable=compressedRetData core=DSP_Macro
+	if(OFRet == 0x7f7f)    // invalid data
+	{
+		compressedRetData = 0xffff;
+	}
+	if(glRotateFlg)  // rotation flag data
+	{
+		compressedRetData = 0xfffe;
+	}
+	custData.range(10, 0) = compressedRetData;
 
 	xStreamOut << x;
 	yStreamOut << y;
@@ -4528,9 +4541,18 @@ void feedbackAndCombineOutputStreamWithSelect(ap_uint<1> select,
 		ap_int<8> xOFRet = ap_int<8>(OFRet.range(7, 0));
 		ap_int<8> yOFRet = ap_int<8>(OFRet.range(15, 8));
 
-		custData.range(4, 0) = xOFRet;
-		custData.range(9, 5) = yOFRet;
-		custData[10] = glRotateFlg;
+//		custData.range(4, 0) = xOFRet;
+//		custData.range(9, 5) = yOFRet;
+//		custData[10] = glRotateFlg;
+
+		// Using compressed data so we can represent more OF results
+		ap_uint<16> compressedRetData = 0xffff;   // invalid data
+
+		if(glRotateFlg)  // rotation flag data
+		{
+			compressedRetData = 0xfffe;
+		}
+		custData.range(10, 0) = compressedRetData;
 
 		xStreamOut << x;
 		yStreamOut << y;

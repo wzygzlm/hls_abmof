@@ -61,6 +61,7 @@
       "impl\/vhdl\/colZeroCntScale2.vhd",
       "impl\/vhdl\/EVABMOFStreamWith0iy.vhd",
       "impl\/vhdl\/EVABMOFStreamWith1iI.vhd",
+      "impl\/vhdl\/EVABMOFStreamWith2iS.vhd",
       "impl\/vhdl\/EVABMOFStreamWithControl_config_s_axi.vhd",
       "impl\/vhdl\/EVABMOFStreamWithHfu.vhd",
       "impl\/vhdl\/EVABMOFStreamWithMgi.vhd",
@@ -123,24 +124,24 @@
       "impl\/vhdl\/sadSumScale0.vhd",
       "impl\/vhdl\/sadSumScale1.vhd",
       "impl\/vhdl\/sadSumScale2.vhd",
-      "impl\/vhdl\/start_for_accumul5jm.vhd",
-      "impl\/vhdl\/start_for_accumulbbk.vhd",
-      "impl\/vhdl\/start_for_accumulbhl.vhd",
-      "impl\/vhdl\/start_for_Block_pbjl.vhd",
-      "impl\/vhdl\/start_for_colStre4jc.vhd",
-      "impl\/vhdl\/start_for_colStrebak.vhd",
-      "impl\/vhdl\/start_for_colStrebgk.vhd",
-      "impl\/vhdl\/start_for_findStr6jw.vhd",
-      "impl\/vhdl\/start_for_findStrbck.vhd",
-      "impl\/vhdl\/start_for_findStrbil.vhd",
-      "impl\/vhdl\/start_for_getInit7jG.vhd",
-      "impl\/vhdl\/start_for_getInitbdk.vhd",
-      "impl\/vhdl\/start_for_reOrder9j0.vhd",
-      "impl\/vhdl\/start_for_reOrderbfk.vhd",
-      "impl\/vhdl\/start_for_rotateS2iS.vhd",
-      "impl\/vhdl\/start_for_rwSlice3i2.vhd",
-      "impl\/vhdl\/start_for_rwSlice8jQ.vhd",
-      "impl\/vhdl\/start_for_rwSlicebek.vhd",
+      "impl\/vhdl\/start_for_accumul6jw.vhd",
+      "impl\/vhdl\/start_for_accumulbck.vhd",
+      "impl\/vhdl\/start_for_accumulbil.vhd",
+      "impl\/vhdl\/start_for_Block_pbkl.vhd",
+      "impl\/vhdl\/start_for_colStre5jm.vhd",
+      "impl\/vhdl\/start_for_colStrebbk.vhd",
+      "impl\/vhdl\/start_for_colStrebhl.vhd",
+      "impl\/vhdl\/start_for_findStr7jG.vhd",
+      "impl\/vhdl\/start_for_findStrbdk.vhd",
+      "impl\/vhdl\/start_for_findStrbjl.vhd",
+      "impl\/vhdl\/start_for_getInit8jQ.vhd",
+      "impl\/vhdl\/start_for_getInitbek.vhd",
+      "impl\/vhdl\/start_for_reOrderbak.vhd",
+      "impl\/vhdl\/start_for_reOrderbgk.vhd",
+      "impl\/vhdl\/start_for_rotateS3i2.vhd",
+      "impl\/vhdl\/start_for_rwSlice4jc.vhd",
+      "impl\/vhdl\/start_for_rwSlice9j0.vhd",
+      "impl\/vhdl\/start_for_rwSlicebfk.vhd",
       "impl\/vhdl\/truncateStreamWithCo.vhd",
       "impl\/vhdl\/EVABMOFStreamWithControl.vhd"
     ],
@@ -168,6 +169,7 @@
       "impl\/verilog\/colZeroCntScale2.v",
       "impl\/verilog\/EVABMOFStreamWith0iy.v",
       "impl\/verilog\/EVABMOFStreamWith1iI.v",
+      "impl\/verilog\/EVABMOFStreamWith2iS.v",
       "impl\/verilog\/EVABMOFStreamWithControl_config_s_axi.v",
       "impl\/verilog\/EVABMOFStreamWithHfu.v",
       "impl\/verilog\/EVABMOFStreamWithMgi.v",
@@ -235,24 +237,24 @@
       "impl\/verilog\/sadSumScale0.v",
       "impl\/verilog\/sadSumScale1.v",
       "impl\/verilog\/sadSumScale2.v",
-      "impl\/verilog\/start_for_accumul5jm.v",
-      "impl\/verilog\/start_for_accumulbbk.v",
-      "impl\/verilog\/start_for_accumulbhl.v",
-      "impl\/verilog\/start_for_Block_pbjl.v",
-      "impl\/verilog\/start_for_colStre4jc.v",
-      "impl\/verilog\/start_for_colStrebak.v",
-      "impl\/verilog\/start_for_colStrebgk.v",
-      "impl\/verilog\/start_for_findStr6jw.v",
-      "impl\/verilog\/start_for_findStrbck.v",
-      "impl\/verilog\/start_for_findStrbil.v",
-      "impl\/verilog\/start_for_getInit7jG.v",
-      "impl\/verilog\/start_for_getInitbdk.v",
-      "impl\/verilog\/start_for_reOrder9j0.v",
-      "impl\/verilog\/start_for_reOrderbfk.v",
-      "impl\/verilog\/start_for_rotateS2iS.v",
-      "impl\/verilog\/start_for_rwSlice3i2.v",
-      "impl\/verilog\/start_for_rwSlice8jQ.v",
-      "impl\/verilog\/start_for_rwSlicebek.v",
+      "impl\/verilog\/start_for_accumul6jw.v",
+      "impl\/verilog\/start_for_accumulbck.v",
+      "impl\/verilog\/start_for_accumulbil.v",
+      "impl\/verilog\/start_for_Block_pbkl.v",
+      "impl\/verilog\/start_for_colStre5jm.v",
+      "impl\/verilog\/start_for_colStrebbk.v",
+      "impl\/verilog\/start_for_colStrebhl.v",
+      "impl\/verilog\/start_for_findStr7jG.v",
+      "impl\/verilog\/start_for_findStrbdk.v",
+      "impl\/verilog\/start_for_findStrbjl.v",
+      "impl\/verilog\/start_for_getInit8jQ.v",
+      "impl\/verilog\/start_for_getInitbek.v",
+      "impl\/verilog\/start_for_reOrderbak.v",
+      "impl\/verilog\/start_for_reOrderbgk.v",
+      "impl\/verilog\/start_for_rotateS3i2.v",
+      "impl\/verilog\/start_for_rwSlice4jc.v",
+      "impl\/verilog\/start_for_rwSlice9j0.v",
+      "impl\/verilog\/start_for_rwSlicebfk.v",
       "impl\/verilog\/truncateStreamWithCo.v",
       "impl\/verilog\/EVABMOFStreamWithControl.v"
     ],
@@ -1265,7 +1267,7 @@
                   "InstanceName": "grp_feedbackAndCombineOu_1_fu_157",
                   "Instances": [{
                       "ModuleName": "feedback",
-                      "InstanceName": "grp_feedback_fu_336"
+                      "InstanceName": "grp_feedback_fu_350"
                     }]
                 }]
             }]
@@ -2368,9 +2370,9 @@
           "Estimate": "9.39"
         },
         "Area": {
-          "DSP48E": "3",
-          "FF": "543",
-          "LUT": "1462",
+          "DSP48E": "4",
+          "FF": "560",
+          "LUT": "1504",
           "BRAM_18K": "0"
         }
       },
@@ -2391,9 +2393,9 @@
           "Estimate": "9.39"
         },
         "Area": {
-          "DSP48E": "3",
-          "FF": "824",
-          "LUT": "1948",
+          "DSP48E": "4",
+          "FF": "841",
+          "LUT": "1993",
           "BRAM_18K": "0"
         }
       },
@@ -2414,9 +2416,9 @@
           "Estimate": "9.39"
         },
         "Area": {
-          "DSP48E": "3",
-          "FF": "1132",
-          "LUT": "2252",
+          "DSP48E": "4",
+          "FF": "1149",
+          "LUT": "2297",
           "BRAM_18K": "0"
         }
       },
@@ -2438,16 +2440,16 @@
         },
         "Area": {
           "BRAM_18K": "348",
-          "DSP48E": "668",
-          "FF": "40983",
-          "LUT": "70509"
+          "DSP48E": "669",
+          "FF": "41000",
+          "LUT": "70554"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-07-22 11:27:13 +0200",
+    "Time": "2020-07-27 12:36:45 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

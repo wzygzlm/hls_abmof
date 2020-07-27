@@ -1460,7 +1460,7 @@ int main(int argc, char *argv[])
 			GTData[i] = data3;
 
 			ap_uint<1> SFASTCorner = GTData[i].bit(24);
-			if(k == 8 && i == 3458)
+			if(k == 8 && i == 3457)
 			{
 				int tmp = 0;
 			}
@@ -1511,7 +1511,7 @@ int main(int argc, char *argv[])
 
 			ap_uint<1> rotateFlgGT = GTData[j].bit(23);
 			ap_uint<1> rotateFlgSW = custDataOutSW[j].bit(23);
-			ap_uint<1> rotateFlgHW = retData[j].bit(10);
+//			ap_uint<1> rotateFlgHW = retData[j].bit(10);
 
 			ap_uint<2> OFRetValidGT = GTData[j].bit(16);
 			ap_uint<1> SFASTCornerGT = GTData[j].bit(24);
@@ -1519,11 +1519,36 @@ int main(int argc, char *argv[])
 
 			ap_int<8> xOFRetGT = GTData[j].range(7, 0) - 127;
 			ap_int<8> xOFRetSW = custDataOutSW[j].range(7, 0);
-			ap_int<8> xOFRetHW = retData[j].range(4, 0);
+//			ap_int<8> xOFRetHW = retData[j].range(4, 0);
 
 			ap_int<8> yOFRetGT = GTData[j].range(15, 8) - 127;
 			ap_int<8> yOFRetSW = custDataOutSW[j].range(15, 8);
-			ap_int<8> yOFRetHW = retData[j].range(9, 5);
+//			ap_int<8> yOFRetHW = retData[j].range(9, 5);
+
+			ap_uint<11> compressedRetDataHW = retData[j].range(10, 0);
+			ap_uint<1> rotateFlgHW;
+			ap_int<8> xOFRetHW;
+			ap_int<8> yOFRetHW;
+			if(compressedRetDataHW == ap_uint<11>(0xffff))      // invalid data and not rotation flag
+			{
+				rotateFlgHW = 0;
+				xOFRetHW = 0x7f;
+				yOFRetHW = 0x7f;
+			}
+			else if(compressedRetDataHW == ap_uint<11>(0xfffe))  // RotateFlag data doesn't contain OF information
+			{
+				rotateFlgHW = 1;
+				xOFRetHW = xOFRetSW;
+				yOFRetHW = yOFRetSW;
+			}
+			else                                 // normal data, decompress it.
+			{
+				rotateFlgHW = 0;
+				ap_uint<8> xOFRetNoSignHW = compressedRetDataHW/(2 * MAX_SEARCH_DIST_RADIUS + 1);
+				ap_uint<8> yOFRetNoSignHW = compressedRetDataHW%(2 * MAX_SEARCH_DIST_RADIUS + 1);
+				xOFRetHW = xOFRetNoSignHW - MAX_SEARCH_DIST_RADIUS;
+				yOFRetHW = yOFRetNoSignHW - MAX_SEARCH_DIST_RADIUS;
+			}
 
 			// Compare HW and SW
 			if( (rotateFlgHW != rotateFlgSW) || (x != xHW) || (y != yHW)
