@@ -21,7 +21,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "70",
+    "Latency": "71",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -45,6 +45,7 @@
       "impl\/vhdl\/accumulateStreamScal_4.vhd",
       "impl\/vhdl\/accumulateStreamScal_5.vhd",
       "impl\/vhdl\/Block_proc.vhd",
+      "impl\/vhdl\/Block_proc467.vhd",
       "impl\/vhdl\/colSADSumScale0.vhd",
       "impl\/vhdl\/colSADSumScale1.vhd",
       "impl\/vhdl\/colSADSumScale2.vhd",
@@ -62,6 +63,8 @@
       "impl\/vhdl\/EVABMOFStreamWith0iy.vhd",
       "impl\/vhdl\/EVABMOFStreamWith1iI.vhd",
       "impl\/vhdl\/EVABMOFStreamWith2iS.vhd",
+      "impl\/vhdl\/EVABMOFStreamWithCon_1.vhd",
+      "impl\/vhdl\/EVABMOFStreamWithCon_2.vhd",
       "impl\/vhdl\/EVABMOFStreamWithControl_config_s_axi.vhd",
       "impl\/vhdl\/EVABMOFStreamWithHfu.vhd",
       "impl\/vhdl\/EVABMOFStreamWithMgi.vhd",
@@ -86,9 +89,11 @@
       "impl\/vhdl\/fifo_w10_d10_S.vhd",
       "impl\/vhdl\/fifo_w10_d20_S.vhd",
       "impl\/vhdl\/fifo_w15_d30_S.vhd",
+      "impl\/vhdl\/fifo_w16_d18_A.vhd",
       "impl\/vhdl\/fifo_w16_d20_S.vhd",
       "impl\/vhdl\/fifo_w18_d20_S.vhd",
       "impl\/vhdl\/fifo_w32_d0_A.vhd",
+      "impl\/vhdl\/fifo_w32_d2_A.vhd",
       "impl\/vhdl\/fifo_w42_d20_S.vhd",
       "impl\/vhdl\/fifo_w52_d20_S.vhd",
       "impl\/vhdl\/fifo_w76_d20_S.vhd",
@@ -124,24 +129,26 @@
       "impl\/vhdl\/sadSumScale0.vhd",
       "impl\/vhdl\/sadSumScale1.vhd",
       "impl\/vhdl\/sadSumScale2.vhd",
-      "impl\/vhdl\/start_for_accumul6jw.vhd",
-      "impl\/vhdl\/start_for_accumulbck.vhd",
-      "impl\/vhdl\/start_for_accumulbil.vhd",
-      "impl\/vhdl\/start_for_Block_pbkl.vhd",
-      "impl\/vhdl\/start_for_colStre5jm.vhd",
-      "impl\/vhdl\/start_for_colStrebbk.vhd",
-      "impl\/vhdl\/start_for_colStrebhl.vhd",
-      "impl\/vhdl\/start_for_findStr7jG.vhd",
-      "impl\/vhdl\/start_for_findStrbdk.vhd",
-      "impl\/vhdl\/start_for_findStrbjl.vhd",
-      "impl\/vhdl\/start_for_getInit8jQ.vhd",
-      "impl\/vhdl\/start_for_getInitbek.vhd",
-      "impl\/vhdl\/start_for_reOrderbak.vhd",
-      "impl\/vhdl\/start_for_reOrderbgk.vhd",
-      "impl\/vhdl\/start_for_rotateS3i2.vhd",
-      "impl\/vhdl\/start_for_rwSlice4jc.vhd",
-      "impl\/vhdl\/start_for_rwSlice9j0.vhd",
-      "impl\/vhdl\/start_for_rwSlicebfk.vhd",
+      "impl\/vhdl\/start_for_accumul8jQ.vhd",
+      "impl\/vhdl\/start_for_accumulbek.vhd",
+      "impl\/vhdl\/start_for_accumulbkl.vhd",
+      "impl\/vhdl\/start_for_Block_p4jc.vhd",
+      "impl\/vhdl\/start_for_Block_pbml.vhd",
+      "impl\/vhdl\/start_for_colStre7jG.vhd",
+      "impl\/vhdl\/start_for_colStrebdk.vhd",
+      "impl\/vhdl\/start_for_colStrebjl.vhd",
+      "impl\/vhdl\/start_for_EVABMOF3i2.vhd",
+      "impl\/vhdl\/start_for_findStr9j0.vhd",
+      "impl\/vhdl\/start_for_findStrbfk.vhd",
+      "impl\/vhdl\/start_for_findStrbll.vhd",
+      "impl\/vhdl\/start_for_getInitbak.vhd",
+      "impl\/vhdl\/start_for_getInitbgk.vhd",
+      "impl\/vhdl\/start_for_reOrderbck.vhd",
+      "impl\/vhdl\/start_for_reOrderbil.vhd",
+      "impl\/vhdl\/start_for_rotateS5jm.vhd",
+      "impl\/vhdl\/start_for_rwSlice6jw.vhd",
+      "impl\/vhdl\/start_for_rwSlicebbk.vhd",
+      "impl\/vhdl\/start_for_rwSlicebhl.vhd",
       "impl\/vhdl\/truncateStreamWithCo.vhd",
       "impl\/vhdl\/EVABMOFStreamWithControl.vhd"
     ],
@@ -153,6 +160,7 @@
       "impl\/verilog\/accumulateStreamScal_4.v",
       "impl\/verilog\/accumulateStreamScal_5.v",
       "impl\/verilog\/Block_proc.v",
+      "impl\/verilog\/Block_proc467.v",
       "impl\/verilog\/colSADSumScale0.v",
       "impl\/verilog\/colSADSumScale1.v",
       "impl\/verilog\/colSADSumScale2.v",
@@ -170,6 +178,8 @@
       "impl\/verilog\/EVABMOFStreamWith0iy.v",
       "impl\/verilog\/EVABMOFStreamWith1iI.v",
       "impl\/verilog\/EVABMOFStreamWith2iS.v",
+      "impl\/verilog\/EVABMOFStreamWithCon_1.v",
+      "impl\/verilog\/EVABMOFStreamWithCon_2.v",
       "impl\/verilog\/EVABMOFStreamWithControl_config_s_axi.v",
       "impl\/verilog\/EVABMOFStreamWithHfu.v",
       "impl\/verilog\/EVABMOFStreamWithMgi.v",
@@ -195,9 +205,11 @@
       "impl\/verilog\/fifo_w10_d10_S.v",
       "impl\/verilog\/fifo_w10_d20_S.v",
       "impl\/verilog\/fifo_w15_d30_S.v",
+      "impl\/verilog\/fifo_w16_d18_A.v",
       "impl\/verilog\/fifo_w16_d20_S.v",
       "impl\/verilog\/fifo_w18_d20_S.v",
       "impl\/verilog\/fifo_w32_d0_A.v",
+      "impl\/verilog\/fifo_w32_d2_A.v",
       "impl\/verilog\/fifo_w42_d20_S.v",
       "impl\/verilog\/fifo_w52_d20_S.v",
       "impl\/verilog\/fifo_w76_d20_S.v",
@@ -237,24 +249,26 @@
       "impl\/verilog\/sadSumScale0.v",
       "impl\/verilog\/sadSumScale1.v",
       "impl\/verilog\/sadSumScale2.v",
-      "impl\/verilog\/start_for_accumul6jw.v",
-      "impl\/verilog\/start_for_accumulbck.v",
-      "impl\/verilog\/start_for_accumulbil.v",
-      "impl\/verilog\/start_for_Block_pbkl.v",
-      "impl\/verilog\/start_for_colStre5jm.v",
-      "impl\/verilog\/start_for_colStrebbk.v",
-      "impl\/verilog\/start_for_colStrebhl.v",
-      "impl\/verilog\/start_for_findStr7jG.v",
-      "impl\/verilog\/start_for_findStrbdk.v",
-      "impl\/verilog\/start_for_findStrbjl.v",
-      "impl\/verilog\/start_for_getInit8jQ.v",
-      "impl\/verilog\/start_for_getInitbek.v",
-      "impl\/verilog\/start_for_reOrderbak.v",
-      "impl\/verilog\/start_for_reOrderbgk.v",
-      "impl\/verilog\/start_for_rotateS3i2.v",
-      "impl\/verilog\/start_for_rwSlice4jc.v",
-      "impl\/verilog\/start_for_rwSlice9j0.v",
-      "impl\/verilog\/start_for_rwSlicebfk.v",
+      "impl\/verilog\/start_for_accumul8jQ.v",
+      "impl\/verilog\/start_for_accumulbek.v",
+      "impl\/verilog\/start_for_accumulbkl.v",
+      "impl\/verilog\/start_for_Block_p4jc.v",
+      "impl\/verilog\/start_for_Block_pbml.v",
+      "impl\/verilog\/start_for_colStre7jG.v",
+      "impl\/verilog\/start_for_colStrebdk.v",
+      "impl\/verilog\/start_for_colStrebjl.v",
+      "impl\/verilog\/start_for_EVABMOF3i2.v",
+      "impl\/verilog\/start_for_findStr9j0.v",
+      "impl\/verilog\/start_for_findStrbfk.v",
+      "impl\/verilog\/start_for_findStrbll.v",
+      "impl\/verilog\/start_for_getInitbak.v",
+      "impl\/verilog\/start_for_getInitbgk.v",
+      "impl\/verilog\/start_for_reOrderbck.v",
+      "impl\/verilog\/start_for_reOrderbil.v",
+      "impl\/verilog\/start_for_rotateS5jm.v",
+      "impl\/verilog\/start_for_rwSlice6jw.v",
+      "impl\/verilog\/start_for_rwSlicebbk.v",
+      "impl\/verilog\/start_for_rwSlicebhl.v",
       "impl\/verilog\/truncateStreamWithCo.v",
       "impl\/verilog\/EVABMOFStreamWithControl.v"
     ],
@@ -367,7 +381,7 @@
       "mode": "slave",
       "port_prefix": "s_axi_config",
       "param_prefix": "C_S_AXI_CONFIG",
-      "addr_bits": "5",
+      "addr_bits": "6",
       "registers": [
         {
           "offset": "0x10",
@@ -386,33 +400,73 @@
         },
         {
           "offset": "0x18",
-          "name": "status_V",
+          "name": "status_currentDeltaTSHW",
           "access": "R",
           "reset_value": "0x0",
-          "description": "Data signal of status_V",
+          "description": "Data signal of status_currentDeltaTSHW",
           "fields": [{
               "offset": "0",
               "width": "32",
-              "name": "status_V",
+              "name": "status_currentDeltaTSHW",
               "access": "R",
               "reset_value": "0",
-              "description": "Bit 31 to 0 Data signal of status_V"
+              "description": "Bit 31 to 0 Data signal of status_currentDeltaTSHW"
             }]
         },
         {
           "offset": "0x1c",
-          "name": "status_V_ctrl",
+          "name": "status_currentDeltaTSHW_ctrl",
           "access": "R",
           "reset_value": "0x0",
-          "description": "Control signal of status_V",
+          "description": "Control signal of status_currentDeltaTSHW",
           "fields": [
             {
               "offset": "0",
               "width": "1",
-              "name": "status_V_ap_vld",
+              "name": "status_currentDeltaTSHW_ap_vld",
               "access": "R",
               "reset_value": "0",
-              "description": "Control signal status_V_ap_vld"
+              "description": "Control signal status_currentDeltaTSHW_ap_vld"
+            },
+            {
+              "offset": "1",
+              "width": "31",
+              "name": "RESERVED",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            }
+          ]
+        },
+        {
+          "offset": "0x20",
+          "name": "status_currentAreaCntThr",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Data signal of status_currentAreaCntThr",
+          "fields": [{
+              "offset": "0",
+              "width": "32",
+              "name": "status_currentAreaCntThr",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Bit 31 to 0 Data signal of status_currentAreaCntThr"
+            }]
+        },
+        {
+          "offset": "0x24",
+          "name": "status_currentAreaCntThr_ctrl",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Control signal of status_currentAreaCntThr",
+          "fields": [
+            {
+              "offset": "0",
+              "width": "1",
+              "name": "status_currentAreaCntThr_ap_vld",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Control signal status_currentAreaCntThr_ap_vld"
             },
             {
               "offset": "1",
@@ -447,7 +501,7 @@
         },
         "AWADDR": {
           "Type": "integer unsigned",
-          "Width": "5"
+          "Width": "6"
         },
         "WDATA": {
           "Type": "integer unsigned",
@@ -459,7 +513,7 @@
         },
         "ARADDR": {
           "Type": "integer unsigned",
-          "Width": "5"
+          "Width": "6"
         },
         "RDATA": {
           "Type": "integer unsigned",
@@ -468,8 +522,8 @@
       },
       "data_width": "32",
       "port_width": {
-        "ARADDR": "5",
-        "AWADDR": "5",
+        "ARADDR": "6",
+        "AWADDR": "6",
         "RDATA": "32",
         "WDATA": "32",
         "WSTRB": "4"
@@ -577,7 +631,7 @@
     },
     "s_axi_config_AWADDR": {
       "dir": "in",
-      "width": "5"
+      "width": "6"
     },
     "s_axi_config_WVALID": {
       "dir": "in",
@@ -605,7 +659,7 @@
     },
     "s_axi_config_ARADDR": {
       "dir": "in",
-      "width": "5"
+      "width": "6"
     },
     "s_axi_config_RVALID": {
       "dir": "out",
@@ -789,14 +843,23 @@
       "handshakeRef": "ap_none",
       "Object": "config"
     },
-    "status_V": {
+    "status_currentDeltaTSHW": {
       "interfaceRef": "s_axi_config",
       "dir": "out",
       "offset": "24",
       "statusOffset": "28",
       "handshakeRef": "ap_vld",
       "Object": "config",
-      "firstOutLatency": "2"
+      "firstOutLatency": "0"
+    },
+    "status_currentAreaCntThr": {
+      "interfaceRef": "s_axi_config",
+      "dir": "out",
+      "offset": "32",
+      "statusOffset": "36",
+      "handshakeRef": "ap_vld",
+      "Object": "config",
+      "firstOutLatency": "0"
     },
     "ap_ctrl": {
       "interfaceRef": "ap_ctrl",
@@ -1257,11 +1320,11 @@
             }]
         },
         {
-          "ModuleName": "Block_proc",
-          "InstanceName": "Block_proc_U0",
+          "ModuleName": "Block_proc467",
+          "InstanceName": "Block_proc467_U0",
           "Instances": [{
               "ModuleName": "feedbackAndCombineOu",
-              "InstanceName": "grp_feedbackAndCombineOu_fu_99",
+              "InstanceName": "grp_feedbackAndCombineOu_fu_116",
               "Instances": [{
                   "ModuleName": "feedbackAndCombineOu_1",
                   "InstanceName": "grp_feedbackAndCombineOu_1_fu_157",
@@ -1323,10 +1386,85 @@
         {
           "ModuleName": "truncateStreamWithCo",
           "InstanceName": "truncateStreamWithCo_U0"
+        },
+        {
+          "ModuleName": "EVABMOFStreamWithCon_2",
+          "InstanceName": "EVABMOFStreamWithCon_2_U0"
+        },
+        {
+          "ModuleName": "EVABMOFStreamWithCon_1",
+          "InstanceName": "EVABMOFStreamWithCon_1_U0"
+        },
+        {
+          "ModuleName": "Block_proc",
+          "InstanceName": "Block_proc_U0"
         }
       ]
     },
     "Metrics": {
+      "EVABMOFStreamWithCon_2": {
+        "Latency": {
+          "LatencyBest": "0",
+          "LatencyAvg": "0",
+          "LatencyWorst": "0",
+          "PipelineII": "0",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "3.63"
+        },
+        "Area": {
+          "FF": "3",
+          "LUT": "29",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
+        }
+      },
+      "EVABMOFStreamWithCon_1": {
+        "Latency": {
+          "LatencyBest": "0",
+          "LatencyAvg": "0",
+          "LatencyWorst": "0",
+          "PipelineII": "0",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "7.27"
+        },
+        "Area": {
+          "FF": "3",
+          "LUT": "38",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
+        }
+      },
+      "Block_proc": {
+        "Latency": {
+          "LatencyBest": "0",
+          "LatencyAvg": "0",
+          "LatencyWorst": "0",
+          "PipelineII": "0",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "0.10",
+          "Estimate": "7.27"
+        },
+        "Area": {
+          "FF": "2",
+          "LUT": "29",
+          "BRAM_18K": "0",
+          "DSP48E": "0"
+        }
+      },
       "truncateStreamWithCo": {
         "Latency": {
           "LatencyBest": "1",
@@ -1372,8 +1510,8 @@
             "PipelineDepth": "1"
           }],
         "Area": {
-          "FF": "1428",
-          "LUT": "1715",
+          "FF": "1426",
+          "LUT": "1735",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -2348,8 +2486,8 @@
           }],
         "Area": {
           "DSP48E": "3",
-          "FF": "186",
-          "LUT": "520",
+          "FF": "178",
+          "LUT": "478",
           "BRAM_18K": "0"
         }
       },
@@ -2371,8 +2509,8 @@
         },
         "Area": {
           "DSP48E": "4",
-          "FF": "560",
-          "LUT": "1504",
+          "FF": "552",
+          "LUT": "1462",
           "BRAM_18K": "0"
         }
       },
@@ -2394,12 +2532,12 @@
         },
         "Area": {
           "DSP48E": "4",
-          "FF": "841",
-          "LUT": "1993",
+          "FF": "833",
+          "LUT": "1951",
           "BRAM_18K": "0"
         }
       },
-      "Block_proc": {
+      "Block_proc467": {
         "Latency": {
           "LatencyBest": "4",
           "LatencyAvg": "28",
@@ -2417,16 +2555,16 @@
         },
         "Area": {
           "DSP48E": "4",
-          "FF": "1149",
-          "LUT": "2297",
+          "FF": "1141",
+          "LUT": "2282",
           "BRAM_18K": "0"
         }
       },
       "EVABMOFStreamWithControl": {
         "Latency": {
-          "LatencyBest": "70",
-          "LatencyAvg": "94",
-          "LatencyWorst": "135",
+          "LatencyBest": "71",
+          "LatencyAvg": "95",
+          "LatencyWorst": "136",
           "PipelineIIMin": "5",
           "PipelineIIMax": "101",
           "PipelineII": "5 ~ 101",
@@ -2441,15 +2579,15 @@
         "Area": {
           "BRAM_18K": "348",
           "DSP48E": "669",
-          "FF": "41000",
-          "LUT": "70554"
+          "FF": "41064",
+          "LUT": "70951"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2020-07-27 12:36:45 +0200",
+    "Time": "2021-05-08 12:46:36 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

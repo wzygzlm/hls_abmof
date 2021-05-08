@@ -136,6 +136,12 @@ typedef ap_uint<10> apUint10_t;
 #define BLOCK_COL_PIXELS BITS_PER_PIXEL * (BLOCK_SIZE + 2 * SEARCH_DISTANCE)
 #define PIXS_PER_COL (SLICE_HEIGHT/COMBINED_PIXELS)
 
+typedef struct
+{
+	uint32_t currentDeltaTSHW;
+	uint32_t currentAreaCntThr;
+} status_t;
+
 void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx);
 pix_t readPix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx);
 

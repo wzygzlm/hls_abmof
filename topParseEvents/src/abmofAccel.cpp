@@ -25,6 +25,10 @@ static ap_uint<13> resetCnt, resetCntScale0, resetCntScale1, resetCntScale2;
 
 static ap_uint<1> areaCountExceeded = false;
 
+static ap_uint<32> glConfig;
+static status_t glStatus;
+uint16_t glSFASTAreaCntThr = INIT_AREA_THERSHOLD, glSFASTAreaCntThrBak = glSFASTAreaCntThr; // Init value
+
 #define INPUT_COLS 4
 
 //void sadSum(ap_int<BITS_PER_PIXEL+1> sum[BLOCK_SIZE], int16_t *sadRet)
@@ -1327,7 +1331,17 @@ void rotateSliceAllScales(hls::stream<apUint10_t>  &xInStream, hls::stream<apUin
 	y = yInStream.read();
 	uint32_t ts = tsInStream.read();
 
-	static uint16_t tmpThr = INIT_AREA_THERSHOLD;
+	//	static uint16_t tmpThr = INIT_AREA_THERSHOLD;
+
+	if(glConfig[0] == 1)         // Using external threshold
+	{
+		glSFASTAreaCntThr = glConfig.range(23, 8);
+	}
+//	else                        // Using the onboard hardcoded threshold
+//	{
+//		glSFASTAreaCntThr = SFAST_THRESHOLD;
+//	}
+	glSFASTAreaCntThrBak = glSFASTAreaCntThr;  // store it in the shadow register for status output
 
 //	if (!glThrStream.empty())	tmpThr = glThrStream.read();
 
@@ -1369,7 +1383,7 @@ void rotateSliceAllScales(hls::stream<apUint10_t>  &xInStream, hls::stream<apUin
 	uint16_t c = areaEventRegs[x/AREA_SIZE][y/AREA_SIZE];
 	c = c + 1;
 	areaEventRegs[x/AREA_SIZE][y/AREA_SIZE] = c;
-    areaCountExceeded = (c >= tmpThr);
+    areaCountExceeded = (c >= glSFASTAreaCntThr);
 
 	xOutStream.write(x);
 	yOutStream.write(y);
@@ -3633,7 +3647,6 @@ void outputResult(hls::stream<apUint15_t> &miniSumStream, hls::stream<apUint6_t>
 /*
  * Following modules are for chip directly on board.
  */
-static ap_uint<32> glConfig;
 void truncateStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn, hls::stream< ap_uint<1> > &polStreamIn, hls::stream< ap_uint<64> > &tsStreamIn,
 		hls::stream< apUint10_t > &xStreamOut, hls::stream< apUint10_t > &yStreamOut, hls::stream< uint32_t > &tsStreamOut, hls::stream< ap_uint<96> > &packetEventDataStream)
 {
@@ -4632,7 +4645,7 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut,
 		hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
 		hls::stream< apUint17_t > &pixelDataStream,
-		ap_uint<32> config, ap_uint<32> *status)
+		ap_uint<32> config, status_t *status)
 {
 // For simulation, comment them because simulation doesn't support AXI4Lite
 #pragma HLS INTERFACE s_axilite port=config bundle=config
@@ -4860,7 +4873,8 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 								miniSumStreamScale2Copy, OFRetStreamScale2Copy,
 								xStreamOut, yStreamOut, polStreamOut, tsStreamOut, pixelDataStream);
 
-	(*status).range(31, 16) = areaEventThrBak;
-    (*status).range(15, 0) = deltaTsHWBak;
+	glStatus.currentAreaCntThr = glSFASTAreaCntThrBak;
+	glStatus.currentDeltaTSHW = deltaTsHWBak;
+    *status = glStatus;
 }
 
