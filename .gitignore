@@ -121,3 +121,6 @@ eventFIFOtoStream/solution1/impl
 **/csim
 **/sim
 **/impl
+EFAST
+eventRateStat
+eventSimulator

@@ -21,7 +21,7 @@
     "ClockPeriod": "10",
     "IsCombLogic": "0",
     "II": "x",
-    "Latency": "71",
+    "Latency": "74",
     "Uncertainty": "0.1"
   },
   "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
@@ -45,7 +45,7 @@
       "impl\/vhdl\/accumulateStreamScal_4.vhd",
       "impl\/vhdl\/accumulateStreamScal_5.vhd",
       "impl\/vhdl\/Block_proc.vhd",
-      "impl\/vhdl\/Block_proc467.vhd",
+      "impl\/vhdl\/Block_proc479.vhd",
       "impl\/vhdl\/colSADSumScale0.vhd",
       "impl\/vhdl\/colSADSumScale1.vhd",
       "impl\/vhdl\/colSADSumScale2.vhd",
@@ -62,7 +62,6 @@
       "impl\/vhdl\/colZeroCntScale2.vhd",
       "impl\/vhdl\/EVABMOFStreamWith0iy.vhd",
       "impl\/vhdl\/EVABMOFStreamWith1iI.vhd",
-      "impl\/vhdl\/EVABMOFStreamWith2iS.vhd",
       "impl\/vhdl\/EVABMOFStreamWithCon_1.vhd",
       "impl\/vhdl\/EVABMOFStreamWithCon_2.vhd",
       "impl\/vhdl\/EVABMOFStreamWithControl_config_s_axi.vhd",
@@ -71,10 +70,9 @@
       "impl\/vhdl\/EVABMOFStreamWithThq.vhd",
       "impl\/vhdl\/EVABMOFStreamWithYie.vhd",
       "impl\/vhdl\/EVABMOFStreamWithZio.vhd",
-      "impl\/vhdl\/feedback.vhd",
-      "impl\/vhdl\/feedback_OFRetRegs.vhd",
       "impl\/vhdl\/feedbackAndCombineOu.vhd",
       "impl\/vhdl\/feedbackAndCombineOu_1.vhd",
+      "impl\/vhdl\/feedbackWithoutOFHis.vhd",
       "impl\/vhdl\/fifo_w1_d18_A.vhd",
       "impl\/vhdl\/fifo_w1_d30_S.vhd",
       "impl\/vhdl\/fifo_w2_d0_A.vhd",
@@ -94,6 +92,7 @@
       "impl\/vhdl\/fifo_w18_d20_S.vhd",
       "impl\/vhdl\/fifo_w32_d0_A.vhd",
       "impl\/vhdl\/fifo_w32_d2_A.vhd",
+      "impl\/vhdl\/fifo_w32_d18_A.vhd",
       "impl\/vhdl\/fifo_w42_d20_S.vhd",
       "impl\/vhdl\/fifo_w52_d20_S.vhd",
       "impl\/vhdl\/fifo_w76_d20_S.vhd",
@@ -129,26 +128,26 @@
       "impl\/vhdl\/sadSumScale0.vhd",
       "impl\/vhdl\/sadSumScale1.vhd",
       "impl\/vhdl\/sadSumScale2.vhd",
-      "impl\/vhdl\/start_for_accumul8jQ.vhd",
-      "impl\/vhdl\/start_for_accumulbek.vhd",
-      "impl\/vhdl\/start_for_accumulbkl.vhd",
-      "impl\/vhdl\/start_for_Block_p4jc.vhd",
-      "impl\/vhdl\/start_for_Block_pbml.vhd",
-      "impl\/vhdl\/start_for_colStre7jG.vhd",
-      "impl\/vhdl\/start_for_colStrebdk.vhd",
-      "impl\/vhdl\/start_for_colStrebjl.vhd",
-      "impl\/vhdl\/start_for_EVABMOF3i2.vhd",
-      "impl\/vhdl\/start_for_findStr9j0.vhd",
-      "impl\/vhdl\/start_for_findStrbfk.vhd",
-      "impl\/vhdl\/start_for_findStrbll.vhd",
-      "impl\/vhdl\/start_for_getInitbak.vhd",
-      "impl\/vhdl\/start_for_getInitbgk.vhd",
-      "impl\/vhdl\/start_for_reOrderbck.vhd",
-      "impl\/vhdl\/start_for_reOrderbil.vhd",
-      "impl\/vhdl\/start_for_rotateS5jm.vhd",
-      "impl\/vhdl\/start_for_rwSlice6jw.vhd",
-      "impl\/vhdl\/start_for_rwSlicebbk.vhd",
-      "impl\/vhdl\/start_for_rwSlicebhl.vhd",
+      "impl\/vhdl\/start_for_accumul7jG.vhd",
+      "impl\/vhdl\/start_for_accumulbdk.vhd",
+      "impl\/vhdl\/start_for_accumulbjl.vhd",
+      "impl\/vhdl\/start_for_Block_p3i2.vhd",
+      "impl\/vhdl\/start_for_Block_pbll.vhd",
+      "impl\/vhdl\/start_for_colStre6jw.vhd",
+      "impl\/vhdl\/start_for_colStrebck.vhd",
+      "impl\/vhdl\/start_for_colStrebil.vhd",
+      "impl\/vhdl\/start_for_EVABMOF2iS.vhd",
+      "impl\/vhdl\/start_for_findStr8jQ.vhd",
+      "impl\/vhdl\/start_for_findStrbek.vhd",
+      "impl\/vhdl\/start_for_findStrbkl.vhd",
+      "impl\/vhdl\/start_for_getInit9j0.vhd",
+      "impl\/vhdl\/start_for_getInitbfk.vhd",
+      "impl\/vhdl\/start_for_reOrderbbk.vhd",
+      "impl\/vhdl\/start_for_reOrderbhl.vhd",
+      "impl\/vhdl\/start_for_rotateS4jc.vhd",
+      "impl\/vhdl\/start_for_rwSlice5jm.vhd",
+      "impl\/vhdl\/start_for_rwSlicebak.vhd",
+      "impl\/vhdl\/start_for_rwSlicebgk.vhd",
       "impl\/vhdl\/truncateStreamWithCo.vhd",
       "impl\/vhdl\/EVABMOFStreamWithControl.vhd"
     ],
@@ -160,7 +159,7 @@
       "impl\/verilog\/accumulateStreamScal_4.v",
       "impl\/verilog\/accumulateStreamScal_5.v",
       "impl\/verilog\/Block_proc.v",
-      "impl\/verilog\/Block_proc467.v",
+      "impl\/verilog\/Block_proc479.v",
       "impl\/verilog\/colSADSumScale0.v",
       "impl\/verilog\/colSADSumScale1.v",
       "impl\/verilog\/colSADSumScale2.v",
@@ -177,7 +176,6 @@
       "impl\/verilog\/colZeroCntScale2.v",
       "impl\/verilog\/EVABMOFStreamWith0iy.v",
       "impl\/verilog\/EVABMOFStreamWith1iI.v",
-      "impl\/verilog\/EVABMOFStreamWith2iS.v",
       "impl\/verilog\/EVABMOFStreamWithCon_1.v",
       "impl\/verilog\/EVABMOFStreamWithCon_2.v",
       "impl\/verilog\/EVABMOFStreamWithControl_config_s_axi.v",
@@ -186,11 +184,9 @@
       "impl\/verilog\/EVABMOFStreamWithThq.v",
       "impl\/verilog\/EVABMOFStreamWithYie.v",
       "impl\/verilog\/EVABMOFStreamWithZio.v",
-      "impl\/verilog\/feedback.v",
-      "impl\/verilog\/feedback_OFRetRegs.v",
-      "impl\/verilog\/feedback_OFRetRegs_ram.dat",
       "impl\/verilog\/feedbackAndCombineOu.v",
       "impl\/verilog\/feedbackAndCombineOu_1.v",
+      "impl\/verilog\/feedbackWithoutOFHis.v",
       "impl\/verilog\/fifo_w1_d18_A.v",
       "impl\/verilog\/fifo_w1_d30_S.v",
       "impl\/verilog\/fifo_w2_d0_A.v",
@@ -210,6 +206,7 @@
       "impl\/verilog\/fifo_w18_d20_S.v",
       "impl\/verilog\/fifo_w32_d0_A.v",
       "impl\/verilog\/fifo_w32_d2_A.v",
+      "impl\/verilog\/fifo_w32_d18_A.v",
       "impl\/verilog\/fifo_w42_d20_S.v",
       "impl\/verilog\/fifo_w52_d20_S.v",
       "impl\/verilog\/fifo_w76_d20_S.v",
@@ -249,26 +246,26 @@
       "impl\/verilog\/sadSumScale0.v",
       "impl\/verilog\/sadSumScale1.v",
       "impl\/verilog\/sadSumScale2.v",
-      "impl\/verilog\/start_for_accumul8jQ.v",
-      "impl\/verilog\/start_for_accumulbek.v",
-      "impl\/verilog\/start_for_accumulbkl.v",
-      "impl\/verilog\/start_for_Block_p4jc.v",
-      "impl\/verilog\/start_for_Block_pbml.v",
-      "impl\/verilog\/start_for_colStre7jG.v",
-      "impl\/verilog\/start_for_colStrebdk.v",
-      "impl\/verilog\/start_for_colStrebjl.v",
-      "impl\/verilog\/start_for_EVABMOF3i2.v",
-      "impl\/verilog\/start_for_findStr9j0.v",
-      "impl\/verilog\/start_for_findStrbfk.v",
-      "impl\/verilog\/start_for_findStrbll.v",
-      "impl\/verilog\/start_for_getInitbak.v",
-      "impl\/verilog\/start_for_getInitbgk.v",
-      "impl\/verilog\/start_for_reOrderbck.v",
-      "impl\/verilog\/start_for_reOrderbil.v",
-      "impl\/verilog\/start_for_rotateS5jm.v",
-      "impl\/verilog\/start_for_rwSlice6jw.v",
-      "impl\/verilog\/start_for_rwSlicebbk.v",
-      "impl\/verilog\/start_for_rwSlicebhl.v",
+      "impl\/verilog\/start_for_accumul7jG.v",
+      "impl\/verilog\/start_for_accumulbdk.v",
+      "impl\/verilog\/start_for_accumulbjl.v",
+      "impl\/verilog\/start_for_Block_p3i2.v",
+      "impl\/verilog\/start_for_Block_pbll.v",
+      "impl\/verilog\/start_for_colStre6jw.v",
+      "impl\/verilog\/start_for_colStrebck.v",
+      "impl\/verilog\/start_for_colStrebil.v",
+      "impl\/verilog\/start_for_EVABMOF2iS.v",
+      "impl\/verilog\/start_for_findStr8jQ.v",
+      "impl\/verilog\/start_for_findStrbek.v",
+      "impl\/verilog\/start_for_findStrbkl.v",
+      "impl\/verilog\/start_for_getInit9j0.v",
+      "impl\/verilog\/start_for_getInitbfk.v",
+      "impl\/verilog\/start_for_reOrderbbk.v",
+      "impl\/verilog\/start_for_reOrderbhl.v",
+      "impl\/verilog\/start_for_rotateS4jc.v",
+      "impl\/verilog\/start_for_rwSlice5jm.v",
+      "impl\/verilog\/start_for_rwSlicebak.v",
+      "impl\/verilog\/start_for_rwSlicebgk.v",
       "impl\/verilog\/truncateStreamWithCo.v",
       "impl\/verilog\/EVABMOFStreamWithControl.v"
     ],
@@ -381,7 +378,7 @@
       "mode": "slave",
       "port_prefix": "s_axi_config",
       "param_prefix": "C_S_AXI_CONFIG",
-      "addr_bits": "6",
+      "addr_bits": "7",
       "registers": [
         {
           "offset": "0x10",
@@ -477,6 +474,166 @@
               "description": "Reserved.  0s on read."
             }
           ]
+        },
+        {
+          "offset": "0x28",
+          "name": "status_currentFeedbackAreaCntThr",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Data signal of status_currentFeedbackAreaCntThr",
+          "fields": [{
+              "offset": "0",
+              "width": "32",
+              "name": "status_currentFeedbackAreaCntThr",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Bit 31 to 0 Data signal of status_currentFeedbackAreaCntThr"
+            }]
+        },
+        {
+          "offset": "0x2c",
+          "name": "status_currentFeedbackAreaCntThr_ctrl",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Control signal of status_currentFeedbackAreaCntThr",
+          "fields": [
+            {
+              "offset": "0",
+              "width": "1",
+              "name": "status_currentFeedbackAreaCntThr_ap_vld",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Control signal status_currentFeedbackAreaCntThr_ap_vld"
+            },
+            {
+              "offset": "1",
+              "width": "31",
+              "name": "RESERVED",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            }
+          ]
+        },
+        {
+          "offset": "0x30",
+          "name": "status_currentOFHistCntSum",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Data signal of status_currentOFHistCntSum",
+          "fields": [{
+              "offset": "0",
+              "width": "32",
+              "name": "status_currentOFHistCntSum",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Bit 31 to 0 Data signal of status_currentOFHistCntSum"
+            }]
+        },
+        {
+          "offset": "0x34",
+          "name": "status_currentOFHistCntSum_ctrl",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Control signal of status_currentOFHistCntSum",
+          "fields": [
+            {
+              "offset": "0",
+              "width": "1",
+              "name": "status_currentOFHistCntSum_ap_vld",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Control signal status_currentOFHistCntSum_ap_vld"
+            },
+            {
+              "offset": "1",
+              "width": "31",
+              "name": "RESERVED",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            }
+          ]
+        },
+        {
+          "offset": "0x38",
+          "name": "status_currentOFHistRadiusSum",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Data signal of status_currentOFHistRadiusSum",
+          "fields": [{
+              "offset": "0",
+              "width": "32",
+              "name": "status_currentOFHistRadiusSum",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Bit 31 to 0 Data signal of status_currentOFHistRadiusSum"
+            }]
+        },
+        {
+          "offset": "0x3c",
+          "name": "status_currentOFHistRadiusSum_ctrl",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Control signal of status_currentOFHistRadiusSum",
+          "fields": [
+            {
+              "offset": "0",
+              "width": "1",
+              "name": "status_currentOFHistRadiusSum_ap_vld",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Control signal status_currentOFHistRadiusSum_ap_vld"
+            },
+            {
+              "offset": "1",
+              "width": "31",
+              "name": "RESERVED",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            }
+          ]
+        },
+        {
+          "offset": "0x40",
+          "name": "status_currentAverageTgtValue",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Data signal of status_currentAverageTgtValue",
+          "fields": [{
+              "offset": "0",
+              "width": "32",
+              "name": "status_currentAverageTgtValue",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Bit 31 to 0 Data signal of status_currentAverageTgtValue"
+            }]
+        },
+        {
+          "offset": "0x44",
+          "name": "status_currentAverageTgtValue_ctrl",
+          "access": "R",
+          "reset_value": "0x0",
+          "description": "Control signal of status_currentAverageTgtValue",
+          "fields": [
+            {
+              "offset": "0",
+              "width": "1",
+              "name": "status_currentAverageTgtValue_ap_vld",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Control signal status_currentAverageTgtValue_ap_vld"
+            },
+            {
+              "offset": "1",
+              "width": "31",
+              "name": "RESERVED",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            }
+          ]
         }
       ],
       "memories": "",
@@ -501,7 +658,7 @@
         },
         "AWADDR": {
           "Type": "integer unsigned",
-          "Width": "6"
+          "Width": "7"
         },
         "WDATA": {
           "Type": "integer unsigned",
@@ -513,7 +670,7 @@
         },
         "ARADDR": {
           "Type": "integer unsigned",
-          "Width": "6"
+          "Width": "7"
         },
         "RDATA": {
           "Type": "integer unsigned",
@@ -522,8 +679,8 @@
       },
       "data_width": "32",
       "port_width": {
-        "ARADDR": "6",
-        "AWADDR": "6",
+        "ARADDR": "7",
+        "AWADDR": "7",
         "RDATA": "32",
         "WDATA": "32",
         "WSTRB": "4"
@@ -631,7 +788,7 @@
     },
     "s_axi_config_AWADDR": {
       "dir": "in",
-      "width": "6"
+      "width": "7"
     },
     "s_axi_config_WVALID": {
       "dir": "in",
@@ -659,7 +816,7 @@
     },
     "s_axi_config_ARADDR": {
       "dir": "in",
-      "width": "6"
+      "width": "7"
     },
     "s_axi_config_RVALID": {
       "dir": "out",
@@ -860,6 +1017,42 @@
       "handshakeRef": "ap_vld",
       "Object": "config",
       "firstOutLatency": "0"
+    },
+    "status_currentFeedbackAreaCntThr": {
+      "interfaceRef": "s_axi_config",
+      "dir": "out",
+      "offset": "40",
+      "statusOffset": "44",
+      "handshakeRef": "ap_vld",
+      "Object": "config",
+      "firstOutLatency": "2"
+    },
+    "status_currentOFHistCntSum": {
+      "interfaceRef": "s_axi_config",
+      "dir": "out",
+      "offset": "48",
+      "statusOffset": "52",
+      "handshakeRef": "ap_vld",
+      "Object": "config",
+      "firstOutLatency": "2"
+    },
+    "status_currentOFHistRadiusSum": {
+      "interfaceRef": "s_axi_config",
+      "dir": "out",
+      "offset": "56",
+      "statusOffset": "60",
+      "handshakeRef": "ap_vld",
+      "Object": "config",
+      "firstOutLatency": "2"
+    },
+    "status_currentAverageTgtValue": {
+      "interfaceRef": "s_axi_config",
+      "dir": "out",
+      "offset": "64",
+      "statusOffset": "68",
+      "handshakeRef": "ap_vld",
+      "Object": "config",
+      "firstOutLatency": "2"
     },
     "ap_ctrl": {
       "interfaceRef": "ap_ctrl",
@@ -1308,6 +1501,28 @@
             }]
         },
         {
+          "ModuleName": "Block_proc479",
+          "InstanceName": "Block_proc479_U0",
+          "Instances": [{
+              "ModuleName": "feedbackAndCombineOu",
+              "InstanceName": "grp_feedbackAndCombineOu_fu_172",
+              "Instances": [
+                {
+                  "ModuleName": "feedbackAndCombineOu_1",
+                  "InstanceName": "grp_feedbackAndCombineOu_1_fu_181",
+                  "Instances": [{
+                      "ModuleName": "feedbackWithoutOFHis",
+                      "InstanceName": "grp_feedbackWithoutOFHis_fu_370"
+                    }]
+                },
+                {
+                  "ModuleName": "feedbackWithoutOFHis",
+                  "InstanceName": "grp_feedbackWithoutOFHis_fu_229"
+                }
+              ]
+            }]
+        },
+        {
           "ModuleName": "accumulateStreamScal_2",
           "InstanceName": "accumulateStreamScal_2_U0",
           "Instances": [{
@@ -1316,22 +1531,6 @@
               "Instances": [{
                   "ModuleName": "minWide",
                   "InstanceName": "grp_minWide_fu_270"
-                }]
-            }]
-        },
-        {
-          "ModuleName": "Block_proc467",
-          "InstanceName": "Block_proc467_U0",
-          "Instances": [{
-              "ModuleName": "feedbackAndCombineOu",
-              "InstanceName": "grp_feedbackAndCombineOu_fu_116",
-              "Instances": [{
-                  "ModuleName": "feedbackAndCombineOu_1",
-                  "InstanceName": "grp_feedbackAndCombineOu_1_fu_157",
-                  "Instances": [{
-                      "ModuleName": "feedback",
-                      "InstanceName": "grp_feedback_fu_350"
-                    }]
                 }]
             }]
         },
@@ -1511,7 +1710,7 @@
           }],
         "Area": {
           "FF": "1426",
-          "LUT": "1735",
+          "LUT": "1744",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -2461,44 +2660,37 @@
           "DSP48E": "0"
         }
       },
-      "feedback": {
+      "feedbackWithoutOFHis": {
         "Latency": {
-          "LatencyBest": "2",
-          "LatencyAvg": "45",
-          "LatencyWorst": "53",
-          "PipelineIIMin": "2",
-          "PipelineIIMax": "53",
-          "PipelineII": "2 ~ 53",
+          "LatencyBest": "3",
+          "LatencyAvg": "4",
+          "LatencyWorst": "4",
+          "PipelineIIMin": "3",
+          "PipelineIIMax": "4",
+          "PipelineII": "3 ~ 4",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
         "Timing": {
           "Target": "10.00",
           "Uncertainty": "0.10",
-          "Estimate": "8.72"
+          "Estimate": "9.22"
         },
-        "Loops": [{
-            "Name": "feedbackReadOFLoop_feedbackReadOFInnerLoop",
-            "TripCount": "49",
-            "Latency": "49",
-            "PipelineII": "1",
-            "PipelineDepth": "2"
-          }],
         "Area": {
-          "DSP48E": "3",
-          "FF": "178",
-          "LUT": "478",
+          "DSP48E": "2",
+          "FF": "168",
+          "LUT": "462",
           "BRAM_18K": "0"
         }
       },
       "feedbackAndCombineOu_1": {
         "Latency": {
-          "LatencyBest": "5",
-          "LatencyAvg": "48",
-          "LatencyWorst": "56",
-          "PipelineIIMin": "5",
-          "PipelineIIMax": "56",
-          "PipelineII": "5 ~ 56",
+          "LatencyBest": "6",
+          "LatencyAvg": "7",
+          "LatencyWorst": "7",
+          "PipelineIIMin": "6",
+          "PipelineIIMax": "7",
+          "PipelineII": "6 ~ 7",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -2508,20 +2700,20 @@
           "Estimate": "9.39"
         },
         "Area": {
-          "DSP48E": "4",
-          "FF": "552",
-          "LUT": "1462",
+          "DSP48E": "3",
+          "FF": "537",
+          "LUT": "1467",
           "BRAM_18K": "0"
         }
       },
       "feedbackAndCombineOu": {
         "Latency": {
-          "LatencyBest": "2",
-          "LatencyAvg": "26",
-          "LatencyWorst": "58",
-          "PipelineIIMin": "2",
-          "PipelineIIMax": "58",
-          "PipelineII": "2 ~ 58",
+          "LatencyBest": "5",
+          "LatencyAvg": "8",
+          "LatencyWorst": "9",
+          "PipelineIIMin": "5",
+          "PipelineIIMax": "9",
+          "PipelineII": "5 ~ 9",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -2531,20 +2723,20 @@
           "Estimate": "9.39"
         },
         "Area": {
-          "DSP48E": "4",
-          "FF": "833",
-          "LUT": "1951",
+          "DSP48E": "5",
+          "FF": "1051",
+          "LUT": "2574",
           "BRAM_18K": "0"
         }
       },
-      "Block_proc467": {
+      "Block_proc479": {
         "Latency": {
-          "LatencyBest": "4",
-          "LatencyAvg": "28",
-          "LatencyWorst": "60",
-          "PipelineIIMin": "4",
-          "PipelineIIMax": "60",
-          "PipelineII": "4 ~ 60",
+          "LatencyBest": "7",
+          "LatencyAvg": "10",
+          "LatencyWorst": "11",
+          "PipelineIIMin": "7",
+          "PipelineIIMax": "11",
+          "PipelineII": "7 ~ 11",
           "PipelineDepth": "",
           "PipelineType": "none"
         },
@@ -2554,20 +2746,20 @@
           "Estimate": "9.39"
         },
         "Area": {
-          "DSP48E": "4",
-          "FF": "1141",
-          "LUT": "2282",
+          "DSP48E": "5",
+          "FF": "1455",
+          "LUT": "2914",
           "BRAM_18K": "0"
         }
       },
       "EVABMOFStreamWithControl": {
         "Latency": {
-          "LatencyBest": "71",
-          "LatencyAvg": "95",
+          "LatencyBest": "74",
+          "LatencyAvg": "93",
           "LatencyWorst": "136",
-          "PipelineIIMin": "5",
+          "PipelineIIMin": "8",
           "PipelineIIMax": "101",
-          "PipelineII": "5 ~ 101",
+          "PipelineII": "8 ~ 101",
           "PipelineDepth": "",
           "PipelineType": "dataflow"
         },
@@ -2577,17 +2769,17 @@
           "Estimate": "9.89"
         },
         "Area": {
-          "BRAM_18K": "348",
-          "DSP48E": "669",
-          "FF": "41064",
-          "LUT": "70951"
+          "BRAM_18K": "350",
+          "DSP48E": "670",
+          "FF": "41578",
+          "LUT": "71887"
         }
       }
     }
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2021-05-08 12:46:36 +0200",
+    "Time": "2021-05-10 16:57:37 +0200",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

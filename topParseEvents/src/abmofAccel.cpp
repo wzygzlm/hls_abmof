@@ -28,6 +28,7 @@ static ap_uint<1> areaCountExceeded = false;
 static ap_uint<32> glConfig;
 static status_t glStatus;
 uint16_t glSFASTAreaCntThr = INIT_AREA_THERSHOLD, glSFASTAreaCntThrBak = glSFASTAreaCntThr; // Init value
+uint16_t glAverageTargetValue = AVE_TARGET_MATCH_DISTANCE_INIT_VALUE, glAverageTargetValueBak = glAverageTargetValue;
 
 #define INPUT_COLS 4
 
@@ -3374,6 +3375,65 @@ void feedback(apUint15_t miniSumRet, apUint6_t OFRet, apUint1_t rotateFlg, uint1
     *thrRet = areaEventThr;
 }
 
+static apUint16_t OFHistCntSum = 0;
+static apUint16_t OFHistRadiusSum = 0;
+static apUint16_t glOFHistCntSum, glOFHistRadiusSum;
+void feedbackWithoutOFHist(apUint16_t miniSumRet, apUint16_t OFRet, apUint1_t rotateFlg, uint16_t *thrRet)
+{
+//#pragma HLS PIPELINE
+
+	if(OFRet != 0x7f7f)    // invalid data
+	{
+		ap_int<8> xOFRet = ap_int<8>(OFRet.range(7, 0));
+		ap_int<8> yOFRet = ap_int<8>(OFRet.range(15, 8));
+		ap_uint<16> tmpRadius = xOFRet * xOFRet + yOFRet *  yOFRet;
+#pragma HLS RESOURCE variable=tmpRadius core=DSP_Macro
+		OFHistRadiusSum += tmpRadius;
+		OFHistCntSum += 1;
+	}
+
+	if(glConfig[1] == 1)
+	{
+		glAverageTargetValue = glConfig.range(23, 8);
+	}
+
+	if(rotateFlg && (OFHistCntSum > 0))
+	{
+		// 3/64 = 0.046875~ 0.05
+		uint16_t deltaThr = areaEventThr * 3 / 64;
+		// Comment this line if the feedback feature is required to be support.
+//		deltaThr = 0;
+		if(OFHistRadiusSum > OFHistCntSum * glAverageTargetValue )
+		{
+			areaEventThr -= deltaThr;
+			if (areaEventThr <= 100)
+			{
+				areaEventThr = 100;
+			}
+			std::cout << "AreaEventThr is decreased. New areaEventThr from HW is: " << areaEventThr << std::endl;
+		}
+		else
+		{
+			areaEventThr += deltaThr;
+			if (areaEventThr >= 2000)
+			{
+				areaEventThr = 2000;
+			}
+			std::cout << "AreaEventThr is increased. New areaEventThr from HW is: " << areaEventThr << std::endl;
+		}
+
+		glOFHistCntSum = OFHistCntSum;
+		glOFHistRadiusSum = OFHistRadiusSum;
+		OFHistCntSum = 0;
+		OFHistRadiusSum = 0;
+	}
+
+	areaEventThrBak = areaEventThr;
+	glAverageTargetValueBak = glAverageTargetValue;
+    *thrRet = areaEventThr;
+}
+
+
 void feedbackWrapperAndOutputResult(hls::stream<apUint15_t> &miniSumStreamScale0, hls::stream<apUint6_t> &OFRetStreamScale0,
 		hls::stream<apUint15_t> &miniSumStreamScale1, hls::stream<apUint6_t> &OFRetStreamScale1,
 		hls::stream<apUint15_t> &miniSumStreamScale2, hls::stream<apUint6_t> &OFRetStreamScale2,
@@ -3836,8 +3896,8 @@ void feedbackAndCombineOutputStream(hls::stream< ap_uint<96> > &packetEventDataS
 	ap_int<9> tmp2 = miniRet.range(8, 0);
 	apUint6_t tmpOF = OFRet;
 
-	feedback(miniRet, tmpOF, glRotateFlg, &tmpThr);
 
+	feedbackWithoutOFHist(miniRet, OFRet, glRotateFlg, &tmpThr);
 	ap_uint<17> custData;
 	if(glRotateFlg)
 	{
@@ -4548,6 +4608,7 @@ void feedbackAndCombineOutputStreamWithSelect(ap_uint<1> select,
     	apUint6_t tmpOF = OFRet;
 
 //    	feedback(miniRet, tmpOF, glRotateFlg, &tmpThr);
+    	feedbackWithoutOFHist(miniRet, OFRet, glRotateFlg, &tmpThr);
 
 		ap_uint<17> custData;
 
@@ -4873,8 +4934,12 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 								miniSumStreamScale2Copy, OFRetStreamScale2Copy,
 								xStreamOut, yStreamOut, polStreamOut, tsStreamOut, pixelDataStream);
 
-	glStatus.currentAreaCntThr = glSFASTAreaCntThrBak;
 	glStatus.currentDeltaTSHW = deltaTsHWBak;
+	glStatus.currentAreaCntThr = glSFASTAreaCntThrBak;
+	glStatus.currentFeedbackAreaCntThr = areaEventThrBak;
+	glStatus.currentOFHistCntSum = glOFHistCntSum;
+	glStatus.currentOFHistRadiusSum = glOFHistRadiusSum;
+	glStatus.currentAverageTgtValue = glAverageTargetValueBak;
     *status = glStatus;
 }
 
