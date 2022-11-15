@@ -53,6 +53,13 @@
 #define INIT_AREA_THERSHOLD 700
 #define MAX_SLICE_DURATION_US 300000
 
+// This is related to the MAX_SEARCH_DIST_RADIUS (SEARCH_DISTANCE).
+// The calculation method refer to the jave code.
+// In order to avoid float calulation on hardware, we hardcoded this value.
+// Update it if SEARCH_DISTANCE is changed.
+// But here 30 is only a value based on experience
+#define AVE_TARGET_MATCH_DISTANCE_INIT_VALUE 30
+
 // Number of Parallel Computing units
 #define NPC_SCALE_0 3
 #define NPC_SCALE_1 1
@@ -140,6 +147,10 @@ typedef struct
 {
 	uint32_t currentDeltaTSHW;
 	uint32_t currentAreaCntThr;
+	uint32_t currentFeedbackAreaCntThr;
+	uint32_t currentOFHistCntSum;
+	uint32_t currentOFHistRadiusSum;
+	uint32_t currentAverageTgtValue;
 } status_t;
 
 void writePix(ap_uint<8> x, ap_uint<8> y, sliceIdx_t sliceIdx);
@@ -175,5 +186,5 @@ void EVABMOFStreamWithControl(hls::stream< ap_uint<16> > &xStreamIn, hls::stream
 		hls::stream< ap_uint<1> > &controlStreamIn,
 		hls::stream< ap_uint<16> > &xStreamOut, hls::stream< ap_uint<16> > &yStreamOut, hls::stream< ap_uint<64> > &tsStreamOut, hls::stream< ap_uint<1> > &polStreamOut,
 		hls::stream< apUint17_t > &pixelDataStream,
-		ap_uint<32> config, ap_uint<32> *status);
+		ap_uint<32> config, status_t *status);
 #endif

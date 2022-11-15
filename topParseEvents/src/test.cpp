@@ -1423,7 +1423,8 @@ int main(int argc, char *argv[])
 
     uint64_t lastMaxTs = 0;  // Record last maximum ts to make all the ts are monotonic.
 
-    ap_uint<32> config, status;
+    ap_uint<32> config;
+	status_t status;
 
 	uint64_t x_in[eventCnt], y_in[eventCnt];
 	ap_uint<16> x_out[eventCnt], y_out[eventCnt];
