@@ -3,13 +3,13 @@
         <value string="false"/>
     </checksum>
     <downStreamTool>
-        <DownStreamTool name=""/>
+        <DownStreamTool name="vivado"/>
     </downStreamTool>
     <clockList>
-        <clock name="default" period="10" uncertainty="0.1"/>
+        <clock name="default" period="10"/>
     </clockList>
     <config>
-        <schedule model="eventStreamToConstEncntFrameStream"/>
+        <schedule model="EVMUXDataToXYTSStream"/>
     </config>
     <UIConfigurations>
         <UIAutosynConf hideTrivialOp="true" isBasedOnBoard="false" isSolutionDirty="false" isStopAskAgain="false" showDetailDesignViewer="false">
@@ -58,13 +58,13 @@
         </SimFlow>
     </Simulation>
     <name>
-        <value string="solution1"/>
+        <value string="mEDFLOW"/>
     </name>
     <project>
-        <value string="EventStreamToFrameStream"/>
+        <value string="eventFIFOtoStream"/>
     </project>
     <targetInfo>
-        <TargetInfo value="xc7z045:ffg900:-1"/>
+        <TargetInfo value="xc7z035:ffg676:-2"/>
     </targetInfo>
     <libraryList>
         <library name="DefaultPlatform" value="xilinx/zynq/zynq"/>

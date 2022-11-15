@@ -7,10 +7,11 @@ open_project XYTSStreamToRawStream
 set_top XYTSStreamToRawStream
 add_files XYTSStreamToRawStream/src/main.cpp
 add_files XYTSStreamToRawStream/src/main.h
-open_solution "solution1"
-set_part {xc7z045ffg900-1} -tool vivado
+open_solution "mEDFLOW"
+set_part {xc7z035ffg676-2} -tool vivado
 create_clock -period 10 -name default
-#source "./XYTSStreamToRawStream/solution1/directives.tcl"
+set_clock_uncertainty 0.1
+#source "./XYTSStreamToRawStream/mEDFLOW/directives.tcl"
 #csim_design
 csynth_design
 #cosim_design

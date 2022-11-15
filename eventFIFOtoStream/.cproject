@@ -25,7 +25,6 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1609649983" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1870740841" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.752444097" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="E:/xfOpenCV/hls_2018_1"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/include"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/win64/tools/systemc/include"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/include/ap_sysc"/>
@@ -43,7 +42,6 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.1984520530" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.1466204812" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.1234434945" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="E:/xfOpenCV/hls_2018_1"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/include"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/win64/tools/systemc/include"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/include/ap_sysc"/>
@@ -81,7 +79,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="solution1|*.c*|*.C*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="mEDFLOW|solution1|*.c*|*.C*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -111,7 +109,6 @@
 								<option id="gnu.cpp.compiler.exe.release.option.optimization.level.602623650" name="Optimization Level" superClass="gnu.cpp.compiler.exe.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.1212538094" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.2006766954" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="E:/xfOpenCV/hls_2018_1"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/include"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/win64/tools/systemc/include"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/include/ap_sysc"/>
@@ -124,7 +121,6 @@
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.exe.release.option.optimization.level.796065822" name="Optimization Level" superClass="gnu.c.compiler.exe.release.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.release.option.debugging.level.1115221970" name="Debug Level" superClass="gnu.c.compiler.exe.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.689097691" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="E:/xfOpenCV/hls_2018_1"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/include"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/win64/tools/systemc/include"/>
 									<listOptionValue builtIn="false" value="D:/Xilinx/Vivado/2018.1/include/ap_sysc"/>
@@ -157,7 +153,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="solution1|*.c*|*.C*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="mEDFLOW|solution1|*.c*|*.C*" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

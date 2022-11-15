@@ -3,13 +3,13 @@
         <value string="false"/>
     </checksum>
     <downStreamTool>
-        <DownStreamTool name=""/>
+        <DownStreamTool name="vivado"/>
     </downStreamTool>
     <clockList>
         <clock name="default" period="10" uncertainty="0.1"/>
     </clockList>
     <config>
-        <schedule model="eventStreamToConstEncntFrameStream"/>
+        <schedule model="XYTSStreamToRawStream"/>
     </config>
     <UIConfigurations>
         <UIAutosynConf hideTrivialOp="true" isBasedOnBoard="false" isSolutionDirty="false" isStopAskAgain="false" showDetailDesignViewer="false">
@@ -51,20 +51,20 @@
         <Format formatName="pcore" use_netlist="none"/>
     </ExportDesign>
     <Simulation>
-        <SimFlow askAgain="true" clangSanitizer="false" compile="false" compileChoice="gcc" dumpTrace="all" name="cosim" optimizeCompile="false" reduce_diskspace="false" setup="false" toolName="Auto">
+        <SimFlow askAgain="true" clangSanitizer="false" compile="false" compileChoice="gcc" dumpTrace="none" name="cosim" optimizeCompile="false" reduce_diskspace="false" setup="false" toolName="Auto">
             <Rtl active="false" name="systemc"/>
             <Rtl active="true" name="verilog"/>
             <Rtl active="false" name="vhdl"/>
         </SimFlow>
     </Simulation>
     <name>
-        <value string="solution1"/>
+        <value string="mEDFLOW"/>
     </name>
     <project>
-        <value string="EventStreamToFrameStream"/>
+        <value string="XYTSStreamToRawStream"/>
     </project>
     <targetInfo>
-        <TargetInfo value="xc7z045:ffg900:-1"/>
+        <TargetInfo value="xc7z035:ffg676:-2"/>
     </targetInfo>
     <libraryList>
         <library name="DefaultPlatform" value="xilinx/zynq/zynq"/>

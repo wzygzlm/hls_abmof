@@ -37,11 +37,6 @@
 			<location>E:/xfOpenCV/hls_2018_1/EventStreamToFrameStream/.apc/.tb</location>
 		</link>
 		<link>
-			<name>.reference/hls_stream.h</name>
-			<type>1</type>
-			<location>D:/Xilinx/Vivado/2018.1/include/hls_stream.h</location>
-		</link>
-		<link>
 			<name>minizedSolution/constraints</name>
 			<type>2</type>
 			<location>E:/xfOpenCV/hls_2018_1/EventStreamToFrameStream/minizedSolution/.tcls</location>
