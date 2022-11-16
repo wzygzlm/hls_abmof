@@ -67,15 +67,6 @@
       "polarity": "ACTIVE_LOW",
       "ctype": {"RST": {"Type": "bool"}}
     },
-    "continousTestCnt_V": {
-      "type": "data",
-      "dir": "out",
-      "width": "16",
-      "ctype": {"DATA": {
-          "Type": "integer unsigned",
-          "Width": "16"
-        }}
-    },
     "custDataStreamIn_V_V": {
       "type": "axi4stream",
       "mode": "slave",
@@ -421,14 +412,6 @@
       "dir": "out",
       "width": "1"
     },
-    "continousTestCnt_V": {
-      "dir": "out",
-      "width": "16"
-    },
-    "continousTestCnt_V_ap_vld": {
-      "dir": "out",
-      "width": "1"
-    },
     "nonMonTSDiffFlgReg_V": {
       "dir": "out",
       "width": "1",
@@ -533,13 +516,6 @@
       "handshakeRef": "ap_vld",
       "firstOutLatency": "3"
     },
-    "continousTestCnt_V": {
-      "interfaceRef": "continousTestCnt_V",
-      "dir": "out",
-      "dataWidth": "16",
-      "handshakeRef": "ap_vld",
-      "firstOutLatency": "3"
-    },
     "nonMonTSDiffFlgReg_V": {
       "interfaceRef": "nonMonTSDiffFlgReg_V",
       "dir": "out",
@@ -572,8 +548,8 @@
           "Estimate": "4.48"
         },
         "Area": {
-          "FF": "884",
-          "LUT": "813",
+          "FF": "866",
+          "LUT": "759",
           "BRAM_18K": "0",
           "DSP48E": "0"
         }
@@ -581,7 +557,7 @@
   },
   "GenData": {
     "DataVersion": "0.1",
-    "Time": "2021-11-15 18:08:43 +0100",
+    "Time": "2022-11-15 19:53:51 +0100",
     "ToolName": "vivado_hls",
     "ToolVersion": "2018.1"
   }

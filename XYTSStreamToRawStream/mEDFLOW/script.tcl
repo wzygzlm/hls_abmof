@@ -5,8 +5,8 @@
 ############################################################
 open_project XYTSStreamToRawStream
 set_top XYTSStreamToRawStream
-add_files XYTSStreamToRawStream/src/main.cpp
 add_files XYTSStreamToRawStream/src/main.h
+add_files XYTSStreamToRawStream/src/main.cpp
 open_solution "mEDFLOW"
 set_part {xc7z035ffg676-2} -tool vivado
 create_clock -period 10 -name default

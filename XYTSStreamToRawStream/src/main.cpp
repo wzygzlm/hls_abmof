@@ -36,7 +36,7 @@ ap_uint<49> glLastTsWrap;
 ap_uint<64> glLastRotateTs;
 ap_uint<63> glRotateDeltaTs;
 ap_uint<32> glSentCnt;  // Summarize how many 16-bit data sent out
-ap_uint<11> glContinousTestCnt = 0;  // To test if the data sent to jAER in a correct order.
+//ap_uint<11> glContinousTestCnt = 0;  // To test if the data sent to jAER in a correct order.
 
 void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< ap_uint<16> > &yStreamIn,
 		hls::stream< ap_uint<64> > &tsStreamIn, hls::stream< ap_uint<1> > &polStreamIn,
@@ -44,7 +44,8 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 		hls::stream< ap_uint<16> > &streamOut,
 		ap_uint<64> * tsReg, ap_uint<64> * glLastTSReg, ap_uint<16> * yReg, ap_uint<16> * glLastYReg,
 		ap_uint<1> *tsDiffFlgReg, ap_uint<1> *yDiffFlgReg,
-		ap_uint<64> *rotateInfoOutReg, ap_uint<32> *sentCnt, ap_uint<16> *continousTestCnt,
+		ap_uint<64> *rotateInfoOutReg, ap_uint<32> *sentCnt,
+//		ap_uint<16> *continousTestCnt,
 		ap_uint<1> *nonMonTSDiffFlgReg, ap_uint<12> *tsWrappedVal)
 {
 #pragma HLS PIPELINE II=3
@@ -88,7 +89,7 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 	ap_uint<16> custDataRaw = custData;
 	custDataRaw.range(15, 12) = 6;   // Misc 11bit data. Bit11: type. Bit0-10: IP Return data.
 	custDataRaw.bit(11) = 1;        // jAER use 0 to represent APS Exposure, 1 is for davisZynq.
-	custDataRaw.range(10, 0) = glContinousTestCnt;
+//	custDataRaw.range(10, 0) = glContinousTestCnt;
 
 	ap_uint<1> rotateFlg = custData.bit(10);
 	if(rotateFlg == 1)
@@ -117,7 +118,7 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 //			tsRaw = tsRaw - 0x7000;
 //		}
 
-		glContinousTestCnt++;
+//		glContinousTestCnt++;
 		glSentCnt += 4;
 		streamOut << tsRaw;
 		streamOut << yRaw;
@@ -130,7 +131,7 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 		{
 			yDiffFlg = 1;
 
-			glContinousTestCnt++;
+//			glContinousTestCnt++;
 			glSentCnt += 3;
 			streamOut << yRaw;
 			streamOut << xRaw;
@@ -138,7 +139,7 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 		}
 		else
 		{
-			glContinousTestCnt++;
+//			glContinousTestCnt++;
 			glSentCnt += 2;
 			streamOut << xRaw;
 			streamOut << custDataRaw;
@@ -157,7 +158,7 @@ void XYTSStreamToRawStream(hls::stream< ap_uint<16> > &xStreamIn, hls::stream< a
 	*nonMonTSDiffFlgReg = nonMonTSDiffFlg;
 	*tsWrappedVal = tmpWradDiffVal;
 	*sentCnt = glSentCnt;
-	*continousTestCnt = glContinousTestCnt;
+//	*continousTestCnt = glContinousTestCnt;
 
 	*rotateInfoOutReg = rotateInfo;
 }
